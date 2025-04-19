@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Travel Agency — Frontend
 
-## Getting Started
+This is an **academic project** developed as part of the course unit **Mobile and Intelligent Networks**.
 
-First, run the development server:
+The project consists of building a web application called **Travel Agency**, which allows third parties (agencies and customers) to interact with travel-related services. This repository contains the **frontend** part of the application, built with **Next.js** and **Tailwind CSS v4**. The **backend**, built using **Spring Boot**, is hosted in a separate repository.
+
+---
+
+## 🎯 Project Objectives
+
+The main goal of the project is to create a full-featured platform that connects travel agencies and customers by offering the following services:
+
+### 🏢 For Travel Agencies
+- Register a new travel agency
+- Plan and manage trips
+- Publish trips for public reservation
+- View reservation and cancellation statistics
+- Manage registered customers
+
+### 👥 For Customers
+- Register and log in to the platform
+- View and book trips from multiple agencies
+- Cancel booked trips
+- Generate and view travel tickets
+
+---
+
+## 🧰 Technologies Used
+
+### Frontend
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [Chart.js](https://www.chartjs.org/) *(for statistics visualization)*
+
+### Backend (in separate repo)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring Security](https://spring.io/projects/spring-security)
+- [MySQL](https://www.mysql.com/)
+- [Docker](https://www.docker.com/) *(for deployment and DevOps)*
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or later)
+- Preferred package manager: `npm`, `yarn`, `pnpm`, or `bun`
+
+### Installation
+
+Clone the repository and install dependencies:
 
 ```bash
-npm run dev
+git clone https://github.com/your-org/travel-agency-frontend.git
+cd travel-agency-frontend
+
+# Install dependencies
+npm install
 # or
-yarn dev
+yarn
 # or
-pnpm dev
+pnpm install
 # or
-bun dev
-```
+bun install
+````
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧑‍💻 Project Team
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🎨 Frontend Team
+- **NGOUPAYE DJIO Thierry** — *Frontend Team Lead*  
+  [GitHub](https://github.com/ThierryNgoupaye) • [LinkedIn](https://www.linkedin.com/in/thierry-ngoupaye/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **ATABONG Stephane** — *Frontend Developer*  
+  [GitHub](https://github.com/ATABONGStephane) • [LinkedIn](https://www.linkedin.com/in/stephane-atabong/)
 
-## Learn More
+- **STEVE Ulrich Fotseu** — *Frontend Developer*  
+  [GitHub](https://github.com/steveulrichfotseu) • [LinkedIn](https://www.linkedin.com/in/steve-ulrich-fotseu/)
 
-To learn more about Next.js, take a look at the following resources:
+- **WOTCHOKO Yohan** — *Frontend Developer*  
+  [GitHub](https://github.com/yohanwotchoko) • [LinkedIn](https://www.linkedin.com/in/yohan-wotchoko/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### ⚙️ Backend & DevOps Team
+- **TCHASSI Daniel** — *Backend Team Lead*  
+  [GitHub](https://github.com/danieltchassi) • [LinkedIn](https://www.linkedin.com/in/daniel-tchassi/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **FOMEKONG Jonathan** — *Backend Developer & DevOps*  
+  [GitHub](https://github.com/jonathanfomekong) • [LinkedIn](https://www.linkedin.com/in/jonathan-fomekong/)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧪 Development Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The project is structured using modern practices (modular components, hooks, etc.)
+- Tailwind CSS v4 is used for utility-first and responsive styling
+- State management is currently handled via React’s `useState` and `useContext` (can be upgraded to Redux if needed)
+
+---
+
+## 📦 Deployment
+
+The frontend can be deployed using [Vercel](https://vercel.com) or any other hosting provider supporting Next.js.
+
+To deploy on Vercel:
+
+1. Push the project to GitHub
+2. Connect your GitHub repository to Vercel
+3. Follow the deployment steps
+
+👉 Learn more in the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
+
+---
+
+## 🔗 Backend Repository
+
+The backend is developed with **Spring Boot** and hosted separately.
+
+> 📌 **Repository link**: [Add your backend GitHub link here]  
+> (e.g. `https://github.com/your-org/travel-agency-backend`)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+Feel free to use, modify, and share it for academic and personal learning purposes.
+
+---
+
+## 📚 Additional Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Spring Boot Docs](https://docs.spring.io/spring-boot/)
