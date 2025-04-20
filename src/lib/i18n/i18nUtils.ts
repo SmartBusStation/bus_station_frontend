@@ -1,5 +1,5 @@
 'use client';
-import i18next from '../lib/i18n';
+import i18next from './i18n';
 
 export function changeLanguage (lang: string): void
 {

@@ -1,32 +1,41 @@
-"use client";
-import {JSX} from "react";
-import {useTranslation} from "react-i18next";
-import {changeLanguage} from "@/lib/i18nUtils";
+"use client"
 
-export default function LandingPage(): JSX.Element {
+import HeroSection from "@/components/landingPageComponents/HeroSection";
+import AgencySection from "@/components/landingPageComponents/AgencySection";
+import StatisticSection from "@/components/landingPageComponents/StatisticSection";
+import FeatureSection from "@/components/landingPageComponents/FeatureSection";
+import SecuritySection from "@/components/landingPageComponents/SecuritySection";
+import CustomerSection from "@/components/landingPageComponents/CustomerSection";
+import CTASection from "@/components/landingPageComponents/CTASection";
+import Footer from "@/components/layouts/Footer";
 
-    const { t } = useTranslation("global");
-
+export default function LandingPage() {
 
     return (
-        <main className="p-4 text-center">
-            <h1 className="text-2xl font-bold mb-2">{t('title')}</h1>
-            <p>{t('reserve')}</p>
+        <div className="flex flex-col min-h-screen overflow-hidden">
+            {/* Hero Section */}
+            <HeroSection/>
 
-            <div className="mt-4">
-                <button
-                    className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
-                    onClick={() => changeLanguage("fr")}
-                >
-                    🇫🇷 Français
-                </button>
-                <button
-                    className="bg-green-500 text-white px-3 py-1 rounded"
-                    onClick={() =>changeLanguage("en")}
-                >
-                    🇬🇧 English
-                </button>
-            </div>
-        </main>
-    );
+            {/* Agency Section */}
+            <AgencySection/>
+
+            {/* Statistics Section */}
+            <StatisticSection/>
+
+            {/* Features Section */}
+            <FeatureSection/>
+
+            {/* Security Section */}
+            <SecuritySection/>
+
+            {/* Customer Section */}
+            <CustomerSection/>
+
+            {/* CTA Section */}
+            <CTASection/>
+
+            {/* Footer */}
+            <Footer/>
+        </div>
+    )
 }
