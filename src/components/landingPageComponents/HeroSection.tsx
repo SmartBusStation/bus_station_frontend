@@ -19,7 +19,7 @@ export default function HeroSection(): JSX.Element
             initial="hidden"
             animate={heroInView ? "visible" : "hidden"}
             variants={fadeInUp}
-            className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 md:py-32"
+            className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 md:py-32 hero-section"
         >
             <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center">
                 <motion.div variants={fadeInLeft} className="md:w-1/2 mb-10 md:mb-0">
@@ -42,8 +42,8 @@ export default function HeroSection(): JSX.Element
                         </button>
                     </motion.div>
                 </motion.div>
-                <motion.div variants={fadeInRight} className="md:w-1/2 relative">
-                    <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-2xl">
+                {/*  <motion.div variants={fadeInRight} className="md:w-1/2 relative">
+                      <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-2xl">
                         <Image
                             src="/placeholder.svg?height=400&width=600"
                             alt="Application de voyage Moving.com"
@@ -52,7 +52,7 @@ export default function HeroSection(): JSX.Element
                             priority
                         />
                     </div>
-                </motion.div>
+                </motion.div>*/}
             </div>
 
             {/* Séparateur ondulé */}

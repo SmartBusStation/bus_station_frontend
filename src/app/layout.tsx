@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import LanguageProvider from "@/utils/LanguageProvider";
+import Header from "@/components/layouts/Header";
 
 
 const geistSans = Geist({
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <LanguageProvider>
+                <Header/>
                 {children}
             </LanguageProvider>
         </body>
