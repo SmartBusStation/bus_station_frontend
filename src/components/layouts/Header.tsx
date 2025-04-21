@@ -2,8 +2,9 @@
 
 import {useEffect, useState} from "react"
 import Link from "next/link"
-import Image from "next/image"
-import { ChevronDown, Globe, Search } from "lucide-react"
+import { ChevronDown, Globe } from "lucide-react"
+import {useRouter} from "next/navigation";
+import {useNavigation} from "@/lib/navigation";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,6 +20,7 @@ export default function Header() {
 
 
     const [scrolled, setScrolled] = useState(false);
+   const navigation = useNavigation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -30,31 +32,31 @@ export default function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+
     return (
         <header className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ${scrolled ? "bg-primary/80 drop-shadow" : ""}`}>
             <div className="container mx-auto px-4 md:px-6 mt-3">
                 <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-10">
                         <Link href="/" className="flex items-center">
-                            <span className="text-3xl text-white font-bold">Moving.com</span>
+                            <span className="md:text-4xl text-3xl text-white font-extrabold">Moving.com</span>
                         </Link>
+
+                        {/* Desktop Navigation */}
+                        <nav className="hidden md:flex items-center space-x-8 mt-1">
+                            <Link href="#" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                Voyages
+                            </Link>
+                            <Link href="#" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                Agences
+                            </Link>
+                            <Link href="/about" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                À propos
+                            </Link>
+                        </nav>
                     </div>
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center space-x-8">
-                        <Link href="#" className="text-white font-bold hover:text-blue-600 transition-colors">
-                            Voyages
-                        </Link>
-                        <Link href="#" className="text-white font-bold hover:text-blue-600 transition-colors">
-                            Agences
-                        </Link>
-                        <Link href="#" className="text-white font-bold hover:text-blue-600 transition-colors">
-                            À propos
-                        </Link>
-                        <Link href="#" className="text-white font-bold hover:text-blue-600 transition-colors">
-                            Ressources
-                        </Link>
-                    </nav>
+
 
                     <div className="hidden md:flex items-center space-x-4">
                         {/* Language Selector */}
@@ -85,10 +87,10 @@ export default function Header() {
                             )}
                         </div>
 
-                        <button className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
+                        <button onClick={navigation.onGoToGoLogin} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
                             Se connecter
                         </button>
-                        <button className="cursor-pointer px-4 py-2  rounded-2xl border-white text-blue-800 border-2 font-bold  bg-white hover:text-blue-600  duration-300 transition-all">
+                        <button onClick={navigation.onGoToRegister} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-blue-800 border-2 font-bold  bg-white hover:text-blue-600  duration-300 transition-all">
                             S'inscrire
                         </button>
                     </div>
@@ -173,10 +175,12 @@ export default function Header() {
                             </div>
 
                             <div className="flex flex-col space-y-2 pt-4 border-t">
-                                <button className="px-4 py-2 border border-blue-600 text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors w-full">
+                                <button onClick={navigation.onGoToGoLogin}
+                                        className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
                                     Se connecter
                                 </button>
-                                <button className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors w-full">
+                                <button onClick={navigation.onGoToRegister}
+                                        className="cursor-pointer px-4 py-2  rounded-2xl border-white text-blue-800 border-2 font-bold  bg-white hover:text-blue-600  duration-300 transition-all">
                                     S'inscrire
                                 </button>
                             </div>

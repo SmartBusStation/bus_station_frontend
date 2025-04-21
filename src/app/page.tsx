@@ -9,35 +9,44 @@ import CustomerSection from "@/components/landingPageComponents/CustomerSection"
 import CTASection from "@/components/landingPageComponents/CTASection";
 import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
+import React from "react";
+
 
 export default function LandingPage() {
 
     return (
-        <div className="flex flex-col min-h-screen overflow-hidden">
+        <>
+            <Header />
 
-            {/* Hero Section */}
-            <HeroSection/>
+            <main className="flex flex-col min-h-screen overflow-hidden">
 
-            {/* Agency Section */}
-            <AgencySection/>
+                {/* Section Hero */}
+                <HeroSection />
 
-            {/* Statistics Section */}
-            <StatisticSection/>
+                {/* Section Clients */}
+                <CustomerSection />
 
-            {/* Features Section */}
-            <FeatureSection/>
+                {/* Section Statistiques */}
+                <StatisticSection />
 
-            {/* Security Section */}
-            <SecuritySection/>
+                {/* Section Fonctionnalités */}
+                <FeatureSection />
 
-            {/* Customer Section */}
-            <CustomerSection/>
+                {/* Section Sécurité */}
+                <SecuritySection />
 
-            {/* CTA Section */}
-            <CTASection/>
+                {/* Section Agence */}
+                <AgencySection />
 
-            {/* Footer */}
-            <Footer/>
-        </div>
+                {/* Section Appel à l'action */}
+                <CTASection />
+
+            </main>
+
+            {/* Pied de page */}
+            <Footer />
+        </>
+
+
     )
 }

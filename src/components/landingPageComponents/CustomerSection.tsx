@@ -21,7 +21,7 @@ export default function CustomerSection(): JSX.Element
             initial="hidden"
             animate={customerInView ? "visible" : "hidden"}
             variants={staggerContainer}
-            className="py-20 bg-white flex flex-col"
+            className="py-5 bg-white flex flex-col"
         >
             <div className="container mx-auto px-4 md:px-6">
                 <motion.div variants={fadeInUp} className="text-center mb-16">
@@ -35,7 +35,7 @@ export default function CustomerSection(): JSX.Element
                     <motion.div variants={fadeInLeft}>
                         <div className="relative h-[500px] w-full rounded-lg overflow-hidden shadow-xl">
                             <Image
-                                src="/placeholder.svg?height=500&width=600"
+                                src="/guest-filling-registration-forms.jpg"
                                 alt="Interface voyageur"
                                 fill
                                 className="object-cover"

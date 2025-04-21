@@ -19,7 +19,7 @@ export default function AgencySection (): JSX.Element
             initial="hidden"
             animate={agencyInView ? "visible" : "hidden"}
             variants={staggerContainer}
-            className="py-20 bg-white relative"
+            className="py-5 bg-white relative"
         >
             <div className="container mx-auto px-4 md:px-6">
                 <motion.div variants={fadeInUp} className="text-center mb-16">
