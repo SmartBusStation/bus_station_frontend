@@ -38,12 +38,12 @@ export default function HeroSection(): JSX.Element
                     <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
                         <button
                             onClick={navigation.onGoToGoLogin}
-                            className="px-6 py-3 rounded-2xl bg-transparent font-bold border border-white text-white hover:bg-blue-700 transition-colors">
+                            className="cursor-pointer px-6 py-3 rounded-2xl bg-transparent font-bold border-2 border-white text-white hover:text-blue-600 hover:bg-white duration-500 transition-all">
                             Se connecter
                         </button>
                         <button
                             onClick={navigation.onGoToRegister}
-                            className="px-6 py-3 bg-white rounded-2xl  font-bold text-blue-600 hover:bg-blue-50 transition-colors">
+                            className="cursor-pointer px-6 py-3 bg-white rounded-2xl  font-bold text-blue-600 hover:bg-blue-50 transition-colors">
                             S'inscrire gratuitement
                         </button>
                     </motion.div>

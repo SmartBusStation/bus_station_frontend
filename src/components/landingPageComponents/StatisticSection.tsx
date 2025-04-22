@@ -81,13 +81,6 @@ export default function StatisticSection(): JSX.Element
                             </p>
                         </motion.div>
                     </div>
-
-                    <motion.div variants={fadeInUp} className="mt-12 text-center py-10">
-                    <button
-                            className="px-8 py-4 bg-white  text-blue-800  font-bold rounded-3xl duration-300 cursor-pointer transition-colors animate-bounce">
-                            Découvrir toutes les fonctionnalités
-                        </button>
-                    </motion.div>
                 </div>
             </div>
         </motion.div>

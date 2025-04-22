@@ -17,33 +17,14 @@ export default function LandingPage() {
     return (
         <>
             <Header />
-
             <main className="flex flex-col min-h-screen overflow-hidden">
-
-                {/* Section Hero */}
                 <HeroSection />
-
-                {/* Section Clients */}
                 <CustomerSection />
-
-                {/* Section Statistiques */}
                 <StatisticSection />
-
-                {/* Section Fonctionnalités */}
                 <FeatureSection />
-
-                {/* Section Sécurité */}
-                <SecuritySection />
-
-                {/* Section Agence */}
                 <AgencySection />
-
-                {/* Section Appel à l'action */}
                 <CTASection />
-
             </main>
-
-            {/* Pied de page */}
             <Footer />
         </>
 

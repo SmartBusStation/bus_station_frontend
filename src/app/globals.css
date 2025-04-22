@@ -89,3 +89,16 @@ body {
 }
 
 
+.agency-section {
+  background-image: linear-gradient(to right,
+  rgba(30, 64, 175, 0.90),      /* blue-800 */
+  rgba(59, 130, 246, 0.80),  /* blue-500 with opacity */
+  rgba(147, 197, 253, 0.14)  /* blue-300 with opacity */
+  ),
+  url("../../public/traffic-vehicle-urban-reflections-city.jpg");
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 94%);
+}
+
+
