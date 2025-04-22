@@ -5,6 +5,7 @@ import {fadeInLeft, fadeInRight, fadeInUp} from "@/lib/animations/animationTool"
 import {useInView} from "react-intersection-observer";
 import {FcCancel, FcStatistics} from "react-icons/fc";
 import {HiDocumentReport} from "react-icons/hi";
+import {useTranslation} from "react-i18next";
 
 export default function StatisticSection(): JSX.Element
 
@@ -14,6 +15,12 @@ export default function StatisticSection(): JSX.Element
         threshold: 0.1,
     })
 
+    const [t] = useTranslation();
+
+    function translate(key: string): string
+    {
+        return t("landingPage.statisticSection."+key);
+    }
 
     return (
         <motion.div
@@ -21,63 +28,51 @@ export default function StatisticSection(): JSX.Element
             initial="hidden"
             animate={statsInView ? "visible" : "hidden"}
             variants={fadeInUp}
-            className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-18 md:py-18 statistic-section"
+            className="relative text-base-color py-18 md:py-18 statistic-section"
         >
             <div className="">
-                <div className="container mx-auto px-4 md:px-6">
+                <div className="container ">
                     <motion.div variants={fadeInUp} className="text-center mb-16">
-                        <h2 className="py-5 text-3xl md:text-5xl font-bold mb-6 text-white">Statistiques et
-                            analyses</h2>
-                        <p className="text-xl text-white max-w-3xl mx-auto">
-                            Suivez les performances de vos voyages avec des statistiques détaillées et des analyses
-                            en
-                            temps réel.
+                        <h2 className="py-5 text-3xl md:text-5xl font-bold mb-6 text-base-color">{translate("title")}</h2>
+                        <p className="text-xl text-base-color max-w-3xl mx-auto">
+                            {translate("slogan")}
                         </p>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <motion.div variants={fadeInLeft} className="bg-white/90 p-8 rounded-xl shadow-xl hover:transform hover:-translate-y-6 transition duration-500">
+                        <motion.div variants={fadeInLeft} className="bg-base-color/90 p-8 rounded-xl shadow-xl hover:transform hover:-translate-y-6 transition duration-500">
                             <div className="flex justify-center mb-5">
                                 <FcStatistics className="text-7xl "/>
                             </div>
-                            <h3 className="text-2xl font-bold mb-4 text-center text-gray-900">Suivi des
-                                réservations</h3>
+                            <h3 className="text-2xl font-bold mb-4 text-center text-gray-900">{translate("followUpReservationTitle")}</h3>
                             <p className="text-gray-600 text-center">
-                                Consultez le nombre de réservations par voyage, par période et par destination.
-                                Identifiez vos voyages
-                                les plus populaires.
+                                {translate("followUpReservationText")}
                             </p>
                         </motion.div>
 
                         <motion.div variants={fadeInUp}
-                                    className="bg-white/90 p-8 rounded-xl shadow-xl hover:transform hover:-translate-y-6 transition duration-500">
+                                    className="bg-base-color/90 p-8 rounded-xl shadow-xl hover:transform hover:-translate-y-6 transition duration-500">
 
                             <div className="flex justify-center mb-5">
                                 <FcCancel className="text-7xl"/>
                             </div>
-                            <h3 className="text-2xl font-bold mb-4 text-center text-gray-900">Analyse des
-                                annulations</h3>
+                            <h3 className="text-2xl font-bold mb-4 text-center text-gray-900"> {translate("cancellationAnalyticsTitle")}</h3>
                             <p className="text-gray-600  text-center">
-                                Suivez les taux d'annulation et comprenez les raisons pour améliorer vos offres et
-                                réduire les
-                                annulations futures.
+                                {translate("cancellationAnalyticsText")}
                             </p>
                         </motion.div>
 
                         <motion.div variants={fadeInRight}
-                                    className="bg-white/90 p-8 rounded-xl shadow-xl hover:transform hover:-translate-y-6 transition duration-500">
+                                    className="bg-base-color/90 p-8 rounded-xl shadow-xl hover:transform hover:-translate-y-6 transition duration-500">
 
                             <div className="flex justify-center mb-5">
                                 <HiDocumentReport className="text-7xl text-blue-600"/>
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-4 text-center text-gray-900">Rapports
-                                personnalisés</h3>
+                            <h3 className="text-2xl font-bold mb-4 text-center text-gray-900"> {translate("commerceCustomTitle")}</h3>
                             <p className="text-gray-600 text-center">
-                                Générez des rapports personnalisés sur une période donnée pour analyser vos
-                                performances
-                                et prendre des
-                                décisions éclairées.
+                                {translate("commerceCustomText")}
+
                             </p>
                         </motion.div>
                     </div>

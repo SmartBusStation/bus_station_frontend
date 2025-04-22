@@ -1,6 +1,109 @@
 {
-  "title": "Bienvenue dans notre agence de voyage",
-  "reserve": "Réserver un voyage",
+ "landingPage": {
+   "heroSection": {
+     "slogan": " Planifiez votre voyage, partagez-le, et faites rêver avec Moving.com",
+     "fullSlogan": " La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
+     "loginText": "Se connecter",
+     "registerText": "S'inscrire gratuitement"
+   },
+   "customerSection": {
+     "title": "Pour les voyageurs",
+     "slogan" : "Découvrez une nouvelle façon de réserver vos voyages, simple, sécurisée et flexible.",
+     "freeSearchText": " Trouvez rapidement des voyages qui correspondent à vos critères grâce à notre moteur de recherche.",
+     "freeSearchTitle":"Recherche facile",
+     "flexiblePaymentTitle": "Paiement Flexible",
+     "flexiblePaymentText": "  Payez en partie ou en totalité selon votre budget, avec des options de paiement sécurisées via Orange Money et Mobile Money.",
+     "reservationManagementTitle": "Gestion des Réservations",
+     "reservationManagementText": "Réservez une ou plusieurs places, annulez ou modifiez vos réservations facilement depuis votre espace personnel."
+   },
+   "statisticSection": {
+     "title": "Analyses et statistiques",
+     "slogan": "Suivez les performances de vos voyages avec des statistiques détaillées et des analyses en temps réel.",
+     "followUpReservationTitle": "Suivi des réservations",
+     "followUpReservationText": " Consultez le nombre de réservations par voyage, par période et par destination. Identifiez vos voyages  plus populaires.",
+     "cancellationAnalyticsTitle": "Analyse des annulations",
+     "cancellationAnalyticsText": " Suivez les taux d'annulation et comprenez les raisons pour améliorer vos offres et réduire les  futures.",
+     "commerceCustomTitle": "Rapports personnalisés",
+     "commerceCustomText": "Générez des rapports personnalisés sur une période donnée pour analyser vos performances et prendre des décisions éclairées"
+   },
+   "featureSection": {
+     "financialManagementTitle": "Gestion Financière",
+     "financialManagementDescription": "Suivez vos revenus, gérez les paiements partiels et complets, et offrez des options de paiement flexibles à vos clients.",
+     "integratedChatTitle": "Chat Intégré",
+     "integratedChatDescription": "Communiquez directement avec vos clients via notre système de chat intégré pour répondre à leurs questions et finaliser les détails.",
+     "reviewSystemTitle": "Systeme d'Avis",
+     "reviewSystemDescription": "Recevez des avis de vos clients et construisez votre réputation. Les avis positifs vous aideront à attirer plus de voyageurs.",
+     "couponsAndPromotionsTitle": "Coupons et Promotions",
+     "couponsAndPromotionsDescription": "Créez des coupons de réduction et des offres promotionnelles pour stimuler les ventes pendant les périodes creuses.",
+     "advancedSecurityTitle": "Sécurité avancée",
+     "advancedSecurityDescription": "Protégez vos données et celles de vos clients avec notre système de sécurité avancé et nos paiements sécurisés.",
+     "intuitiveInterfaceTitle": "Interface Intuitive",
+     "intuitiveInterfaceDescription": "Profitez d'une interface utilisateur intuitive et facile à utiliser, conçue pour simplifier la gestion de vos voyages.",
+     "exploreAllFeatureText": "Découvrez toutes les fonctionnalités"
+   },
+   "agencySection": {
+     "title": "Pour les agences de voyage",
+     "slogan": "Moving.com offre aux agences de voyages une plateforme complète pour gérer leurs activités et développer leur clientèle.",
+     "exclusiveBenefits": "Avantages Exclusifs",
+     "features": {
+       "planning": {
+         "title": "Planification de voyages",
+         "description": "Créez et planifiez facilement vos voyages avec notre interface intuitive. Définissez les dates, les itinéraires, les prix et les disponibilités en quelques clics."
+       },
+       "publishing": {
+         "title": "Publication et gestion",
+         "description": "Publiez vos voyages pour les rendre visibles aux clients potentiels. Modifiez ou annulez les voyages à tout moment selon vos besoins."
+       },
+       "tickets": {
+         "title": "Gestion des tickets",
+         "description": "Créez et gérez des tickets pour vos voyages. Offrez des coupons de réduction pour attirer plus de clients et fidéliser votre clientèle."
+       }
+     },
+     "advantages": {
+       "visibility": {
+         "title": "Visibilité internationale",
+         "description": "Atteignez des clients du monde entier"
+       },
+       "customers": {
+         "title": "Gestion de clientèle",
+         "description": "Suivez les préférences de vos voyageurs"
+       },
+       "analytics": {
+         "title": "Analyses détaillées",
+         "description": "Statistiques et rapports personnalisés"
+       },
+       "security": {
+         "title": "Sécurité des transactions",
+         "description": "Paiements sécurisés et protection des données"
+       }
+     }
+   },
+   "CTASection": {
+      "title": "Prêt à simplifier vos voyages et vos réservations ?",
+      "slogan": " Rejoignez Moving.com dès aujourd'hui et découvrez une nouvelle façon de gérer vos voyages, plus simple et plus agréable.",
+      "planATrip": "Planifiez un voyage"
+   }
+ },
+
+  "footer":
+  {
+    "slogan": " La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
+    "followUs": "Suivez-nous",
+    "quickLink": "Lien rapides",
+    "legal": "Légal",
+    "contact": "Contact",
+    "allRight": "Moving.com. Tous droits réservés.",
+    "trip": "voyage",
+    "about-us": "A propos de nous",
+    "contact-us": "Contactez nous",
+    "terms-and-condition": "Conditions d'utilisation",
+    "policies": "Politique de confidentialité",
+    "agency": "Agences",
+    "schedule": "Lun-Ven: 9h-18h"
+  },
+
+
+
   "aboutUs":
   {
     "message": "A propos de nous"

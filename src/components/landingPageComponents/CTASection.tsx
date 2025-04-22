@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer"
 import { Users, Calendar } from "lucide-react"
 import {fadeInUp, staggerContainer} from "@/lib/animations/animationTool";
 import {JSX} from "react";
+import {useTranslation} from "react-i18next";
 
 export default function CTASection():JSX.Element {
 
@@ -15,6 +16,13 @@ export default function CTASection():JSX.Element {
         threshold: 0.1,
     })
 
+    const [t] = useTranslation();
+
+    function translate(key: string): string
+    {
+        return t("landingPage.CTASection."+key);
+    }
+
 
     return (
         <motion.div
@@ -22,33 +30,31 @@ export default function CTASection():JSX.Element {
             initial="hidden"
             animate={ctaInView ? "visible" : "hidden"}
             variants={staggerContainer}
-            className="bg-white w-full py-20 overflow-hidden"
+            className="bg-base-color w-full py-20 overflow-hidden"
         >
-            <div className="container mx-auto px-4 md:px-6">
+            <div className="container">
                 <motion.div variants={fadeInUp} className="max-w-3xl mx-auto text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight text-blue-600">
-                        Prêt à simplifier <span className="text-blue-600">vos voyages</span> et{" "}
-                        <span className="text-blue-600">vos réservations</span> ?
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight text-primary">
+                        {translate("title")}
                     </h2>
 
                     <p className="text-xl mb-8 text-gray-700 mx-auto">
-                        Rejoignez Moving.com dès aujourd'hui et découvrez une nouvelle façon de gérer vos voyages, plus simple, plus
-                        sûre et plus agréable.
+                        {translate("slogan")}
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4">
                         <button
-                            className="cursor-pointer px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-full hover:text-white hover:bg-blue-600 duration-500 transition-all flex items-center gap-2"
+                            className="cursor-pointer px-8 py-4 bg-base-color border-2 border-primary text-primary font-bold rounded-full hover:text-base-color hover:bg-primary duration-500 transition-all flex items-center gap-2"
                         >
                             <Calendar size={20}/>
-                            Planifier un voyage
+                            {translate("planATrip")}
                         </button>
 
                         <button
-                            className="cursor-pointer px-8 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-800 transition-all duration-500 flex items-center gap-2"
+                            className="cursor-pointer px-8 py-4 bg-primary text-base-color font-bold rounded-full hover:bg-start-color transition-all duration-500 flex items-center gap-2"
                         >
                             <Users size={20}/>
-                            S'inscrire gratuitement
+                            {t("landingPage.heroSection.registerText")}
                         </button>
                     </div>
                 </motion.div>

@@ -3,10 +3,11 @@
 import type React from "react"
 
 import { type JSX, useState } from "react"
-import { motion } from "framer-motion"
+import {motion, Variants} from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { DollarSign, MessageSquare, Star, Ticket, Shield, Layout } from "lucide-react"
 import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/animations/animationTool"
+import {useTranslation} from "react-i18next";
 
 export default function FeatureSection(): JSX.Element {
     const [featuresRef, featuresInView] = useInView({
@@ -14,48 +15,49 @@ export default function FeatureSection(): JSX.Element {
         threshold: 0.1,
     })
 
+    const [t] = useTranslation();
+
+    function translate(key: string): string
+    {
+        return t("landingPage.featureSection."+ key);
+    }
+
 
     const features = [
         {
             icon: DollarSign,
-            title: "Gestion financière",
-            description:
-                "Suivez vos revenus, gérez les paiements partiels et complets, et offrez des options de paiement flexibles à vos clients.",
+            title: translate("financialManagementTitle"),
+            description: translate("financialManagementDescription"),
             animation: fadeInLeft,
         },
         {
             icon: MessageSquare,
-            title: "Chat intégré",
-            description:
-                "Communiquez directement avec vos clients via notre système de chat intégré pour répondre à leurs questions et finaliser les détails.",
+            title: translate("integratedChatTitle"),
+            description: translate("integratedChatDescription"),
             animation: fadeInUp,
         },
         {
             icon: Star,
-            title: "Système d'avis",
-            description:
-                "Recevez des avis de vos clients et construisez votre réputation. Les avis positifs vous aideront à attirer plus de voyageurs.",
+            title: translate("reviewSystemTitle"),
+            description: translate("reviewSystemDescription"),
             animation: fadeInRight,
         },
         {
             icon: Ticket,
-            title: "Coupons et promotions",
-            description:
-                "Créez des coupons de réduction et des offres promotionnelles pour stimuler les ventes pendant les périodes creuses.",
+            title: translate("couponsAndPromotionsTitle"),
+            description:translate("couponsAndPromotionsDescription"),
             animation: fadeInLeft,
         },
         {
             icon: Shield,
-            title: "Sécurité avancée",
-            description:
-                "Protégez vos données et celles de vos clients avec notre système de sécurité avancé et nos paiements sécurisés.",
+            title: translate("advancedSecurityTitle"),
+            description:translate("advancedSecurityDescription"),
             animation: fadeInUp,
         },
         {
             icon: Layout,
-            title: "Interface intuitive",
-            description:
-                "Profitez d'une interface utilisateur intuitive et facile à utiliser, conçue pour simplifier la gestion de vos voyages.",
+            title: translate("intuitiveInterfaceTitle"),
+            description: translate("intuitiveInterfaceDescription"),
             animation: fadeInRight,
         },
     ]
@@ -66,9 +68,9 @@ export default function FeatureSection(): JSX.Element {
             initial="hidden"
             animate={featuresInView ? "visible" : "hidden"}
             variants={staggerContainer}
-            className="relative bg-white text-white py-5"
+            className="relative bg-base-color text-white py-5"
         >
-            <div className="container mx-auto px-4 md:px-6">
+            <div className="container">
                 <motion.h2 variants={fadeInUp}
                            className="text-3xl md:text-5xl font-bold text-center mb-16 text-gray-900">
                     Fonctionnalités principales
@@ -89,8 +91,8 @@ export default function FeatureSection(): JSX.Element {
 
             <motion.div variants={fadeInUp} className="mt-12 text-center py-10">
                 <button
-                    className="px-8 py-4 bg-blue-600  text-white  font-bold rounded-3xl duration-300 cursor-pointer transition-colors hover:bg-blue-800 transition-all duration-500 animate-bounce">
-                    Découvrir toutes les fonctionnalités
+                    className="px-8 py-4 bg-primary  text-base-color  font-bold rounded-3xl cursor-pointer hover:bg-start-color transition-all duration-500 animate-bounce">
+                    {translate("exploreAllFeatureText")}
                 </button>
             </motion.div>
         </motion.div>
@@ -101,7 +103,7 @@ interface FeatureCardProps {
     icon: React.ElementType
     title: string
     description: string
-    variants: any
+    variants: Variants
 }
 
 function FeatureCard({icon: Icon, title, description, variants}: FeatureCardProps) {
@@ -110,7 +112,7 @@ function FeatureCard({icon: Icon, title, description, variants}: FeatureCardProp
     return (
         <motion.div
             variants={variants}
-            className="bg-gray-100 p-6 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all hover:transform hover:-translate-y-4 transition-all duration-500"
+            className="bg-gray-100 p-6 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-lg hover:transform hover:-translate-y-4 transition-all duration-500"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

@@ -1,9 +1,10 @@
 "use client";
 import {motion} from "framer-motion";
-import {fadeInLeft, fadeInUp} from "@/lib/animations/animationTool";
+import {fadeInLeft, fadeInRight, fadeInUp} from "@/lib/animations/animationTool";
 import {JSX} from "react";
 import {useInView} from "react-intersection-observer";
 import {useNavigation} from "@/lib/navigation";
+import {useTranslation} from "react-i18next";
 
 export default function HeroSection(): JSX.Element
 {
@@ -11,6 +12,8 @@ export default function HeroSection(): JSX.Element
         triggerOnce: false,
         threshold: 0.1,
     })
+
+    const{t} = useTranslation();
 
 
     const navigation = useNavigation();
@@ -22,30 +25,35 @@ export default function HeroSection(): JSX.Element
             initial="hidden"
             animate={heroInView ? "visible" : "hidden"}
             variants={fadeInUp}
-            className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-32 md:py-52 hero-section"
+            className="relative text-base-color py-32 md:py-52 hero-section"
         >
-            <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center">
-                <motion.div variants={fadeInLeft} className="md:w-2/3 mb-10 md:mb-0">
-                    <motion.h1 variants={fadeInUp} className="text-3xl md:text-5xl font-semibold mb-6 tracking-normal leading-tight ">
-                        Planifiez votre voyage, partagez-le, et faites rêver avec Moving.com
+            <div className="container flex flex-col md:flex-row items-center">
+                <motion.div
+                    variants={fadeInLeft}
+                    className="md:w-2/3 mb-10 md:mb-0">
+                    <motion.h1
+                        variants={fadeInUp}
+                        className="text-3xl md:text-5xl font-semibold mb-6 tracking-normal leading-tight "
+                    >
+                        {t("landingPage.heroSection.slogan")}
+
 
                     </motion.h1>
                     <motion.p variants={fadeInUp} className="md:text-2xl text-xl mb-8 text-blue-100">
-                        La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de
-                        réservation
-                        fluide et sécurisée.
+                        {t("landingPage.heroSection.fullSlogan")}
                     </motion.p>
                     <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
                         <button
                             onClick={navigation.onGoToGoLogin}
-                            className="cursor-pointer px-6 py-3 rounded-2xl bg-transparent font-bold border-2 border-white text-white hover:text-blue-600 hover:bg-white duration-500 transition-all">
-                            Se connecter
+                            className="cursor-pointer px-6 py-3 rounded-2xl bg-transparent font-bold border-2 border-base-color text-base-color hover:text-primary hover:bg-base-color duration-500 transition-all">
+                            {t("landingPage.heroSection.loginText")}
                         </button>
-                        <button
+                        <motion.button
+                            variants={fadeInRight}
                             onClick={navigation.onGoToRegister}
-                            className="cursor-pointer px-6 py-3 bg-white rounded-2xl  font-bold text-blue-600 hover:bg-blue-50 transition-colors">
-                            S'inscrire gratuitement
-                        </button>
+                            className="cursor-pointer px-6 py-3 bg-base-color rounded-2xl  font-bold text-primary">
+                            {t("landingPage.heroSection.registerText")}
+                        </motion.button>
                     </motion.div>
                 </motion.div>
             </div>

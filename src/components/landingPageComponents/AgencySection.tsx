@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/animations/animationTool"
 import { useInView } from "react-intersection-observer"
 import { ClipboardList, Calendar, CheckCircle, Globe, Users, TrendingUp, Shield } from "lucide-react"
+import {useTranslation} from "react-i18next";
 
 const FeatureItem = ({ icon: Icon, title, description }: { icon: JSX.Element; title: string; description: string }) => (
     <div className="flex items-start p-6 rounded-lg">
@@ -31,48 +32,59 @@ const AdvantageItem = ({ icon: Icon, title, description }: { icon: JSX.Element; 
 )
 
 export default function AgencySection(): JSX.Element {
-    const [agencyRef, agencyInView] = useInView({ triggerOnce: false, threshold: 0.1 })
+
+    const [agencyRef, agencyInView] = useInView({
+        triggerOnce: false,
+        threshold: 0.1 }
+    )
+
+    const [t] = useTranslation();
+
+    function translate(key: string): string {
+        return t("landingPage.agencySection." + key);
+    }
 
     const features = [
         {
-            icon: <ClipboardList className="h-7 w-7 text-blue-600" />,
-            title: "Planification de voyages",
-            description: "Créez et planifiez facilement vos voyages avec notre interface intuitive. Définissez les dates, les itinéraires, les prix et les disponibilités en quelques clics."
+            icon: <ClipboardList className="h-7 w-7 text-primary" />,
+            title: translate("features.planning.title"),
+            description: translate("features.planning.description"),
         },
         {
             icon: <Calendar className="h-7 w-7 text-blue-600" />,
-            title: "Publication et gestion",
-            description: "Publiez vos voyages pour les rendre visibles aux clients potentiels. Modifiez ou annulez les voyages à tout moment selon vos besoins."
+            title: translate("features.publishing.title"),
+            description: translate("features.publishing.description"),
         },
         {
             icon: <CheckCircle className="h-7 w-7 text-blue-600" />,
-            title: "Gestion des tickets",
-            description: "Créez et gérez des tickets pour vos voyages. Offrez des coupons de réduction pour attirer plus de clients et fidéliser votre clientèle."
+            title: translate("features.tickets.title"),
+            description: translate("features.tickets.description"),
         },
-    ]
+    ];
 
     const advantages = [
         {
             icon: <Globe className="h-5 w-5 text-blue-600" />,
-            title: "Visibilité internationale",
-            description: "Atteignez des clients du monde entier"
+            title: translate("advantages.visibility.title"),
+            description: translate("advantages.visibility.description"),
         },
         {
             icon: <Users className="h-5 w-5 text-blue-600" />,
-            title: "Gestion de clientèle",
-            description: "Suivez les préférences de vos voyageurs"
+            title: translate("advantages.customers.title"),
+            description: translate("advantages.customers.description"),
         },
         {
             icon: <TrendingUp className="h-5 w-5 text-blue-600" />,
-            title: "Analyses détaillées",
-            description: "Statistiques et rapports personnalisés"
+            title: translate("advantages.analytics.title"),
+            description: translate("advantages.analytics.description"),
         },
         {
             icon: <Shield className="h-5 w-5 text-blue-600" />,
-            title: "Sécurité des transactions",
-            description: "Paiements sécurisés et protection des données"
+            title: translate("advantages.security.title"),
+            description: translate("advantages.security.description"),
         },
-    ]
+    ];
+
 
     return (
         <motion.div
@@ -80,13 +92,13 @@ export default function AgencySection(): JSX.Element {
             initial="hidden"
             animate={agencyInView ? "visible" : "hidden"}
             variants={staggerContainer}
-            className="py-20 bg-blue-600 relative agency-section text-white"
+            className="py-20 bg-primary relative agency-section text-base-color"
         >
-            <div className="container mx-auto px-4 md:px-6 z-10">
+            <div className="container z-10">
                 <motion.div variants={fadeInUp} className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-white">Pour les agences de voyages</h2>
+                    <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-base-color">{translate("title")}</h2>
                     <p className="text-xl text-white max-w-3xl mx-auto">
-                        Moving.com offre aux agences de voyages une plateforme complète pour gérer leurs activités et développer leur clientèle.
+                        {translate("slogan")}
                     </p>
                 </motion.div>
 
@@ -101,7 +113,7 @@ export default function AgencySection(): JSX.Element {
 
                     <motion.div variants={fadeInRight} className="order-1 md:order-2">
                         <div className="p-8 rounded-lg">
-                            <h3 className="text-3xl font-extrabold mb-6 text-center">Avantages exclusifs</h3>
+                            <h3 className="text-3xl font-extrabold mb-6 text-center">{translate("exclusiveBenefits")}</h3>
                             <div className="space-y-12">
                                 {advantages.map((advantage, index) => (
                                     <AdvantageItem key={index} {...advantage} />
