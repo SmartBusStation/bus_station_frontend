@@ -3,24 +3,35 @@
 import {useEffect, useState} from "react"
 import Link from "next/link"
 import { ChevronDown, Globe } from "lucide-react"
-import {useRouter} from "next/navigation";
 import {useNavigation} from "@/lib/navigation";
+import {useTranslation} from "react-i18next";
+import {changeLanguage} from "@/lib/i18n/i18nUtils";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
 
-    const toggleMenu = () => {
+    function toggleMenu  (): void
+    {
         setIsMenuOpen(!isMenuOpen)
     }
 
-    const toggleLanguageMenu = () => {
+    function toggleLanguageMenu  ():void
+    {
         setIsLanguageMenuOpen(!isLanguageMenuOpen)
     }
+
+    function updateLanguage(lang:string):void
+    {
+        changeLanguage(lang);
+        setIsLanguageMenuOpen(false);
+    }
+
 
 
     const [scrolled, setScrolled] = useState(false);
    const navigation = useNavigation();
+   const [t, i18n] = useTranslation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -35,7 +46,7 @@ export default function Header() {
 
     return (
         <header className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ${scrolled ? "bg-primary/80 drop-shadow" : ""}`}>
-            <div className="container mx-auto px-4 md:px-6 mt-3">
+            <div className="container mt-3">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center gap-10">
                         <Link href="/" className="flex items-center">
@@ -44,14 +55,14 @@ export default function Header() {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center space-x-8 mt-1">
-                            <Link href="#" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
-                                Voyages
+                            <Link href="/trip" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                {t("footer.trip")}
                             </Link>
-                            <Link href="#" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
-                                Agences
+                            <Link href="/agency" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                {t("footer.agency")}
                             </Link>
                             <Link href="/about" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
-                                À propos
+                                {t("footer.about-us")}
                             </Link>
                         </nav>
                     </div>
@@ -66,21 +77,18 @@ export default function Header() {
                                 className="flex items-center font-bold  rounded-lg text-blue-600 hover:text-blue-800 transition-colors px-2 py-1 border border-gray-200 hover:border-blue-300"
                             >
                                 <Globe className="h-4 w-4 mr-1" />
-                                <span className="mr-1">FR</span>
+                                <span className="mr-1">{i18n.language}</span>
                                 <ChevronDown className="h-3 w-3" />
                             </button>
 
                             {isLanguageMenuOpen && (
                                 <div className="absolute right-0 mt-2 w-36 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                                     <div className="py-1">
-                                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                            Français
+                                        <button onClick={()=> updateLanguage("fr")} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                            Fr
                                         </button>
-                                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                            English
-                                        </button>
-                                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                            Español
+                                        <button onClick={()=> updateLanguage("en")} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                            En
                                         </button>
                                     </div>
                                 </div>
@@ -88,10 +96,10 @@ export default function Header() {
                         </div>
 
                         <button onClick={navigation.onGoToGoLogin} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
-                            Se connecter
+                            {t("landingPage.heroSection.loginText")}
                         </button>
                         <button onClick={navigation.onGoToRegister} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-blue-800 border-2 font-bold  bg-white hover:text-blue-600  duration-300 transition-all">
-                            S'inscrire
+                            {t("header.registerText")}
                         </button>
                     </div>
 

@@ -5,12 +5,10 @@ import Link from "next/link"
 import {MapPin, Mail, Phone, Globe, ChevronDown, Clock,} from "lucide-react"
 import {FiFacebook, FiInstagram, FiLinkedin, FiTwitter} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
+import {changeLanguage} from "@/lib/i18n/i18nUtils";
+import {LinkList, SocialLinkType} from "@/lib/type";
 
 
-type LinkList = {
-    name: string,
-    link: string
-}
 
 const FooterLink = ( linkList : LinkList) => (
     <li>
@@ -21,12 +19,6 @@ const FooterLink = ( linkList : LinkList) => (
     </li>
 )
 
-
-type SocialLinkType = {
-    href: string
-    icon:  JSX.ElementType,
-    color: string
-}
 
 
 const SocialLink = ({ href, icon: Icon, color }: SocialLinkType) => (
@@ -41,15 +33,20 @@ const SocialLink = ({ href, icon: Icon, color }: SocialLinkType) => (
 )
 
 
-const LanguageOption = ({ lang }: { lang: string }) => (
-    <button className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
-        {lang}
-    </button>
-)
+
 
 export default function Footer(): JSX.Element {
 
-    const [t] = useTranslation();
+    const [t, i18n] = useTranslation();
+    const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
+    const languages = ["fr", "en"]
+
+
+    function updateLanguage(lang:string):void
+    {
+        changeLanguage(lang);
+        setIsLanguageMenuOpen(false);
+    }
 
     function translate(key:string):string
     {
@@ -83,12 +80,16 @@ export default function Footer(): JSX.Element {
         { icon: Clock, text: translate("schedule") }
     ]
 
-    const languages = ["Français", "English"]
-
-    const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
 
 
 
+
+
+    const LanguageOption = ({ lang }: { lang: string }) => (
+        <button onClick={()=> updateLanguage(lang)} className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
+            {lang}
+        </button>
+    )
 
     return (
         <footer className="bg-gray-900 text-base-color py-20">
@@ -161,7 +162,7 @@ export default function Footer(): JSX.Element {
                             className="flex items-center text-gray-400 hover:text-white transition-colors px-3 py-2 rounded-md border border-gray-700 hover:border-gray-600"
                         >
                             <Globe className="h-4 w-4 mr-2" />
-                            <span className="mr-1">Français</span>
+                            <span className="mr-1">{i18n.language}</span>
                             <ChevronDown className="h-3 w-3" />
                         </button>
 
@@ -169,7 +170,7 @@ export default function Footer(): JSX.Element {
                             <div className="absolute right-0 bottom-full mb-2 w-40 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-50">
                                 <div className="py-1">
                                     {languages.map((lang, i) => (
-                                        <LanguageOption key={i} lang={lang} />
+                                        <LanguageOption  key={i} lang={lang} />
                                     ))}
                                 </div>
                             </div>

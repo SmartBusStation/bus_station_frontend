@@ -1,11 +1,111 @@
 {
-  "title": "Welcome to our Travel Agency",
-  "reserve": "Reserve a trip",
+  "header" : {
+    "registerText": "Register"
+  },
+  "landingPage": {
+    "heroSection": {
+      "slogan": "Plan your trip, share it, and inspire dreams with Moving.com",
+      "fullSlogan": "The platform that connects travel agencies and travelers for a smooth and secure booking experience.",
+      "loginText": "Log in",
+      "registerText": "Register for free"
+    },
+    "customerSection": {
+      "title": "For Travelers",
+      "slogan": "Discover a new way to book your trips, simple, secure, and flexible.",
+      "freeSearchText": "Quickly find trips that match your criteria with our search engine.",
+      "freeSearchTitle": "Easy Search",
+      "flexiblePaymentTitle": "Flexible Payment",
+      "flexiblePaymentText": "Pay partially or in full according to your budget, with secure payment options via Orange Money and Mobile Money.",
+      "reservationManagementTitle": "Reservation Management",
+      "reservationManagementText": "Book one or more seats, cancel or modify your reservations easily from your personal space."
+    },
+    "statisticSection": {
+      "title": "Analytics and Statistics",
+      "slogan": "Track the performance of your trips with detailed statistics and real-time analytics.",
+      "followUpReservationTitle": "Reservation Tracking",
+      "followUpReservationText": "View the number of bookings per trip, by period and by destination. Identify your most popular trips.",
+      "cancellationAnalyticsTitle": "Cancellation Analysis",
+      "cancellationAnalyticsText": "Track cancellation rates and understand the reasons to improve your offers and reduce future cancellations.",
+      "commerceCustomTitle": "Custom Reports",
+      "commerceCustomText": "Generate custom reports over a given period to analyze your performance and make informed decisions."
+    },
+    "featureSection": {
+      "title": "Key features",
+      "financialManagementTitle": "Financial Management",
+      "financialManagementDescription": "Track your revenue, manage partial and full payments, and offer flexible payment options to your clients.",
+      "integratedChatTitle": "Integrated Chat",
+      "integratedChatDescription": "Communicate directly with your customers via our integrated chat system to answer their questions and finalize details.",
+      "reviewSystemTitle": "Review System",
+      "reviewSystemDescription": "Receive reviews from your customers and build your reputation. Positive reviews will help attract more travelers.",
+      "couponsAndPromotionsTitle": "Coupons and Promotions",
+      "couponsAndPromotionsDescription": "Create discount coupons and promotional offers to boost sales during slow periods.",
+      "advancedSecurityTitle": "Advanced Security",
+      "advancedSecurityDescription": "Protect your data and your customers’ data with our advanced security system and secure payments.",
+      "intuitiveInterfaceTitle": "Intuitive Interface",
+      "intuitiveInterfaceDescription": "Enjoy an intuitive and easy-to-use user interface designed to simplify trip management.",
+      "exploreAllFeatureText": "Explore all features"
+    },
+    "agencySection": {
+      "title": "For Travel Agencies",
+      "slogan": "Moving.com offers travel agencies a complete platform to manage their operations and grow their customer base.",
+      "exclusiveBenefits": "Exclusive Benefits",
+      "features": {
+        "planning": {
+          "title": "Trip Planning",
+          "description": "Easily create and plan your trips with our intuitive interface. Set dates, routes, prices, and availability in just a few clicks."
+        },
+        "publishing": {
+          "title": "Publishing and Management",
+          "description": "Publish your trips to make them visible to potential clients. Edit or cancel trips anytime according to your needs."
+        },
+        "tickets": {
+          "title": "Ticket Management",
+          "description": "Create and manage tickets for your trips. Offer discount coupons to attract more customers and build loyalty."
+        }
+      },
+      "advantages": {
+        "visibility": {
+          "title": "International Visibility",
+          "description": "Reach customers from around the world"
+        },
+        "customers": {
+          "title": "Customer Management",
+          "description": "Track your travelers' preferences"
+        },
+        "analytics": {
+          "title": "Detailed Analytics",
+          "description": "Statistics and custom reports"
+        },
+        "security": {
+          "title": "Transaction Security",
+          "description": "Secure payments and data protection"
+        }
+      }
+    },
+    "CTASection": {
+      "title": "Ready to simplify your trips and bookings?",
+      "slogan": "Join Moving.com today and discover a new, easier, and more enjoyable way to manage your travels.",
+      "planATrip": "Plan a trip"
+    }
+  },
+
+  "footer": {
+    "slogan": "The platform that connects travel agencies and travelers for a smooth and secure booking experience.",
+    "followUs": "Follow us",
+    "quickLink": "Quick links",
+    "legal": "Legal",
+    "contact": "Contact",
+    "allRight": "Moving.com. All rights reserved.",
+    "trip": "Trip",
+    "about-us": "About us",
+    "contact-us": "Contact us",
+    "terms-and-condition": "Terms and Conditions",
+    "policies": "Privacy Policy",
+    "agency": "Agencies",
+    "schedule": "Mon-Fri: 9AM - 6PM"
+  },
+
   "aboutUs": {
-    "message": "About-us"
+    "message": "About us"
   }
 }
-
-
-
-

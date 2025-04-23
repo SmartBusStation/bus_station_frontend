@@ -1,4 +1,7 @@
 {
+  "header" : {
+    "registerText": "S'inscrire"
+  },
  "landingPage": {
    "heroSection": {
      "slogan": " Planifiez votre voyage, partagez-le, et faites rêver avec Moving.com",
@@ -27,6 +30,7 @@
      "commerceCustomText": "Générez des rapports personnalisés sur une période donnée pour analyser vos performances et prendre des décisions éclairées"
    },
    "featureSection": {
+     "title": "Fonctionnalités principales",
      "financialManagementTitle": "Gestion Financière",
      "financialManagementDescription": "Suivez vos revenus, gérez les paiements partiels et complets, et offrez des options de paiement flexibles à vos clients.",
      "integratedChatTitle": "Chat Intégré",

@@ -6,6 +6,7 @@ import { Users, Calendar } from "lucide-react"
 import {fadeInUp, staggerContainer} from "@/lib/animations/animationTool";
 import {JSX} from "react";
 import {useTranslation} from "react-i18next";
+import {useNavigation} from "@/lib/navigation";
 
 export default function CTASection():JSX.Element {
 
@@ -22,6 +23,8 @@ export default function CTASection():JSX.Element {
     {
         return t("landingPage.CTASection."+key);
     }
+
+    const navigation = useNavigation();
 
 
     return (
@@ -43,14 +46,14 @@ export default function CTASection():JSX.Element {
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4">
-                        <button
+                        <button onClick={navigation.onGoToGoLogin}
                             className="cursor-pointer px-8 py-4 bg-base-color border-2 border-primary text-primary font-bold rounded-full hover:text-base-color hover:bg-primary duration-500 transition-all flex items-center gap-2"
                         >
                             <Calendar size={20}/>
                             {translate("planATrip")}
                         </button>
 
-                        <button
+                        <button onClick={navigation.onGoToRegister}
                             className="cursor-pointer px-8 py-4 bg-primary text-base-color font-bold rounded-full hover:bg-start-color transition-all duration-500 flex items-center gap-2"
                         >
                             <Users size={20}/>
