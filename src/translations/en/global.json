@@ -1,5 +1,5 @@
 {
-  "header" : {
+  "header": {
     "registerText": "Register"
   },
   "landingPage": {
@@ -106,6 +106,85 @@
   },
 
   "aboutUs": {
-    "message": "About us"
+    "hero": {
+      "message": "About us",
+      "title": "Our Story",
+      "subtitle": "Discover the team behind Mooving, an innovative platform created by students passionate about technology and travel.",
+      "location": "Yaounde, Cameroon",
+      "team": "6 Computer Science Students",
+      "project": "University Project"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "Our mission is to revolutionize the travel industry by creating a modern platform that connects travel agencies and travelers, for a smooth and secure booking experience."
+    },
+    "values": {
+      "education": {
+        "title": "Education",
+        "description": "Our project is part of our academic journey, allowing us to apply our theoretical knowledge to a concrete case."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We use the latest technologies to create a modern and efficient solution for the travel industry."
+      },
+      "global": {
+        "title": "Global Vision",
+        "description": "Our platform is designed to connect travelers and agencies from around the world, without geographical barriers."
+      },
+      "passion": {
+        "title": "Passion",
+        "description": "Our love for travel and technology is the driving force that pushes us to create the best possible experience."
+      }
+    },
+    "story": {
+      "title": "How It All Started",
+      "paragraph1": "Mooving was born from a university project launched in September 2024 by six computer science students passionate about travel and technology",
+      "paragraph2": "",
+      "paragraph3": "The project was initiated by one of our professors, and we adapted it to our aspirations. Our work quickly evolved from a simple idea into a functional platform that we develop with passion and determination.."
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "Meet the creative minds behind Mooving. Our team consists of four computer science students, each bringing their expertise and passion.",
+
+      "member1": {
+        "name": "ATABONG Stephane",
+        "role": "Project Manager",
+        "description": "Atabong is an experienced project manager, specializing in the planning and organization of complex projects. She ensures that all aspects of the project are aligned with the strategic goals of the team and facilitates effective communication among all team members."
+      },
+      "member2": {
+        "name": "NGOUPAYE Thierry",
+        "role": "Full Stack Developer",
+        "description": "Specialized in web development with Next.js and TypeScript, Ngoupaye is responsible for the architecture and front-end development of our platform. She creates intuitive and aesthetically pleasing interfaces that enhance user experience."
+      },
+      "member3": {
+        "name": "TCHASSI Daniel",
+        "role": "DevOps",
+        "description": "Tchassi is an expert in DevOps, mastering deployment, continuous integration, and continuous delivery (CI/CD) technologies. He manages the cloud infrastructure, deployment pipelines, and monitoring tools to ensure the reliability and performance of our platform."
+      },
+      "member4": {
+        "name": "FOMEKONG Jonathan",
+        "role": "Backend Expert",
+        "description": "Passionate about databases and security, Fomekong has developed a robust API and secure reservation systems. He ensures that our backend is performant and reliable, offering a smooth and secure user experience."
+      },
+      "member5": {
+        "name": "STEVE Ulrich",
+        "role": "UX/UI Designer",
+        "description": "With her eye for design and attention to detail, Steve creates intuitive and aesthetically pleasing interfaces that enhance user experience. She works closely with the development team to ensure that designs are both functional and appealing."
+      },
+      "member6": {
+        "name": "WOTCHOKO",
+        "role": "UX/UI Designer",
+        "description": "With her eye for design and attention to detail, Wotchoko creates intuitive and aesthetically pleasing interfaces that enhance user experience. She works closely with the development team to ensure that designs are both functional and appealing."
+      }
+    },
+    "tech": {
+      "title": "Our Technologies",
+      "description": "We use a modern technology stack to deliver a robust, fast, and pleasant-to-use platform."
+    },
+    "contact": {
+      "title": "Want to get in touch?",
+      "description": "Whether you're a travel agency interested in our solution or a student curious to learn more about our project, we'd love to hear from you!",
+      "button": "Contact Us"
+    }
   }
 }
