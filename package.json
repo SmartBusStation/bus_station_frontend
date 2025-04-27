@@ -11,7 +11,7 @@
   "dependencies": {
     "axios": "^1.8.4",
     "constate": "^3.3.3",
-    "framer-motion": "^12.7.4",
+    "framer-motion": "^12.9.2",
     "i18next": "^25.0.0",
     "i18next-browser-languagedetector": "^8.0.5",
     "lucide-react": "^0.501.0",
