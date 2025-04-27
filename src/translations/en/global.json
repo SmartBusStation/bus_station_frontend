@@ -40,7 +40,7 @@
       "couponsAndPromotionsTitle": "Coupons and Promotions",
       "couponsAndPromotionsDescription": "Create discount coupons and promotional offers to boost sales during slow periods.",
       "advancedSecurityTitle": "Advanced Security",
-      "advancedSecurityDescription": "Protect your data and your customers’ data with our advanced security system and secure payments.",
+      "advancedSecurityDescription": "Protect your data and your customers' data with our advanced security system and secure payments.",
       "intuitiveInterfaceTitle": "Intuitive Interface",
       "intuitiveInterfaceDescription": "Enjoy an intuitive and easy-to-use user interface designed to simplify trip management.",
       "exploreAllFeatureText": "Explore all features"
@@ -186,5 +186,99 @@
       "description": "Whether you're a travel agency interested in our solution or a student curious to learn more about our project, we'd love to hear from you!",
       "button": "Contact Us"
     }
+  },
+
+  "faqPage": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Quickly find answers to your most common questions.",
+    "searchPlaceholder": "Search for a question...",
+    "noResults": "No results found",
+    "tryAgain": "Try modifying your search or consult another category",
+    "stillQuestions": "Do you still have questions?",
+    "contactUs": "Our customer support team is available to help you with any questions you might have.",
+    "contactUsButton": "Contact us",
+    "responseTime": "Average response time: less than 24 hours",
+    "popularTopics": "Popular Topics",
+    "quickLinks": "Quickly access our most consulted guides and resources",
+    "readMore": "Learn more",
+    "categories": {
+      "all": "All questions",
+      "booking": "Booking",
+      "payment": "Payment",
+      "account": "Account",
+      "travel": "Travel",
+      "agency": "Agencies",
+      "technical": "Technical",
+      "support": "Support"
+    },
+    "topics": {
+      "booking": "Booking Guide",
+      "documents": "Travel Documents",
+      "payment": "Payment Options"
+    },
+    "topicDescriptions": {
+      "booking": "Learn how to book your trip in a few simple steps.",
+      "documents": "All the documents you need to travel with peace of mind.",
+      "payment": "Discover all our payment and financing options."
+    },
+    "questions": {
+      "bookingProcess": "How to book a trip via Moving.com?",
+      "cancellation": "What is the cancellation policy?",
+      "payment": "What payment methods do you accept?",
+      "refund": "How long does it take to get a refund?",
+      "account": "How do I modify my account information?",
+      "travelDocuments": "What travel documents are required?",
+      "insurance": "Is travel insurance included?",
+      "agencyRegistration": "How do I register my agency on Moving.com?",
+      "commission": "What are the commissions for partner agencies?",
+      "api": "Do you offer an API for agencies?",
+      "mobileApp": "Is there a Moving.com mobile application?",
+      "customerService": "How do I contact customer service?"
+    },
+    "answers": {
+      "bookingProcess": "To book a trip on Moving.com, log in to your account, search for your destination, select the options that suit you and proceed to payment. You will receive a confirmation email with all the details of your reservation.",
+      "cancellation": "Our cancellation policy varies depending on the provider. Generally, cancellations made 30 days before departure are refunded 100%, 15-29 days before 50%, and less than 15 days are non-refundable. Consult the specific conditions for each reservation.",
+      "payment": "We accept credit cards (Visa, Mastercard, American Express), PayPal, bank transfers and in some countries installment payments. All transactions are secured with SSL encryption.",
+      "refund": "Refunds are generally processed within 5 to 10 business days. The time it takes to appear on your bank account depends on your bank and can take up to 30 days depending on financial institutions.",
+      "account": "Log in to your account, click on 'My Profile' in the main menu, then on 'Edit Profile'. You can update your personal information, change your password or update your communication preferences.",
+      "travelDocuments": "Required documents vary depending on your destination. In general, you will need a valid passport, and sometimes a visa. For certain destinations, vaccination certificates may be required. We recommend checking the specific requirements for your destination before traveling.",
+      "insurance": "Travel insurance is not automatically included in our offers. We offer various travel insurance options during the booking process, covering cancellation, medical care abroad, lost luggage and more.",
+      "agencyRegistration": "To register your agency, go to our 'Become a Partner' page and follow the registration process. You will need to provide information about your agency, your professional licenses and accept our terms of use. Our team will review your application within 48 hours.",
+      "commission": "Our commission structure is progressive and based on sales volume. It generally ranges from 8% to 15%. Premium partners benefit from preferential rates and additional advantages. Contact our partner team for more details.",
+      "api": "Yes, we offer a complete API allowing partner agencies to integrate our travel inventory and booking system directly into their website or application. Technical documentation and API keys are available after approval of your partner account.",
+      "mobileApp": "Yes, our mobile application is available for free on iOS and Android. It allows you to search and book trips, access your existing reservations, receive travel notifications and contact our customer service, even while on the move.",
+      "customerService": "Our customer service is available 7 days a week by phone at +33 1 23 45 67 89, by email at support@moving.com, or via live chat on our website and mobile application. For travel emergencies, we have a dedicated line accessible 24/7."
+    }
+  },
+
+  "contactPage": {
+    "title": "Contact Us",
+    "subtitle": "Our team is available to answer your questions and help you plan your next trip.",
+    "emailUs": "Email Us",
+    "emailDescription": "For any information request or assistance",
+    "callUs": "Call Us",
+    "callDescription": "Our customer service is available 7 days a week",
+    "hours": "Opening Hours",
+    "workdays": "Mon - Fri: 9:00 AM - 8:00 PM",
+    "weekend": "Sat - Sun: 10:00 AM - 6:00 PM",
+    "formTitle": "Send Us a Message",
+    "formDescription": "Do you have a question or specific request? Fill out the form below and we will respond as soon as possible.",
+    "name": "Full Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "Subject of your message",
+    "message": "Message",
+    "messagePlaceholder": "Detail your request here...",
+    "privacyPolicy": "I accept the privacy policy",
+    "sending": "Sending...",
+    "send": "Send Message",
+    "successMessage": "Your message has been sent successfully. We will get back to you quickly.",
+    "ourOffices": "Our Offices",
+    "international": "International offices:",
+    "globalPresence": "Our Global Presence",
+    "globalDescription": "With offices and partners in more than 30 countries, we are present wherever your travels take you.",
+    "mapPlaceholder": "Interactive map of our global presence"
   }
 }

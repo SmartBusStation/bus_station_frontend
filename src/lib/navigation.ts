@@ -21,11 +21,15 @@ export function useNavigation()
     {
         router.push("/");
     }
+    const onGoToContactUs = () => {
+         router.push('/contact-us');
+      };
 
     return {
         onGoToGoLogin,
         onGoToRegister,
         goToHome,
+        onGoToContactUs,
     }
 }
 

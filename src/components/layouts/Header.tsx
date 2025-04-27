@@ -64,6 +64,12 @@ export default function Header() {
                             <Link href="/about" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
                                 {t("footer.about-us")}
                             </Link>
+                            <Link href="/contact-us" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                {t("footer.contact-us")}
+                            </Link>
+                            <Link href="/faqs" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                {t("faqs")}
+                            </Link>
                         </nav>
                     </div>
 
