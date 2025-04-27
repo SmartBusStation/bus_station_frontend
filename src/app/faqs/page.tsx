@@ -9,13 +9,8 @@ import { useTranslation } from "react-i18next"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { useNavigation } from "@/lib/navigation"
-// Au début du fichier, importez le nouveau composant
-import SearchBar from '@/components/faqsPageComponent/SearchBar'; // Créez ce fichier avec le code de l'artifact
-
-// Dans votre composant FAQPage, ajoutez cet état pour les recherches récentes
-
-
-
+import SearchBar from '@/components/faqsPageComponent/SearchBar'; 
+// Dans votre composant FAQPage
 
 interface FAQItem {
   id: number
