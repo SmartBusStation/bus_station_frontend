@@ -1,97 +1,96 @@
 {
-  "header" : {
+  "header": {
     "registerText": "S'inscrire"
   },
- "landingPage": {
-   "heroSection": {
-     "slogan": " Planifiez votre voyage, partagez-le, et faites rêver avec Moving.com",
-     "fullSlogan": " La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
-     "loginText": "Se connecter",
-     "registerText": "S'inscrire gratuitement"
-   },
-   "customerSection": {
-     "title": "Pour les voyageurs",
-     "slogan" : "Découvrez une nouvelle façon de réserver vos voyages, simple, sécurisée et flexible.",
-     "freeSearchText": " Trouvez rapidement des voyages qui correspondent à vos critères grâce à notre moteur de recherche.",
-     "freeSearchTitle":"Recherche facile",
-     "flexiblePaymentTitle": "Paiement Flexible",
-     "flexiblePaymentText": "  Payez en partie ou en totalité selon votre budget, avec des options de paiement sécurisées via Orange Money et Mobile Money.",
-     "reservationManagementTitle": "Gestion des Réservations",
-     "reservationManagementText": "Réservez une ou plusieurs places, annulez ou modifiez vos réservations facilement depuis votre espace personnel."
-   },
-   "statisticSection": {
-     "title": "Analyses et statistiques",
-     "slogan": "Suivez les performances de vos voyages avec des statistiques détaillées et des analyses en temps réel.",
-     "followUpReservationTitle": "Suivi des réservations",
-     "followUpReservationText": " Consultez le nombre de réservations par voyage, par période et par destination. Identifiez vos voyages  plus populaires.",
-     "cancellationAnalyticsTitle": "Analyse des annulations",
-     "cancellationAnalyticsText": " Suivez les taux d'annulation et comprenez les raisons pour améliorer vos offres et réduire les  futures.",
-     "commerceCustomTitle": "Rapports personnalisés",
-     "commerceCustomText": "Générez des rapports personnalisés sur une période donnée pour analyser vos performances et prendre des décisions éclairées"
-   },
-   "featureSection": {
-     "title": "Fonctionnalités principales",
-     "financialManagementTitle": "Gestion Financière",
-     "financialManagementDescription": "Suivez vos revenus, gérez les paiements partiels et complets, et offrez des options de paiement flexibles à vos clients.",
-     "integratedChatTitle": "Chat Intégré",
-     "integratedChatDescription": "Communiquez directement avec vos clients via notre système de chat intégré pour répondre à leurs questions et finaliser les détails.",
-     "reviewSystemTitle": "Systeme d'Avis",
-     "reviewSystemDescription": "Recevez des avis de vos clients et construisez votre réputation. Les avis positifs vous aideront à attirer plus de voyageurs.",
-     "couponsAndPromotionsTitle": "Coupons et Promotions",
-     "couponsAndPromotionsDescription": "Créez des coupons de réduction et des offres promotionnelles pour stimuler les ventes pendant les périodes creuses.",
-     "advancedSecurityTitle": "Sécurité avancée",
-     "advancedSecurityDescription": "Protégez vos données et celles de vos clients avec notre système de sécurité avancé et nos paiements sécurisés.",
-     "intuitiveInterfaceTitle": "Interface Intuitive",
-     "intuitiveInterfaceDescription": "Profitez d'une interface utilisateur intuitive et facile à utiliser, conçue pour simplifier la gestion de vos voyages.",
-     "exploreAllFeatureText": "Découvrez toutes les fonctionnalités"
-   },
-   "agencySection": {
-     "title": "Pour les agences de voyage",
-     "slogan": "Moving.com offre aux agences de voyages une plateforme complète pour gérer leurs activités et développer leur clientèle.",
-     "exclusiveBenefits": "Avantages Exclusifs",
-     "features": {
-       "planning": {
-         "title": "Planification de voyages",
-         "description": "Créez et planifiez facilement vos voyages avec notre interface intuitive. Définissez les dates, les itinéraires, les prix et les disponibilités en quelques clics."
-       },
-       "publishing": {
-         "title": "Publication et gestion",
-         "description": "Publiez vos voyages pour les rendre visibles aux clients potentiels. Modifiez ou annulez les voyages à tout moment selon vos besoins."
-       },
-       "tickets": {
-         "title": "Gestion des tickets",
-         "description": "Créez et gérez des tickets pour vos voyages. Offrez des coupons de réduction pour attirer plus de clients et fidéliser votre clientèle."
-       }
-     },
-     "advantages": {
-       "visibility": {
-         "title": "Visibilité internationale",
-         "description": "Atteignez des clients du monde entier"
-       },
-       "customers": {
-         "title": "Gestion de clientèle",
-         "description": "Suivez les préférences de vos voyageurs"
-       },
-       "analytics": {
-         "title": "Analyses détaillées",
-         "description": "Statistiques et rapports personnalisés"
-       },
-       "security": {
-         "title": "Sécurité des transactions",
-         "description": "Paiements sécurisés et protection des données"
-       }
-     }
-   },
-   "CTASection": {
+  "landingPage": {
+    "heroSection": {
+      "slogan": "Planifiez votre voyage, partagez-le, et faites rêver avec Moving.com",
+      "fullSlogan": "La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
+      "loginText": "Se connecter",
+      "registerText": "S'inscrire gratuitement"
+    },
+    "customerSection": {
+      "title": "Pour les voyageurs",
+      "slogan": "Découvrez une nouvelle façon de réserver vos voyages, simple, sécurisée et flexible.",
+      "freeSearchText": "Trouvez rapidement des voyages qui correspondent à vos critères grâce à notre moteur de recherche.",
+      "freeSearchTitle": "Recherche facile",
+      "flexiblePaymentTitle": "Paiement Flexible",
+      "flexiblePaymentText": "Payez en partie ou en totalité selon votre budget, avec des options de paiement sécurisées via Orange Money et Mobile Money.",
+      "reservationManagementTitle": "Gestion des Réservations",
+      "reservationManagementText": "Réservez une ou plusieurs places, annulez ou modifiez vos réservations facilement depuis votre espace personnel."
+    },
+    "statisticSection": {
+      "title": "Analyses et statistiques",
+      "slogan": "Suivez les performances de vos voyages avec des statistiques détaillées et des analyses en temps réel.",
+      "followUpReservationTitle": "Suivi des réservations",
+      "followUpReservationText": "Consultez le nombre de réservations par voyage, par période et par destination. Identifiez vos voyages plus populaires.",
+      "cancellationAnalyticsTitle": "Analyse des annulations",
+      "cancellationAnalyticsText": "Suivez les taux d'annulation et comprenez les raisons pour améliorer vos offres et réduire les futures.",
+      "commerceCustomTitle": "Rapports personnalisés",
+      "commerceCustomText": "Générez des rapports personnalisés sur une période donnée pour analyser vos performances et prendre des décisions éclairées"
+    },
+    "featureSection": {
+      "title": "Fonctionnalités principales",
+      "financialManagementTitle": "Gestion Financière",
+      "financialManagementDescription": "Suivez vos revenus, gérez les paiements partiels et complets, et offrez des options de paiement flexibles à vos clients.",
+      "integratedChatTitle": "Chat Intégré",
+      "integratedChatDescription": "Communiquez directement avec vos clients via notre système de chat intégré pour répondre à leurs questions et finaliser les détails.",
+      "reviewSystemTitle": "Systeme d'Avis",
+      "reviewSystemDescription": "Recevez des avis de vos clients et construisez votre réputation. Les avis positifs vous aideront à attirer plus de voyageurs.",
+      "couponsAndPromotionsTitle": "Coupons et Promotions",
+      "couponsAndPromotionsDescription": "Créez des coupons de réduction et des offres promotionnelles pour stimuler les ventes pendant les périodes creuses.",
+      "advancedSecurityTitle": "Sécurité avancée",
+      "advancedSecurityDescription": "Protégez vos données et celles de vos clients avec notre système de sécurité avancé et nos paiements sécurisés.",
+      "intuitiveInterfaceTitle": "Interface Intuitive",
+      "intuitiveInterfaceDescription": "Profitez d'une interface utilisateur intuitive et facile à utiliser, conçue pour simplifier la gestion de vos voyages.",
+      "exploreAllFeatureText": "Découvrez toutes les fonctionnalités"
+    },
+    "agencySection": {
+      "title": "Pour les agences de voyage",
+      "slogan": "Moving.com offre aux agences de voyages une plateforme complète pour gérer leurs activités et développer leur clientèle.",
+      "exclusiveBenefits": "Avantages Exclusifs",
+      "features": {
+        "planning": {
+          "title": "Planification de voyages",
+          "description": "Créez et planifiez facilement vos voyages avec notre interface intuitive. Définissez les dates, les itinéraires, les prix et les disponibilités en quelques clics."
+        },
+        "publishing": {
+          "title": "Publication et gestion",
+          "description": "Publiez vos voyages pour les rendre visibles aux clients potentiels. Modifiez ou annulez les voyages à tout moment selon vos besoins."
+        },
+        "tickets": {
+          "title": "Gestion des tickets",
+          "description": "Créez et gérez des tickets pour vos voyages. Offrez des coupons de réduction pour attirer plus de clients et fidéliser votre clientèle."
+        }
+      },
+      "advantages": {
+        "visibility": {
+          "title": "Visibilité internationale",
+          "description": "Atteignez des clients du monde entier"
+        },
+        "customers": {
+          "title": "Gestion de clientèle",
+          "description": "Suivez les préférences de vos voyageurs"
+        },
+        "analytics": {
+          "title": "Analyses détaillées",
+          "description": "Statistiques et rapports personnalisés"
+        },
+        "security": {
+          "title": "Sécurité des transactions",
+          "description": "Paiements sécurisés et protection des données"
+        }
+      }
+    },
+    "CTASection": {
       "title": "Prêt à simplifier vos voyages et vos réservations ?",
-      "slogan": " Rejoignez Moving.com dès aujourd'hui et découvrez une nouvelle façon de gérer vos voyages, plus simple et plus agréable.",
+      "slogan": "Rejoignez Moving.com dès aujourd'hui et découvrez une nouvelle façon de gérer vos voyages, plus simple et plus agréable.",
       "planATrip": "Planifiez un voyage"
-   }
- },
+    }
+  },
 
-  "footer":
-  {
-    "slogan": " La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
+  "footer": {
+    "slogan": "La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
     "followUs": "Suivez-nous",
     "quickLink": "Lien rapides",
     "legal": "Légal",
@@ -106,11 +105,86 @@
     "schedule": "Lun-Ven: 9h-18h"
   },
 
-
-
-  "aboutUs":
-  {
-    "message": "A propos de nous"
+  "aboutUs": {
+    "hero": {
+      "message": "A propos de nous",
+      "title": "Notre Histoire",
+      "subtitle": "Découvrez l'équipe derrière Mooving, une plateforme innovante créée par des étudiants passionnés par la technologie et le voyage.",
+      "location": "Yaounde, Cameroun",
+      "team": "6 Étudiants en Informatique",
+      "project": "Projet Universitaire"
+    },
+    "mission": {
+      "title": "Notre Mission",
+      "description": "Notre mission est de révolutionner le secteur du voyage en créant une plateforme moderne qui connecte les agences de voyage et les voyageurs, pour une expérience de réservation fluide et sécurisée."
+    },
+    "values": {
+      "education": {
+        "title": "Éducation",
+        "description": "Notre projet s'inscrit dans notre parcours académique, nous permettant d'appliquer nos connaissances théoriques à un cas concret."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Nous utilisons les technologies les plus récentes pour créer une solution moderne et efficace pour le secteur du voyage."
+      },
+      "global": {
+        "title": "Vision Globale",
+        "description": "Notre plateforme est conçue pour connecter les voyageurs et les agences du monde entier, sans barrières géographiques."
+      },
+      "passion": {
+        "title": "Passion",
+        "description": "Notre amour pour le voyage et la technologie est le moteur qui nous pousse à créer la meilleure expérience possible."
+      }
+    },
+    "story": {
+      "title": "Comment tout a commencé",
+      "paragraph1": "Mooving est né d'un projet universitaire lancé en september 2024 par six étudiants en informatique passionnés par les voyages et la technologie.",
+      "paragraph2": "",
+      "paragraph3": "Le projet a été initié par l'un de nos professeurs et nous l'avons adapté à nos aspirations. Notre travail s'est rapidement transformé d'une simple idée en une plateforme fonctionnelle que nous développons avec passion et détermination."
+    },
+    "team": {
+      "title": "Notre Équipe",
+      "description": "Rencontrez les esprits créatifs derrière Mooving. Notre équipe est composée de quatre étudiants en informatique, chacun apportant son expertise et sa passion.",
+      "member1": {
+        "name": "ATABONG Stephane",
+        "role": "Gestionnaire de Projet",
+        "description": "Atabong est une gestionnaire de projet expérimentée, spécialisée dans la planification et l'organisation de projets complexes. Il s'assure que tous les aspects du projet sont alignés avec les objectifs stratégiques de l'équipe et garantit la communication efficace entre les différents membres de l'équipe."
+      },
+      "member2": {
+        "name": "NGOUPAYE Thierry",
+        "role": "Développeur Full Stack ",
+        "description": "Spécialisée en développement web avec Next.js et TypeScript, Ngoupaye est responsable de l'architecture et du développement front-end de notre plateforme.Il crée des interfaces intuitives et esthétiques qui améliorent l'expérience utilisateur."
+      },
+      "member3": {
+        "name": "TCHASSI Daniel",
+        "role": "DevOps",
+        "description": "Tchassi est un expert en DevOps, maîtrisant les technologies de déploiement, d'intégration continue et de livraison continue (CI/CD). Il gère l'infrastructure , les pipelines de déploiement et les outils de monitoring pour assurer la fiabilité et la performance de notre plateforme."
+      },
+      "member4": {
+        "name": "FOMEKONG Jonathan",
+        "role": "Expert Backend",
+        "description": "Passionné par les bases de données et la sécurité, Fomekong a développé notre API robuste et les systèmes de réservation sécurisés. Il s'assure que notre backend est performant et fiable, offrant une expérience utilisateur fluide et sécurisée."
+      },
+      "member5": {
+        "name": "STEVE Ulrich",
+        "role": "UX/UI Designer",
+        "description": "Avec son œil pour le design et son souci du détail, Steve crée des interfaces intuitives et esthétiques qui améliorent l'expérience utilisateur. Elle travaille étroitement avec l'équipe de développement pour s'assurer que les designs sont fonctionnels et attrayants."
+      },
+      "member6": {
+        "name": "WOTCHOKO Yohan ",
+        "role": "UX/UI Designer",
+        "description": "Avec son œil pour le design et son souci du détail, Wotchoko crée des interfaces intuitives et esthétiques qui améliorent l'expérience utilisateur. Elle travaille étroitement avec l'équipe de développement pour s'assurer que les designs sont fonctionnels et attrayants."
+      }
+    },
+    "tech": {
+      "title": "Nos Technologies",
+      "description": "Nous utilisons un stack technologique moderne pour offrir une plateforme robuste, rapide et agréable à utiliser."
+    },
+    "contact": {
+      "title": "Envie de nous contacter?",
+      "description": "Que vous soyez une agence de voyage intéressée par notre solution ou un étudiant curieux d'en savoir plus sur notre projet, nous serions ravis d'échanger avec vous!",
+      "button": "Nous Contacter"
+    }
   },
 
   "faqPage": {
@@ -146,6 +220,7 @@
       "documents": "Tous les documents dont vous avez besoin pour voyager sereinement.",
       "payment": "Découvrez toutes nos options de paiement et de financement."
     },
+
     "questions": {
       "bookingProcess": "Comment réserver un voyage via Moving.com ?",
       "cancellation": "Quelle est la politique d'annulation ?",

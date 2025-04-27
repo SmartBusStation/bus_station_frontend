@@ -10,6 +10,7 @@ import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { useNavigation } from "@/lib/navigation"
 import SearchBar from '@/components/faqsPageComponent/SearchBar'; 
+// Dans votre composant FAQPage
 
 interface FAQItem {
   id: number
