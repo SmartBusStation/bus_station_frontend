@@ -210,14 +210,16 @@ useEffect(() => {
             </motion.p>
             
             {/* Search Bar */}
-            <SearchBar
-            initialQuery={searchQuery}
-            onSearch={handleSearch}
-            placeholder={t("faqPage.searchPlaceholder", "Rechercher une question...")}
-            recentSearches={recentSearches}
-            onSaveRecentSearch={saveRecentSearch}
-            className="max-w-2xl mx-auto mb-8"
-            />
+            <div className="bg-white rounded-lg border border-gray-200 shadow-sm  max-w-2xl mx-auto mb-8">
+              <SearchBar
+                initialQuery={searchQuery}
+                onSearch={handleSearch}
+                placeholder={t("faqPage.searchPlaceholder", "Rechercher une question...")}
+                recentSearches={recentSearches}
+                onSaveRecentSearch={saveRecentSearch}
+                className="w-full" // Cette classe s'appliquera au composant SearchBar lui-même
+              />
+            </div>
           </div>
           
           {/* Séparateur ondulé */}

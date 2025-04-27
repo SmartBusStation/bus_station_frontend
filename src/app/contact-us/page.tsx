@@ -103,7 +103,7 @@ export default function ContactPage() {
               {/* Card 1 */}
               <motion.div
                 variants={fadeInUp}
-                className="bg-white rounded-xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                className=" bg-gray-200 rounded-xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Mail className="h-8 w-8 text-blue-600" />
@@ -118,7 +118,7 @@ export default function ContactPage() {
               {/* Card 2 */}
               <motion.div
                 variants={fadeInUp}
-                className="bg-white rounded-xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                className="bg-gray-200 rounded-xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Phone className="h-8 w-8 text-blue-600" />
@@ -133,7 +133,7 @@ export default function ContactPage() {
               {/* Card 3 */}
               <motion.div
                 variants={fadeInUp}
-                className="bg-white rounded-xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                className="bg-gray-200 rounded-xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Clock className="h-8 w-8 text-blue-600" />
@@ -159,7 +159,7 @@ export default function ContactPage() {
           className="py-16 bg-gray-50"
         >
           <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row gap-12">
+            <div className="flex flex-col lg:flex-row gap-55">
               {/* Form */}
               <motion.div variants={fadeInLeft} className="lg:w-1/2">
                 <h2 className="text-3xl font-semibold mb-6">{t("contactPage.formTitle", "Envoyez-nous un message")}</h2>
