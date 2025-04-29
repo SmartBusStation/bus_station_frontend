@@ -1,147 +1,106 @@
-'use client'
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, ArrowRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { fadeInUp } from "@/lib/animations/animationTool";
+// Modifiez le fichier SearchBar.tsx dans @/components/faqsPageComponent/
 
-const SearchBar = ({ 
-  onSearch, 
-  initialQuery = "", 
-  placeholder = "Rechercher une question...",
+import React, { useState, useEffect, useRef } from 'react';
+import { Search } from 'lucide-react';
+
+// Définir correctement l'interface des props
+interface SearchBarProps {
+  initialQuery?: string;
+  onSearch: (query: string) => void;
+  placeholder?: string;
+  recentSearches?: string[]; // Changé de never[] à string[]
+  onSaveRecentSearch?: (query: string) => void; // Ajout du paramètre query
+  className?: string;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({
+  initialQuery = '',
+  onSearch,
+  placeholder = 'Rechercher...',
   recentSearches = [],
-  onSaveRecentSearch = () => {},
-  className = "" 
+  onSaveRecentSearch,
+  className = '',
 }) => {
-  const { t } = useTranslation();
-  const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [isFocused, setIsFocused] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const inputRef = useRef(null);
-  const dropdownRef = useRef(null);
+  const [query, setQuery] = useState(initialQuery);
+  const [showRecent, setShowRecent] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
-  // Handle outside clicks to close suggestions
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current && 
-        !dropdownRef.current.contains(event.target) &&
-        inputRef.current && 
-        !inputRef.current.contains(event.target)
-      ) {
-        setShowSuggestions(false);
+  const handleSearch = () => {
+    if (query.trim()) {
+      onSearch(query);
+      if (onSaveRecentSearch) {
+        onSaveRecentSearch(query);
       }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Debounce search to avoid excessive updates
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchQuery) {
-        onSearch(searchQuery);
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery, onSearch]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      onSearch(searchQuery);
-      // Save to recent searches if not already there
-      if (!recentSearches.includes(searchQuery.trim())) {
-        onSaveRecentSearch(searchQuery.trim());
-      }
-      setShowSuggestions(false);
     }
   };
 
-  const handleClear = () => {
-    setSearchQuery("");
-    inputRef.current.focus();
-    onSearch("");
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
-  const handleSelectRecentSearch = (query) => {
-    setSearchQuery(query);
-    onSearch(query);
-    setShowSuggestions(false);
+  const selectRecentSearch = (recentQuery: string) => {
+    setQuery(recentQuery);
+    onSearch(recentQuery);
+    setShowRecent(false);
   };
+
+  // Fermer la liste des recherches récentes lorsqu'on clique en dehors
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowRecent(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <motion.div 
-      variants={fadeInUp} 
-      className={`relative ${className}`}
-    >
-      <form onSubmit={handleSubmit} className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Search className="h-5 w-5 text-gray-400" />
-        </div>
+    <div ref={searchRef} className={`relative ${className}`}>
+      <div className="flex items-center relative">
         <input
-          ref={inputRef}
           type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onFocus={() => {
-            setIsFocused(true);
-            if (recentSearches.length > 0) {
-              setShowSuggestions(true);
-            }
-          }}
-          placeholder={t("faqPage.searchPlaceholder", placeholder)}
-          className="pl-10 w-full px-4 py-4 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg transition-all"
-          aria-label="Rechercher"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onFocus={() => recentSearches.length > 0 && setShowRecent(true)}
+          placeholder={placeholder}
+          className="w-full py-3 px-4 pr-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {searchQuery && (
+        <div className="absolute right-4">
           <button
-            type="button"
-            onClick={handleClear}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            aria-label="Effacer la recherche"
+            onClick={handleSearch}
+            className="text-blue-600 hover:text-blue-800"
+            aria-label="Rechercher"
           >
-            <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+            <Search className="h-5 w-5" />
           </button>
-        )}
-      </form>
-
-      {/* Recent searches dropdown */}
-      <AnimatePresence>
-        {isFocused && showSuggestions && recentSearches.length > 0 && (
-          <motion.div
-            ref={dropdownRef}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg py-2 border border-gray-100"
-          >
-            <div className="px-4 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {t("faqPage.recentSearches", "Recherches récentes")}
-            </div>
-            <ul>
-              {recentSearches.slice(0, 5).map((query, index) => (
-                <li key={index}>
-                  <button
-                    type="button"
-                    onClick={() => handleSelectRecentSearch(query)}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center justify-between"
-                  >
-                    <span className="text-gray-800">{query}</span>
-                    <ArrowRight className="h-4 w-4 text-gray-400" />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+        </div>
+      </div>
+      
+      {/* Recherches récentes */}
+      {showRecent && recentSearches.length > 0 && (
+        <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
+          <div className="p-2">
+            <p className="text-xs text-gray-500 mb-1 px-2">Recherches récentes</p>
+            {recentSearches.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => selectRecentSearch(item)}
+                className="p-2 hover:bg-gray-100 rounded cursor-pointer text-sm"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
