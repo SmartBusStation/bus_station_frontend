@@ -120,7 +120,7 @@ export default function SecuritySection(): JSX.Element
                                         />
                                     </svg>
                                 </div>
-                                <p className="text-gray-700">Système d'avis transparent et fiable</p>
+                                <p className="text-gray-700">Système d&#39;avis transparent et fiable</p>
                             </motion.li>
                         </motion.ul>
                     </motion.div>

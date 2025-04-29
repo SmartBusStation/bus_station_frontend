@@ -30,7 +30,7 @@ export default function ProfilePage(): JSX.Element {
               <ul className="space-y-4">
                 <li className="flex items-center">
                   <User className="w-6 h-6 text-primary mr-3" />
-                  <span className="text-gray-700 font-medium">Nom d'utilisateur: user123</span>
+                  <span className="text-gray-700 font-medium">Nom d&#39;utilisateur: user123</span>
                 </li>
                 <li className="flex items-center">
                   <Mail className="w-6 h-6 text-primary mr-3" />

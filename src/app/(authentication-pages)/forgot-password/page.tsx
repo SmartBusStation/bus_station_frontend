@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Mail, ArrowRight, Check, AlertCircle, ArrowLeft } from "lucide-react"
@@ -131,11 +131,11 @@ export default function ForgotPasswordPage() {
               </div>
               <h2 className="text-xl font-semibold text-gray-800 mb-2">Email envoyé !</h2>
               <p className="text-gray-600 mb-8">
-                Si un compte existe avec l'adresse <span className="font-medium">{email}</span>, vous recevrez un email 
+                Si un compte existe avec l&#39;adresse <span className="font-medium">{email}</span>, vous recevrez un email
                 contenant un lien pour réinitialiser votre mot de passe.
               </p>
               <p className="text-gray-500 text-sm mb-6">
-                N'oubliez pas de vérifier vos dossiers de spam ou courrier indésirable.
+                N&#39;oubliez pas de vérifier vos dossiers de spam ou courrier indésirable.
               </p>
               <motion.button
                 onClick={() => setIsSubmitted(false)}

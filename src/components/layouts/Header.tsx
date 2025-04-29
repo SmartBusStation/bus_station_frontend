@@ -191,11 +191,11 @@ export default function Header() {
                             <div className="flex flex-col space-y-2 pt-4 border-t">
                                 <button onClick={navigation.onGoToGoLogin}
                                         className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
-                                    Se connecter
+                                    {t("landingPage.heroSection.loginText")}
                                 </button>
                                 <button onClick={navigation.onGoToRegister}
                                         className="cursor-pointer px-4 py-2  rounded-2xl border-white text-blue-800 border-2 font-bold  bg-white hover:text-blue-600  duration-300 transition-all">
-                                    S'inscrire
+                                    {t("header.registerText")}
                                 </button>
                             </div>
                         </nav>

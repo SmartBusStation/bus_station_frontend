@@ -11,7 +11,7 @@ export default function TextContent(): JSX.Element
             </motion.h1>
 
             <motion.p className="text-xl text-gray-600 mb-8 max-w-lg mx-auto" variants={itemVariants}>
-                Oups ! Il semble que vous vous soyez égaré. Cette page n'existe pas ou a été déplacée.
+                Oups ! Il semble que vous vous soyez égaré. Cette page n&#39;existe pas ou a été déplacée.
             </motion.p>
         </div>
     )

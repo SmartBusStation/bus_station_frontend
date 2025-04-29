@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { ChevronDown, ChevronUp, Search, Phone, Mail, HelpCircle } from "lucide-react"
+import { ChevronDown, ChevronUp, Phone, Mail, HelpCircle } from "lucide-react"
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations/animationTool"
 import { useTranslation } from "react-i18next"
 import Header from "@/components/layouts/Header"

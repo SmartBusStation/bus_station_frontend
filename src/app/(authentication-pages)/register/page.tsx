@@ -10,14 +10,12 @@ import {
     Lock,
     User,
     Building2,
-    ChevronDown,
     Calendar,
     MapPin,
     CreditCard,
     Phone,
     Globe,
     Briefcase,
-    Check,
     ArrowRight,
     FileText,
     Home,
@@ -118,7 +116,7 @@ export default function RegisterPage() {
                         </div>
                     </div>
                     <h1 className="text-2xl font-bold">Créer un compte Moving.com</h1>
-                    <p className="text-blue-100 mt-2">Rejoignez notre communauté de voyageurs et d'agences</p>
+                    <p className="text-blue-100 mt-2">Rejoignez notre communauté de voyageurs et d&#39;agences</p>
                 </div>
 
                 {/* Formulaire */}
@@ -343,7 +341,7 @@ export default function RegisterPage() {
                         {userType === "agency" && (
                             <div className="space-y-6">
                                 <div className="text-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-800">Informations de l'agence</h2>
+                                    <h2 className="text-xl font-semibold text-gray-800">Informations de l&#39;agence</h2>
                                     <p className="text-gray-500 text-sm">Veuillez remplir les informations de votre agence</p>
                                 </div>
 
@@ -351,7 +349,7 @@ export default function RegisterPage() {
                                     {/* Nom de l'agence */}
                                     <div className="md:col-span-2">
                                         <label htmlFor="agencyName" className="block text-sm font-medium text-gray-700 mb-2">
-                                            Nom de l'agence
+                                            Nom de l&#39;agence
                                         </label>
                                         <div className="relative">
                                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -373,7 +371,7 @@ export default function RegisterPage() {
                                     {/* Numéro de licence */}
                                     <div>
                                         <label htmlFor="licenseNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                                            Numéro d'immatriculation / Licence
+                                            Numéro d&#39;immatriculation / Licence
                                         </label>
                                         <div className="relative">
                                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -609,12 +607,12 @@ export default function RegisterPage() {
                                 </div>
                                 <div className="ml-3 text-sm">
                                     <label htmlFor="terms" className="text-gray-700">
-                                        J'accepte les{" "}
-                                        <Link href="/terms" className="text-blue-600 hover:text-blue-800 font-medium">
-                                            conditions d'utilisation
+                                        J&#39;accepte les{" "}
+                                        <Link href="/term-and-conditions" className="text-blue-600 hover:text-blue-800 font-medium">
+                                            conditions d&#39;utilisation
                                         </Link>{" "}
                                         et la{" "}
-                                        <Link href="/privacy" className="text-blue-600 hover:text-blue-800 font-medium">
+                                        <Link href="/privacy-policy" className="text-blue-600 hover:text-blue-800 font-medium">
                                             politique de confidentialité
                                         </Link>
                                     </label>

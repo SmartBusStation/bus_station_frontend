@@ -16,7 +16,7 @@ export default function ActionButton(): JSX.Element
                         whileTap={{scale: 0.95}}
                     >
                         <Home size={18}/>
-                        Retour à l'accueil
+                        Retour à l&#39;accueil
                     </motion.button>
                 </Link>
 

@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 import { Mail, Lock } from "lucide-react"
 import {useNavigation} from "@/lib/navigation";
 import UserType from "@/components/authenticationPagesComponents/UserType";
-import Header from "@/components/layouts/Header";
+
 
 export default function LoginPage() {
     const [email, setEmail] = useState("")
@@ -153,9 +153,9 @@ export default function LoginPage() {
                     {/* Lien d'inscription */}
                     <div className="mt-8 text-center">
                         <p className="text-gray-600">
-                            Vous n'avez pas encore de compte ?{" "}
+                            Vous n&#39;avez pas encore de compte ?{" "}
                             <Link href="/register" className="text-blue-600 hover:text-blue-800 font-medium">
-                                S'inscrire
+                                S&#39;inscrire
                             </Link>
                         </p>
                     </div>
