@@ -50,7 +50,7 @@ export default function Footer(): JSX.Element {
 
     function translate(key:string):string
     {
-        return t("footer."+key);
+        return t(key);
     }
 
     const quickLinks = [
@@ -60,10 +60,10 @@ export default function Footer(): JSX.Element {
         {name:translate("contact-us"), link:"/contact-us"},
     ]
     const legalLinks = [
-        {name:translate("terms-and-condition"), link:"/terms-and-conditions"},
-        {name:translate("policies"), link:"/policies"},
-        {name:"Cookies", link:"/cookies"},
-        {name:"FAQ", link:"/faq"}
+        { name: translate("terms-and-condition"), link: "/term-and-conditions" },
+        { name: translate("privacy-policy"), link: "/privacy-policy" },
+        { name: translate("cookies"), link: "/cookies" },
+        { name: translate("faq"), link: "/faq" },
     ]
 
     const socialMedia = [
