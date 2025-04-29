@@ -4,7 +4,6 @@ import HeroSection from "@/components/landingPageComponents/HeroSection";
 import AgencySection from "@/components/landingPageComponents/AgencySection";
 import StatisticSection from "@/components/landingPageComponents/StatisticSection";
 import FeatureSection from "@/components/landingPageComponents/FeatureSection";
-import SecuritySection from "@/components/landingPageComponents/SecuritySection";
 import CustomerSection from "@/components/landingPageComponents/CustomerSection";
 import CTASection from "@/components/landingPageComponents/CTASection";
 import Footer from "@/components/layouts/Footer";

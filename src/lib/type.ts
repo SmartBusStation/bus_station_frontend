@@ -25,3 +25,9 @@ export type UserTypeComponentPropsType = {
     isDropdownOpen: boolean,
     selectUserType: (type:"client"|"agency") => void
 }
+
+
+export type ReactNodeProps =
+    {
+        children: React.ReactNode
+    }
