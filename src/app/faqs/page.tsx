@@ -10,7 +10,6 @@ import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { useNavigation } from "@/lib/navigation"
 import SearchBar from '@/components/faqsPageComponent/SearchBar'; 
-// Dans votre composant FAQPage
 
 interface FAQItem {
   id: number
@@ -19,47 +18,45 @@ interface FAQItem {
   category: string
 }
 
-//fonction principale dans le FAQ
+// Fix 1: Properly type the recentSearches state
 export default function FAQPage() {
   const { t } = useTranslation()
   const navigation = useNavigation()
   const [searchQuery, setSearchQuery] = useState("")
   const [activeCategory, setActiveCategory] = useState("all")
   const [expandedItems, setExpandedItems] = useState<number[]>([])
-  const [recentSearches, setRecentSearches] = useState([]);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  
+  // Fix 2: Make sure handleSearch is properly defined
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    // The filtering logic is already handled by filteredFAQs
+  };
 
-// Ajoutez cette fonction pour gérer les recherches
-const handleSearch = (query) => {
-  setSearchQuery(query);
-  // La logique de filtrage est déjà gérée par filteredFAQs
-};
+  // Fix 3: Correctly type the function for updating recent searches
+  const saveRecentSearch = (query: string) => {
+    setRecentSearches((prev: string[]) => {
+      // Avoid duplicates and keep only the 5 most recent searches
+      const updatedSearches = [query, ...prev.filter(item => item !== query)].slice(0, 5);
+      // Optional: save to localStorage to persist between sessions
+      localStorage.setItem('faqRecentSearches', JSON.stringify(updatedSearches));
+      return updatedSearches;
+    });
+  };
 
-// Ajoutez cette fonction pour sauvegarder les recherches récentes
-const saveRecentSearch = (query) => {
-  setRecentSearches(prev => {
-    // Éviter les doublons et garder seulement les 5 dernières recherches
-    const updatedSearches = [query, ...prev.filter(item => item !== query)].slice(0, 5);
-    // Optionnel: sauvegarder dans localStorage pour persister entre les sessions
-    localStorage.setItem('faqRecentSearches', JSON.stringify(updatedSearches));
-    return updatedSearches;
-  });
-};
-
-// Récupérer les recherches récentes au chargement
-useEffect(() => {
-  try {
-    const saved = localStorage.getItem('faqRecentSearches');
-    if (saved) {
-      setRecentSearches(JSON.parse(saved));
+  // Retrieve recent searches on load
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('faqRecentSearches');
+      if (saved) {
+        setRecentSearches(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error("Error retrieving recent searches:", e);
     }
-  } catch (e) {
-    console.error("Erreur lors de la récupération des recherches récentes:", e);
-  }
-}, []);
+  }, []);
 
   // FAQ data
-
-  
   const faqItems: FAQItem[] = [
     {
       id: 1,
@@ -211,12 +208,12 @@ useEffect(() => {
                 placeholder={t("faqPage.searchPlaceholder", "Rechercher une question...")}
                 recentSearches={recentSearches}
                 onSaveRecentSearch={saveRecentSearch}
-                className="w-full" // Cette classe s'appliquera au composant SearchBar lui-même
+                className="w-full" // This class will apply to the SearchBar component itself
               />
             </div>
           </div>
           
-          {/* Séparateur ondulé */}
+          {/* Wavy separator */}
           <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] transform rotate-180">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -355,9 +352,6 @@ useEffect(() => {
                     >
                     <Mail className="h-5 w-5" />
                     {t("faqPage.contactUsButton", "Contactez-nous")}
-                    {/* <span className="text-sm text-blue-100">
-                        {t("faqPage.responseTime", "Temps de réponse moyen : moins de 24 heures")}
-                    </span> */}
                 </button>      
                   <div className="mt-4 text-center">
                     <span className="text-blue-100 text-sm">
