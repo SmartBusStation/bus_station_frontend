@@ -37,7 +37,7 @@ The main goal of the project is to create a full-featured platform that connects
 ### Backend (in separate repo)
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring Security](https://spring.io/projects/spring-security)
-- [MySQL](https://www.mysql.com/)
+- [ScyllaDB](https://www.scylladb.com/)
 - [Docker](https://www.docker.com/) *(for deployment and DevOps)*
 
 ---
@@ -83,7 +83,7 @@ bun install
 
 ### ⚙️ Backend & DevOps Team
 - **TCHASSI Daniel** — *Backend Team Lead*  
-  [GitHub](https://github.com/danieltchassi) • [LinkedIn](https://www.linkedin.com/in/daniel-tchassi/)
+  [GitHub](https://github.com/TchassiDaniel) • [LinkedIn](https://www.linkedin.com/in/tchassidaniel)
 
 - **FOMEKONG Jonathan** — *Backend Developer & DevOps*  
   [GitHub](https://github.com/jonathanfomekong) • [LinkedIn](https://www.linkedin.com/in/jonathan-fomekong/)
