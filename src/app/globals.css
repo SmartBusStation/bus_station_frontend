@@ -41,7 +41,7 @@ body {
 }
 
 .container {
-  @apply  mx-auto px-24 sm:px-24 lg:px-24;
+  @apply  mx-auto px-4 ;
 }
 
 

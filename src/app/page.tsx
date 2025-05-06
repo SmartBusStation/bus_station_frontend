@@ -8,10 +8,10 @@ import CustomerSection from "@/components/landingPageComponents/CustomerSection"
 import CTASection from "@/components/landingPageComponents/CTASection";
 import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
-import React from "react";
+import {JSX} from "react";
 
 
-export default function LandingPage() {
+export default function LandingPage():JSX.Element {
 
     return (
         <>

@@ -6,11 +6,11 @@ import {MapPin, Mail, Phone, Globe, ChevronDown, Clock,} from "lucide-react"
 import {FiFacebook, FiInstagram, FiLinkedin, FiTwitter} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
 import {changeLanguage} from "@/lib/i18n/i18nUtils";
-import {LinkList, SocialLinkType} from "@/lib/type";
+import {LinkListProps, SocialLinkProps} from "@/lib/type";
 
 
 
-const FooterLink = ( linkList : LinkList) => (
+const FooterLink = ( linkList : LinkListProps) => (
     <li>
         <Link href={linkList.link} className="text-gray-400 hover:text-blue-400 transition-colors flex items-center">
             <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>
@@ -21,7 +21,7 @@ const FooterLink = ( linkList : LinkList) => (
 
 
 
-const SocialLink = ({ href, icon: Icon, color }: SocialLinkType) => (
+const SocialLink = ({ href, icon: Icon, color }: SocialLinkProps) => (
     <Link
         href={href}
         target="_blank"

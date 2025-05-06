@@ -1,11 +1,13 @@
 import {JSX} from "react";
 import {motion} from "framer-motion";
+import {useTranslation} from "react-i18next";
 
 export default function LoadingText(): JSX.Element
 {
+    const {t} = useTranslation();
     return (
         <div className="text-center">
-            <p className="text-blue-600 font-medium text-lg mb-2">Chargement en cours</p>
+            <p className="text-blue-600 font-medium text-lg mb-2">{t("loadingPage.loadingText")}</p>
             <div className="flex justify-center items-center space-x-1">
                 <motion.div
                     className="w-2 h-2 bg-blue-600 rounded-full"

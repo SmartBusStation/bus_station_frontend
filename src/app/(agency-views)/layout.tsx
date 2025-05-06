@@ -8,11 +8,8 @@ export const metadata: Metadata = {
   description: "Powered By 4GI Students",
 };
 
-export default function AgencyLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function AgencyLayout({children,}: Readonly<{ children: React.ReactNode; }>)
+{
   return (
     <html lang="en">
       <body>

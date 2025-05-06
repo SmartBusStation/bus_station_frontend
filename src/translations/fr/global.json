@@ -280,6 +280,16 @@
     "globalPresence": "Notre présence mondiale",
     "globalDescription": "Avec des bureaux et des partenaires dans plus de 30 pays, nous sommes présents partout où vos voyages vous mènent.",
     "mapPlaceholder": "Carte interactive de notre présence mondiale"
+  },
+  "notFound": {
+    "title": "Destination introuvable",
+    "slogan": "Oups ! Il semble que vous vous soyez égaré. Cette page n'existe pas ou a été déplacée.",
+    "backToHome": "Retour à l'accueil",
+    "goBack": "Retour à la page précédente"
+  },
+  "loadingPage":
+  {
+    "loadingText": "Chargement en cours..."
   }
 
 }

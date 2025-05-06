@@ -280,5 +280,15 @@
     "globalPresence": "Our Global Presence",
     "globalDescription": "With offices and partners in more than 30 countries, we are present wherever your travels take you.",
     "mapPlaceholder": "Interactive map of our global presence"
+  },
+  "notFound": {
+    "title": "Destination not found",
+    "slogan": "Oops! It looks like you’ve lost your way. This page doesn’t exist or has been moved.",
+    "backToHome": "Back to home",
+    "goBack": "Go back to the previous page"
+  },
+  "loadingPage": {
+    "loadingText": "Loading..."
   }
+
 }

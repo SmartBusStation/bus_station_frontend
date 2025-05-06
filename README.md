@@ -53,8 +53,8 @@ The main goal of the project is to create a full-featured platform that connects
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-org/travel-agency-frontend.git
-cd travel-agency-frontend
+git clone https://github.com/ThierryNgoupaye/agence-voyage-reseau.git
+cd agence-voyage-reseau
 
 # Install dependencies
 npm install
@@ -93,7 +93,7 @@ bun install
 
 - The project is structured using modern practices (modular components, hooks, etc.)
 - Tailwind CSS v4 is used for utility-first and responsive styling
-- State management is currently handled via React’s `useState` and `useContext` (can be upgraded to Redux if needed)
+- State management is currently handled via React’s `useState` and `constate` library 
 
 ---
 
@@ -115,8 +115,8 @@ To deploy on Vercel:
 
 The backend is developed with **Spring Boot** and hosted separately.
 
-> 📌 **Repository link**: [Add your backend GitHub link here]  
-> (e.g. `https://github.com/your-org/travel-agency-backend`)
+> 📌 **Repository link**: https://github.com/TchassiDaniel/agence_de_voyage.git  
+
 
 ---
 

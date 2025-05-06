@@ -3,8 +3,9 @@ import {motion} from "framer-motion";
 import {itemVariants} from "@/lib/animations/animationTool";
 import Link from "next/link";
 import {ArrowLeft, Compass, Home} from "lucide-react";
+import {TranslationProps} from "@/lib/type";
 
-export default function ActionButton(): JSX.Element
+export default function ActionButton({t}: TranslationProps): JSX.Element
 {
     return (
         <div>
@@ -16,7 +17,7 @@ export default function ActionButton(): JSX.Element
                         whileTap={{scale: 0.95}}
                     >
                         <Home size={18}/>
-                        Retour à l&#39;accueil
+                        {t("notFound.backToHome")}
                     </motion.button>
                 </Link>
 
@@ -25,7 +26,7 @@ export default function ActionButton(): JSX.Element
                     className="cursor-pointer px-6 py-3 border border-blue-600 text-blue-600 font-bold rounded-2xl hover:bg-blue-50 transition-colors duration-500 flex items-center justify-center gap-2"
                 >
                     <ArrowLeft size={18}/>
-                    Page précédente
+                    {t("notFound.goBack")}
                 </button>
             </motion.div>
 
