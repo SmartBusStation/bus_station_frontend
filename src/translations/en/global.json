@@ -138,13 +138,13 @@
     },
     "story": {
       "title": "How It All Started",
-      "paragraph1": "Mooving was born from a university project launched in September 2024 by six computer science students passionate about travel and technology",
-      "paragraph2": "",
-      "paragraph3": "The project was initiated by one of our professors, and we adapted it to our aspirations. Our work quickly evolved from a simple idea into a functional platform that we develop with passion and determination.."
+      "paragraph1": "Mooving was born from a university project launched in September 2024 by six computer science students passionate about travel and technology.",
+      "paragraph2": "This project is entirely academic in nature and was initiated by our professor, Pr Djotio, who is also the project owner.",
+      "paragraph3": "Under his guidance, we adapted the original idea to fit our aspirations. What started as an academic concept has become a functional platform that we continue to develop with passion and determination."
     },
     "team": {
       "title": "Our Team",
-      "description": "Meet the creative minds behind Mooving. Our team consists of four computer science students, each bringing their expertise and passion.",
+      "description": "Meet the creative minds behind Mooving. Our team consists of six computer science students, each bringing their expertise and passion.",
 
       "member1": {
         "name": "ATABONG Stephane",

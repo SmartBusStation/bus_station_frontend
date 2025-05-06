@@ -27,7 +27,17 @@ export type UserTypeComponentPropsType = {
 }
 
 
-export type ReactNodeProps =
-    {
-        children: React.ReactNode
-    }
+export type ReactNodeProps = {
+  children: React.ReactNode;
+};
+
+// type.ts
+export interface TeamMemberProps {
+  name: string;
+  role: string;
+  description: string;
+  imageUrl: string;
+  github?: string;
+  linkedin?: string;
+  email?: string;
+}
