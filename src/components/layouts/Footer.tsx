@@ -5,8 +5,10 @@ import Link from "next/link"
 import {MapPin, Mail, Phone, Globe, ChevronDown, Clock,} from "lucide-react"
 import {FiFacebook, FiInstagram, FiLinkedin, FiTwitter} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
-import {changeLanguage} from "@/lib/i18n/i18nUtils";
-import {LinkListProps, SocialLinkProps} from "@/lib/type";
+import {changeLanguage} from "@/lib/services/i18nServices/languageService";
+import {LinkListProps, SocialLinkProps} from "@/lib/types/ui";
+import {SupportedLanguage} from "@/lib/types/common";
+
 
 
 
@@ -38,11 +40,11 @@ const SocialLink = ({ href, icon: Icon, color }: SocialLinkProps) => (
 export default function Footer(): JSX.Element {
 
     const [t, i18n] = useTranslation();
-    const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
-    const languages = ["fr", "en"]
+    const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState<boolean>(false);
+    const languages: SupportedLanguage[] = ["fr", "en"]
 
 
-    function updateLanguage(lang:string):void
+    function updateLanguage(lang:SupportedLanguage):void
     {
         changeLanguage(lang);
         setIsLanguageMenuOpen(false);
@@ -54,38 +56,38 @@ export default function Footer(): JSX.Element {
     }
 
     const quickLinks = [
-        {name: translate("trip"), link: "/trips"},
+        {name: translate("trip"), link: "/market-place"},
         {name:translate("agency"), link:"/agency"},
         {name:translate("about-us"), link:"/about"},
         {name:translate("contact-us"), link:"/contact-us"},
-    ]
+    ];
     const legalLinks = [
         { name: translate("terms-and-condition"), link: "/term-and-conditions" },
         { name: translate("privacy-policy"), link: "/privacy-policy" },
         { name: translate("cookies"), link: "/cookies" },
         { name: translate("faq"), link: "/faq" },
-    ]
+    ];
 
     const socialMedia = [
         { href: "https://facebook.com", icon:  FiFacebook, color: "hover:bg-primary" },
         { href: "https://twitter.com", icon: FiTwitter, color: "hover:bg-primary" },
         { href: "https://instagram.com", icon: FiInstagram, color: "hover:bg-primary" },
         { href: "https://linkedin.com", icon: FiLinkedin, color: "hover:bg-primary" }
-    ]
+    ];
 
     const contactInfo = [
         { icon: MapPin, text: "BP 9878, 75001 Yaounde, Cameroon" },
         { icon: Mail, text: "contact@moving.com", link: "mailto:contact@moving.com" },
         { icon: Phone, text: "+237 6 98 45 67 89" },
         { icon: Clock, text: translate("schedule") }
-    ]
+    ];
 
 
 
 
 
 
-    const LanguageOption = ({ lang }: { lang: string }) => (
+    const LanguageOption = ({ lang }: { lang: SupportedLanguage }) => (
         <button onClick={()=> updateLanguage(lang)} className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
             {lang}
         </button>

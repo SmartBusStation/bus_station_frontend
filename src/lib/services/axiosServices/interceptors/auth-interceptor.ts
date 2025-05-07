@@ -1,4 +1,4 @@
-import {AxiosInstance, InternalAxiosRequestConfig} from "axios";
+import {AxiosError, AxiosInstance, InternalAxiosRequestConfig} from "axios";
 
 export default function authInterceptor  (axiosInstance: AxiosInstance): void
 {
@@ -11,7 +11,7 @@ export default function authInterceptor  (axiosInstance: AxiosInstance): void
       }
       return req;
     },
-    (err) => {
+    (err: AxiosError) => {
       return Promise.reject(err);
     }
   );

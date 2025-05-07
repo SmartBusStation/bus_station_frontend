@@ -2,7 +2,8 @@ import { JSX } from "react"
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {ArrowLeft, ArrowRight} from "lucide-react";
-import {ContinueProps} from "@/lib/type";
+import {ContinueProps} from "@/lib/types/formProps";
+
 
 export default function Continue({agreeTerms, step, goBack,  setAgreeTerms, createAgency}:ContinueProps): JSX.Element
 {

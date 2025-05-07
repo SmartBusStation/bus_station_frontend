@@ -1,7 +1,8 @@
 import {Building, User} from "lucide-react"
 import React from "react";
-import {UserAccountTypeProps} from "@/lib/type";
-import AccountTypeCard from "@/components/authenticationPagesComponents/AccountTypeCard";
+
+import AccountTypeCard from "@/ui/AccountTypeCard";
+import {UserAccountTypeProps} from "@/lib/types/ui";
 
 
 

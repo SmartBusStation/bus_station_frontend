@@ -1,18 +1,42 @@
 import React, {JSX} from "react";
 import {Building, Calendar, Mail, User, Workflow} from "lucide-react";
-import {OrganizationFormProps} from "@/lib/type";
 import {motion} from "framer-motion";
 import Continue from "@/components/authenticationPagesComponents/Continue";
 import UserAccountType from "@/components/authenticationPagesComponents/UserAccountType";
-import InputField from "@/components/authenticationPagesComponents/InputField";
+import InputField from "@/ui/InputField";
+import SelectField from "@/ui/SelectField";
+import {OrganizationFormProps} from "@/lib/types/formProps";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {baseOrganizationSchema, OrganizationFormType} from "@/lib/types/schema/organizationSchema";
 
 
 
 
-export default function OrganizationForm({organizationData, handleOrganizationChange, setCreateAgency, ...continueProps}: OrganizationFormProps): JSX.Element
+
+export default function OrganizationForm({changeStep, setCreateAgency, ...continueProps}: OrganizationFormProps): JSX.Element
 {
+
+    const organizationTypes = [
+            { value: "SOLE_PROPRIETORSHIP", label: "Entreprise individuelle" },
+            { value: "CORPORATION", label: "Société anonyme" },
+            { value: "PARTNERSHIP", label: "Société en nom collectif" },
+            { value: "LLC", label: "SARL" },
+            { value: "NONPROFIT", label: "Association à but non lucratif" },
+        ];
+
+
+    async  function onSubmit(data: OrganizationFormType)
+    {
+        console.log(data);
+        changeStep(3);
+    }
+
+    const {register, handleSubmit, formState: { errors }} = useForm<OrganizationFormType>({resolver: zodResolver(baseOrganizationSchema)});
+
+
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <UserAccountType createAgency={continueProps.createAgency} setCreateAgencyAction={setCreateAgency}/>
             {continueProps.createAgency && (
                 <motion.div
@@ -35,21 +59,19 @@ export default function OrganizationForm({organizationData, handleOrganizationCh
                             name="long_name"
                             label="Nom de l'organisation"
                             placeholder="General Voyages"
-                            value={organizationData.long_name}
-                            onChange={handleOrganizationChange}
                             icon={<Building className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("long_name") : undefined}
+                            error={errors?.long_name?.message}
                         />
                         <InputField
                             id="ceo_name"
                             name="ceo_name"
                             type="text"
-                            value={organizationData.ceo_name || ""}
-                            onChange={handleOrganizationChange}
                             label="Nom du CEO"
                             placeholder="NGOUPAYE Thierry"
                             icon={<User className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("ceo_name") : undefined}
+                            error={errors?.ceo_name?.message}
                         />
                         <InputField
                             id="email"
@@ -57,76 +79,53 @@ export default function OrganizationForm({organizationData, handleOrganizationCh
                             label="Email de contact"
                             placeholder="contact@voyages-extraordinaires.com"
                             type="email"
-                            value={organizationData.email}
-                            onChange={handleOrganizationChange}
                             icon={<Mail className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("email") : undefined}
+                            error={errors?.email?.message}
                         />
                         <InputField
                             id="year_founded"
                             name="year_founded"
                             type="text"
-                            value={organizationData.year_founded || ""}
-                            onChange={handleOrganizationChange}
                             label="Annee de fondation"
                             placeholder="2025"
                             icon={<Calendar className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("year_founded") : undefined}
+                            error={errors?.year_founded?.message}
                         />
                         <InputField
                             id="business_registration_number"
-                            name="business_registration_number"
                             label="Numéro d'immatriculation"
                             placeholder="IM075123456"
-                            value={organizationData.business_registration_number}
-                            onChange={handleOrganizationChange}
                             icon={<Workflow className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("business_registration_number") : undefined}
+                            error={errors?.business_registration_number?.message}
                         />
                         <InputField
                             id="tax_number"
-                            name="tax_number"
                             label="Numéro fiscal"
                             placeholder="FR12345678901"
-                            value={organizationData.tax_number}
-                            onChange={handleOrganizationChange}
                             icon={<Workflow className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("tax_number") : undefined}
+                            error={errors?.tax_number?.message}
                         />
-                        <div>
-                            <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
-                                Type d'organisation
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Building className="h-5 w-5 text-gray-400"/>
-                                </div>
-                                <select
-                                    id="type"
-                                    name="type"
-                                    value={organizationData.type || "SOLE_PROPRIETORSHIP"}
-                                    onChange={handleOrganizationChange}
-                                    className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                                    required={continueProps.createAgency}
-                                >
-                                    <option value="SOLE_PROPRIETORSHIP">Entreprise individuelle</option>
-                                    <option value="CORPORATION">Société anonyme</option>
-                                    <option value="PARTNERSHIP">Société en nom collectif</option>
-                                    <option value="LLC">SARL</option>
-                                    <option value="NONPROFIT">Association à but non lucratif</option>
-                                </select>
-                            </div>
-                        </div>
+                        <SelectField
+                            id="type"
+                            name="type"
+                            label="Type d'organisation"
+                            placeholder={"Veuillez choisir un type d'organisation"}
+                            options={organizationTypes}
+                            register={register ? register("type") : undefined}
+                            error={errors?.type?.message}
+                        />
                         <InputField
                             id="web_site_url"
-                            name="web_site_url"
-                            type="url"
-                            value={organizationData.web_site_url || ""}
-                            onChange={handleOrganizationChange}
+                            type="text"
                             label="Site web (optionnel)"
                             placeholder="https://www.example.com"
                             icon={<Building className="h-5 w-5 text-gray-400"/>}
-                            required={continueProps.createAgency}
+                            register={register ? register("web_site_url") : undefined}
+                            error={errors?.web_site_url?.message}
                         />
                     </div>
                 </motion.div>
@@ -138,6 +137,6 @@ export default function OrganizationForm({organizationData, handleOrganizationCh
                   setAgreeTerms={continueProps.setAgreeTerms}
                   createAgency={continueProps.createAgency}
         />
-        </>
+        </form>
     )
 }

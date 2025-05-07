@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import React, {JSX} from "react";
-import {AccountTypeCardProps} from "@/lib/type";
+import {AccountTypeCardProps} from "@/lib/types/ui";
+
 
 
 

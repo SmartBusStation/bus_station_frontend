@@ -3,7 +3,7 @@ import {motion} from "framer-motion";
 import {fadeInLeft, fadeInRight, fadeInUp} from "@/lib/animations/animationTool";
 import {JSX} from "react";
 import {useInView} from "react-intersection-observer";
-import {useNavigation} from "@/lib/navigation";
+import {useNavigation} from "@/lib/hooks/useNavigation";
 import {useTranslation} from "react-i18next";
 
 export default function HeroSection(): JSX.Element
@@ -44,7 +44,7 @@ export default function HeroSection(): JSX.Element
                     </motion.p>
                     <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
                         <button
-                            onClick={navigation.onGoToGoLogin}
+                            onClick={navigation.onGoToLogin}
                             className="cursor-pointer px-6 py-3 rounded-2xl bg-transparent font-bold border-2 border-base-color text-base-color hover:text-primary hover:bg-base-color duration-500 transition-all">
                             {t("landingPage.heroSection.loginText")}
                         </button>

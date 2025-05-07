@@ -5,8 +5,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import {Lock, User } from "lucide-react"
-import {useNavigation} from "@/lib/navigation";
-import AnimateCircle from "@/components/authenticationPagesComponents/AnimateCircle";
+import {useNavigation} from "@/lib/hooks/useNavigation";
+import AnimateCircle from "@/ui/AnimateCircle";
 
 export default function LoginPage() {
     const [username, setUsername] = useState("")

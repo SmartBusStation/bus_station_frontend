@@ -8,8 +8,8 @@ import { useInView } from "react-intersection-observer"
 import { DollarSign, MessageSquare, Star, Ticket, Shield, Layout } from "lucide-react"
 import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/animations/animationTool"
 import {useTranslation} from "react-i18next";
-import {FeatureCardProps} from "@/lib/type";
-import {useNavigation} from "@/lib/navigation";
+import {useNavigation} from "@/lib/hooks/useNavigation";
+import {FeatureCardProps} from "@/lib/types/ui";
 
 
 function FeatureCard({icon: Icon, title, description, variants}: FeatureCardProps) {
@@ -127,7 +127,7 @@ export default function FeatureSection(): JSX.Element {
             </div>
 
             <motion.div variants={fadeInUp} className="mt-12 text-center py-10">
-                <button onClick={navigation.onGoToGoLogin}
+                <button onClick={navigation.onGoToLogin}
                     className="px-8 py-4 bg-primary  text-base-color  font-bold rounded-3xl cursor-pointer hover:bg-start-color transition-all duration-500 animate-bounce">
                     {translate("exploreAllFeatureText")}
                 </button>

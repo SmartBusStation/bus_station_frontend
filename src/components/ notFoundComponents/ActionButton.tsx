@@ -3,7 +3,9 @@ import {motion} from "framer-motion";
 import {itemVariants} from "@/lib/animations/animationTool";
 import Link from "next/link";
 import {ArrowLeft, Compass, Home} from "lucide-react";
-import {TranslationProps} from "@/lib/type";
+import {TranslationProps} from "@/lib/types/common";
+
+
 
 export default function ActionButton({t}: TranslationProps): JSX.Element
 {

@@ -3,9 +3,10 @@
 import {useEffect, useState} from "react"
 import Link from "next/link"
 import { ChevronDown, Globe } from "lucide-react"
-import {useNavigation} from "@/lib/navigation";
+import {useNavigation} from "@/lib/hooks/useNavigation";
 import {useTranslation} from "react-i18next";
-import {changeLanguage} from "@/lib/i18n/i18nUtils";
+import {changeLanguage} from "@/lib/services/i18nServices/languageService";
+import {SupportedLanguage} from "@/lib/types/common";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -21,12 +22,11 @@ export default function Header() {
         setIsLanguageMenuOpen(!isLanguageMenuOpen)
     }
 
-    function updateLanguage(lang:string):void
+    function updateLanguage(lang:SupportedLanguage):void
     {
         changeLanguage(lang);
         setIsLanguageMenuOpen(false);
     }
-
 
 
     const [scrolled, setScrolled] = useState(false);
@@ -55,7 +55,7 @@ export default function Header() {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center space-x-8 mt-1">
-                            <Link href="/trip" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                            <Link href="/market-place" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
                                 {t("footer.trip")}
                             </Link>
                             <Link href="/agency" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
@@ -101,7 +101,7 @@ export default function Header() {
                             )}
                         </div>
 
-                        <button onClick={navigation.onGoToGoLogin} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
+                        <button onClick={navigation.onGoToLogin} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
                             {t("landingPage.heroSection.loginText")}
                         </button>
                         <button onClick={navigation.onGoToRegister} className="cursor-pointer px-4 py-2  rounded-2xl border-white text-blue-800 border-2 font-bold  bg-white hover:text-blue-600  duration-300 transition-all">
@@ -189,7 +189,7 @@ export default function Header() {
                             </div>
 
                             <div className="flex flex-col space-y-2 pt-4 border-t">
-                                <button onClick={navigation.onGoToGoLogin}
+                                <button onClick={navigation.onGoToLogin}
                                         className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
                                     {t("landingPage.heroSection.loginText")}
                                 </button>

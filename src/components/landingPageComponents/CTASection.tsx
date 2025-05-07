@@ -6,7 +6,7 @@ import { Users, Calendar } from "lucide-react"
 import {fadeInUp, staggerContainer} from "@/lib/animations/animationTool";
 import {JSX} from "react";
 import {useTranslation} from "react-i18next";
-import {useNavigation} from "@/lib/navigation";
+import {useNavigation} from "@/lib/hooks/useNavigation";
 
 export default function CTASection():JSX.Element {
 
@@ -46,7 +46,7 @@ export default function CTASection():JSX.Element {
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4">
-                        <button onClick={navigation.onGoToGoLogin}
+                        <button onClick={navigation.onGoToLogin}
                             className="cursor-pointer px-8 py-4 bg-base-color border-2 border-primary text-primary font-bold rounded-full hover:text-base-color hover:bg-primary duration-500 transition-all flex items-center gap-2"
                         >
                             <Calendar size={20}/>

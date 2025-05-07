@@ -8,7 +8,7 @@ import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/anima
 import { useTranslation } from "react-i18next"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
-import { useNavigation } from "@/lib/navigation"
+import { useNavigation } from "@/lib/hooks/useNavigation"
 import SearchBar from '@/components/faqsPageComponent/SearchBar'; 
 
 interface FAQItem {

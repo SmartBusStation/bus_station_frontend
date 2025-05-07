@@ -2,7 +2,7 @@
 
 
 import LoadingText from "@/components/loadingPageComponents/LoadingText";
-import ProgressBar from "@/components/loadingPageComponents/ProgressBar";
+import ProgressBar from "@/ui/ProgressBar";
 import AirplaneAnimation from "@/components/loadingPageComponents/AirplaneAnimation";
 import LogoAnimation from "@/components/loadingPageComponents/LogoAnimation";
 import {JSX} from "react";
