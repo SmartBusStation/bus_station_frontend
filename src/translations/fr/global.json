@@ -138,9 +138,9 @@
     },
     "story": {
       "title": "Comment tout a commencé",
-      "paragraph1": "Mooving est né d'un projet universitaire lancé en september 2024 par six étudiants en informatique passionnés par les voyages et la technologie.",
-      "paragraph2": "",
-      "paragraph3": "Le projet a été initié par l'un de nos professeurs et nous l'avons adapté à nos aspirations. Notre travail s'est rapidement transformé d'une simple idée en une plateforme fonctionnelle que nous développons avec passion et détermination."
+      "paragraph1": "Mooving est né d’un projet universitaire lancé en septembre 2024 par six étudiants en informatique passionnés par les voyages et la technologie.",
+      "paragraph2": "Ce projet s’inscrit pleinement dans un cadre académique et a été initié par notre professeur, le Pr Djotio, qui en est également le propriétaire.",
+      "paragraph3": "Sous sa supervision, nous avons adapté l’idée originale à nos aspirations. Ce qui n’était au départ qu’un concept académique est devenu une plateforme fonctionnelle que nous continuons de développer avec passion et détermination."
     },
     "team": {
       "title": "Notre Équipe",
@@ -281,15 +281,44 @@
     "globalDescription": "Avec des bureaux et des partenaires dans plus de 30 pays, nous sommes présents partout où vos voyages vous mènent.",
     "mapPlaceholder": "Carte interactive de notre présence mondiale"
   },
-  "notFound": {
-    "title": "Destination introuvable",
-    "slogan": "Oups ! Il semble que vous vous soyez égaré. Cette page n'existe pas ou a été déplacée.",
-    "backToHome": "Retour à l'accueil",
-    "goBack": "Retour à la page précédente"
+
+"agenciesPage": {
+  "sidebar": {
+    "title": "Agences de voyage",
+    "searchPlaceholder": "Rechercher une agence...",
+    "noResults": "Aucune agence trouvée"
   },
-  "loadingPage":
-  {
-    "loadingText": "Chargement en cours..."
+  "emptyView": {
+    "title": "Explorez nos agences partenaires",
+    "description": "Sélectionnez une agence dans la liste pour voir ses détails et les voyages disponibles.",
+    "tip1": {
+      "title": "Recherche facile",
+      "description": "Trouvez des agences par nom ou localisation"
+    },
+    "tip2": {
+      "title": "Destinations variées",
+      "description": "Découvrez des voyages partout au Cameroun et au-delà"
+    },
+    "tip3": {
+      "title": "Agences vérifiées",
+      "description": "Toutes nos agences partenaires sont certifiées et fiables"
+    }
+  },
+  "profile": {
+    "backButton": "Retour à la liste",
+    "aboutTitle": "À propos",
+    "specialtiesTitle": "Spécialités",
+    "contactTitle": "Contact",
+    "phoneLabel": "Téléphone",
+    "emailLabel": "Email",
+    "websiteLabel": "Site web",
+    "tripsTitle": "Voyages disponibles",
+    "noTrips": "Cette agence n'a pas encore publié de voyages.",
+    "viewTripButton": "Voir ce voyage",
+    "moreItems": "plus"
   }
+}
+
+
 
 }

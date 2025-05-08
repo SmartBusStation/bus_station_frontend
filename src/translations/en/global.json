@@ -138,13 +138,13 @@
     },
     "story": {
       "title": "How It All Started",
-      "paragraph1": "Mooving was born from a university project launched in September 2024 by six computer science students passionate about travel and technology",
-      "paragraph2": "",
-      "paragraph3": "The project was initiated by one of our professors, and we adapted it to our aspirations. Our work quickly evolved from a simple idea into a functional platform that we develop with passion and determination.."
+      "paragraph1": "Mooving was born from a university project launched in September 2024 by six computer science students passionate about travel and technology.",
+      "paragraph2": "This project is entirely academic in nature and was initiated by our professor, Pr Djotio, who is also the project owner.",
+      "paragraph3": "Under his guidance, we adapted the original idea to fit our aspirations. What started as an academic concept has become a functional platform that we continue to develop with passion and determination."
     },
     "team": {
       "title": "Our Team",
-      "description": "Meet the creative minds behind Mooving. Our team consists of four computer science students, each bringing their expertise and passion.",
+      "description": "Meet the creative minds behind Mooving. Our team consists of six computer science students, each bringing their expertise and passion.",
 
       "member1": {
         "name": "ATABONG Stephane",
@@ -281,14 +281,41 @@
     "globalDescription": "With offices and partners in more than 30 countries, we are present wherever your travels take you.",
     "mapPlaceholder": "Interactive map of our global presence"
   },
-  "notFound": {
-    "title": "Destination not found",
-    "slogan": "Oops! It looks like you’ve lost your way. This page doesn’t exist or has been moved.",
-    "backToHome": "Back to home",
-    "goBack": "Go back to the previous page"
-  },
-  "loadingPage": {
-    "loadingText": "Loading..."
-  }
 
+  "agenciesPage": {
+  "sidebar": {
+    "title": "Travel Agencies",
+    "searchPlaceholder": "Search an agency...",
+    "noResults": "No agencies found"
+  },
+  "emptyView": {
+    "title": "Explore our partner agencies",
+    "description": "Select an agency from the list to view its details and available trips.",
+    "tip1": {
+      "title": "Easy search",
+      "description": "Find agencies by name or location"
+    },
+    "tip2": {
+      "title": "Various destinations",
+      "description": "Discover trips across Cameroon and beyond"
+    },
+    "tip3": {
+      "title": "Verified agencies",
+      "description": "All our partner agencies are certified and reliable"
+    }
+  },
+  "profile": {
+    "backButton": "Back to list",
+    "aboutTitle": "About",
+    "specialtiesTitle": "Specialties",
+    "contactTitle": "Contact",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "websiteLabel": "Website",
+    "tripsTitle": "Available trips",
+    "noTrips": "This agency hasn't published any trips yet.",
+    "viewTripButton": "View this trip",
+    "moreItems": "more"
+  }
+}
 }

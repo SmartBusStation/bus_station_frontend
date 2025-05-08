@@ -1,20 +1,19 @@
-import type { Metadata } from "next";
-import React from "react";
+// app/agencies/layout.tsx
+import Footer from "@/components/layouts/Footer";
 
 
-
-export const metadata: Metadata = {
-  title: "Trip Agency App",
-  description: "Powered By 4GI Students",
-};
-
-export default function AgencyLayout({children,}: Readonly<{ children: React.ReactNode; }>)
-{
+export default function AgenciesLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body>
+    <div className="flex flex-col min-h-screen">
+      <div className="flex flex-1">
+
         {children}
-      </body>
-    </html>
+      </div>
+      <Footer />
+    </div>
   );
 }
