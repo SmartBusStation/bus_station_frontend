@@ -41,3 +41,51 @@ export interface TeamMemberProps {
   linkedin?: string;
   email?: string;
 }
+
+export interface TravelAgency {
+  id: string;
+  name: string;
+  logo: string;
+  location: string;
+  rating: number;
+  description: string;
+  specialties: string[];
+  contact: {
+    email: string;
+    phone: string;
+    website: string;
+  };
+}
+
+export interface Trip {
+  id: string;
+  agencyId: string;
+  title: string;
+  destination: string;
+  departureDate: string;
+  returnDate: string;
+  price: number;
+  image: string;
+  description: string;
+  included: string[];
+  rating: number;
+}
+
+export interface AgencySidebarProps {
+  agencies: TravelAgency[];
+  searchTerm: string;
+  onSearchChange: (term: string) => void;
+  onSelectAgency: (id: string) => void;
+  selectedAgencyId: string | null;
+}
+
+export interface AgencyProfileProps {
+  agency: TravelAgency;
+  trips: Trip[];
+  onBack: () => void;
+}
+
+export interface TripCardProps {
+  trip: Trip;
+  index: number;
+}

@@ -280,5 +280,42 @@
     "globalPresence": "Our Global Presence",
     "globalDescription": "With offices and partners in more than 30 countries, we are present wherever your travels take you.",
     "mapPlaceholder": "Interactive map of our global presence"
+  },
+
+  "agenciesPage": {
+  "sidebar": {
+    "title": "Travel Agencies",
+    "searchPlaceholder": "Search an agency...",
+    "noResults": "No agencies found"
+  },
+  "emptyView": {
+    "title": "Explore our partner agencies",
+    "description": "Select an agency from the list to view its details and available trips.",
+    "tip1": {
+      "title": "Easy search",
+      "description": "Find agencies by name or location"
+    },
+    "tip2": {
+      "title": "Various destinations",
+      "description": "Discover trips across Cameroon and beyond"
+    },
+    "tip3": {
+      "title": "Verified agencies",
+      "description": "All our partner agencies are certified and reliable"
+    }
+  },
+  "profile": {
+    "backButton": "Back to list",
+    "aboutTitle": "About",
+    "specialtiesTitle": "Specialties",
+    "contactTitle": "Contact",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "websiteLabel": "Website",
+    "tripsTitle": "Available trips",
+    "noTrips": "This agency hasn't published any trips yet.",
+    "viewTripButton": "View this trip",
+    "moreItems": "more"
   }
+}
 }
