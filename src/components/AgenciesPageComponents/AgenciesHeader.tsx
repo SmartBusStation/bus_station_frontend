@@ -4,9 +4,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Globe } from "lucide-react";
-import { useNavigation } from "@/lib/navigation";
 import { useTranslation } from "react-i18next";
-import { changeLanguage } from "@/lib/i18n/i18nUtils";
+import {useNavigation} from "@/lib/hooks/useNavigation";
+import {changeLanguage} from "@/lib/services/i18nServices/languageService";
+import {SupportedLanguage} from "@/lib/types/common";
 
 export default function AgenciesHeader() {
   const [t, i18n] = useTranslation();
@@ -21,7 +22,7 @@ export default function AgenciesHeader() {
     setIsLanguageMenuOpen(!isLanguageMenuOpen);
   }
 
-  function updateLanguage(lang: string): void {
+  function updateLanguage(lang: SupportedLanguage): void {
     changeLanguage(lang);
     setIsLanguageMenuOpen(false);
   }
@@ -95,7 +96,7 @@ export default function AgenciesHeader() {
             </div>
 
             <button
-              onClick={navigation.onGoToGoLogin}
+              onClick={navigation.onGoToLogin}
               className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
               {t("landingPage.heroSection.loginText")}
             </button>
@@ -193,7 +194,7 @@ export default function AgenciesHeader() {
 
               <div className="flex flex-col space-y-2 pt-4 border-t">
                 <button
-                  onClick={navigation.onGoToGoLogin}
+                  onClick={navigation.onGoToLogin}
                   className="cursor-pointer px-4 py-2  rounded-2xl border-white text-white  border-2 font-bold  hover:bg-white hover:text-blue-600  duration-300 transition-all">
                   {t("landingPage.heroSection.loginText")}
                 </button>

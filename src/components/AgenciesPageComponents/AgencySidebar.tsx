@@ -4,7 +4,8 @@
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import { AgencySidebarProps } from "@/lib/type";
+import {AgencySidebarProps} from "@/lib/types/ui";
+
 
 export default function AgencySidebar({
   agencies,

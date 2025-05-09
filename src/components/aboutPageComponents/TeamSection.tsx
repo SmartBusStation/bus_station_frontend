@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations/animationTool";
 import { useInView } from "react-intersection-observer";
 import { useTranslation } from "react-i18next";
-import { TeamMemberProps } from "@/lib/type";
 import TeamMember from "./TeamMenber";
+import {TeamMemberProps} from "@/lib/types/ui";
 
 export default function TeamSection() {
   const [teamRef, teamInView] = useInView({

@@ -16,8 +16,6 @@ export interface BusinessActorFormProps extends ContinueProps {
 
 
 
-
-
 export interface OrganizationFormProps  extends ContinueProps{
     createAgency: boolean,
     setCreateAgency: (param: boolean) => void,

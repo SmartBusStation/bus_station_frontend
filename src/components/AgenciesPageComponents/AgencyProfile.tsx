@@ -4,8 +4,8 @@
 import { ArrowLeft, Star, MapPin, Phone, Mail, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import { AgencyProfileProps } from "@/lib/type";
 import TripCard from "@/components/AgenciesPageComponents/TripCard";
+import {AgencyProfileProps} from "@/lib/types/ui";
 
 export default function AgencyProfile({
   agency,

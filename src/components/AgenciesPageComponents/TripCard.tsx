@@ -4,7 +4,8 @@
 import { Star, MapPin, Calendar } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import { TripCardProps } from "@/lib/type";
+import {TripCardProps} from "@/lib/types/ui";
+
 
 export default function TripCard({ trip }: TripCardProps) {
   const { t } = useTranslation();

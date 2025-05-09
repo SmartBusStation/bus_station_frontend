@@ -1,5 +1,4 @@
 import axios, {AxiosResponse} from "axios";
-import {UserType} from "@/lib/types/formProps";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 
@@ -7,7 +6,7 @@ const url: string = process.env.NEXT_PUBLIC_CENTRAL_BACKEND_API_URL + "/business
 
 
 
-function stripConfirmPassword(data: UserType) {
+function stripConfirmPassword(data: BusinessActorFormType) {
     const { confirmPassword, ...rest } = data;
     return {confirmPassword, rest};
 }
