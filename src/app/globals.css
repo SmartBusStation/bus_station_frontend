@@ -40,10 +40,18 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
+.dialog{
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+
+
 .container {
   @apply  mx-auto px-4 ;
 }
-
 
 .hero-section {
   background-image: linear-gradient(to right, var(--start-color), var(--transition-color-82), var(--end-color-16)),

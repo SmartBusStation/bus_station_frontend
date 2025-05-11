@@ -59,7 +59,7 @@ export default function Continue({agreeTerms, step, goBack,  setAgreeTerms, crea
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
                     disabled={!agreeTerms}
-                    className={`flex items-center px-6 py-3 rounded-lg font-medium ${
+                    className={`flex items-center px-6 py-3 rounded-lg font-medium cursor-pointer ${
                         agreeTerms
                             ? "bg-blue-600 text-white hover:bg-blue-700"
                             : "bg-gray-300 text-gray-500 cursor-not-allowed"

@@ -9,8 +9,6 @@ import {TravelAgency} from "@/lib/types/models/Agency";
 
 export interface BusinessActorFormProps extends ContinueProps {
     changeStep: (step: number) => void
-    //register?: UseFormRegister<BusinessActorFormType>,
-   // errors?:  Partial<FieldErrorsImpl<DeepRequired<BusinessActorFormType>>> & {root?: Record<string, GlobalError> & GlobalError}
 }
 
 

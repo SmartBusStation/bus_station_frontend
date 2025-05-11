@@ -2,6 +2,7 @@ import React from "react";
 
 export interface ReactNodeProps  {
     children: React.ReactNode
+    isLoading?: boolean
 }
 
 export interface TranslationProps  {

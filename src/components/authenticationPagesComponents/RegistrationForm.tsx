@@ -9,7 +9,7 @@ import { JSX } from "react";
 
 
 
-export default function RegistrationForm({step, goBack, changeStep} : {step:number, goBack:()=>void, changeStep:(step:number)=>void}): JSX.Element
+export default function RegistrationForm({step, goBack, changeStep} : {step:number, goBack:()=>void, changeStep:(step:number)=>void} ): JSX.Element
 {
     const [createAgency, setCreateAgency] = useState<boolean>(false);
     const [agreeTerms, setAgreeTerms] = useState<boolean>(false);

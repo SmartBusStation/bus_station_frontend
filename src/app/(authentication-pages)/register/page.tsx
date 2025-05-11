@@ -21,10 +21,12 @@ export default function RegisterPage() {
         }
     }
 
+
+
     const navigation = useNavigation();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8`}>
             <AnimateCircle/>
             <div className="max-w-4xl mx-auto">
                 <ProgressStepBar step={step}/>

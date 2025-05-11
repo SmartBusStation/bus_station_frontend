@@ -1,8 +1,9 @@
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosError, AxiosResponse} from "axios";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 
-const url: string = process.env.NEXT_PUBLIC_CENTRAL_BACKEND_API_URL + "/business-actors";
+//const url: string = process.env.NEXT_PUBLIC_YOWYOB_BACKEND_API_URL + "/businessactor-service";
+const url= "/api/businessactor-service"
 
 
 
@@ -17,7 +18,7 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
     try
     {
         const dataToSend = stripConfirmPassword(data);
-        const apiResponse: AxiosResponse<BusinessActor> = await axios.post(  `${url}/business-actors`, dataToSend.rest);
+        const apiResponse: AxiosResponse<BusinessActor> = await axios.post(`${url}/business-actors`, dataToSend.rest);
         if (apiResponse.status === 200)
         {
             console.log(apiResponse.data)
@@ -32,6 +33,9 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
     catch (error)
     {
         console.error(error);
-        return null;
+        const axiosError = error as AxiosError;
+        throw new AxiosError(axiosError.message);
     }
 }
+
+
