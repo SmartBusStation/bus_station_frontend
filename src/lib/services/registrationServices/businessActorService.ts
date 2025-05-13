@@ -33,8 +33,7 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
     catch (error)
     {
         console.error(error);
-        const axiosError = error as AxiosError;
-        throw new AxiosError(axiosError.message);
+        throw error;
     }
 }
 

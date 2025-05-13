@@ -1,4 +1,4 @@
-import React, {JSX} from "react";
+import React, {JSX, useEffect} from "react";
 import {AtSign, Lock, Phone, User} from "lucide-react";
 import Continue from "@/components/authenticationPagesComponents/Continue";
 import {BusinessActorFormProps} from "@/lib/types/formProps";
@@ -17,19 +17,29 @@ import Loader from "@/modals/Loader";
 export default function BusinessActorForm({changeStep,...continueProps}:BusinessActorFormProps):JSX.Element
 {
 
-    const {isLoading, handleCreateBusinessActor, error, createdBusinessActor} = useBusinessActorCreation(changeStep);
-    const {register, handleSubmit, formState: { errors }} = useForm<BusinessActorFormType>({resolver: zodResolver(businessActorSchema)});
+    const {isLoading, handleCreateBusinessActor, axiosErrors, createdBusinessActor, currentBusinessActor} = useBusinessActorCreation(changeStep);
+    const {register, handleSubmit,reset, formState: { errors }} = useForm<BusinessActorFormType>(
+        {
+            resolver: zodResolver(businessActorSchema),
+            defaultValues: currentBusinessActor,
+        });
 
+
+    useEffect(() => {
+        if (currentBusinessActor) {
+            reset(currentBusinessActor);
+        }
+    }, [currentBusinessActor, reset]);
 
 
     return (
         <form onSubmit={handleSubmit(handleCreateBusinessActor)}>
             {isLoading && (
-                <TransparentModal isLoading={!isLoading}>
+                <TransparentModal isLoading={isLoading}>
                     <Loader/>
                 </TransparentModal>
             )}
-            {error && <p className="text-red-500 font-semibold text-md mb-5">{error}</p>}
+            {axiosErrors?.other && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors?.other}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <>
                     <InputField
@@ -38,7 +48,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="Jean"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
                         register={register && register("first_name")}
-                        error={errors?.first_name?.message}
+                        error={axiosErrors?.first_name || errors?.first_name?.message}
                     />
 
                     <InputField
@@ -47,7 +57,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="Dupont"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
                         register={register && register("last_name")}
-                        error={errors?.last_name?.message}
+                        error={axiosErrors?.last_name || errors?.last_name?.message}
                     />
 
                     <InputField
@@ -56,7 +66,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="dupont123"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
                         register={register && register("username")}
-                        error={errors?.username?.message}
+                        error={axiosErrors?.username || errors?.username?.message}
                     />
 
                     <InputField
@@ -66,7 +76,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         type="email"
                         icon={<AtSign className="h-5 w-5 text-gray-400"/>}
                         register={register ? register("email") : undefined}
-                        error={errors?.email?.message}
+                        error={axiosErrors?.email || errors?.email?.message}
                     />
 
                     <InputField
@@ -76,7 +86,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         type="tel"
                         icon={<Phone className="h-5 w-5 text-gray-400"/>}
                         register={register && register("phone_number")}
-                        error={errors?.phone_number?.message}
+                        error={axiosErrors?.phoneNumber || errors?.phone_number?.message}
                     />
 
 
