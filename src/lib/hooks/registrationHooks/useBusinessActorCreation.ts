@@ -30,7 +30,6 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
 {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [createdBusinessActor, setCreatedBusinessActor] = useState<BusinessActor | null>(null);
-    const [error, setError] = useState<string|null>(null);
     const [currentBusinessActor, setCurrentBusinessActor] = useState<BusinessActorFormType>({
         confirmPassword: "",
         email: "",
@@ -40,7 +39,6 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         phone_number: "",
         username: ""
     });
-
     const [axiosErrors, setAxiosErrors] = useState<FieldErrors|null>(null);
 
 
@@ -67,7 +65,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             })
             .catch((error) => {
                 console.error(error);
-                throw new Error("Erreur lors de l'enregistrement des donnees dans le session storage");
+                throw new Error("Error while saving data in the session storage");
             })
     }
 
@@ -76,7 +74,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     async function storeCurrentBusinessActor(): Promise<void>
     {
         const encryptedData = sessionStorage.getItem("currentBusinessActor") as string;
-        if(encryptedData === "") throw new Error("Aucun utilisateur present dans le session storage");
+        if(encryptedData === "") throw new Error("No user present in the session storage");
         await decryptDataWithAES(encryptedData)
             .then((result) => {
                 if(result)
@@ -87,7 +85,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             })
             .catch((error)=> {
                 console.error(error);
-                throw new Error("Erreur lors du dechiffrement des donnees");
+                throw new Error("Error during data decryption");
             })
     }
 
@@ -110,46 +108,33 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             })
             .catch((error: AxiosError) =>
             {
-                if(error.status === 400)
+                if(error.status === 400 || error.status === 409)
                 {
                     const badRequestError = error?.response?.data as BadRequestErrorInterface;
                     Object.entries(badRequestError?.errors).forEach(([key, value]:[string,string]) => {
                         setAxiosErrors((prevState) => ({
                             ...prevState,
                             [key]: value,
-                            other:"Une erreur est survenue lors de la creation de votre compte utilisateur, veuillez reessayer utlterieurement"
+                            other:"An account already exists with some of the identifiers you provided, please change them!"
                         }));
                     })
-                }
-                else if (error.status === 409)
-                {
-                    setAxiosErrors(
-                        {
-                            ...axiosErrors,
-                            other:"Un compte existe deja avec votre username ou votre email veuillez le changer"
-                        }
-                    );
                 }
                 else
                 {
                     setAxiosErrors(
                         {
                         ...axiosErrors,
-                        other:"Une erreur est survenue lors de la creation de votre compte utilisateur, veuillez reessayer utlterieurement",
+                        other:"An error occurred while creating your user account, please try again later.",
                     })
                 }
             })
             .finally(()=> setIsLoading(false));
     }
 
-    useEffect(() => {
-        console.log("axios errors ",axiosErrors);
-    }, [axiosErrors]);
 
     return {
         isLoading,
         handleCreateBusinessActor,
-        error,
         createdBusinessActor,
         currentBusinessActor,
         axiosErrors

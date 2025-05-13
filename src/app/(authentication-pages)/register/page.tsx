@@ -42,18 +42,18 @@ export default function RegisterPage() {
                                 <span className="font-bold text-2xl text-blue-600">M</span>
                             </div>
                         </div>
-                        <h1 className="text-2xl font-bold">Créer un compte Moving.com</h1>
-                        <p className="mt-2 font-semibold text-white">Rejoignez notre communauté de voyageurs et d'agences</p>
+                        <h1 className="text-2xl font-bold">Create an account on Moving.com</h1>
+                        <p className="mt-2 font-semibold text-white">Join our community of travelers and agencies</p>
                         <p className="text-white mt-2">
-                            {step === 1 && "Commençons par vos informations personnelles"}
-                            {step === 2 && "Choisissez votre type de compte"}
-                            {step === 3 && "Configurez votre agence de voyage"}
+                            {step === 1 && "Let's start with your personal information."}
+                            {step === 2 && "Choose your account type"}
+                            {step === 3 && "Set up your travel agency"}
                         </p>
                     </div>
                 <RegistrationForm step={step} goBack={goBack} changeStep={setStep}/>
                 </motion.div>
                 <p className="mt-8 text-center text-gray-500 text-sm">
-                    &copy; {new Date().getFullYear()} Tous droits réservés.
+                    &copy; {new Date().getFullYear()} All rights reserved.
                 </p>
             </div>
         </div>

@@ -9,20 +9,10 @@ export default function ProgressStepBar({step}: {step:number}): JSX.Element
                 <ol className="flex items-center w-full max-w-3xl">
                     {[1, 2, 3].map((stepNumber) => (
                         <li key={stepNumber} className={`flex items-center ${stepNumber < 3 ? "w-full" : ""}`}>
-                            <div
-                                className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                                    step >= stepNumber ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-600"
-                                } transition-colors duration-300`}
-                            >
+                            <div className={`flex items-center justify-center w-10 h-10 rounded-full ${step >= stepNumber ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-600"} transition-colors duration-300`}>
                                 {step > stepNumber ? <Check className="w-5 h-5"/> : <span>{stepNumber}</span>}
                             </div>
-                            {stepNumber < 3 && (
-                                <div
-                                    className={`flex-1 h-1 mx-2 ${
-                                        step > stepNumber ? "bg-blue-600" : "bg-gray-200"
-                                    } transition-colors duration-300`}
-                                ></div>
-                            )}
+                            {stepNumber < 3 && (<div className={`flex-1 h-1 mx-2 ${step > stepNumber ? "bg-blue-600" : "bg-gray-200"} transition-colors duration-300`}></div>)}
                         </li>
                     ))}
                 </ol>

@@ -44,7 +44,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                 <>
                     <InputField
                         id="first_name"
-                        label="Prénom"
+                        label="First Name"
                         placeholder="Jean"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
                         register={register && register("first_name")}
@@ -53,7 +53,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
 
                     <InputField
                         id="last_name"
-                        label="Nom"
+                        label="Last Name"
                         placeholder="Dupont"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
                         register={register && register("last_name")}
@@ -81,7 +81,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
 
                     <InputField
                         id="phone_number"
-                        label="Numéro de téléphone"
+                        label="Phone Number"
                         placeholder="+33 6 12 34 56 78"
                         type="tel"
                         icon={<Phone className="h-5 w-5 text-gray-400"/>}
@@ -92,7 +92,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
 
                     <InputField
                         id="password"
-                        label="Mot de passe"
+                        label="Password"
                         placeholder="••••••••"
                         icon={<Lock className="h-5 w-5 text-gray-400"/>}
                         toggleVisibility={true}
@@ -102,7 +102,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
 
                     <InputField
                         id="confirmPassword"
-                        label="Confirmer le mot de passe"
+                        label="Confirm your password"
                         placeholder="••••••••"
                         icon={<Lock className="h-5 w-5 text-gray-400"/>}
                         toggleVisibility={true}

@@ -317,7 +317,17 @@
     "viewTripButton": "Voir ce voyage",
     "moreItems": "plus"
   }
-}
+},
+  "notFound": {
+    "title": "Destination introuvable",
+    "slogan": "Oups ! Il semble que vous vous soyez égaré. Cette page n'existe pas ou a été déplacée.",
+    "backToHome": "Retour à l'accueil",
+    "goBack": "Retour à la page précédente"
+  },
+  "loadingPage":
+  {
+    "loadingText": "Chargement en cours..."
+  }
 
 
 
