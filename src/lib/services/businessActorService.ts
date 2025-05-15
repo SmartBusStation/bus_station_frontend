@@ -1,9 +1,9 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 
 //const url: string = process.env.NEXT_PUBLIC_YOWYOB_BACKEND_API_URL + "/businessactor-service";
-const url= "/api/businessactor-service"
+const url= `${process.env.NEXT_PUBLIC_POXY_URL_YOYOWB_BACKEND}/businessactor-service`
 
 
 
@@ -32,7 +32,7 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
     }
     catch (error)
     {
-        console.error(error);
+        console.error("Error when creating the business actor ",error);
         throw error;
     }
 }

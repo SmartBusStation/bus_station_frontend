@@ -17,7 +17,7 @@ import Loader from "@/modals/Loader";
 export default function BusinessActorForm({changeStep,...continueProps}:BusinessActorFormProps):JSX.Element
 {
 
-    const {isLoading, handleCreateBusinessActor, axiosErrors, createdBusinessActor, currentBusinessActor} = useBusinessActorCreation(changeStep);
+    const {isLoading, handleCreateBusinessActor, axiosErrors, currentBusinessActor} = useBusinessActorCreation(changeStep);
     const {register, handleSubmit,reset, formState: { errors }} = useForm<BusinessActorFormType>(
         {
             resolver: zodResolver(businessActorSchema),
@@ -35,7 +35,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
     return (
         <form onSubmit={handleSubmit(handleCreateBusinessActor)}>
             {isLoading && (
-                <TransparentModal isLoading={isLoading}>
+                <TransparentModal isOpen={isLoading}>
                     <Loader/>
                 </TransparentModal>
             )}

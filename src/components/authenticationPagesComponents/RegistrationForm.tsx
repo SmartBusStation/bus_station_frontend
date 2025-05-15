@@ -39,10 +39,9 @@ export default function RegistrationForm({step, goBack, changeStep} : {step:numb
                         {step === 2 && (
                             <>
                                 <div className="text-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-800">Choisissez votre type de
-                                        compte</h2>
+                                    <h2 className="text-xl font-semibold text-gray-800">Choose your type of account</h2>
                                     <p className="text-gray-500 mt-2">
-                                        Vous pourrez toujours modifier votre type de compte ultérieurement
+                                        You will always be able to change your account type later.
                                     </p>
                                 </div>
                                 <OrganizationForm
@@ -60,10 +59,8 @@ export default function RegistrationForm({step, goBack, changeStep} : {step:numb
                         {step === 3 && (
                             <>
                                 <div className="text-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-800">Détails de votre agence de
-                                        voyage</h2>
-                                    <p className="text-gray-500 mt-2">Ces informations seront visibles par les clients
-                                        potentiels</p>
+                                    <h2 className="text-xl font-semibold text-gray-800">Details of your travel agency</h2>
+                                    <p className="text-gray-500 mt-2">This information could be visible to potential customers.</p>
                                 </div>
                                 <TravelAgencyForm
                                     agreeTerms={agreeTerms}
@@ -79,9 +76,9 @@ export default function RegistrationForm({step, goBack, changeStep} : {step:numb
             </div>
             <div className="mt-8 text-center">
                 <p className="text-gray-600">
-                    Vous avez déjà un compte ?{" "}
+                    Do you already have an account?{" "}
                     <Link href="/login" className="text-blue-600 hover:text-blue-800 font-medium">
-                        Se connecter
+                        Log in
                     </Link>
                 </p>
             </div>

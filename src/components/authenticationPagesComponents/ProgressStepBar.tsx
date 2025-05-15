@@ -19,13 +19,13 @@ export default function ProgressStepBar({step}: {step:number}): JSX.Element
             </div>
             <div className="flex justify-between max-w-3xl mx-auto mt-2 text-xs text-gray-600">
                 <div className="text-center">
-                    <span className={step >= 1 ? "font-medium text-blue-600" : ""}>Informations personnelles</span>
+                    <span className={step >= 1 ? "font-medium text-blue-600" : ""}>Personal information</span>
                 </div>
                 <div className="text-center">
-                    <span className={step >= 2 ? "font-medium text-blue-600" : ""}>Type de compte</span>
+                    <span className={step >= 2 ? "font-medium text-blue-600" : ""}>Account type</span>
                 </div>
                 <div className="text-center">
-                    <span className={step >= 3 ? "font-medium text-blue-600" : ""}>Détails de l'agence</span>
+                    <span className={step >= 3 ? "font-medium text-blue-600" : ""}>Agency details</span>
                 </div>
             </div>
         </div>

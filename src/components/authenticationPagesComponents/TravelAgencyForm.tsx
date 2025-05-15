@@ -1,4 +1,4 @@
-import {Building, Globe, Info, MapPin, Workflow} from "lucide-react";
+import {Building, Globe, Info, MapPin} from "lucide-react";
 import React, {JSX} from "react";
 import Continue from "@/components/authenticationPagesComponents/Continue";
 import InputField from "@/ui/InputField";
@@ -7,97 +7,82 @@ import {ContinueProps} from "@/lib/types/formProps";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {TravelAgencyFormType, travelAgencySchema} from "@/lib/types/schema/travelAgencySchema";
+import {useAgencyCreation} from "@/lib/hooks/registrationHooks/useAgencyCreation";
+import TransparentModal from "@/modals/TransparentModal";
+import Loader from "@/modals/Loader";
+import {SuccessModal} from "@/modals/SuccessModal";
+import {useNavigation} from "@/lib/hooks/useNavigation";
 
 
 export default function TravelAgencyForm({...continueProps}: ContinueProps): JSX.Element
 {
 
 
-    async  function onSubmit(data: TravelAgencyFormType)
-    {
-        console.log(data);
-    }
 
+    const agency = useAgencyCreation();
+    const navigation = useNavigation();
 
     const {register, handleSubmit, formState: { errors }} = useForm<TravelAgencyFormType>({resolver: zodResolver(travelAgencySchema)});
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(agency.handleCreateAgency)}>
+            {agency.isLoading && (
+                <TransparentModal isOpen={agency.isLoading}>
+                    <Loader/>
+                </TransparentModal>
+            )}
+            {agency?.errors && <p className="text-red-500 font-semibold text-sm mb-5">{agency?.errors}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
                 <InputField
                     id="agency_long_name"
-                    name="long_name"
                     type="text"
-                    label="Nom de l'agence"
-                    placeholder="Voyages Extraordinaires"
+                    label="Agency Name"
+                    placeholder="Extraordinary Travels"
                     icon={<Building className="h-5 w-5 text-gray-400"/>}
                     register={register(("long_name"))}
                     error={errors?.long_name?.message}
                 />
                 <InputField
                     id="location"
-                    name="location"
                     type="text"
-                    label="Localisation principale"
+                    label="Main Location"
                     placeholder="Paris, France"
                     icon={<MapPin className="h-5 w-5 text-gray-400"/>}
                     register={register(("location"))}
                     error={errors?.location?.message}
                 />
-                <InputField
-                    id="registration_number"
-                    name="registration_number"
-                    type="text"
-                    label="Numéro d'immatriculation"
-                    placeholder="IM075123456"
-                    icon={<Workflow className="h-5 w-5 text-gray-400"/>}
-                    register={register(("registration_number"))}
-                    error={errors?.registration_number?.message}
+                <TextareaField
+                    id="description"
+                    label="Agency Description"
+                    placeholder="Describe your agency and the services you offer..."
+                    register={register(("description"))}
+                    error={errors?.description?.message}
+                    icon={<Info className="h-5 w-5 text-gray-400"/>}
                 />
-                <InputField
-                    id="agency_tax_number"
-                    name="tax_number"
-                    type="text"
-                    label="Numéro fiscal"
-                    placeholder="FR12345678901"
-                    icon={<Workflow className="h-5 w-5 text-gray-400"/>}
-                    register={register(("tax_number"))}
-                    error={errors?.location?.message}
+                <TextareaField
+                    id="greeting_message"
+                    label="Welcome Message"
+                    placeholder="Message that will be displayed to visitors of your page..."
+                    register={register(("greeting_message"))}
+                    error={errors?.greeting_message?.message}
+                    icon={<Info className="h-5 w-5 text-gray-400"/>}
                 />
-                <InputField
+
+                <TextareaField
                     id="social_network"
-                    name="social_network"
-                    type="text"
-                    label="Réseaux sociaux (optionnel)"
-                    placeholder="@voyages_extraordinaires"
+                    label="Social Networks (optional)"
+                    placeholder="@extraordinary_travels"
                     register={register(("social_network"))}
                     error={errors?.social_network?.message}
                     icon={<Globe className="h-5 w-5 text-gray-400"/>}
                 />
             </div>
-            <TextareaField
-                id="description"
-                name="description"
-                label="Description de l'agence"
-                placeholder="Décrivez votre agence et les services que vous proposez..."
-                rows={3}
-                register={register(("description"))}
-                error={errors?.description?.message}
-                icon={<Info className="h-5 w-5 text-gray-400"/>}
-            />
-            <TextareaField
-                id="greeting_message"
-                name="greeting_message"
-                label="Message d'accueil"
-                placeholder="Message qui sera affiché aux visiteurs de votre page..."
-                rows={2}
-                register={register(("greeting_message"))}
-                error={errors?.greeting_message?.message}
-                icon={<Info className="h-5 w-5 text-gray-400"/>}
-            />
-            <Continue agreeTerms={continueProps.agreeTerms} step={continueProps.step} goBack={continueProps.goBack}
-                      setAgreeTerms={continueProps.setAgreeTerms}/>
+            <Continue agreeTerms={continueProps?.agreeTerms} step={continueProps?.step} goBack={continueProps?.goBack} setAgreeTerms={continueProps?.setAgreeTerms}/>
+
+            <TransparentModal isOpen={agency?.canOpenSuccessModal}>
+                <SuccessModal canOpenSuccessModal={agency?.setCanOpenSuccessModal} message={agency?.message || ""} makeAction={navigation?.onGoToLogin}/>
+            </TransparentModal>
         </form>
     )
 }

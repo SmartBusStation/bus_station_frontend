@@ -24,13 +24,13 @@ export default function Continue({agreeTerms, step, goBack,  setAgreeTerms, crea
                     </div>
                     <div className="ml-3 text-sm">
                         <label htmlFor="terms" className="text-gray-700">
-                            J'accepte les{" "}
+                            I accept {" "}
                             <Link href="/term-and-conditions" className="text-blue-600 hover:text-blue-800 font-medium">
-                                conditions d'utilisation
+                                 the terms of use
                             </Link>{" "}
                             et la{" "}
                             <Link href="/privacy-policy" className="text-blue-600 hover:text-blue-800 font-medium">
-                                politique de confidentialité
+                                the privacy policy
                             </Link>
                         </label>
                     </div>
@@ -48,7 +48,7 @@ export default function Continue({agreeTerms, step, goBack,  setAgreeTerms, crea
                         className="flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4"/>
-                        Retour
+                        Go Back
                     </motion.button>
                 ) : (
                     <div></div>

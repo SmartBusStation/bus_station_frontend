@@ -1,17 +1,21 @@
 import {z} from "zod";
 
-
-
-
 export const travelAgencySchema = z.object({
-    long_name: z.string().min(1, "Le nom de l'agence est requis."),
-    location: z.string().min(1, "La localisation est requise."),
-    registration_number: z.string().min(1, "Le numéro d'immatriculation est requis."),
-    tax_number: z.string().min(1, "Le numéro fiscal est requis."),
+    long_name: z.string().min(1, "Agency name is required."),
+    short_name: z.string().min(1, "Short name of the agency is required.").optional(),
+    location: z.string().min(1, "Location is required."),
     social_network: z.string().optional(),
-    description: z.string().min(1, "La description est requise."),
-    greeting_message: z.string().min(1, "Le message d'accueil est requis."),
+    description: z.string().min(1, "Description is required."),
+    greeting_message: z.string().min(1, "Welcome message is required."),
+    business_domains: z.array(z.string()).optional(),
+}).superRefine((data) => {
+    if (!data.short_name) {
+        data.short_name = data.long_name;
+    }
+    if(!data.business_domains)
+    {
+        data.business_domains = [process.env.NEXT_PUBLIC_AGENCY_BUSINESS_DOMAIN_ID as string];
+    }
 });
-
 
 export type TravelAgencyFormType = z.infer<typeof travelAgencySchema>;

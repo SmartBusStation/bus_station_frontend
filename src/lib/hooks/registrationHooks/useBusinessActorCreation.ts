@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
-import {createBusinessActor} from "@/lib/services/registrationServices/businessActorService";
+import {createBusinessActor} from "@/lib/services/businessActorService";
 import {AxiosError} from "axios";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/aesServices/encryptionService";
@@ -85,7 +85,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             })
             .catch((error)=> {
                 console.error(error);
-                throw new Error("Error during data decryption");
+                throw new Error("Error during data decryptionk,k");
             })
     }
 

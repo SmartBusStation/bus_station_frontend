@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react"
+import React, {useEffect} from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
@@ -11,13 +11,31 @@ import RegistrationForm from "@/components/authenticationPagesComponents/Registr
 
 
 
+
 export default function RegisterPage() {
 
-    const [step, setStep] = useState<number>(1);
+    const [step, setStep] = useState<number>(Number(localStorage.getItem("registrationStep") as string));
+
+
+    useEffect(() => {
+        const newStep: number = Number(localStorage.getItem("registrationStep") as string);
+        setStep(newStep);
+    }, [step]);
+
+
+    function changeStep(step: number): void
+    {
+        setStep(step);
+        localStorage.setItem("registrationStep", String(step));
+    }
+
+
     function goBack () :void
     {
-        if (step > 1) {
-            setStep(step - 1)
+        if (step > 1)
+        {
+            setStep(step - 1);
+            localStorage.setItem("registrationStep", String(step - 1));
         }
     }
 
@@ -50,7 +68,7 @@ export default function RegisterPage() {
                             {step === 3 && "Set up your travel agency"}
                         </p>
                     </div>
-                <RegistrationForm step={step} goBack={goBack} changeStep={setStep}/>
+                <RegistrationForm step={step} goBack={goBack} changeStep={changeStep}/>
                 </motion.div>
                 <p className="mt-8 text-center text-gray-500 text-sm">
                     &copy; {new Date().getFullYear()} All rights reserved.
