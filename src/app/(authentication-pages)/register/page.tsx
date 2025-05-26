@@ -1,9 +1,8 @@
 "use client"
 
-import React, {useEffect} from "react"
-
-import { useState } from "react"
-import { motion } from "framer-motion"
+import React, {useEffect} from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {useNavigation} from "@/lib/hooks/useNavigation";
 import ProgressStepBar from "@/components/authenticationPagesComponents/ProgressStepBar";
 import AnimateCircle from "@/ui/AnimateCircle";

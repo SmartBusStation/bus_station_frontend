@@ -3,7 +3,7 @@ import React, {JSX} from "react";
 import Continue from "@/components/authenticationPagesComponents/Continue";
 import InputField from "@/ui/InputField";
 import TextareaField from "@/ui/TextareaField";
-import {ContinueProps} from "@/lib/types/formProps";
+import {TravelAgencyFormProps} from "@/lib/types/formProps";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {TravelAgencyFormType, travelAgencySchema} from "@/lib/types/schema/travelAgencySchema";
@@ -14,14 +14,13 @@ import {SuccessModal} from "@/modals/SuccessModal";
 import {useNavigation} from "@/lib/hooks/useNavigation";
 
 
-export default function TravelAgencyForm({...continueProps}: ContinueProps): JSX.Element
+export default function TravelAgencyForm({changeStep, ...continueProps}: TravelAgencyFormProps): JSX.Element
 {
 
 
 
     const agency = useAgencyCreation();
     const navigation = useNavigation();
-
     const {register, handleSubmit, formState: { errors }} = useForm<TravelAgencyFormType>({resolver: zodResolver(travelAgencySchema)});
 
 
@@ -78,10 +77,19 @@ export default function TravelAgencyForm({...continueProps}: ContinueProps): JSX
                     icon={<Globe className="h-5 w-5 text-gray-400"/>}
                 />
             </div>
-            <Continue agreeTerms={continueProps?.agreeTerms} step={continueProps?.step} goBack={continueProps?.goBack} setAgreeTerms={continueProps?.setAgreeTerms}/>
+            <Continue
+                agreeTerms={continueProps?.agreeTerms}
+                step={continueProps?.step}
+                goBack={continueProps?.goBack}
+                setAgreeTerms={continueProps?.setAgreeTerms}
+            />
 
             <TransparentModal isOpen={agency?.canOpenSuccessModal}>
-                <SuccessModal canOpenSuccessModal={agency?.setCanOpenSuccessModal} message={agency?.message || ""} makeAction={navigation?.onGoToLogin}/>
+                <SuccessModal
+                    canOpenSuccessModal={agency?.setCanOpenSuccessModal}
+                    message={agency?.message || ""}
+                    makeAction={()=> { navigation?.onGoToLogin(); changeStep(1) }}
+                />
             </TransparentModal>
         </form>
     )

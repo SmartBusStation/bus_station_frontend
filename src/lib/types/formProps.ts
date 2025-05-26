@@ -1,12 +1,3 @@
-import {Organization} from "@/lib/types/models/Organization";
-import {TravelAgency} from "@/lib/types/models/Agency";
-
-
-
-
-
-
-
 export interface BusinessActorFormProps extends ContinueProps {
     changeStep: (step: number) => void
 }
@@ -23,9 +14,7 @@ export interface OrganizationFormProps  extends ContinueProps{
 
 
 export interface TravelAgencyFormProps extends ContinueProps{
-    agencyData: TravelAgency,
-    updateAgencyData: (param: (prev: TravelAgency) => TravelAgency) => void
-    organizationData: Partial<Organization>
+    changeStep: (step: number) => void
 }
 
 

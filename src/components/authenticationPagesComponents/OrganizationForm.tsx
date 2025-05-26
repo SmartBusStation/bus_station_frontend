@@ -27,12 +27,10 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
             { value: "PARTNERSHIP", label: "Société en nom collectif" },
             { value: "LLC", label: "SARL" },
             { value: "NONPROFIT", label: "Association à but non lucratif" },
-        ];
-
+    ];
 
 
     const organization = useOrganizationCreation(changeStep);
-
     const {register, handleSubmit, formState: { errors }} = useForm<OrganizationFormType>(
         {
             resolver: zodResolver(baseOrganizationSchema),

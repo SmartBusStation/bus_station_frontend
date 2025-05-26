@@ -3,7 +3,7 @@ import {BusinessActor} from "@/lib/types/models/BusinessActor";
 import {createBusinessActor} from "@/lib/services/businessActorService";
 import {AxiosError} from "axios";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
-import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/aesServices/encryptionService";
+import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/encryptionService";
 
 
 
@@ -49,7 +49,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         {
             await storeCurrentBusinessActor();
         }
-        const data = sessionStorage.getItem("currentBusinessActor");
+        const data: string|null = sessionStorage.getItem("currentBusinessActor");
         if(data)  storeData();
     }, []);
 
@@ -60,10 +60,10 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     {
         setCurrentBusinessActor(data);
         await encryptDataWithAES(data)
-            .then((result)=> {
+            .then((result: string): void => {
                 sessionStorage.setItem("currentBusinessActor", result);
             })
-            .catch((error) => {
+            .catch((error): void => {
                 console.error(error);
                 throw new Error("Error while saving data in the session storage");
             })
@@ -76,7 +76,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         const encryptedData = sessionStorage.getItem("currentBusinessActor") as string;
         if(encryptedData === "") throw new Error("No user present in the session storage");
         await decryptDataWithAES(encryptedData)
-            .then((result) => {
+            .then((result): void => {
                 if(result)
                 {
                     const businessActor = result as BusinessActorFormType;
@@ -99,7 +99,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         setCreatedBusinessActor(null);
         await saveCurrentBusinessActor(data);
         await createBusinessActor(data)
-            .then((result: BusinessActor|null) => {
+            .then((result: BusinessActor|null): void => {
                 if(result)
                 {
                     setCreatedBusinessActor(result);
@@ -111,7 +111,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
                 if(error.status === 400 || error.status === 409)
                 {
                     const badRequestError = error?.response?.data as BadRequestErrorInterface;
-                    Object.entries(badRequestError?.errors).forEach(([key, value]:[string,string]) => {
+                    Object.entries(badRequestError?.errors).forEach(([key, value]:[string,string]): void => {
                         setAxiosErrors((prevState) => ({
                             ...prevState,
                             [key]: value,

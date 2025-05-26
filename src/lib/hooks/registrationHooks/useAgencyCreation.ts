@@ -2,7 +2,7 @@ import {useState} from "react";
 import {TravelAgency} from "@/lib/types/models/Agency";
 import {TravelAgencyFormType} from "@/lib/types/schema/travelAgencySchema";
 import {createAgency} from "@/lib/services/agencyService";
-import {decryptDataWithAES} from "@/lib/services/aesServices/encryptionService";
+import {decryptDataWithAES} from "@/lib/services/encryptionService";
 import {Organization} from "@/lib/types/models/Organization";
 
 export function useAgencyCreation() {
@@ -11,7 +11,7 @@ export function useAgencyCreation() {
     const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
     const [createdAgency, setCreatedAgency] = useState<TravelAgency|null>(null);
     const [errors, setErrors] = useState<string|null>(null);
-    const [message, setMessage]= useState<string|null>("OUI");
+    const [message, setMessage]= useState<string|null>(null);
 
 
 
@@ -29,15 +29,14 @@ export function useAgencyCreation() {
         const encryptedData = sessionStorage.getItem("createdOrganization") as string;
         if(encryptedData === "") throw new Error("No organization present in the session storage");
         return await decryptDataWithAES(encryptedData)
-            .then((result) => {
+            .then((result): Organization => {
+                console.log(result);
                 if(result)
                 {
-                    console.log(result);
                     return result as Organization;
                 }
                 else
                 {
-                    console.log(result);
                     throw new Error("Error during data decryption");
                 }
             })
@@ -58,9 +57,9 @@ export function useAgencyCreation() {
         setErrors(null);
         setIsLoading(true);
         setCanOpenSuccessModal(false);
-        const organization : Organization= await storeCreatedOrganization();
+        const organization : Organization = await storeCreatedOrganization();
         await createAgency(data, organization.organization_id)
-            .then((result) => {
+            .then((result: TravelAgency|null): void => {
                 if(result)
                 {
                     clearSessionStorage();
@@ -75,14 +74,12 @@ export function useAgencyCreation() {
                 }
 
             })
-            .catch((error) => {
+            .catch((error): void => {
                 console.error(error);
                 setCanOpenSuccessModal(false);
                 setErrors("Something went wrong when creating your travel agency");
             })
-            .finally(() => {
-                setIsLoading(false);
-            });
+            .finally(() => setIsLoading(false));
     }
 
 

@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Organization} from "@/lib/types/models/Organization";
 import {OrganizationFormType} from "@/lib/types/schema/organizationSchema";
 import {createOrganization} from "@/lib/services/organizationService";
-import {encryptDataWithAES} from "@/lib/services/aesServices/encryptionService";
+import {encryptDataWithAES} from "@/lib/services/encryptionService";
 
 export function useOrganizationCreation (changeStep: (step: number) => void)
 {
@@ -31,19 +31,18 @@ export function useOrganizationCreation (changeStep: (step: number) => void)
         {
             throw new Error("Any organization found");
         }
-
     }
 
 
 
 
-    async function handleCreateOrganization(data: OrganizationFormType)
+    async function handleCreateOrganization(data: OrganizationFormType): Promise<void>
     {
         console.log(data);
         setErrors(null);
         setIsLoading(true);
         await createOrganization(data)
-            .then(async (result: Organization|null)=> {
+            .then(async (result: Organization|null): Promise<void> => {
                 if(result)
                 {
                     console.log(result);

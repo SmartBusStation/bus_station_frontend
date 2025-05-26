@@ -7,9 +7,14 @@ import React, {useState} from "react";
 import { JSX } from "react";
 
 
+export interface RegistrationFormProps {
+    step:number,
+    goBack:()=>void,
+    changeStep:(step:number)=>void
+}
 
 
-export default function RegistrationForm({step, goBack, changeStep} : {step:number, goBack:()=>void, changeStep:(step:number)=>void} ): JSX.Element
+export default function RegistrationForm({step, goBack, changeStep} : RegistrationFormProps ): JSX.Element
 {
     const [createAgency, setCreateAgency] = useState<boolean>(false);
     const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
@@ -68,6 +73,7 @@ export default function RegistrationForm({step, goBack, changeStep} : {step:numb
                                     setAgreeTerms={setAgreeTerms}
                                     createAgency={createAgency}
                                     goBack={goBack}
+                                    changeStep = {changeStep}
                                 />
                             </>
                         )}
