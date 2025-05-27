@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { Settings, Mail, LogOut, Menu, Bell, Search, ChevronDown, User, CreditCard, HelpCircle } from "lucide-react"
-import Image from "next/image"
+import { useState } from "react";
+import { Settings, Mail, LogOut, Menu, Bell, Search, ChevronDown, User, CreditCard, HelpCircle } from "lucide-react";
+import Image from "next/image";
 import userIcon from "../../../public/userIcon.png";
 
 export interface ModernNavBarProps {
@@ -38,8 +38,8 @@ export default function ModernNavBar({ onMenuClick }: ModernNavBarProps) {
     }
 
     return (
-        <nav className="bg-white border-b border-gray-200 shadow-sm">
-            <div className="px-4 lg:px-6 py-4">
+        <div className="bg-white border-b border-gray-200 shadow-sm">
+            <div className="px-4 lg:px-6 py-2">
                 <div className="flex justify-between items-center">
                     {/* Left Section */}
                     <div className="flex items-center gap-4">
@@ -54,8 +54,8 @@ export default function ModernNavBar({ onMenuClick }: ModernNavBarProps) {
                             <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
                                 Welcome back,{" "}
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                  {userData.name.split(" ")[0]}
-                </span>
+                                    {userData.name.split(" ")[0]}
+                                </span>
                                 !
                             </h1>
                             <p className="text-sm text-gray-500 hidden lg:block">Ready for your next adventure?</p>
@@ -64,8 +64,6 @@ export default function ModernNavBar({ onMenuClick }: ModernNavBarProps) {
 
                     {/* Right Section */}
                     <div className="flex items-center gap-3">
-
-
                         {/* Action Buttons */}
                         <div className="hidden lg:flex items-center gap-2">
                             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 group">
@@ -86,8 +84,8 @@ export default function ModernNavBar({ onMenuClick }: ModernNavBarProps) {
                                 <Bell className="h-5 w-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
                                 {unreadCount > 0 && (
                                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                    {unreadCount}
-                  </span>
+                                        {unreadCount}
+                                    </span>
                                 )}
                             </button>
 
@@ -226,6 +224,6 @@ export default function ModernNavBar({ onMenuClick }: ModernNavBarProps) {
                     }}
                 />
             )}
-        </nav>
+        </div>
     )
 }

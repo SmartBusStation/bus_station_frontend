@@ -1,5 +1,18 @@
 import {FaBus, FaHistory, FaHome, FaTicketAlt} from "react-icons/fa";
 import {BsFillCalendarCheckFill, BsFillCalendarXFill} from "react-icons/bs";
+import React from "react";
+
+
+export interface LinkItem
+{
+    name: string
+    link?: string
+    icon: React.ElementType
+    subLinks?: LinkItem[]
+    badge?: string
+    description?: string
+}
+
 
 export const linkList = [
 

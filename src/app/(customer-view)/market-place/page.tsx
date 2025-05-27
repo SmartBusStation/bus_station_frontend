@@ -2,10 +2,10 @@
 
 import React, {JSX} from "react"
 import {Search} from "lucide-react"
-import MarketPlaceHeader from "@/components/marketPlaceComponents/Market-Place-Header";
-import Filters from "@/components/marketPlaceComponents/Filters";
-import TripGrid from "@/components/marketPlaceComponents/TripGrid";
-import Loader from "@/components/marketPlaceComponents/loader";
+import MarketPlaceHeader from "@/components/market-place-components/Market-Place-Header";
+import Filters from "@/components/market-place-components/Filters";
+import TripGrid from "@/components/market-place-components/TripGrid";
+import Loader from "@/components/market-place-components/loader";
 import {useMarketPlace} from "@/lib/hooks/useMarketPlace";
 import {useNavigation} from "@/lib/hooks/useNavigation";
 

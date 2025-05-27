@@ -4,7 +4,7 @@ import "../globals.css"
 import { useState } from "react"
 import NavBar from "@/components/layouts/ClientNavBar";
 import {ReactNodeProps} from "@/lib/types/common";
-import Sidebar from "@/components/layouts/CustomerSidebar";
+import Sidebar from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import Footer from "@/components/layouts/Footer";
 
 

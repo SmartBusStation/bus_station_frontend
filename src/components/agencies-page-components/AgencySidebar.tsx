@@ -1,4 +1,4 @@
-// components/AgenciesPageComponents/AgencySidebar.tsx
+// components/agencies-page-components/AgencySidebar.tsx
 "use client";
 
 import { Search } from "lucide-react";

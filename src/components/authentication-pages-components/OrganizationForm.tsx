@@ -1,8 +1,8 @@
 import React, {JSX} from "react";
 import {Building, Calendar, Mail, User, Workflow} from "lucide-react";
 import {motion} from "framer-motion";
-import Continue from "@/components/authenticationPagesComponents/Continue";
-import UserAccountType from "@/components/authenticationPagesComponents/UserAccountType";
+import Continue from "@/components/authentication-pages-components/Continue";
+import UserAccountType from "@/components/authentication-pages-components/UserAccountType";
 import InputField from "@/ui/InputField";
 import SelectField from "@/ui/SelectField";
 import {OrganizationFormProps} from "@/lib/types/formProps";

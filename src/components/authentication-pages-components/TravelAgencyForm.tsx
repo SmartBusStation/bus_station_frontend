@@ -1,6 +1,6 @@
 import {Building, Globe, Info, MapPin} from "lucide-react";
 import React, {JSX} from "react";
-import Continue from "@/components/authenticationPagesComponents/Continue";
+import Continue from "@/components/authentication-pages-components/Continue";
 import InputField from "@/ui/InputField";
 import TextareaField from "@/ui/TextareaField";
 import {TravelAgencyFormProps} from "@/lib/types/formProps";

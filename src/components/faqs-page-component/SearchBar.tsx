@@ -1,4 +1,4 @@
-// Modifiez le fichier SearchBar.tsx dans @/components/faqsPageComponent/
+// Modifiez le fichier SearchBar.tsx dans @/components/faqs-page-component/
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';

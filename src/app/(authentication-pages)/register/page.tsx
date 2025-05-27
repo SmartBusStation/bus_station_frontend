@@ -4,9 +4,9 @@ import React, {useEffect} from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {useNavigation} from "@/lib/hooks/useNavigation";
-import ProgressStepBar from "@/components/authenticationPagesComponents/ProgressStepBar";
+import ProgressStepBar from "@/components/authentication-pages-components/ProgressStepBar";
 import AnimateCircle from "@/ui/AnimateCircle";
-import RegistrationForm from "@/components/authenticationPagesComponents/RegistrationForm";
+import RegistrationForm from "@/components/authentication-pages-components/RegistrationForm";
 
 
 

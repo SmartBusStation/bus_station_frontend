@@ -1,4 +1,4 @@
-// components/AgenciesPageComponents/AgenciesHeader.tsx
+// components/agencies-page-components/AgenciesHeader.tsx
 "use client";
 
 import { useState } from "react";

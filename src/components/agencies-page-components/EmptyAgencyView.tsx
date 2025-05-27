@@ -1,4 +1,4 @@
-// components/AgenciesPageComponents/EmptyAgencyView.tsx
+// components/agencies-page-components/EmptyAgencyView.tsx
 "use client";
 
 import { MapPin, Search, Globe } from "lucide-react";

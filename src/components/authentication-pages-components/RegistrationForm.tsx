@@ -1,7 +1,7 @@
 import {AnimatePresence, motion} from "framer-motion";
-import BusinessActorForm from "@/components/authenticationPagesComponents/BusinessActorForm";
-import OrganizationForm from "@/components/authenticationPagesComponents/OrganizationForm";
-import TravelAgencyForm from "@/components/authenticationPagesComponents/TravelAgencyForm";
+import BusinessActorForm from "@/components/authentication-pages-components/BusinessActorForm";
+import OrganizationForm from "@/components/authentication-pages-components/OrganizationForm";
+import TravelAgencyForm from "@/components/authentication-pages-components/TravelAgencyForm";
 import Link from "next/link";
 import React, {useState} from "react";
 import { JSX } from "react";

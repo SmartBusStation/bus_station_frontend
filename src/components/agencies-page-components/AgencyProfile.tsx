@@ -1,10 +1,10 @@
-// components/AgenciesPageComponents/AgencyProfile.tsx
+// components/agencies-page-components/AgencyProfile.tsx
 "use client";
 
 import { ArrowLeft, Star, MapPin, Phone, Mail, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import TripCard from "@/components/AgenciesPageComponents/TripCard";
+import TripCard from "@/components/agencies-page-components/TripCard";
 import {AgencyProfileProps} from "@/lib/types/ui";
 
 export default function AgencyProfile({

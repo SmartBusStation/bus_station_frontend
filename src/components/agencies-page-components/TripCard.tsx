@@ -1,4 +1,4 @@
-// components/AgenciesPageComponents/TripCard.tsx
+// components/agencies-page-components/TripCard.tsx
 "use client";
 
 import { Star, MapPin, Calendar } from "lucide-react";

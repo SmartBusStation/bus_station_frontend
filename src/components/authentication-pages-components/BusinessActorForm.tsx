@@ -1,6 +1,6 @@
 import React, {JSX, useEffect} from "react";
 import {AtSign, Lock, Phone, User} from "lucide-react";
-import Continue from "@/components/authenticationPagesComponents/Continue";
+import Continue from "@/components/authentication-pages-components/Continue";
 import {BusinessActorFormProps} from "@/lib/types/formProps";
 import InputField from "@/ui/InputField";
 import {BusinessActorFormType, businessActorSchema} from "@/lib/types/schema/businessActorSchema";
