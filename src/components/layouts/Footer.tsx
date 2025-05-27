@@ -52,7 +52,7 @@ export default function Footer(): JSX.Element {
 
     function translate(key:string):string
     {
-        return t(key);
+        return t("footer." + key);
     }
 
     const quickLinks = [

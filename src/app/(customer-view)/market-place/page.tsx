@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, {JSX} from "react"
 import {Search} from "lucide-react"
 import MarketPlaceHeader from "@/components/marketPlaceComponents/Market-Place-Header";
 import Filters from "@/components/marketPlaceComponents/Filters";
@@ -18,11 +18,13 @@ export interface SearchFilterType {
     date: string;
 }
 
-export default function MarketPlace() {
+export default function MarketPlace(): JSX.Element {
 
 
     const marketPlace = useMarketPlace();
     const navigate = useNavigation();
+
+
 
     if (marketPlace.isLoading) return <Loader/>
     return (

@@ -1,11 +1,13 @@
 "use client"
 
-import React, {useState, useEffect} from "react"
-import { ChevronRight, X, MapPin, Plane, Gift, History, CheckCircle, XCircle } from "lucide-react"
-import { usePathname } from "next/navigation"
-import Link from "next/link"
+import React, {useState, useEffect, JSX} from "react";
+import { ChevronRight, X, MapPin, Plane, Gift, History, CheckCircle, XCircle } from "lucide-react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-export interface LinkItem {
+
+export interface LinkItem
+{
     name: string
     link?: string
     icon: React.ElementType
@@ -14,10 +16,13 @@ export interface LinkItem {
     description?: string
 }
 
-export interface TravelSidebarProps {
+
+export interface TravelSidebarProps
+{
     isOpen: boolean
-    setIsOpen: (isOpen: boolean) => void
+    openAction: (isOpen: boolean) => void
 }
+
 
 const linkList: LinkItem[] = [
     {
@@ -61,28 +66,34 @@ const linkList: LinkItem[] = [
     },
 ]
 
-export default function TravelSidebar({ isOpen, setIsOpen }: TravelSidebarProps) {
+export default function TravelSidebar({ isOpen, openAction }: TravelSidebarProps)
+{
     const activeLink = usePathname();
     const [expandedLinks, setExpandedLinks] = useState<Record<string, boolean>>({});
 
+
     useEffect(() => {
-        const handleResize = () => setIsOpen(window.innerWidth >= 1024)
+        const handleResize = () => openAction(window.innerWidth >= 1024)
         window.addEventListener("resize", handleResize)
         handleResize()
         return () => window.removeEventListener("resize", handleResize)
-    }, [setIsOpen])
+    }, [openAction])
 
-    function toggleSubMenu(linkName: string) {
+
+    function toggleSubMenu(linkName: string): void
+    {
         setExpandedLinks((prev) => ({
             ...prev,
             [linkName]: !prev[linkName],
         }))
     }
 
-    function isLinkActive(link?: string): boolean {
+    function isLinkActive(link?: string): boolean
+    {
         if (!link) return false
         return activeLink === link || activeLink.startsWith(link + "/")
     }
+
 
     function renderLink(item: LinkItem, index: number, isSubLink = false) {
         const isActive = isLinkActive(item.link)
@@ -90,73 +101,33 @@ export default function TravelSidebar({ isOpen, setIsOpen }: TravelSidebarProps)
         const isExpanded = expandedLinks[item.name]
         const Icon = item.icon
 
-        const linkContent = (
-            <div
-                className={`
-        group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-300
-        ${isSubLink ? "ml-4" : ""}
-        ${
-                    isActive
-                        ? "bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 text-white shadow-lg transform scale-[1.02]"
-                        : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:via-blue-100 hover:to-purple-50 hover:text-blue-600 hover:shadow-md hover:transform hover:scale-[1.01]"
-                }
-      `}
-            >
-                <div
-                    className={`
-          flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300
-          ${isActive ? "bg-white/20 text-white" : "bg-gradient-to-br from-blue-50 to-purple-50 text-blue-600 group-hover:from-blue-100 group-hover:to-purple-100"}
-        `}
-                >
+        const linkContent: JSX.Element = (
+            <div className={`group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-300 ${isSubLink ? "ml-4" : ""} ${isActive ? "bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 text-white shadow-lg transform scale-[1.02]" : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:via-blue-100 hover:to-purple-50 hover:text-blue-600 hover:shadow-md hover:transform hover:scale-[1.01]"}`}>
+                <div className={`flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-30 0${isActive ? "bg-white/20 text-white" : "bg-gradient-to-br from-blue-50 to-purple-50 text-blue-600 group-hover:from-blue-100 group-hover:to-purple-100"}`}>
                     <Icon className="h-5 w-5" />
                 </div>
 
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-            <span
-                className={`
-              font-semibold text-sm truncate
-              ${isActive ? "text-white" : "text-gray-900"}
-            `}
-            >
-              {item.name}
-            </span>
-                        {item.badge && (
-                            <span
-                                className={`
-                  px-2 py-1 text-xs font-medium rounded-full shadow-sm
-                  ${isActive ? "bg-white/20 text-white" : "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white"}
-                `}
-                            >
-                {item.badge}
-              </span>
-                        )}
+                        <span className={`font-semibold text-sm truncate${isActive ? "text-white" : "text-gray-900"}`}>
+                          {item.name}
+                        </span>
+                            {item.badge && (
+                                <span className={`px-2 py-1 text-xs font-medium rounded-full shadow-sm${isActive ? "bg-white/20 text-white" : "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white"}`}>
+                                    {item.badge}
+                                </span>
+                            )}
                     </div>
                     {item.description && (
-                        <p
-                            className={`
-              text-xs truncate mt-0.5
-              ${isActive ? "text-white/80" : "text-gray-500"}
-            `}
-                        >
+                        <p className={`text-xs truncate mt-0.5${isActive ? "text-white/80" : "text-gray-500"}`}>
                             {item.description}
                         </p>
                     )}
                 </div>
 
                 {hasSubLinks && (
-                    <div
-                        className={`
-            transition-transform duration-300
-            ${isExpanded ? "rotate-90" : ""}
-          `}
-                    >
-                        <ChevronRight
-                            className={`
-              h-4 w-4
-              ${isActive ? "text-white" : "text-gray-400"}
-            `}
-                        />
+                    <div className= {`transition-transform duration-300 ${isExpanded ? "rotate-90" : ""}`}>
+                        <ChevronRight className={`h-4 w-4${isActive ? "text-white" : "text-gray-400"}`}/>
                     </div>
                 )}
             </div>
@@ -169,7 +140,7 @@ export default function TravelSidebar({ isOpen, setIsOpen }: TravelSidebarProps)
                         {linkContent}
                     </button>
                 ) : (
-                    <Link href={item.link || "#"} onClick={() => setIsOpen(false)} className="block">
+                    <Link href={item.link || "#"} onClick={() => openAction(false)} className="block">
                         {linkContent}
                     </Link>
                 )}
@@ -186,36 +157,25 @@ export default function TravelSidebar({ isOpen, setIsOpen }: TravelSidebarProps)
     return (
         <>
             {/* Mobile Overlay */}
-            <div
-                className={`
-          fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300
-          ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
-        `}
-                onClick={() => setIsOpen(false)}
+            <div className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                onClick={() => openAction(false)}
             />
 
             {/* Sidebar */}
-            <aside
-                className={`
-        fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-out lg:translate-x-0 lg:static lg:inset-0
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-      `}
-            >
+            <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-out lg:translate-x-0 lg:static lg:inset-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
                 {/* Header */}
                 <div className="relative p-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 overflow-hidden">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-10">
-                        <div
-                            className="absolute inset-0"
+                        <div className="absolute inset-0"
                             style={{
                                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                             }}
-                        ></div>
+                        />
                     </div>
 
                     {/* Gradient Overlay for extra premium effect */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
-
                     <div className="relative flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm border border-white/20">
@@ -227,9 +187,8 @@ export default function TravelSidebar({ isOpen, setIsOpen }: TravelSidebarProps)
                             </div>
                         </div>
 
-                        <button
-                            className="lg:hidden p-2 text-white hover:bg-white/20 rounded-lg transition-colors duration-200"
-                            onClick={() => setIsOpen(false)}
+                        <button className="lg:hidden p-2 text-white hover:bg-white/20 rounded-lg transition-colors duration-200"
+                            onClick={() => openAction(false)}
                         >
                             <X className="h-5 w-5" />
                         </button>
@@ -249,49 +208,16 @@ export default function TravelSidebar({ isOpen, setIsOpen }: TravelSidebarProps)
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
                                 <span className="text-xs text-gray-600">Active Trips</span>
-                                <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white rounded-full shadow-sm">
-                  2
-                </span>
+                                <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white rounded-full shadow-sm">2</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="text-xs text-gray-600">Total Savings</span>
-                                <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white rounded-full shadow-sm">
-                  $245
-                </span>
+                                <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white rounded-full shadow-sm">$245</span>
                             </div>
                         </div>
                     </div>
                 </nav>
-
-                {/* Footer */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 border-t border-gray-200">
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
-                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-sm">
-                            <span className="text-xs font-bold text-white">U</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-gray-900 truncate">User Account</p>
-                            <p className="text-xs text-gray-500">Premium Member</p>
-                        </div>
-                    </div>
-                </div>
             </aside>
-
-            <style jsx>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            max-height: 0;
-          }
-          to {
-            opacity: 1;
-            max-height: 200px;
-          }
-        }
-        .animate-slideDown {
-          animation: slideDown 0.3s ease-out;
-        }
-      `}</style>
         </>
     )
 }

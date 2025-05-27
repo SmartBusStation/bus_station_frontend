@@ -48,6 +48,16 @@ body {
 }
 
 
+/* Dans votre fichier CSS global ou component */
+.thin-scrollbar {
+  /* Pour Firefox */
+  scrollbar-width: none;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+
+
+
 
 .container {
   @apply  mx-auto px-4 ;
