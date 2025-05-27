@@ -1,15 +1,18 @@
 import Image from "next/image";
-import {ArrowRight, Clock, MapPin, Star, Users} from "lucide-react";
-import React, {JSX} from "react";
+import {ArrowRight, Clock, MapPin, Users} from "lucide-react";
+import React from "react";
+import {AvailableTrips} from "@/lib/hooks/useMarketPlace";
+import {formatDuration} from "@/lib/services/dateServices";
 
 
 export interface TripGrid {
-    filteredTrips: any[];
-    getClassColor: (classe: string) => string;
-    getAmenityIcon: (amenity: string) => React.JSX.Element|null;
+    filteredTrips: AvailableTrips[],
+    getClassColor: (classe: string) => string,
+    getAmenityIcon: (amenity: string) => React.JSX.Element|null,
+    navigate: (tripId: string) => void
 }
 
-export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon} : TripGrid)
+export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon, navigate} : TripGrid)
 {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -32,11 +35,11 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon}
                         >
                             {trip.nomClasseVoyage}
                         </div>
-                        <div
+                        {/*<div
                             className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1">
                             <Star className="h-4 w-4 text-yellow-500 fill-current"/>
                             <span className="text-sm font-semibold">{trip.rating}</span>
-                        </div>
+                        </div>*/}
                     </div>
 
                     <div className="p-6">
@@ -63,7 +66,9 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon}
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500">Duration</p>
-                                    <p className="font-semibold text-gray-900">{trip.dureeVoyage}</p>
+                                    <p className="font-semibold text-gray-900">
+                                        {formatDuration(trip.dureeVoyage.seconds)}
+                                    </p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
@@ -92,7 +97,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon}
                         </div>
 
                         <button
-                            onClick={() => router.push(`/market-place/${trip.idVoyage}`)}
+                            onClick={() => navigate(trip.idVoyage)}
                             className="w-full bg-blue-600 text-white rounded-xl py-3 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                         >
                             Book This Trip

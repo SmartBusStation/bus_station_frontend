@@ -29,5 +29,6 @@ export function useNavigation() {
         goToHome: () => navigate("/"),
         onGoToContactUs: () => navigate("/contact-us"),
         onGoToMarketPlace: ()=> navigate("/market-place"),
+        onGoToTripDetail: (idVoyage: string) => navigate(`/market-place/trip/${idVoyage}`),
     };
 }

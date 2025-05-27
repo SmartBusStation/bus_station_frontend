@@ -40,3 +40,5 @@ export interface Trip {
     "vehicule": Vehicle
     "placeReservees": number[]
 }
+
+
