@@ -2,7 +2,7 @@
 
 
 
-import NotFoundSVG from "@/components/ErrorHandler/NotFoundSVG";
+import NotFoundSVG from "@/components/error-handler/NotFoundSVG";
 
 export default function NoTripsPage({isSearch}: {isSearch: boolean}) {
 

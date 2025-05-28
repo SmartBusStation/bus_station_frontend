@@ -1,15 +1,21 @@
 import {usePathname} from "next/navigation";
 import {useState} from "react";
-import {LinkItem} from "@/components/layouts/customer-sibebar/CustomerSidebar";
+import {LinkItem} from "@/components/layouts/customer-sibebar/clientNavLink";
 
-export function useClientNavBar(linkItem: LinkItem)
+
+export function useCustomerSidebar(linkItem?: LinkItem)
 {
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+
 
     const activeLink = usePathname();
     const [expandedLinks, setExpandedLinks] = useState<Record<string, boolean>>({});
     const isActive = isLinkActive(linkItem?.link);
     const hasSubLinks = linkItem?.subLinks && linkItem?.subLinks.length > 0;
-    const isExpanded = expandedLinks[linkItem?.name];
+    const linkItemName = linkItem?.name || "";
+    const isExpanded = expandedLinks[linkItemName];
     const Icon = linkItem?.icon;
 
 
@@ -34,6 +40,8 @@ export function useClientNavBar(linkItem: LinkItem)
         isExpanded,
         Icon,
         toggleSubMenu,
+        isSidebarOpen,
+        setIsSidebarOpen
     }
 
 }

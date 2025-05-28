@@ -304,6 +304,7 @@ export function useMarketPlace()
         fetchAvailableTrips()
     }, [])
 
+
     useEffect(() => {
         filterTrips()
     }, [activeFilter, availableTrips]);

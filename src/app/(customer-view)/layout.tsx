@@ -1,17 +1,17 @@
 "use client";
-
-import "../globals.css"
-import { useState } from "react"
-import NavBar from "@/components/layouts/ClientNavBar";
+import NavBar from "@/components/layouts/customer-navbar/CustomerNavBar";
 import {ReactNodeProps} from "@/lib/types/common";
 import Sidebar from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import Footer from "@/components/layouts/Footer";
+import {useCustomerSidebar} from "@/lib/hooks/useCustomerSidebar";
 
 
 
 
 export default function Layout({ children }: ReactNodeProps) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+    const {isSidebarOpen, setIsSidebarOpen} = useCustomerSidebar()
+
 
     return (
         <div className="flex min-h-screen flex-col gap-4">

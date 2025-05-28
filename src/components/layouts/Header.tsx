@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ChevronDown, Globe } from "lucide-react"
 import {useNavigation} from "@/lib/hooks/useNavigation";
 import {useTranslation} from "react-i18next";
-import {changeLanguage} from "@/lib/services/i18nServices/languageService";
+import {changeLanguage} from "@/lib/services/i18n-services/languageService";
 import {SupportedLanguage} from "@/lib/types/common";
 
 export default function Header() {

@@ -10,7 +10,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {baseOrganizationSchema, OrganizationFormType} from "@/lib/types/schema/organizationSchema";
 import TextareaField from "@/ui/TextareaField";
-import {useOrganizationCreation} from "@/lib/hooks/registrationHooks/useOrganizationCreation";
+import {useOrganizationCreation} from "@/lib/hooks/registration-hooks/useOrganizationCreation";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
 

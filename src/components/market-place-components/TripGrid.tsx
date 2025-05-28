@@ -19,7 +19,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
             {filteredTrips.map((trip) => (
                 <div
                     key={trip.idVoyage}
-                    className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 group"
+                    className="bg-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 group"
                 >
                     <div className="relative h-48 overflow-hidden">
                         <Image
@@ -53,9 +53,9 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                                     <span className="text-sm">{trip.lieuArrive}</span>
                                 </div>
                             </div>
-                            <div className="text-right">
+                            <div className="text-right flex gap-2">
                                 <p className="text-2xl font-bold text-blue-600">{trip.prix.toLocaleString()}</p>
-                                <p className="text-sm text-gray-500">FCFA</p>
+                                <p className="mt-1.5 text-sm text-gray-500">FCFA</p>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
 
                         <button
                             onClick={() => navigate(trip.idVoyage)}
-                            className="w-full bg-blue-600 text-white rounded-xl py-3 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                            className="translate-x-1/2 cursor-pointer px-4 bg-primary text-white rounded-xl py-2 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                         >
                             Book This Trip
                         </button>

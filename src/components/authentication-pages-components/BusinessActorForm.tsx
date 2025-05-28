@@ -6,7 +6,7 @@ import InputField from "@/ui/InputField";
 import {BusinessActorFormType, businessActorSchema} from "@/lib/types/schema/businessActorSchema";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import useBusinessActorCreation from "@/lib/hooks/registrationHooks/useBusinessActorCreation";
+import useBusinessActorCreation from "@/lib/hooks/registration-hooks/useBusinessActorCreation";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
 

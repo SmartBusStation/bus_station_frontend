@@ -1,10 +1,10 @@
 "use client";
 
 import {JSX} from "react"
-import {LinkItem} from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import Link from "next/link";
-import {useClientNavBar} from "@/lib/hooks/useClientNavBar";
+import {useCustomerSidebar} from "@/lib/hooks/useCustomerSidebar";
 import LinkContent from "@/components/layouts/customer-sibebar/LinkContent";
+import {LinkItem} from "@/components/layouts/customer-sibebar/clientNavLink";
 
 
 export type RenderLinkProps = {
@@ -14,11 +14,11 @@ export type RenderLinkProps = {
     openAction: (isOpen: boolean) => void;
 }
 
-export function RenderLink({linkItem, index, isSubLink, openAction}: RenderLinkProps): JSX.Element
+export function RenderLink({linkItem, isSubLink, openAction}: RenderLinkProps): JSX.Element
 {
-    const clientNavBar = useClientNavBar(linkItem);
+    const clientNavBar = useCustomerSidebar(linkItem);
     return (
-        <div key={index} className="mb-1">
+        <div className="mb-1">
             {clientNavBar.hasSubLinks ? (
                 <button className="w-full text-left cursor-pointer" onClick={() => clientNavBar.toggleSubMenu(linkItem.name)}>
                     <LinkContent

@@ -7,7 +7,7 @@ import {TravelAgencyFormProps} from "@/lib/types/formProps";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {TravelAgencyFormType, travelAgencySchema} from "@/lib/types/schema/travelAgencySchema";
-import {useAgencyCreation} from "@/lib/hooks/registrationHooks/useAgencyCreation";
+import {useAgencyCreation} from "@/lib/hooks/registration-hooks/useAgencyCreation";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
 import {SuccessModal} from "@/modals/SuccessModal";

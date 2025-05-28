@@ -17,8 +17,8 @@ export interface LinkItem
 export const linkList = [
 
     {
-        name: "Available Trips",
-        link: "/available-trips",
+        name: "Market Place",
+        link: "/market-place",
         icon: FaHome,
     },
     {

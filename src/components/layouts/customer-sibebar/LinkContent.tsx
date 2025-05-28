@@ -1,6 +1,6 @@
 import {ChevronRight} from "lucide-react";
-import {LinkItem} from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import React from "react";
+import {LinkItem} from "@/components/layouts/customer-sibebar/clientNavLink";
 
 
 export interface LinkContentProps {
