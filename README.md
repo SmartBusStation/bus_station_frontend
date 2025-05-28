@@ -82,7 +82,7 @@ bun install
   [GitHub](https://github.com/yohanwotchoko) • [LinkedIn](https://www.linkedin.com/in/yohan-wotchoko/)
 
 ### ⚙️ Backend & DevOps Team
-- **TCHASSI Daniel** — *Backend Team Lead*  
+- **TCHASSI Daniel** — *Backend Team Lead & DevOps*  
   [GitHub](https://github.com/TchassiDaniel) • [LinkedIn](https://www.linkedin.com/in/tchassidaniel)
 
 - **FOMEKONG Jonathan** — *Backend Developer & DevOps*  
