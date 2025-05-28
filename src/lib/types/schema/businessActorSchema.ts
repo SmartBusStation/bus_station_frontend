@@ -11,19 +11,19 @@ interface UserType {
 }
 
 export const businessActorSchema = z.object({
-    first_name: z.string().min(1, "Prénom requis"),
-    last_name: z.string().min(1, "Nom requis"),
-    username: z.string().min(3, "Username requis"),
-    email: z.string().email("Email invalide"),
-    phone_number: z.string().min(8, "Numéro de telephone invalide"),
+    first_name: z.string().min(1, "Your firstname is required"),
+    last_name: z.string().min(1, "Your lastname is required"),
+    username: z.string().min(3, "Your username is required"),
+    email: z.string().min(1, "Your email is required").email("Enter a valid email"),
+    phone_number: z.string().min(8, "Enter a valid phone number"),
     password: z
         .string()
-        .min(8, "Minimum 8 caractères")
-        .regex(/[A-Z]/, "Au moins une majuscule")
-        .regex(/\d/, "Au moins un chiffre"),
+        .min(8, "Minimum 8 characters")
+        .regex(/[A-Z]/, "your password must contain at least one uppercase letter")
+        .regex(/\d/, "your password must contain at least one number"),
     confirmPassword: z.string(),
 }).refine((data: UserType) => data.password === data.confirmPassword, {
-    message: "Les mots de passe ne correspondent pas",
+    message: "The passwords do not match",
     path: ["confirmPassword"],
 });
 

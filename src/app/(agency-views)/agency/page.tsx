@@ -3,10 +3,10 @@
 
 import { useState } from "react";
 import { travelAgencies, trips } from "@/lib/data/travelAgencies";
-import AgencySidebar from "@/components/AgenciesPageComponents/AgencySidebar";
-import AgencyProfile from "@/components/AgenciesPageComponents/AgencyProfile";
-import EmptyAgencyView from "@/components/AgenciesPageComponents/EmptyAgencyView";
-import AgenciesHeader from "@/components/AgenciesPageComponents/AgenciesHeader";
+import AgencySidebar from "@/components/agencies-page-components/AgencySidebar";
+import AgencyProfile from "@/components/agencies-page-components/AgencyProfile";
+import EmptyAgencyView from "@/components/agencies-page-components/EmptyAgencyView";
+import AgenciesHeader from "@/components/agencies-page-components/AgenciesHeader";
 //import { useTranslation } from "react-i18next";
 
 export default function AgenciesPage() {

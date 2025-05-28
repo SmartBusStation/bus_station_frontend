@@ -5,7 +5,7 @@ import {TextareaFieldProps} from "@/lib/types/ui";
 
 export default function TextareaField({id, name, label, placeholder, rows = 3, required = false, icon, register, error,}: TextareaFieldProps): React.JSX.Element {
     return (
-        <div className="mb-4">
+        <div>
             <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
                 {label}
             </label>

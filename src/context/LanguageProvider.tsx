@@ -2,7 +2,7 @@
 
 import React, {JSX, useEffect, useState} from 'react';
 import { I18nextProvider } from 'react-i18next';
-import i18next from '@/lib/services/i18nServices/i18nService';
+import i18next from '@/lib/services/i18n-services/i18nService';
 import Loading from "@/app/loading";
 import {ReactNodeProps} from "@/lib/types/common";
 

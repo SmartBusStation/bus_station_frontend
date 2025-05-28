@@ -3,13 +3,13 @@
 //import { useInView } from "react-intersection-observer";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
-import CTASection from "@/components/landingPageComponents/CTASection";
+import CTASection from "@/components/landing-page-components/CTASection";
 //import { staggerContainer } from "@/lib/animations/animationTool";
-import HeroSection from "@/components/aboutPageComponents/HeroSection";
-import MissionSection from "@/components/aboutPageComponents/MissionSection";
-import StorySection from "@/components/aboutPageComponents/StorySection";
-import TeamSection from "@/components/aboutPageComponents/TeamSection";
-import TechSection from "@/components/aboutPageComponents/TechSection";
+import HeroSection from "@/components/about-page-components/HeroSection";
+import MissionSection from "@/components/about-page-components/MissionSection";
+import StorySection from "@/components/about-page-components/StorySection";
+import TeamSection from "@/components/about-page-components/TeamSection";
+import TechSection from "@/components/about-page-components/TechSection";
 
 export default function AboutUsPage() {
   return (

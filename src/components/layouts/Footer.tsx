@@ -5,7 +5,7 @@ import Link from "next/link"
 import {MapPin, Mail, Phone, Globe, ChevronDown, Clock,} from "lucide-react"
 import {FiFacebook, FiInstagram, FiLinkedin, FiTwitter} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
-import {changeLanguage} from "@/lib/services/i18nServices/languageService";
+import {changeLanguage} from "@/lib/services/i18n-services/languageService";
 import {LinkListProps, SocialLinkProps} from "@/lib/types/ui";
 import {SupportedLanguage} from "@/lib/types/common";
 
@@ -52,7 +52,7 @@ export default function Footer(): JSX.Element {
 
     function translate(key:string):string
     {
-        return t(key);
+        return t("footer." + key);
     }
 
     const quickLinks = [

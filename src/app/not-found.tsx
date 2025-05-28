@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion"
 import {JSX} from "react"
-import NotFoundAnimation from "@/components/ notFoundComponents/NotFoundAnimation";
+import NotFoundAnimation from "@/components/not-found-components/NotFoundAnimation";
 import {containerVariants} from "@/lib/animations/animationTool";
-import TextContent from "@/components/ notFoundComponents/TextContent";
-import ActionButton from "@/components/ notFoundComponents/ActionButton";
+import TextContent from "@/components/not-found-components/TextContent";
+import ActionButton from "@/components/not-found-components/ActionButton";
 import {useTranslation} from "react-i18next";
 
 

@@ -317,5 +317,14 @@
     "viewTripButton": "View this trip",
     "moreItems": "more"
   }
-}
+},
+  "notFound": {
+    "title": "Destination not found",
+    "slogan": "Oops! It looks like you’ve lost your way. This page doesn’t exist or has been moved.",
+    "backToHome": "Back to home",
+    "goBack": "Go back to the previous page"
+  },
+  "loadingPage": {
+    "loadingText": "Loading..."
+  }
 }

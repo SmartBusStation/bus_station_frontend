@@ -5,6 +5,7 @@ import {InputFieldProps} from "@/lib/types/ui";
 
 
 export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error,}: InputFieldProps) {
+
     const [showPassword, setShowPassword] = useState(false);
     const inputType = toggleVisibility ? (showPassword ? "text" : "password") : type;
 

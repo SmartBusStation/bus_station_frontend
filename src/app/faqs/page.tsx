@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { useNavigation } from "@/lib/hooks/useNavigation"
-import SearchBar from '@/components/faqsPageComponent/SearchBar'; 
+import SearchBar from '@/components/faqs-page-component/SearchBar';
 
 interface FAQItem {
   id: number

@@ -1,10 +1,10 @@
 "use client"
 
 
-import LoadingText from "@/components/loadingPageComponents/LoadingText";
+import LoadingText from "@/components/loading-page-components/LoadingText";
 import ProgressBar from "@/ui/ProgressBar";
-import AirplaneAnimation from "@/components/loadingPageComponents/AirplaneAnimation";
-import LogoAnimation from "@/components/loadingPageComponents/LogoAnimation";
+import AirplaneAnimation from "@/components/loading-page-components/AirplaneAnimation";
+import LogoAnimation from "@/components/loading-page-components/LogoAnimation";
 import {JSX} from "react";
 
 export default function Loading():JSX.Element {

@@ -27,7 +27,7 @@ export default function LoginPage() {
             <motion.div
                 initial={{opacity: 0, y: 20}}
                 animate={{opacity: 1, y: 0}}
-                transition={{duration: 5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut"}}
+                transition={{duration: 0.3}}
                 className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden"
             >
                 {/* En-tête */}
