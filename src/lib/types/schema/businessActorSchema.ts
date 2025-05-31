@@ -1,14 +1,12 @@
 import { z } from "zod";
 
-interface UserType {
-    email: string,
-    phone_number: string,
-    first_name: string,
-    last_name: string,
-    password: string,
-    username: string,
-    confirmPassword?:string,
-}
+
+
+
+const allowedRoles = ["USAGER", "AGENCE_VOYAGE", "ORGANISATION", "EMPLOYE"] as const;
+const allowedGenders = ["MALE", "FEMALE"] as const;
+
+
 
 export const businessActorSchema = z.object({
     first_name: z.string().min(1, "Your firstname is required"),
@@ -22,9 +20,19 @@ export const businessActorSchema = z.object({
         .regex(/[A-Z]/, "your password must contain at least one uppercase letter")
         .regex(/\d/, "your password must contain at least one number"),
     confirmPassword: z.string(),
-}).refine((data: UserType) => data.password === data.confirmPassword, {
+    role: z.array(z.enum(allowedRoles))
+          .nonempty("Au moins un rôle est requis"),
+    gender: z.enum(allowedGenders, {
+            errorMap: () => ({ message: "Please select a gender" }),
+        })
+        .refine((val) => !!val, { message: "Your gender is required" }),
+}).refine((data) => data.password === data.confirmPassword, {
     message: "The passwords do not match",
     path: ["confirmPassword"],
+}).superRefine((data) => {
+    if (!data.role) {
+        data.role = ["USAGER"];
+    }
 });
 
 export type BusinessActorFormType = z.infer<typeof businessActorSchema>;

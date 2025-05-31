@@ -1,25 +1,25 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig: import('next').NextConfig = {
     async rewrites() {
         return [
             {
-                source: '/api/:path*',
-                destination: `${process.env.NEXT_PUBLIC_YOWYOB_BACKEND_API_URL}/:path*`
-            }
-        ]
+                source: "/yoyowb/:path*",
+                destination: `${process.env.YOWYOB_BACKEND_API_URL}/:path*`,
+            },
+            {
+                source: "/trip_agency/:path*",
+                destination: `${process.env.TRIP_AGENCY_BACKEND_API_URL}/:path*`,
+            },
+        ];
     },
-
     images: {
-        domains: ['bougna.net', 'st.depositphotos.com', 'c.wallhere.com','media.istockphoto.com'],
+        domains: [
+            'bougna.net',
+            'st.depositphotos.com',
+            'c.wallhere.com',
+            'media.istockphoto.com',
+        ],
     },
-   /* webpack(config) {
-        config.module.rules.push({
-            test: /\.svg$/,
-            use: ['@svgr/webpack'],
-        });
-        return config;
-    },*/
 };
 
-export default nextConfig;
+module.exports = nextConfig;

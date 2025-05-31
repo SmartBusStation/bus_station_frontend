@@ -4,6 +4,8 @@ import {createBusinessActor} from "@/lib/services/businessActorService";
 import {AxiosError} from "axios";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/encryptionService";
+import {Option} from "@/ui/SelectField";
+
 
 
 
@@ -31,6 +33,8 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [createdBusinessActor, setCreatedBusinessActor] = useState<BusinessActor | null>(null);
     const [currentBusinessActor, setCurrentBusinessActor] = useState<BusinessActorFormType>({
+        gender: "MALE",
+        role:  ["USAGER"],
         confirmPassword: "",
         email: "",
         first_name: "",
@@ -40,6 +44,18 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         username: ""
     });
     const [axiosErrors, setAxiosErrors] = useState<FieldErrors|null>(null);
+
+
+    const userGenderOption: Option[] = [
+        {
+            value: "MALE",
+            label: "Male"
+        },
+        {
+            value: "FEMALE",
+            label: "Female"
+        }
+    ]
 
 
 
@@ -85,7 +101,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             })
             .catch((error)=> {
                 console.error(error);
-                throw new Error("Error during data decryptionk,k");
+                throw new Error("Error during data decryption");
             })
     }
 
@@ -94,6 +110,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
 
     async function handleCreateBusinessActor(data: BusinessActorFormType): Promise<void>
     {
+        console.log(data);
         setIsLoading(true);
         setAxiosErrors(null);
         setCreatedBusinessActor(null);
@@ -137,6 +154,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         handleCreateBusinessActor,
         createdBusinessActor,
         currentBusinessActor,
-        axiosErrors
+        axiosErrors,
+        userGenderOption
     }
 }

@@ -9,6 +9,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import useBusinessActorCreation from "@/lib/hooks/registration-hooks/useBusinessActorCreation";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
+import SelectField from "@/ui/SelectField";
 
 
 
@@ -17,7 +18,7 @@ import Loader from "@/modals/Loader";
 export default function BusinessActorForm({changeStep,...continueProps}:BusinessActorFormProps):JSX.Element
 {
 
-    const {isLoading, handleCreateBusinessActor, axiosErrors, currentBusinessActor} = useBusinessActorCreation(changeStep);
+    const {isLoading, handleCreateBusinessActor, axiosErrors, currentBusinessActor, userGenderOption} = useBusinessActorCreation(changeStep);
     const {register, handleSubmit,reset, formState: { errors }} = useForm<BusinessActorFormType>(
         {
             resolver: zodResolver(businessActorSchema),
@@ -30,6 +31,12 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
             reset(currentBusinessActor);
         }
     }, [currentBusinessActor, reset]);
+
+
+
+
+
+
 
 
     return (
@@ -67,6 +74,15 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         icon={<User className="h-5 w-5 text-gray-400"/>}
                         register={register && register("username")}
                         error={axiosErrors?.username || errors?.username?.message}
+                    />
+
+                    <SelectField
+                        id="gender"
+                        label="Select your gender"
+                        icon={<User className="h-5 w-5 text-gray-400" />}
+                        options={userGenderOption}
+                        register={register && register("gender")}
+                        error={errors?.gender?.message}
                     />
 
                     <InputField

@@ -3,7 +3,8 @@ import {BusinessActor} from "@/lib/types/models/BusinessActor";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 
 //const url: string = process.env.NEXT_PUBLIC_YOWYOB_BACKEND_API_URL + "/businessactor-service";
-const url= `${process.env.NEXT_PUBLIC_POXY_URL_YOYOWB_BACKEND}/businessactor-service`
+//const url= `${process.env.NEXT_PUBLIC_POXY_URL_YOYOWB_BACKEND}/businessactor-service`
+const url: string = `${process.env.NEXT_PUBLIC_PROXY_URL_TRIP_AGENCY}/utilisateur`
 
 
 
@@ -18,8 +19,8 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
     try
     {
         const dataToSend = stripConfirmPassword(data);
-        const apiResponse: AxiosResponse<BusinessActor> = await axios.post(`${url}/business-actors`, dataToSend.rest);
-        if (apiResponse.status === 200)
+        const apiResponse: AxiosResponse<BusinessActor> = await axios.post(`${url}/inscription`, dataToSend.rest);
+        if (apiResponse.status === 201 || apiResponse.status === 200)
         {
             console.log(apiResponse.data)
             return apiResponse.data;
