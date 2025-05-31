@@ -88,7 +88,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                             {trip.amenities.map((amenity, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm"
+                                    className="flex items-center gap-1 px-3 py-1 rounded-full bg-blue-100 text-blue-600 text-sm"
                                 >
                                     {getAmenityIcon(amenity)}
                                     <span>{amenity}</span>

@@ -33,7 +33,7 @@ export default function CustomerSection(): JSX.Element
             variants={staggerContainer}
             className="py-5 bg-base-color flex flex-col"
         >
-            <div className="container">
+            <div className="container ">
                 <motion.div variants={fadeInUp} className="text-center mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900">{translate("title")}</h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto">

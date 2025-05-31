@@ -1,4 +1,5 @@
 "use client";
+
 import {motion} from "framer-motion";
 import {fadeInLeft, fadeInRight, fadeInUp} from "@/lib/animations/animationTool";
 import {JSX} from "react";
@@ -14,8 +15,6 @@ export default function HeroSection(): JSX.Element
     })
 
     const{t} = useTranslation();
-
-
     const navigation = useNavigation();
 
 
@@ -25,7 +24,7 @@ export default function HeroSection(): JSX.Element
             initial="hidden"
             animate={heroInView ? "visible" : "hidden"}
             variants={fadeInUp}
-            className="relative text-base-color py-32 md:py-52 hero-section"
+            className="relative text-base-color py-32 md:py-52 hero-section "
         >
             <div className="container flex flex-col md:flex-row items-center">
                 <motion.div
