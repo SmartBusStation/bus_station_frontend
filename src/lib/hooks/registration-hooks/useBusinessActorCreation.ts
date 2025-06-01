@@ -2,9 +2,11 @@ import {useEffect, useState} from "react";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
 import {createBusinessActor} from "@/lib/services/businessActorService";
 import {AxiosError} from "axios";
-import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
+import {BusinessActorFormType, businessActorSchema} from "@/lib/types/schema/businessActorSchema";
 import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/encryptionService";
 import {Option} from "@/ui/SelectField";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 
 
@@ -30,6 +32,9 @@ interface FieldErrors
 
 export default function useBusinessActorCreation(changeStep: (step:number)=> void)
 {
+
+
+    /*** BUSINESS-ACTOR VARIABLES ***/
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [createdBusinessActor, setCreatedBusinessActor] = useState<BusinessActor | null>(null);
     const [currentBusinessActor, setCurrentBusinessActor] = useState<BusinessActorFormType>({
@@ -44,8 +49,6 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         username: ""
     });
     const [axiosErrors, setAxiosErrors] = useState<FieldErrors|null>(null);
-
-
     const userGenderOption: Option[] = [
         {
             value: "MALE",
@@ -55,10 +58,28 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             value: "FEMALE",
             label: "Female"
         }
-    ]
+    ];
+
+
+    /**** BUSINESS-ACTOR FORM VARIABLES  ***/
+    const {register, handleSubmit,reset, formState: { errors }} = useForm<BusinessActorFormType>(
+        {
+            resolver: zodResolver(businessActorSchema),
+            defaultValues: currentBusinessActor,
+        });
+
+
+    useEffect(() => {
+        if (currentBusinessActor) {
+            reset(currentBusinessActor);
+        }
+    }, [currentBusinessActor, reset]);
 
 
 
+
+
+    /*** ENCRYPTION AND DECRYPTION FUNCTIONS ***/
 
     useEffect(() => {
         async function storeData()
@@ -108,6 +129,8 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
 
 
 
+
+    /*** BUSINESS-ACTOR CREATION ***/
     async function handleCreateBusinessActor(data: BusinessActorFormType): Promise<void>
     {
         console.log(data);
@@ -149,12 +172,17 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     }
 
 
+
+
     return {
         isLoading,
         handleCreateBusinessActor,
         createdBusinessActor,
         currentBusinessActor,
         axiosErrors,
-        userGenderOption
+        userGenderOption,
+        register,
+        handleSubmit,
+        errors
     }
 }

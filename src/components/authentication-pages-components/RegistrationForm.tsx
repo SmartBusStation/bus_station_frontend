@@ -3,8 +3,9 @@ import BusinessActorForm from "@/components/authentication-pages-components/Busi
 import OrganizationForm from "@/components/authentication-pages-components/OrganizationForm";
 import TravelAgencyForm from "@/components/authentication-pages-components/TravelAgencyForm";
 import Link from "next/link";
-import React, {useState} from "react";
+import React from "react";
 import { JSX } from "react";
+import {useRegistration} from "@/lib/hooks/registration-hooks/useRegistration";
 
 
 export interface RegistrationFormProps {
@@ -16,8 +17,8 @@ export interface RegistrationFormProps {
 
 export default function RegistrationForm({step, goBack, changeStep} : RegistrationFormProps ): JSX.Element
 {
-    const [createAgency, setCreateAgency] = useState<boolean>(false);
-    const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
+   const {agreeTerms, setAgreeTerms, createAgency, setCreateAgency} = useRegistration();
+
     return (
         <div className="p-6 md:p-8">
             <div>

@@ -1,11 +1,8 @@
-import React, {JSX, useEffect} from "react";
+import React, {JSX} from "react";
 import {AtSign, Lock, Phone, User} from "lucide-react";
 import Continue from "@/components/authentication-pages-components/Continue";
 import {BusinessActorFormProps} from "@/lib/types/formProps";
 import InputField from "@/ui/InputField";
-import {BusinessActorFormType, businessActorSchema} from "@/lib/types/schema/businessActorSchema";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
 import useBusinessActorCreation from "@/lib/hooks/registration-hooks/useBusinessActorCreation";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
@@ -14,33 +11,13 @@ import SelectField from "@/ui/SelectField";
 
 
 
-
 export default function BusinessActorForm({changeStep,...continueProps}:BusinessActorFormProps):JSX.Element
 {
 
-    const {isLoading, handleCreateBusinessActor, axiosErrors, currentBusinessActor, userGenderOption} = useBusinessActorCreation(changeStep);
-    const {register, handleSubmit,reset, formState: { errors }} = useForm<BusinessActorFormType>(
-        {
-            resolver: zodResolver(businessActorSchema),
-            defaultValues: currentBusinessActor,
-        });
-
-
-    useEffect(() => {
-        if (currentBusinessActor) {
-            reset(currentBusinessActor);
-        }
-    }, [currentBusinessActor, reset]);
-
-
-
-
-
-
-
+    const {isLoading, handleCreateBusinessActor, axiosErrors, userGenderOption, ...zodParams} = useBusinessActorCreation(changeStep);
 
     return (
-        <form onSubmit={handleSubmit(handleCreateBusinessActor)}>
+        <form onSubmit={zodParams.handleSubmit(handleCreateBusinessActor)}>
             {isLoading && (
                 <TransparentModal isOpen={isLoading}>
                     <Loader/>
@@ -54,8 +31,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         label="First Name"
                         placeholder="Jean"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
-                        register={register && register("first_name")}
-                        error={axiosErrors?.first_name || errors?.first_name?.message}
+                        register={zodParams.register && zodParams.register("first_name")}
+                        error={axiosErrors?.first_name || zodParams.errors?.first_name?.message}
                     />
 
                     <InputField
@@ -63,8 +40,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         label="Last Name"
                         placeholder="Dupont"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
-                        register={register && register("last_name")}
-                        error={axiosErrors?.last_name || errors?.last_name?.message}
+                        register={zodParams.register && zodParams.register("last_name")}
+                        error={axiosErrors?.last_name || zodParams.errors?.last_name?.message}
                     />
 
                     <InputField
@@ -72,8 +49,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         label="Username"
                         placeholder="dupont123"
                         icon={<User className="h-5 w-5 text-gray-400"/>}
-                        register={register && register("username")}
-                        error={axiosErrors?.username || errors?.username?.message}
+                        register={zodParams.register && zodParams.register("username")}
+                        error={axiosErrors?.username || zodParams.errors?.username?.message}
                     />
 
                     <SelectField
@@ -81,8 +58,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         label="Select your gender"
                         icon={<User className="h-5 w-5 text-gray-400" />}
                         options={userGenderOption}
-                        register={register && register("gender")}
-                        error={errors?.gender?.message}
+                        register={zodParams.register && zodParams.register("gender")}
+                        error={zodParams.errors?.gender?.message}
                     />
 
                     <InputField
@@ -91,8 +68,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="jean.dupont@example.com"
                         type="email"
                         icon={<AtSign className="h-5 w-5 text-gray-400"/>}
-                        register={register ? register("email") : undefined}
-                        error={axiosErrors?.email || errors?.email?.message}
+                        register={zodParams.register ? zodParams.register("email") : undefined}
+                        error={axiosErrors?.email || zodParams.errors?.email?.message}
                     />
 
                     <InputField
@@ -101,8 +78,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="+33 6 12 34 56 78"
                         type="tel"
                         icon={<Phone className="h-5 w-5 text-gray-400"/>}
-                        register={register && register("phone_number")}
-                        error={axiosErrors?.phoneNumber || errors?.phone_number?.message}
+                        register={zodParams.register && zodParams.register("phone_number")}
+                        error={axiosErrors?.phoneNumber || zodParams.errors?.phone_number?.message}
                     />
 
 
@@ -112,8 +89,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="••••••••"
                         icon={<Lock className="h-5 w-5 text-gray-400"/>}
                         toggleVisibility={true}
-                        register={register && register("password")}
-                        error={errors?.password?.message}
+                        register={zodParams.register && zodParams.register("password")}
+                        error={zodParams.errors?.password?.message}
                     />
 
                     <InputField
@@ -122,8 +99,8 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         placeholder="••••••••"
                         icon={<Lock className="h-5 w-5 text-gray-400"/>}
                         toggleVisibility={true}
-                        register={register && register("confirmPassword")}
-                        error={errors?.confirmPassword?.message}
+                        register={zodParams.register && zodParams.register("confirmPassword")}
+                        error={zodParams.errors?.confirmPassword?.message}
 
                     />
                 </>

@@ -7,7 +7,7 @@ const nextConfig: import('next').NextConfig = {
                 destination: `${process.env.YOWYOB_BACKEND_API_URL}/:path*`,
             },
             {
-                source: "/trip_agency/:path*",
+                source: "/trip-agency/:path*",
                 destination: `${process.env.TRIP_AGENCY_BACKEND_API_URL}/:path*`,
             },
         ];
