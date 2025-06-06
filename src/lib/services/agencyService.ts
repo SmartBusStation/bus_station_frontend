@@ -4,17 +4,16 @@ import {TravelAgency} from "@/lib/types/models/Agency";
 
 
 
-//const url = `${process.env.NEXT_PUBLIC_YOWYOB_BACKEND_API_URL}/organization-service`;
-const url = `${process.env.NEXT_PUBLIC_POXY_URL_YOYOWB_BACKEND}/organization-service`;
+const url: string = `${process.env.NEXT_PUBLIC_TRIP_AGENCY_BACKEND_API_URL}`
 
 
 
-export async function createAgency(data: TravelAgencyFormType, organizationId: string): Promise<TravelAgency|null>
+export async function createAgency(data: TravelAgencyFormType): Promise<TravelAgency|null>
 {
     try
     {
-        const response: AxiosResponse<TravelAgency> = await axios.post(`${url}/organizations/${organizationId}/`, data);
-        if(response.status === 201)
+        const response: AxiosResponse<TravelAgency> = await axios.post(`${url}/agence`, data);
+        if(response.status === 201 || response.status ===200)
         {
             console.log(response);
             return response?.data;

@@ -1,15 +1,33 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {Organization} from "@/lib/types/models/Organization";
-import {OrganizationFormType} from "@/lib/types/schema/organizationSchema";
+import {baseOrganizationSchema, OrganizationFormType} from "@/lib/types/schema/organizationSchema";
 import {createOrganization} from "@/lib/services/organizationService";
 import {encryptDataWithAES} from "@/lib/services/encryptionService";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
-export function useOrganizationCreation (changeStep: (step: number) => void)
+export function useOrganizationCreation (changeStep: (step: number) => void, createAgency: boolean)
 {
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [errors, setErrors] = useState<string|null>(null);
+    const [axiosErrors, setAxiosErrors] = useState<string|null>(null);
+    const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = useState<string|null>(null);
 
 
+    const organizationTypes = [
+        { value: "SOLE_PROPRIETORSHIP", label: "Entreprise individuelle" },
+        { value: "CORPORATION", label: "Société anonyme" },
+        { value: "PARTNERSHIP", label: "Société en nom collectif" },
+        { value: "LLC", label: "SARL" },
+        { value: "NONPROFIT", label: "Association à but non lucratif" },
+    ];
+
+
+    const {register, handleSubmit, formState: { errors }} = useForm<OrganizationFormType>(
+        {
+            resolver: zodResolver(baseOrganizationSchema),
+        });
 
 
 
@@ -35,43 +53,65 @@ export function useOrganizationCreation (changeStep: (step: number) => void)
 
 
 
+    function createUser(e: React.FormEvent<HTMLFormElement>)
+    {
+        e.preventDefault();
+        if(!createAgency)
+        {
+            setIsLoading(false);
+            setSuccessMessage("Your account has been created successfully!");
+            setCanOpenSuccessModal(true);
+        }
+    }
+
+
 
     async function handleCreateOrganization(data: OrganizationFormType): Promise<void>
     {
-        console.log(data);
-        setErrors(null);
+        setAxiosErrors(null);
         setIsLoading(true);
+        setSuccessMessage(null);
+        setCanOpenSuccessModal(false);
         await createOrganization(data)
             .then(async (result: Organization|null): Promise<void> => {
                 if(result)
                 {
-                    console.log(result);
                     await saveCreatedOrganization(result);
                     changeStep(3);
                 }
                 else
                 {
-                    setErrors("Something when wrong when creating your organization");
+                    setAxiosErrors("Something when wrong when creating your organization");
                 }
             })
             .catch((error)=> {
                 if(error.status === 400 || error.status === 409)
                 {
-                    setErrors("Something when wrong when creating your organization");
+                    setAxiosErrors("Something when wrong when creating your organization");
                 }
                 else
                 {
-                    setErrors("Something when wrong when creating your organization");
+                    setAxiosErrors("Something when wrong when creating your organization");
                 }
 
             })
             .finally(()=> setIsLoading(false))
+
+
     }
 
 
     return {
     isLoading,
+    axiosErrors,
+    handleCreateOrganization,
+    organizationTypes,
+    register,
+    handleSubmit,
     errors,
-    handleCreateOrganization
+    setCanOpenSuccessModal,
+    canOpenSuccessModal,
+    successMessage,
+    createUser
     }
 }

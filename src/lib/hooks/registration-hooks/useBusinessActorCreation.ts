@@ -10,33 +10,23 @@ import {zodResolver} from "@hookform/resolvers/zod";
 
 
 
-
-interface BadRequestErrorInterface {
-    data:string|null
-    message:string
-    errors: FieldErrors
-    ok:boolean
-    status:string
-}
-
 interface FieldErrors
 {
     email?: string,
     first_name?: string,
     last_name?: string,
-    phoneNumber?: string,
+    phone_number?: string,
     username?: string,
     other?:string
 }
 
 
+
 export default function useBusinessActorCreation(changeStep: (step:number)=> void)
 {
 
-
     /*** BUSINESS-ACTOR VARIABLES ***/
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [createdBusinessActor, setCreatedBusinessActor] = useState<BusinessActor | null>(null);
     const [currentBusinessActor, setCurrentBusinessActor] = useState<BusinessActorFormType>({
         gender: "MALE",
         role:  ["USAGER"],
@@ -61,7 +51,7 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     ];
 
 
-    /**** BUSINESS-ACTOR FORM VARIABLES  ***/
+    /**** ZOD VALIDATION VARIABLES ***/
     const {register, handleSubmit,reset, formState: { errors }} = useForm<BusinessActorFormType>(
         {
             resolver: zodResolver(businessActorSchema),
@@ -107,6 +97,18 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     }
 
 
+    async function saveCreatedBusinessActor(data: BusinessActor): Promise<void>
+    {
+        await encryptDataWithAES(data)
+            .then((result: string): void => {
+                sessionStorage.setItem("createdBusinessActor", result);
+            })
+            .catch((error): void => {
+                console.error(error);
+                throw new Error("Error while saving data in the session storage");
+            })
+    }
+
 
     async function storeCurrentBusinessActor(): Promise<void>
     {
@@ -133,16 +135,14 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     /*** BUSINESS-ACTOR CREATION ***/
     async function handleCreateBusinessActor(data: BusinessActorFormType): Promise<void>
     {
-        console.log(data);
         setIsLoading(true);
         setAxiosErrors(null);
-        setCreatedBusinessActor(null);
         await saveCurrentBusinessActor(data);
         await createBusinessActor(data)
-            .then((result: BusinessActor|null): void => {
+            .then(async (result: BusinessActor|null): Promise<void> => {
                 if(result)
                 {
-                    setCreatedBusinessActor(result);
+                    await saveCreatedBusinessActor(result);
                     changeStep(2);
                 }
             })
@@ -150,8 +150,8 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
             {
                 if(error.status === 400 || error.status === 409)
                 {
-                    const badRequestError = error?.response?.data as BadRequestErrorInterface;
-                    Object.entries(badRequestError?.errors).forEach(([key, value]:[string,string]): void => {
+                    const badRequestError = error?.response?.data as FieldErrors;
+                    Object.entries(badRequestError).forEach(([key, value]:[string,string]): void => {
                         setAxiosErrors((prevState) => ({
                             ...prevState,
                             [key]: value,
@@ -172,12 +172,9 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
     }
 
 
-
-
     return {
         isLoading,
         handleCreateBusinessActor,
-        createdBusinessActor,
         currentBusinessActor,
         axiosErrors,
         userGenderOption,

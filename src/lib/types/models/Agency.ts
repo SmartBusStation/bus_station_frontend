@@ -1,4 +1,5 @@
-export interface TravelAgency  {
+/*export interface TravelAgency  {
+    organisationId: string
     short_name: string
     long_name: string
     description: string
@@ -13,4 +14,18 @@ export interface TravelAgency  {
     registration_number: string
     social_network: string
     tax_number: string
+}
+*/
+
+export interface TravelAgency
+{
+    "agencyId": string,
+    "organisationId": string,
+    "userId": string,
+    "longName": string,
+    "shortName": string,
+    "location": string,
+    "socialNetwork": string,
+    "description": string,
+    "greetingMessage": string
 }

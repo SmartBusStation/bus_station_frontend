@@ -4,9 +4,7 @@ import {Organization} from "@/lib/types/models/Organization";
 
 
 
-//const url = `${process.env.NEXT_PUBLIC_YOWYOB_BACKEND_API_URL}/organization-service`;
-const url = `${process.env.NEXT_PUBLIC_POXY_URL_YOYOWB_BACKEND}/organization-service`;
-
+const url: string = `${process.env.NEXT_PUBLIC_TRIP_AGENCY_BACKEND_API_URL}`
 
 
 export async function createOrganization(data: OrganizationFormType): Promise<Organization|null>

@@ -31,3 +31,15 @@ export  interface BusinessActor {
 }
 
 
+export interface User {
+    userId: string,
+    token?: string,
+    last_name: string,
+    first_name: string,
+    email:string,
+    username: string,
+    phone_number: string,
+    role: string[],
+}
+
+

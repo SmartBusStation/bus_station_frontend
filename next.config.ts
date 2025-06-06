@@ -1,24 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig: import('next').NextConfig = {
-    async rewrites() {
-        return [
-            {
-                source: "/yoyowb/:path*",
-                destination: `${process.env.YOWYOB_BACKEND_API_URL}/:path*`,
-            },
-            {
-                source: "/trip-agency/:path*",
-                destination: `${process.env.TRIP_AGENCY_BACKEND_API_URL}/:path*`,
-            },
-        ];
-    },
     images: {
-        domains: [
+        remotePatterns: [
             'bougna.net',
             'st.depositphotos.com',
             'c.wallhere.com',
             'media.istockphoto.com',
-        ],
+        ].map(hostname => ({
+            protocol: 'https' as const,
+            hostname,
+            pathname: '/**',
+        })),
     },
 };
 

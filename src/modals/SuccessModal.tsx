@@ -23,7 +23,7 @@ export function SuccessModal ({canOpenSuccessModal, message, makeAction }: Succe
 
 
     return (
-         <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm">
+         <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                     <CheckCircle className="w-12 h-12 text-primary mr-2 animate-success-check" />

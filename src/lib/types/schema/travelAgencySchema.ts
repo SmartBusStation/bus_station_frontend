@@ -7,14 +7,11 @@ export const travelAgencySchema = z.object({
     social_network: z.string().optional(),
     description: z.string().min(1, "Description is required."),
     greeting_message: z.string().min(1, "Welcome message is required."),
-    business_domains: z.array(z.string()).optional(),
+    organisation_id: z.string().optional(),
+    user_id: z.string().optional(),
 }).superRefine((data) => {
     if (!data.short_name) {
         data.short_name = data.long_name;
-    }
-    if(!data.business_domains)
-    {
-        data.business_domains = [process.env.NEXT_PUBLIC_AGENCY_BUSINESS_DOMAIN_ID as string];
     }
 });
 

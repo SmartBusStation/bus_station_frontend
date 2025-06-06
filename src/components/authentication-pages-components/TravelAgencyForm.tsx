@@ -4,9 +4,6 @@ import Continue from "@/components/authentication-pages-components/Continue";
 import InputField from "@/ui/InputField";
 import TextareaField from "@/ui/TextareaField";
 import {TravelAgencyFormProps} from "@/lib/types/formProps";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {TravelAgencyFormType, travelAgencySchema} from "@/lib/types/schema/travelAgencySchema";
 import {useAgencyCreation} from "@/lib/hooks/registration-hooks/useAgencyCreation";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
@@ -19,19 +16,18 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
 
 
 
-    const agency = useAgencyCreation();
+    const {isLoading, axiosErrors, message, canOpenSuccessModal, setCanOpenSuccessModal,handleCreateAgency, ...zodParams} = useAgencyCreation();
     const navigation = useNavigation();
-    const {register, handleSubmit, formState: { errors }} = useForm<TravelAgencyFormType>({resolver: zodResolver(travelAgencySchema)});
 
 
     return (
-        <form onSubmit={handleSubmit(agency.handleCreateAgency)}>
-            {agency.isLoading && (
-                <TransparentModal isOpen={agency.isLoading}>
+        <form onSubmit={zodParams?.handleSubmit(handleCreateAgency)}>
+            {isLoading && (
+                <TransparentModal isOpen={isLoading}>
                     <Loader/>
                 </TransparentModal>
             )}
-            {agency?.errors && <p className="text-red-500 font-semibold text-sm mb-5">{agency?.errors}</p>}
+            {axiosErrors && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
                 <InputField
                     id="agency_long_name"
@@ -39,8 +35,8 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     label="Agency Name"
                     placeholder="Extraordinary Travels"
                     icon={<Building className="h-5 w-5 text-gray-400"/>}
-                    register={register(("long_name"))}
-                    error={errors?.long_name?.message}
+                    register={zodParams?.register(("long_name"))}
+                    error={zodParams?.errors?.long_name?.message}
                 />
                 <InputField
                     id="location"
@@ -48,23 +44,23 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     label="Main Location"
                     placeholder="Paris, France"
                     icon={<MapPin className="h-5 w-5 text-gray-400"/>}
-                    register={register(("location"))}
-                    error={errors?.location?.message}
+                    register={zodParams?.register(("location"))}
+                    error={zodParams?.errors?.location?.message}
                 />
                 <TextareaField
                     id="description"
                     label="Agency Description"
                     placeholder="Describe your agency and the services you offer..."
-                    register={register(("description"))}
-                    error={errors?.description?.message}
+                    register={zodParams?.register(("description"))}
+                    error={zodParams?.errors?.description?.message}
                     icon={<Info className="h-5 w-5 text-gray-400"/>}
                 />
                 <TextareaField
                     id="greeting_message"
                     label="Welcome Message"
                     placeholder="Message that will be displayed to visitors of your page..."
-                    register={register(("greeting_message"))}
-                    error={errors?.greeting_message?.message}
+                    register={zodParams?.register(("greeting_message"))}
+                    error={zodParams?.errors?.greeting_message?.message}
                     icon={<Info className="h-5 w-5 text-gray-400"/>}
                 />
 
@@ -72,8 +68,8 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     id="social_network"
                     label="Social Networks (optional)"
                     placeholder="@extraordinary_travels"
-                    register={register(("social_network"))}
-                    error={errors?.social_network?.message}
+                    register={zodParams?.register(("social_network"))}
+                    error={zodParams?.errors?.social_network?.message}
                     icon={<Globe className="h-5 w-5 text-gray-400"/>}
                 />
             </div>
@@ -84,10 +80,10 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                 setAgreeTerms={continueProps?.setAgreeTerms}
             />
 
-            <TransparentModal isOpen={agency?.canOpenSuccessModal}>
+            <TransparentModal isOpen={canOpenSuccessModal}>
                 <SuccessModal
-                    canOpenSuccessModal={agency?.setCanOpenSuccessModal}
-                    message={agency?.message || ""}
+                    canOpenSuccessModal={setCanOpenSuccessModal}
+                    message={message || ""}
                     makeAction={()=> { navigation?.onGoToLogin(); changeStep(1) }}
                 />
             </TransparentModal>

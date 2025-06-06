@@ -1,17 +1,27 @@
 import {useState} from "react";
 import {TravelAgency} from "@/lib/types/models/Agency";
-import {TravelAgencyFormType} from "@/lib/types/schema/travelAgencySchema";
+import {TravelAgencyFormType, travelAgencySchema} from "@/lib/types/schema/travelAgencySchema";
 import {createAgency} from "@/lib/services/agencyService";
 import {decryptDataWithAES} from "@/lib/services/encryptionService";
 import {Organization} from "@/lib/types/models/Organization";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {BusinessActor} from "@/lib/types/models/BusinessActor";
+
 
 export function useAgencyCreation() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
     const [createdAgency, setCreatedAgency] = useState<TravelAgency|null>(null);
-    const [errors, setErrors] = useState<string|null>(null);
+    const [axiosErrors, setAxiosErrors] = useState<string|null>(null);
     const [message, setMessage]= useState<string|null>(null);
+
+
+    const {register, handleSubmit, formState: { errors }} = useForm<TravelAgencyFormType>({resolver: zodResolver(travelAgencySchema)});
+
+
+
 
 
 
@@ -19,32 +29,38 @@ export function useAgencyCreation() {
     {
         sessionStorage.removeItem("createdOrganization");
         sessionStorage.removeItem("currentBusinessActor");
+        sessionStorage.removeItem("createdBusinessActor");
     }
 
 
 
 
-    async function storeCreatedOrganization(): Promise<Organization>
-    {
-        const encryptedData = sessionStorage.getItem("createdOrganization") as string;
-        if(encryptedData === "") throw new Error("No organization present in the session storage");
-        return await decryptDataWithAES(encryptedData)
-            .then((result): Organization => {
-                console.log(result);
-                if(result)
-                {
-                    return result as Organization;
-                }
-                else
-                {
-                    throw new Error("Error during data decryption");
-                }
-            })
-            .catch((error)=> {
-                console.error(error);
-                throw new Error("Error during data decryption");
-            })
+    async function storeCreatedOrganization(): Promise<[Organization, BusinessActor]> {
+        const encryptedCreatedOrganization = sessionStorage.getItem("createdOrganization") as string;
+        const encryptedCreatedBusinessActor = sessionStorage.getItem("createdBusinessActor") as string;
+
+        if (!encryptedCreatedOrganization || encryptedCreatedOrganization === "") {
+            setIsLoading(false);
+            throw new Error("No organization found in session storage.");
+        }
+
+        if (!encryptedCreatedBusinessActor || encryptedCreatedBusinessActor ==="") {
+            setIsLoading(false);
+            throw new Error("No business actor found in session storage.");
+        }
+        try {
+            const [organization, businessActor] = await Promise.all([decryptDataWithAES(encryptedCreatedOrganization), decryptDataWithAES(encryptedCreatedBusinessActor)]);
+            return [organization as Organization, businessActor as BusinessActor];
+        }
+        catch (error) {
+            setIsLoading(false);
+            setAxiosErrors("Something went wrong when creating your travel agency, please retry!");
+            console.error("Decryption failed:", error);
+            throw new Error("Error during data decryption.");
+        }
     }
+
+
 
 
 
@@ -53,12 +69,27 @@ export function useAgencyCreation() {
 
     async function handleCreateAgency(data: TravelAgencyFormType)
     {
-        console.log(data);
-        setErrors(null);
+
+        setAxiosErrors(null);
         setIsLoading(true);
         setCanOpenSuccessModal(false);
-        const organization : Organization = await storeCreatedOrganization();
-        await createAgency(data, organization.organization_id)
+        const [organization, businessActor]: [Organization, BusinessActor] = await storeCreatedOrganization();
+
+
+        console.log("created organization ",organization);
+        console.log("created Business actor ", businessActor);
+
+
+        const finalData = {
+            ...data,
+            organisation_id: organization.organization_id,
+            user_id: businessActor.id
+        };
+
+        console.log("agency data ",finalData);
+
+
+        await createAgency(finalData)
             .then((result: TravelAgency|null): void => {
                 if(result)
                 {
@@ -69,7 +100,7 @@ export function useAgencyCreation() {
                 }
                 else
                 {
-                    setErrors("Something went wrong when creating your travel agency");
+                    setAxiosErrors("Something went wrong when creating your travel agency");
                     throw new Error("unexpected error");
                 }
 
@@ -77,10 +108,11 @@ export function useAgencyCreation() {
             .catch((error): void => {
                 console.error(error);
                 setCanOpenSuccessModal(false);
-                setErrors("Something went wrong when creating your travel agency");
+                setAxiosErrors("Something went wrong when creating your travel agency");
             })
             .finally(() => setIsLoading(false));
     }
+
 
 
 
@@ -91,9 +123,12 @@ export function useAgencyCreation() {
         isLoading,
         canOpenSuccessModal,
         createdAgency,
-        errors,
+        axiosErrors,
         handleCreateAgency,
         setCanOpenSuccessModal,
-        message
+        message,
+        register,
+        handleSubmit,
+        errors
     }
 }

@@ -5,8 +5,9 @@ import errorInterceptor from "./interceptors/error-interceptor";
 
 
 const axiosInstance: AxiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL
-});
+    baseURL: process.env.NEXT_PUBLIC_TRIP_AGENCY_BACKEND_API_URL,
+    timeout: 60000,
+}, );
 
 authInterceptor(axiosInstance);
 errorInterceptor(axiosInstance);

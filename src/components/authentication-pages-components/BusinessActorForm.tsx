@@ -79,7 +79,7 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         type="tel"
                         icon={<Phone className="h-5 w-5 text-gray-400"/>}
                         register={zodParams.register && zodParams.register("phone_number")}
-                        error={axiosErrors?.phoneNumber || zodParams.errors?.phone_number?.message}
+                        error={axiosErrors?.phone_number || zodParams.errors?.phone_number?.message}
                     />
 
 

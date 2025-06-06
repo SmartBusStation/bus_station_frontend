@@ -21,7 +21,7 @@ export const businessActorSchema = z.object({
         .regex(/\d/, "your password must contain at least one number"),
     confirmPassword: z.string(),
     role: z.array(z.enum(allowedRoles))
-          .nonempty("Au moins un rôle est requis"),
+          .nonempty("At least 1 role is required"),
     gender: z.enum(allowedGenders, {
             errorMap: () => ({ message: "Please select a gender" }),
         })
