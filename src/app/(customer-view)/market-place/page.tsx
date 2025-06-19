@@ -44,14 +44,14 @@ export default function MarketPlace(): JSX.Element {
 
             {/* Grille des voyages */}
             <TripGrid
-                filteredTrips={marketPlace.filteredTrips}
+                filteredTrips={marketPlace.filteredTrips || []}
                 getClassColor={marketPlace.getClassColor}
                 getAmenityIcon={marketPlace.getAmenityIcon}
                 navigate = {navigate.onGoToTripDetail}
             />
 
             {/* Pagination */}
-            {marketPlace.filteredTrips.length > 0 && (
+            {marketPlace.filteredTrips && marketPlace.filteredTrips.length > 0 && (
                 <div className="flex justify-center mt-12">
                     <div className="flex items-center gap-2">
                         <button className="w-10 h-10 rounded-lg bg-white border-2 border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-600 transition-colors flex items-center justify-center">
@@ -74,14 +74,52 @@ export default function MarketPlace(): JSX.Element {
                 </div>
             )}
 
-            {/* Message si aucun résultat */}
-            {marketPlace.filteredTrips.length === 0  && (
-                <div className="text-center py-12">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center">
-                        <Search className="h-12 w-12 text-blue-600" />
+            {/* État: Aucun voyage trouvé (filtre vide) */}
+            {marketPlace.filteredTrips && marketPlace.filteredTrips.length === 0 && (
+                <div className="flex flex-col items-center justify-center mt-16 py-10 px-6 text-center">
+                    <div className="w-20 h-20 mb-6 rounded-full bg-blue-50 flex items-center justify-center">
+                        <svg className="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No trips found</h3>
-                    <p className="text-gray-600">Try adjusting your search criteria or filters</p>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        Aucun voyage trouvé
+                    </h3>
+                    <p className="text-gray-600 mb-6 max-w-md">
+                        Aucun voyage ne correspond à vos critères de recherche actuels.
+                    </p>
+                    <button
+                        onClick={() => {/* Fonction pour réinitialiser les filtres */}}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                    >
+                        Réinitialiser les filtres
+                    </button>
+                </div>
+            )}
+
+            {/* État: Erreur de chargement (données null) */}
+            {marketPlace.filteredTrips === null && (
+                <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                    <div className="w-20 h-20 mb-6 rounded-full bg-red-50 flex items-center justify-center">
+                        <svg className="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        Erreur de chargement
+                    </h3>
+                    <p className="text-gray-600 mb-6 max-w-md">
+                        Une erreur s'est produite lors du chargement des voyages.
+                        Veuillez réessayer.
+                    </p>
+                    <button
+                        onClick={() => {window.location.reload()}}
+                        className="px-6 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+                    >
+                        Réessayer
+                    </button>
                 </div>
             )}
         </div>

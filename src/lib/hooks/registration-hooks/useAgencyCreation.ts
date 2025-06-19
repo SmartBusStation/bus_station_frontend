@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {TravelAgency} from "@/lib/types/models/Agency";
 import {TravelAgencyFormType, travelAgencySchema} from "@/lib/types/schema/travelAgencySchema";
-import {createAgency} from "@/lib/services/agencyService";
-import {decryptDataWithAES} from "@/lib/services/encryptionService";
+import {createAgency} from "@/lib/services/agency-service";
+import {decryptDataWithAES} from "@/lib/services/encryption-service";
 import {Organization} from "@/lib/types/models/Organization";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";

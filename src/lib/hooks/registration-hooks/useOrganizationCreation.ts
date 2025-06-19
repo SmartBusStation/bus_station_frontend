@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Organization} from "@/lib/types/models/Organization";
 import {baseOrganizationSchema, OrganizationFormType} from "@/lib/types/schema/organizationSchema";
-import {createOrganization} from "@/lib/services/organizationService";
-import {encryptDataWithAES} from "@/lib/services/encryptionService";
+import {createOrganization} from "@/lib/services/organization-service";
+import {encryptDataWithAES} from "@/lib/services/encryption-service";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 

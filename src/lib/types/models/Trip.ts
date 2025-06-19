@@ -1,5 +1,7 @@
 import {Vehicle} from "@/lib/types/models/vehicle";
 
+export type Amenities = "WiFi"|"AC"|"USB"|"Snacks"|"Meals";
+
 export interface Trip {
     "idVoyage": string,
     "titre": string,
@@ -10,7 +12,7 @@ export interface Trip {
     "dateArriveEffectif": string,
     "lieuArrive": string,
     "heureDepartEffectif": string,
-    "dureeVoyage": {
+   /* "dureeVoyage": {
         "seconds": number,
         "zero": boolean,
         "nano": number,
@@ -22,7 +24,8 @@ export interface Trip {
                 "dateBased": boolean
             }
         ]
-    },
+    },*/
+    "dureeVoyage": string,
     "heureArrive": string,
     "nbrPlaceReservable": number,
     "nbrPlaceRestante": number,
@@ -38,7 +41,11 @@ export interface Trip {
     "pointDeDepart": string,
     "pointArrivee": string,
     "vehicule": Vehicle
-    "placeReservees": number[]
+    "placeReservees": number[],
+    "amenities": Amenities[],
 }
+
+
+
 
 

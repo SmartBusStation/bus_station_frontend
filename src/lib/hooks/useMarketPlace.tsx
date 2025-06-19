@@ -2,293 +2,23 @@ import {useEffect, useState} from "react";
 import {AxiosError} from "axios";
 import {SearchFilterType} from "@/app/(customer-view)/market-place/page";
 import { Wifi, Snowflake, Usb } from "lucide-react";
+import {Trip} from "@/lib/types/models/Trip";
+import {retrieveAllTrips} from "@/lib/services/trip-service";
 
 
 
-export interface AvailableTrips {
-    "idVoyage": string,
-    "nomAgence": string,
-    "lieuDepart": string,
-    "lieuArrive": string,
-    "nbrPlaceRestante": number,
-    "nbrPlaceReservable": number,
-    "dureeVoyage": {
-        "seconds": number,
-        "zero": boolean,
-        "nano": number,
-        "negative": boolean,
-        "units": [
-            {
-                "durationEstimated": boolean,
-                "timeBased": boolean,
-                "dateBased": boolean
-            }
-        ]
-    },
-    "nomClasseVoyage": string,
-    "prix": number,
-    "smallImage": string,
-    "bigImage": string
-    "amenities": Amenities[],
-}
 
 
-export type Amenities = "WiFi"|"AC"|"USB"|"Snacks"|"Meals";
-
-/*const fakeTrips = [
-    {
-        idVoyage: 1,
-        nomAgence: "Voyage Express",
-        prix: 15000,
-        lieuDepart: "Douala",
-        lieuArrive: "Yaoundé",
-        dureeVoyage: "4h 30min",
-        nbrPlaceReservable: 45,
-        nbrPlaceRestante: 12,
-        nomClasseVoyage: "VIP",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        rating: 4.8,
-        amenities: ["WiFi", "AC", "USB"],
-    },
-    {
-        idVoyage: 2,
-        nomAgence: "Comfort Travel",
-        prix: 12500,
-        lieuDepart: "Yaoundé",
-        lieuArrive: "Limbé",
-        dureeVoyage: "6h 15min",
-        nbrPlaceReservable: 40,
-        nbrPlaceRestante: 8,
-        nomClasseVoyage: "Standard",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        rating: 4.5,
-        amenities: ["WiFi", "AC"],
-    },
-    {
-        idVoyage: 3,
-        nomAgence: "Luxury Lines",
-        prix: 25000,
-        lieuDepart: "Douala",
-        lieuArrive: "Kribi",
-        dureeVoyage: "3h 45min",
-        nbrPlaceReservable: 30,
-        nbrPlaceRestante: 15,
-        nomClasseVoyage: "Premium",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        rating: 4.9,
-        amenities: ["WiFi", "AC", "USB", "Snacks"],
-    },
-    {
-        idVoyage: 4,
-        nomAgence: "City Connect",
-        prix: 8500,
-        lieuDepart: "Limbé",
-        lieuArrive: "Douala",
-        dureeVoyage: "5h 20min",
-        nbrPlaceReservable: 50,
-        nbrPlaceRestante: 22,
-        nomClasseVoyage: "Economy",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        rating: 4.2,
-        amenities: ["AC"],
-    },
-    {
-        idVoyage: 5,
-        nomAgence: "Rapid Transit",
-        prix: 18000,
-        lieuDepart: "Kribi",
-        lieuArrive: "Yaoundé",
-        dureeVoyage: "4h 10min",
-        nbrPlaceReservable: 35,
-        nbrPlaceRestante: 5,
-        nomClasseVoyage: "VIP",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        rating: 4.7,
-        amenities: ["WiFi", "AC", "USB"],
-    },
-    {
-        idVoyage: 6,
-        nomAgence: "Coastal Express",
-        prix: 22000,
-        lieuDepart: "Yaoundé",
-        lieuArrive: "Kribi",
-        dureeVoyage: "4h 00min",
-        nbrPlaceReservable: 42,
-        nbrPlaceRestante: 18,
-        nomClasseVoyage: "Premium",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        rating: 4.6,
-        amenities: ["WiFi", "AC", "USB", "Meals"],
-    },
-]
-*/
 
 
-const fakeTrips: AvailableTrips[] = [
-    {
-        idVoyage: "1",
-        nomAgence: "Voyage Express",
-        prix: 15000,
-        lieuDepart: "Douala",
-        lieuArrive: "Yaoundé",
-        dureeVoyage: {
-            seconds: 16200, // 4h 30min en secondes
-            zero: false,
-            nano: 0,
-            negative: false,
-            units: [
-                {
-                    durationEstimated: true,
-                    timeBased: true,
-                    dateBased: false
-                }
-            ]
-        },
-        nbrPlaceReservable: 45,
-        nbrPlaceRestante: 12,
-        nomClasseVoyage: "VIP",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        smallImage: "/placeholder.svg?height=150&width=200",
-        amenities: ["WiFi", "AC", "USB"],
-    },
-    {
-        idVoyage: "2",
-        nomAgence: "Comfort Travel",
-        prix: 12500,
-        lieuDepart: "Yaoundé",
-        lieuArrive: "Limbé",
-        dureeVoyage: {
-            seconds: 22500, // 6h 15min en secondes
-            zero: false,
-            nano: 0,
-            negative: false,
-            units: [
-                {
-                    durationEstimated: true,
-                    timeBased: true,
-                    dateBased: false
-                }
-            ]
-        },
-        nbrPlaceReservable: 40,
-        nbrPlaceRestante: 8,
-        nomClasseVoyage: "Standard",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        smallImage: "/placeholder.svg?height=150&width=200",
-        amenities: ["WiFi", "AC"],
-    },
-    {
-        idVoyage: "3",
-        nomAgence: "Luxury Lines",
-        prix: 25000,
-        lieuDepart: "Douala",
-        lieuArrive: "Kribi",
-        dureeVoyage: {
-            seconds: 13500, // 3h 45min en secondes
-            zero: false,
-            nano: 0,
-            negative: false,
-            units: [
-                {
-                    durationEstimated: true,
-                    timeBased: true,
-                    dateBased: false
-                }
-            ]
-        },
-        nbrPlaceReservable: 30,
-        nbrPlaceRestante: 15,
-        nomClasseVoyage: "Premium",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        smallImage: "/placeholder.svg?height=150&width=200",
-        amenities: ["WiFi", "AC", "USB", "Snacks"],
-    },
-    {
-        idVoyage: "4",
-        nomAgence: "City Connect",
-        prix: 8500,
-        lieuDepart: "Limbé",
-        lieuArrive: "Douala",
-        dureeVoyage: {
-            seconds: 19200, // 5h 20min en secondes
-            zero: false,
-            nano: 0,
-            negative: false,
-            units: [
-                {
-                    durationEstimated: true,
-                    timeBased: true,
-                    dateBased: false
-                }
-            ]
-        },
-        nbrPlaceReservable: 50,
-        nbrPlaceRestante: 22,
-        nomClasseVoyage: "Economy",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        smallImage: "/placeholder.svg?height=150&width=200",
-        amenities: ["AC"],
-    },
-    {
-        idVoyage: "5",
-        nomAgence: "Rapid Transit",
-        prix: 18000,
-        lieuDepart: "Kribi",
-        lieuArrive: "Yaoundé",
-        dureeVoyage: {
-            seconds: 15000, // 4h 10min en secondes
-            zero: false,
-            nano: 0,
-            negative: false,
-            units: [
-                {
-                    durationEstimated: true,
-                    timeBased: true,
-                    dateBased: false
-                }
-            ]
-        },
-        nbrPlaceReservable: 35,
-        nbrPlaceRestante: 5,
-        nomClasseVoyage: "VIP",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        smallImage: "/placeholder.svg?height=150&width=200",
-        amenities: ["WiFi", "AC", "USB"],
-    },
-    {
-        idVoyage: "6",
-        nomAgence: "Coastal Express",
-        prix: 22000,
-        lieuDepart: "Yaoundé",
-        lieuArrive: "Kribi",
-        dureeVoyage: {
-            seconds: 14400, // 4h 00min en secondes
-            zero: false,
-            nano: 0,
-            negative: false,
-            units: [
-                {
-                    durationEstimated: true,
-                    timeBased: true,
-                    dateBased: false
-                }
-            ]
-        },
-        nbrPlaceReservable: 42,
-        nbrPlaceRestante: 18,
-        nomClasseVoyage: "Premium",
-        bigImage: "/placeholder.svg?height=300&width=400",
-        smallImage: "/placeholder.svg?height=150&width=200",
-        amenities: ["WiFi", "AC", "USB", "Meals"],
-    },
-]
+
 
 export function useMarketPlace()
 {
 
 
-    const [availableTrips, setAvailableTrips] = useState<AvailableTrips[]>(fakeTrips)
-    const [filteredTrips, setFilteredTrips] = useState<AvailableTrips[]>(fakeTrips);
+    const [availableTrips, setAvailableTrips] = useState<Partial<Trip>[] | null>(null);
+    const [filteredTrips, setFilteredTrips] = useState<Partial<Trip>[]|null>(null);
     const [error, setError] = useState<AxiosError|null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [activeFilter, setActiveFilter] = useState<string>("all");
@@ -301,20 +31,22 @@ export function useMarketPlace()
 
 
     useEffect(() => {
-        fetchAvailableTrips()
+        fetchAvailableTrips();
     }, [])
 
 
     useEffect(() => {
-        filterTrips()
+        filterTrips();
+        console.log("filtered trips", filteredTrips);
     }, [activeFilter, availableTrips]);
+
 
 
     function filterTrips() {
         if (activeFilter === "all") {
             setFilteredTrips(availableTrips)
         } else {
-            const filtered = availableTrips.filter(
+            const filtered = availableTrips && availableTrips.filter(
                 (trip) => trip.lieuDepart === activeFilter || trip.lieuArrive === activeFilter,
             )
             setFilteredTrips(filtered)
@@ -325,17 +57,27 @@ export function useMarketPlace()
 
 
     async function fetchAvailableTrips() {
-        try {
+
             setIsLoading(true)
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            setIsLoading(false)
-            setError(null)
-        } catch (error) {
-            setIsLoading(false)
-            console.log(error)
-            const axiosError = error as AxiosError
-            setError(axiosError);
-        }
+            await retrieveAllTrips()
+                .then((result) => {
+                    if(result)
+                    {
+                        console.log(result);
+                        setAvailableTrips(result.content);
+                        setFilteredTrips(result.content);
+                    }
+                    else
+                    {
+                        setFilteredTrips(null);
+                        setAvailableTrips(null);
+                    }
+                })
+                .catch((error) => {
+
+                })
+                .finally(()=> setIsLoading(false));
+
     }
 
 
@@ -344,16 +86,21 @@ export function useMarketPlace()
         let filtered = availableTrips
 
         if (searchFilters.departure) {
-            filtered = filtered.filter((trip) =>
-                trip.lieuDepart.toLowerCase().includes(searchFilters.departure.toLowerCase()),
+            filtered = filtered && filtered.filter((trip) =>
+                {
+                    if(trip?.lieuDepart) trip.lieuDepart.toLowerCase().includes(searchFilters.departure.toLowerCase());
+                }
             )
         }
 
         if (searchFilters.arrival) {
-            filtered = filtered.filter((trip) => trip.lieuArrive.toLowerCase().includes(searchFilters.arrival.toLowerCase()))
+            filtered = filtered && filtered.filter((trip) =>
+                {
+                    if (trip?.lieuArrive) trip.lieuArrive.toLowerCase().includes(searchFilters.arrival.toLowerCase());
+                }
+            )
         }
-
-        setFilteredTrips(filtered)
+        setFilteredTrips(filtered);
     }
 
 

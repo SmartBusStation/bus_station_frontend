@@ -1,4 +1,4 @@
-import Image, {StaticImageData} from "next/image";
+import Image from "next/image";
 import {ChevronDown, CreditCard, HelpCircle, LogOut, Settings, User} from "lucide-react";
 import userIcon from "../../../../public/userIcon.png";
 import React from "react";
@@ -6,12 +6,6 @@ import {useBusStation} from "@/context/Provider";
 import {Customer} from "@/lib/types/models/BusinessActor";
 
 
-export interface UserData {
-    name: string;
-    plan: string;
-    avatar: StaticImageData|string;
-    email: string
-}
 
 
 export interface ProfileDropdownProps {
@@ -38,7 +32,7 @@ export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userDa
                 </div>
                 <div className="relative">
                     <Image
-                        src={userData.avatar}
+                        src={userIcon}
                         alt="Profile"
                         width={40}
                         height={40}

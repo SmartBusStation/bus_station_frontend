@@ -12,20 +12,14 @@ export function useCustomerNavbar()
     const visitorUserData : Customer= {
         userId:"userId",
         first_name: "Visitor",
-        last_name:"",
-        email:"",
+        last_name:"Visitor",
+        email:"visitor@gmail.com",
         role:["USAGER"],
-        phone_number:"",
+        phone_number:"6XXXXXXXX",
         username:"Visitor"
     }
 
-    // Données utilisateur mockées
-    /*const userData: UserData = {
-        name: "John Traveler",
-        email: "john@mooving.com",
-        avatar: userIcon,
-        plan: "Premium Member",
-    }*/
+
 
     const notifications = [
         { id: 1, title: "Trip Confirmed", message: "Your trip to Yaoundé is confirmed", time: "2 min ago", unread: true },

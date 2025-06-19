@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
-import {createBusinessActor} from "@/lib/services/businessActorService";
+import {createBusinessActor} from "@/lib/services/businessActor-service";
 import {AxiosError} from "axios";
 import {BusinessActorFormType, businessActorSchema} from "@/lib/types/schema/businessActorSchema";
-import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/encryptionService";
+import {decryptDataWithAES, encryptDataWithAES} from "@/lib/services/encryption-service";
 import {Option} from "@/ui/SelectField";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";

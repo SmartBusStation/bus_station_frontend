@@ -2,6 +2,7 @@ import axios, {AxiosResponse} from "axios";
 import {BusinessActor, Customer, UserInterface} from "@/lib/types/models/BusinessActor";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 import {LoginSchemaType} from "@/lib/types/schema/loginSchema";
+import axiosInstance from "@/lib/services/axios-services/axiosInstance";
 
 
 
@@ -70,9 +71,10 @@ export async function getConnectedUser(token: string): Promise<Customer|null>
     {
         try
         {
-            const apiResponse: AxiosResponse<Customer> = await axios.get(`${url}/profil/${token}`);
+            const apiResponse: AxiosResponse<Customer> = await axiosInstance.get("/utilisateur/profil");
             if(apiResponse.status === 200)
             {
+                console.log(apiResponse);
                 return apiResponse.data;
             }
             else
