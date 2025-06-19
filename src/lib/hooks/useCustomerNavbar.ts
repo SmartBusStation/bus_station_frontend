@@ -1,20 +1,31 @@
 import {useState} from "react";
-import {UserData} from "@/components/layouts/customer-navbar/ProfileDropdown";
-import userIcon from "../../../public/userIcon.png";
+import {useBusStation} from "@/context/Provider";
+import {Customer} from "@/lib/types/models/BusinessActor";
 
 export function useCustomerNavbar()
 {
 
-    const [isProfileOpen, setIsProfileOpen] = useState(false)
-    const [isNotificationOpen, setIsNotificationOpen] = useState(false)
+    const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
+    const [isNotificationOpen, setIsNotificationOpen] = useState<boolean>(false);
+    const {userData} = useBusStation();
+
+    const visitorUserData : Customer= {
+        userId:"userId",
+        first_name: "Visitor",
+        last_name:"",
+        email:"",
+        role:["USAGER"],
+        phone_number:"",
+        username:"Visitor"
+    }
 
     // Données utilisateur mockées
-    const userData: UserData = {
+    /*const userData: UserData = {
         name: "John Traveler",
         email: "john@mooving.com",
         avatar: userIcon,
         plan: "Premium Member",
-    }
+    }*/
 
     const notifications = [
         { id: 1, title: "Trip Confirmed", message: "Your trip to Yaoundé is confirmed", time: "2 min ago", unread: true },
@@ -41,6 +52,7 @@ export function useCustomerNavbar()
         isNotificationOpen,
         setIsNotificationOpen,
         isProfileOpen,
-        setIsProfileOpen
+        setIsProfileOpen,
+        visitorUserData
     }
 }

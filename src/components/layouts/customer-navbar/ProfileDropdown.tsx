@@ -2,6 +2,8 @@ import Image, {StaticImageData} from "next/image";
 import {ChevronDown, CreditCard, HelpCircle, LogOut, Settings, User} from "lucide-react";
 import userIcon from "../../../../public/userIcon.png";
 import React from "react";
+import {useBusStation} from "@/context/Provider";
+import {Customer} from "@/lib/types/models/BusinessActor";
 
 
 export interface UserData {
@@ -15,16 +17,14 @@ export interface UserData {
 export interface ProfileDropdownProps {
     setIsProfileOpen: React.Dispatch<React.SetStateAction<boolean>>,
     isProfileOpen: boolean,
-    userData: UserData
+    userData: Customer
 }
 
 
 export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userData}: ProfileDropdownProps)
 {
 
-    async function handleLogout() {
-        alert("Logout functionality")
-    }
+    const {logout} = useBusStation();
 
     return (
         <div className="relative">
@@ -33,8 +33,8 @@ export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userDa
                 className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
             >
                 <div className="hidden lg:block text-right">
-                    <p className="font-semibold text-gray-900 text-sm">{userData.name}</p>
-                    <p className="text-xs text-gray-500">{userData.plan}</p>
+                    <p className="font-semibold text-gray-900 text-sm">{userData?.first_name || "Visitor"}</p>
+                    <p className="text-xs text-gray-500">{"Premium Plan"}</p>
                 </div>
                 <div className="relative">
                     <Image
@@ -64,10 +64,10 @@ export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userDa
                                 className="rounded-full"
                             />
                             <div>
-                                <h3 className="font-semibold text-gray-900">{userData.name}</h3>
+                                <h3 className="font-semibold text-gray-900">{userData?.first_name + " " + userData?.last_name}</h3>
                                 <p className="text-sm text-gray-500">{userData.email}</p>
                                 <span className="inline-block px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs rounded-full mt-1">
-                                    {userData.plan}
+                                    {"Premium Plan"}
                                 </span>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userDa
 
                     <div className="p-2 border-t border-gray-100">
                         <button
-                            onClick={handleLogout}
+                            onClick={logout}
                             className="w-full flex items-center gap-3 p-3 hover:bg-red-50 rounded-lg transition-colors text-left group"
                         >
                             <LogOut className="h-4 w-4 text-red-500"/>

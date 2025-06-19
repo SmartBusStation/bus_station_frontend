@@ -1,7 +1,9 @@
+"use client";
+
 import constate from 'constate';
 import {useEffect, useMemo, useState} from "react";
 import {loginSchema, LoginSchemaType} from "@/lib/types/schema/loginSchema";
-import {User} from "@/lib/types/models/BusinessActor";
+import {Customer} from "@/lib/types/models/BusinessActor";
 import {getConnectedUser, onLogin} from "@/lib/services/businessActorService";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -15,9 +17,10 @@ export const [BusStationProvider, useBusStation] = constate(useBusStationProvide
 function useBusStationProvider() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [userData, setUserData] = useState<User|null>(null);
+    const [userData, setUserData] = useState<Customer|null>(null);
     const [axiosErrors, setAxiosErrors] = useState<string|null>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isCustomerAuthenticated, setIsCustomerAuthenticated] = useState<boolean>(false);
+    const [isAgencyConnected, setIsAgencyConnected] = useState<boolean>(false);
 
 
 
@@ -28,26 +31,54 @@ function useBusStationProvider() {
         });
 
 
+    function saveAuthParams(token:string, expirationDate?:string)
+    {
+        localStorage.setItem("bus_station_token_key", token);
+        if (expirationDate) localStorage.setItem("bus_station_token_expirationDate", expirationDate);
+    }
 
 
-    async function login(data: LoginSchemaType)
+    function clearLocaleStorage()
+    {
+        localStorage.removeItem("bus_station_token_key");
+        localStorage.removeItem("bus_station_token_expirationDate");
+
+    }
+
+
+
+    function logout()
+    {
+        clearLocaleStorage();
+        window.location.href="/"
+    }
+
+    async function login(data: LoginSchemaType): Promise<void>
     {
         console.log(data);
+        setIsCustomerAuthenticated(false);
+        setIsAgencyConnected(false);
+        setUserData(null);
+        setIsLoading(true);
         await onLogin(data)
             .then((result) => {
                 if(result)
                 {
                     setUserData(result);
+                    saveAuthParams(result.token);
                     if(result.role.includes("USAGER"))
                     {
+                        setIsCustomerAuthenticated(true);
                         window.location.href = "/market-place";
                     }
                     if (result.role.includes("ORGANISATION"))
                     {
+                        setIsAgencyConnected(true);
                         window.location.href = "/dashboard";
                     }
                     if (result.role.includes("AGENCE_VOYAGE"))
                     {
+                        setIsAgencyConnected(true);
                         window.location.href = "/dashboard";
                     }
                 }
@@ -77,12 +108,13 @@ function useBusStationProvider() {
 
 
 
-    async function getCurrentUser()
+    async function getCurrentUser():Promise<void>
     {
         const token = localStorage.getItem("bus_station_token_key") as string;
-        if(token === "")
+        if(token === "" &&  token === undefined)
         {
-            setIsAuthenticated(false);
+            setIsCustomerAuthenticated(false);
+            setIsAgencyConnected(false);
             setUserData(null);
         }
         else
@@ -91,17 +123,28 @@ function useBusStationProvider() {
                 .then((result) => {
                     if(result)
                     {
-                        setIsAuthenticated(true);
+                        if(result?.role.includes("USAGER"))
+                        {
+                            setIsCustomerAuthenticated(true);
+                            setIsAgencyConnected(false);
+                        }
+                        else
+                        {
+                            setIsAgencyConnected(true);
+                            setIsCustomerAuthenticated(false);
+                        }
                         setUserData(result);
                     }
                     else
                     {
-                        setIsAuthenticated(false);
+                        setIsCustomerAuthenticated(false);
+                        setIsAgencyConnected(false);
                         setUserData(null);
                     }
                 })
                 .catch(() => {
-                    setIsAuthenticated(false);
+                    setIsCustomerAuthenticated(false);
+                    setIsAgencyConnected(false);
                     setUserData(null);
                 });
         }
@@ -109,7 +152,11 @@ function useBusStationProvider() {
     }
 
     useEffect(() => {
-        getCurrentUser();
+        const token = localStorage.getItem("bus_station_token_key") as string;
+        if (token !== "" && token !== undefined)
+        {
+            getCurrentUser();
+        }
     }, []);
 
 
@@ -122,10 +169,12 @@ function useBusStationProvider() {
         register,
         handleSubmit,
         errors,
-        isAuthenticated
+        isCustomerAuthenticated,
+        logout,
+        isAgencyConnected
 
 
-    }), [isLoading, userData, axiosErrors, handleSubmit, register, errors, isAuthenticated ]);
+    }), [isLoading, userData, axiosErrors, register, handleSubmit, errors, isCustomerAuthenticated, isAgencyConnected]);
 
     return { authMethods };
 

@@ -7,12 +7,14 @@ import {Lock, User } from "lucide-react";
 import {useNavigation} from "@/lib/hooks/useNavigation";
 import AnimateCircle from "@/ui/AnimateCircle";
 import InputField from "@/ui/InputField";
-import {useLogin} from "@/lib/hooks/useLogin";
 import SocialConnexionButton from "@/components/authentication-pages-components/SocialConnexionButton";
+import {useBusStation} from "@/context/Provider";
+import TransparentModal from "@/modals/TransparentModal";
+import Loader from "@/modals/Loader";
 
 export default function LoginPage(): JSX.Element {
 
-    const {onLogin,...zodParams} = useLogin();
+    const {login, axiosErrors,isLoading,...zodParams} = useBusStation();
     const navigation = useNavigation();
 
     return (
@@ -33,8 +35,15 @@ export default function LoginPage(): JSX.Element {
                     <h1 className="text-2xl font-bold">Login to Bus Station</h1>
                     <p className="text-blue-100 mt-2">Accédez à votre espace personnel</p>
                 </div>
+
+                {axiosErrors && <p className="text-sm text-red-500 font-semibold m-2">{axiosErrors}</p>}
                 <div className="p-6 md:p-8">
-                    <form onSubmit={zodParams.handleSubmit(onLogin)}>
+                    {isLoading && (
+                        <TransparentModal isOpen={isLoading}>
+                            <Loader/>
+                        </TransparentModal>
+                    )}
+                    <form onSubmit={zodParams.handleSubmit(login)}>
 
                         <div className="space-y-6 ">
                             <InputField
@@ -65,7 +74,7 @@ export default function LoginPage(): JSX.Element {
                             type="submit"
                             whileHover={{scale: 1.02}}
                             whileTap={{scale: 0.98}}
-                            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center"
+                            className="w-full bg-primary text-base-color py-3 px-4 rounded-lg font-semibold cursor-pointer hover:bg-blue-700 transition-colors flex items-center justify-center"
                         >
                             Login
                         </motion.button>

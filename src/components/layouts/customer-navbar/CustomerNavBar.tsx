@@ -29,7 +29,7 @@ export default function CustomerNavBar({ onMenuClick }: ModernNavBarProps) {
                             <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
                                 Welcome back,{" "}
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                                    {customerNavBar.userData.name.split(" ")[0]}
+                                    {customerNavBar.userData?.first_name + " " + customerNavBar.userData?.last_name || customerNavBar?.visitorUserData?.username}
                                 </span>
                                 !
                             </h1>
@@ -62,7 +62,7 @@ export default function CustomerNavBar({ onMenuClick }: ModernNavBarProps) {
                         <ProfileDropdown
                             setIsProfileOpen={customerNavBar.setIsProfileOpen}
                             isProfileOpen={customerNavBar.isProfileOpen}
-                            userData={customerNavBar.userData}
+                            userData={customerNavBar.userData ||customerNavBar.visitorUserData}
                         />
                     </div>
                 </div>

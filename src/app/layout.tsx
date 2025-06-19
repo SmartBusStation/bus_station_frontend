@@ -1,33 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import LanguageProvider from "@/context/LanguageProvider";
-import { ResourceProvider } from "@/context/ResourceContext"; // Ajoutez cette ligne
+import { ResourceProvider } from "@/context/ResourceContext";
+import {BusStationProvider} from "@/context/Provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
-  title: "Mooving.com",
+  title: "Bus Station",
   description: "Trip Agency App Powered By 4GI Students",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`antialiased`}>
         <LanguageProvider>
-          <ResourceProvider>
-            {children}
-          </ResourceProvider>
+          <BusStationProvider>
+            <ResourceProvider>
+              {children}
+            </ResourceProvider>
+          </BusStationProvider>
         </LanguageProvider>
       </body>
     </html>

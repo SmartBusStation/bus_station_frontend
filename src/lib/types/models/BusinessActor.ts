@@ -31,9 +31,8 @@ export  interface BusinessActor {
 }
 
 
-export interface User {
+export interface Customer {
     userId: string,
-    token?: string,
     last_name: string,
     first_name: string,
     email:string,
@@ -42,4 +41,7 @@ export interface User {
     role: string[],
 }
 
+export interface UserInterface extends Customer{
+    token: string,
+}
 

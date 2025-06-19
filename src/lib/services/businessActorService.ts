@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {BusinessActor, User} from "@/lib/types/models/BusinessActor";
+import {BusinessActor, Customer, UserInterface} from "@/lib/types/models/BusinessActor";
 import {BusinessActorFormType} from "@/lib/types/schema/businessActorSchema";
 import {LoginSchemaType} from "@/lib/types/schema/loginSchema";
 
@@ -39,11 +39,11 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
 
 
 
-export async function onLogin(data: LoginSchemaType): Promise<User | null>
+export async function onLogin(data: LoginSchemaType): Promise<UserInterface | null>
 {
     try
     {
-        const apiResponse: AxiosResponse<User> = await axios.post(`${url}/connexion`, data);
+        const apiResponse: AxiosResponse<UserInterface> = await axios.post(`${url}/connexion`, data);
         if (apiResponse.status === 200)
         {
             console.log(apiResponse.data);
@@ -64,26 +64,30 @@ export async function onLogin(data: LoginSchemaType): Promise<User | null>
 
 
 
-export async function getConnectedUser(token: string): Promise<User|null>
+export async function getConnectedUser(token: string): Promise<Customer|null>
 {
-    try
+    if (token && token !=="")
     {
-        const apiResponse: AxiosResponse<User> = await axios.get(`${url}/profil/${token}`);
-        if(apiResponse.status === 200)
+        try
         {
-            return apiResponse.data;
+            const apiResponse: AxiosResponse<Customer> = await axios.get(`${url}/profil/${token}`);
+            if(apiResponse.status === 200)
+            {
+                return apiResponse.data;
+            }
+            else
+            {
+                console.warn("Unattended http code", apiResponse.status);
+                return null;
+            }
         }
-        else
+        catch (error)
         {
-            console.warn("Unattended http code", apiResponse.status);
-            return null;
+            console.error("Something went wrong when getting the current user", error);
+            throw new Error("Something went wrong when getting the current user");
         }
     }
-    catch (error)
-    {
-        console.error("Something went wrong when getting the current user", error);
-        throw new Error("Something went wrong when getting the current user");
-    }
+    return null;
 }
 
 
