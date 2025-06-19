@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-label": "^2.1.7",
     "antd": "^5.25.2",
     "axios": "^1.8.4",
     "constate": "^3.3.3",
-    "framer-motion": "^12.9.2",
+    "framer-motion": "^12.18.1",
     "i18next": "^25.0.0",
     "i18next-browser-languagedetector": "^8.0.5",
     "lucide-react": "^0.501.0",
