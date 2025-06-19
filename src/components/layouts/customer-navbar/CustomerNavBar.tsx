@@ -1,7 +1,10 @@
-import { Settings, Mail, Menu } from "lucide-react";
+import {Menu } from "lucide-react";
 import NotificationSection from "@/components/layouts/customer-navbar/NotificationSection";
 import ProfileDropdown from "@/components/layouts/customer-navbar/ProfileDropdown";
 import {useCustomerNavbar} from "@/lib/hooks/useCustomerNavbar";
+import LanguageSelector from "@/components/layouts/customer-navbar/LanguageSelector";
+import {useLanguage} from "@/lib/hooks/useLanguage";
+
 
 
 export interface ModernNavBarProps {
@@ -9,8 +12,11 @@ export interface ModernNavBarProps {
 }
 
 export default function CustomerNavBar({ onMenuClick }: ModernNavBarProps) {
-
     const customerNavBar = useCustomerNavbar();
+    const languageHook = useLanguage();
+    const username = customerNavBar.userData ? (customerNavBar.userData.first_name + " " + customerNavBar.userData.last_name) : customerNavBar?.visitorUserData?.username;
+
+
 
     return (
         <div className="bg-white border-b border-gray-200 shadow-sm">
@@ -29,7 +35,7 @@ export default function CustomerNavBar({ onMenuClick }: ModernNavBarProps) {
                             <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
                                 Welcome back,{" "}
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                                    {customerNavBar.userData ? (customerNavBar.userData.first_name + " " + customerNavBar.userData.last_name) : customerNavBar?.visitorUserData?.username}
+                                    {username}
                                 </span>
                                 !
                             </h1>
@@ -39,16 +45,15 @@ export default function CustomerNavBar({ onMenuClick }: ModernNavBarProps) {
 
                     {/* Right Section */}
                     <div className="flex items-center gap-3">
-                        {/* Action Buttons */}
-                        <div className="hidden lg:flex items-center gap-2">
-                            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 group">
-                                <Settings className="h-5 w-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                            </button>
 
-                            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 group">
-                                <Mail className="h-5 w-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                            </button>
-                        </div>
+                        {/* Language Selector */}
+                        <LanguageSelector
+                            isLanguageOpen={languageHook.isLanguageOpen}
+                            setIsLanguageOpen={languageHook.setIsLanguageOpen}
+                            currentLanguage={languageHook.currentLanguage}
+                            languages={languageHook.languages}
+                            handleLanguageChange={languageHook.handleLanguageChange}
+                        />
 
                         {/* Notifications */}
                         <NotificationSection
@@ -62,23 +67,23 @@ export default function CustomerNavBar({ onMenuClick }: ModernNavBarProps) {
                         <ProfileDropdown
                             setIsProfileOpen={customerNavBar.setIsProfileOpen}
                             isProfileOpen={customerNavBar.isProfileOpen}
-                            userData={customerNavBar.userData ||customerNavBar.visitorUserData}
+                            userData={customerNavBar.userData || customerNavBar.visitorUserData}
                         />
                     </div>
                 </div>
             </div>
 
-
             {/* Click outside to close dropdowns */}
-            {(customerNavBar.isProfileOpen || customerNavBar.isNotificationOpen) && (
+            {(customerNavBar.isProfileOpen || customerNavBar.isNotificationOpen || languageHook.isLanguageOpen) && (
                 <div
                     className="fixed inset-0 z-40"
                     onClick={() => {
-                        customerNavBar.setIsProfileOpen(false)
-                        customerNavBar.setIsNotificationOpen(false)
+                        customerNavBar.setIsProfileOpen(false);
+                        customerNavBar.setIsNotificationOpen(false);
+                        languageHook.setIsLanguageOpen(false);
                     }}
                 />
             )}
         </div>
-    )
+    );
 }

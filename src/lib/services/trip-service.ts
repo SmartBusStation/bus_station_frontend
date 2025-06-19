@@ -1,4 +1,3 @@
-
 import {AxiosResponse} from "axios";
 import axiosInstance from "@/lib/services/axios-services/axiosInstance";
 import {Trip} from "@/lib/types/models/Trip";
