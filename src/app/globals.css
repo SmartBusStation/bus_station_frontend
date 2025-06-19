@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --primary-color:  rgba(30, 64, 175, 1);  /* blue-600 */
+
+  --primary-color: rgba(37, 99, 235, 1.0);  /* blue-600 */
   --start-color: rgba(30, 64, 175, 1.0);   /* blue-800 */
   --start-color-90: rgba(30, 64, 175, 0.90);    /* blue-800 with opacity 90*/
   --transition-color-82: rgba(59, 130, 246, 0.82);  /* blue-500 with opacity 82 */
@@ -29,7 +30,6 @@
 }
 
 
-
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
@@ -42,19 +42,31 @@ body {
 
 
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+
+.dialog{
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+
+/* Dans votre fichier CSS global ou component */
+.thin-scrollbar {
+  /* Pour Firefox */
+  scrollbar-width: none;
+  scrollbar-color: #cbd5e1 transparent;
 }
 
 
 
-@layer components {
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
+
+
 
 
 

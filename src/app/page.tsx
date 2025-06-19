@@ -1,18 +1,17 @@
 "use client"
 
-import HeroSection from "@/components/landingPageComponents/HeroSection";
-import AgencySection from "@/components/landingPageComponents/AgencySection";
-import StatisticSection from "@/components/landingPageComponents/StatisticSection";
-import FeatureSection from "@/components/landingPageComponents/FeatureSection";
-import SecuritySection from "@/components/landingPageComponents/SecuritySection";
-import CustomerSection from "@/components/landingPageComponents/CustomerSection";
-import CTASection from "@/components/landingPageComponents/CTASection";
+import HeroSection from "@/components/landing-page-components/HeroSection";
+import AgencySection from "@/components/landing-page-components/AgencySection";
+import StatisticSection from "@/components/landing-page-components/StatisticSection";
+import FeatureSection from "@/components/landing-page-components/FeatureSection";
+import CustomerSection from "@/components/landing-page-components/CustomerSection";
+import CTASection from "@/components/landing-page-components/CTASection";
 import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
-import React from "react";
+import {JSX} from "react";
 
 
-export default function LandingPage() {
+export default function LandingPage():JSX.Element {
 
     return (
         <>
