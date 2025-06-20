@@ -29,12 +29,13 @@ export default function ProfileDropdown({
   isDashboard = false,
 }: ProfileDropdownProps) {
   const { logout } = useBusStation();
-  const { t } = useTranslation();
+  useTranslation();
 
   const userRole = isDashboard ? "Admin Agence" : "Membre Premium";
 
   return (
     <div className="relative">
+      {/* Profile Button */}
       <button
         onClick={() => setIsProfileOpen(!isProfileOpen)}
         className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
@@ -44,6 +45,7 @@ export default function ProfileDropdown({
           </p>
           <p className="text-xs text-gray-500">{userRole}</p>
         </div>
+
         <div className="relative">
           <Image
             src={userData?.avatar || userIcon}
@@ -52,14 +54,16 @@ export default function ProfileDropdown({
             height={40}
             className="rounded-full border-2 border-gray-200"
           />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
+          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full" />
         </div>
+
         <ChevronDown className="h-4 w-4 text-gray-400 hidden lg:block" />
       </button>
 
       {/* Profile Dropdown Menu */}
       {isProfileOpen && (
         <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+          {/* Header Section */}
           <div className="p-4 border-b border-gray-100">
             <div className="flex items-center gap-3">
               <Image
@@ -69,11 +73,15 @@ export default function ProfileDropdown({
                 height={48}
                 className="rounded-full"
               />
-              <div>
-                <h3 className="font-semibold text-gray-900">
-                  {userData?.first_name + " " + (userData?.last_name || "")}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-900 truncate">
+                  {`${userData?.first_name || ""} ${
+                    userData?.last_name || ""
+                  }`.trim() || "Visitor"}
                 </h3>
-                <p className="text-sm text-gray-500">{userData?.email}</p>
+                <p className="text-sm text-gray-500 truncate">
+                  {userData?.email}
+                </p>
                 <span className="inline-block px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs rounded-full mt-1">
                   {userRole}
                 </span>
@@ -81,40 +89,52 @@ export default function ProfileDropdown({
             </div>
           </div>
 
+          {/* Menu Items */}
           <div className="p-2">
             <Link
               href={isDashboard ? "/dashboard/settings" : "/user-profile"}
-              className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left">
+              className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+              onClick={() => setIsProfileOpen(false)}>
               <User className="h-4 w-4 text-gray-500" />
               <span className="text-sm text-gray-700">Mon Profil</span>
             </Link>
+
             {isDashboard && (
               <Link
                 href="/dashboard/subscription"
-                className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left">
+                className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                onClick={() => setIsProfileOpen(false)}>
                 <CreditCard className="h-4 w-4 text-gray-500" />
                 <span className="text-sm text-gray-700">
                   Facturation & Plan
                 </span>
               </Link>
             )}
+
             <Link
-              href={isDashboard ? "/dashboard/settings" : "/user-profile"}
-              className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left">
+              href={isDashboard ? "/dashboard/settings" : "/user-settings"}
+              className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+              onClick={() => setIsProfileOpen(false)}>
               <Settings className="h-4 w-4 text-gray-500" />
               <span className="text-sm text-gray-700">Paramètres</span>
             </Link>
+
             <Link
               href="/faqs"
-              className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left">
+              className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+              onClick={() => setIsProfileOpen(false)}>
               <HelpCircle className="h-4 w-4 text-gray-500" />
               <span className="text-sm text-gray-700">Aide & Support</span>
             </Link>
           </div>
 
+          {/* Logout Section */}
           <div className="p-2 border-t border-gray-100">
             <button
-              onClick={logout}
+              onClick={() => {
+                setIsProfileOpen(false);
+                logout();
+              }}
               className="w-full flex items-center gap-3 p-3 hover:bg-red-50 rounded-lg transition-colors text-left group">
               <LogOut className="h-4 w-4 text-red-500" />
               <span className="text-sm text-red-600 group-hover:text-red-700">
