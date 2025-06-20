@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import ReservationStep1 from "./ReservationStep1"
 import ReservationStep2 from "./ReservationStep2"
 import ReservationStep3 from "./ReservationStep3"
@@ -9,6 +9,7 @@ import {SuccessModal} from "@/modals/SuccessModal";
 import ErrorModal from "@/modals/ErrorModal";
 import Loader from "@/modals/Loader";
 import {Trip} from "@/lib/types/models/Trip";
+import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 
 
 export interface ReservationProcessModalPropsInterface {
@@ -18,84 +19,70 @@ export interface ReservationProcessModalPropsInterface {
     setReservationPrice: (param: number)=> void,
 }
 
-
-
 export default function ReservationProcessModal({  onClose, tripDetails, openPaymentModal, setReservationPrice }: ReservationProcessModalPropsInterface) {
-    const [step, setStep] = useState(1)
-    const [selectedSeats, setSelectedSeats] = useState([])
-    const [passengersData, setPassengersData] = useState({})
-    const [isLoading, setIsLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
-    const [successMessage, setSuccessMessage] = useState("")
-    const [canOpenErrorModal, setCanOpenErrorModal] = useState(false)
-    const [canOpenSuccessModal, setCanOpenSuccessModal] = useState(false)
-
-    function onBack() {
-        setStep(1)
-    }
 
 
+    const reservationManager = useReservation(tripDetails);
     return (
         <>
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm transition-all duration-300 lg:p-4 p-0">
-                <div className="bg-white relative lg:rounded-xl lg:w-full lg:max-w-5xl w-screen max-h-[90vh] overflow-y-auto">
-                    {step === 1 && (
-                        <ReservationStep1
-                            tripDetails={tripDetails}
-                            setSelectedSeats={setSelectedSeats}
-                            selectedSeats={selectedSeats}
-                            onClose={onClose}
-                            onContinue={() => setStep(2)}
-                        />
-                    )}
-                    {step === 2 && (
-                        <ReservationStep2
-                            onBack={onBack}
-                            onClose={() => {
-                                onClose()
-                                setStep(1)
-                            }}
-                            selectedSeats={selectedSeats}
-                            setStep={setStep}
-                            tripDetails={tripDetails}
-                            setPassengers={setPassengersData}
-                        />
-                    )}
-                    {step === 3 && (
-                        <ReservationStep3
-                            selectedSeats={selectedSeats}
-                            tripDetails={tripDetails}
-                            onClose={onClose}
-                            passengersData={passengersData}
-                            setStep={setStep}
-                            setCanOpenErrorModal={setCanOpenErrorModal}
-                            setCanOpenSuccessModal={setCanOpenSuccessModal}
-                            setErrorMessage={setErrorMessage}
-                            setSuccessMessage={setSuccessMessage}
-                            setIsLoading={setIsLoading}
-                            setReservationPrice={setReservationPrice}
-                        />
-                    )}
-                </div>
+            <div className="bg-white relative lg:rounded-xl  rounded-xl lg:max-w-5xl  max-w-[380px] lg:h-[90vh] h-[75vh] overflow-y-auto">
+                {reservationManager.step === 1 && (
+                    <ReservationStep1
+                        tripDetails={tripDetails}
+                        setSelectedSeats={reservationManager.setSelectedSeats}
+                        selectedSeats={reservationManager.selectedSeats}
+                        onClose={onClose}
+                        onContinue={() => reservationManager.setStep(2)}
+                    />
+                )}
+                {reservationManager.step === 2 && (
+                    <ReservationStep2
+                        onBack={reservationManager.onBack}
+                        onClose={() => {
+                            onClose()
+                            reservationManager.setStep(1)
+                        }}
+                        selectedSeats={reservationManager.selectedSeats}
+                        setStep={reservationManager.setStep}
+                        tripDetails={tripDetails}
+                        setPassengers={reservationManager.setPassengersData}
+                    />
+                )}
+                {reservationManager.step === 3 && (
+                    <ReservationStep3
+                        selectedSeats={reservationManager.selectedSeats}
+                        tripDetails={tripDetails}
+                        onClose={onClose}
+                        passengersData={reservationManager.passengersData}
+                        setStep={reservationManager.setStep}
+                        setCanOpenErrorModal={reservationManager.setCanOpenErrorModal}
+                        setCanOpenSuccessModal={reservationManager.setCanOpenSuccessModal}
+                        setErrorMessage={reservationManager.setErrorMessage}
+                        setSuccessMessage={reservationManager.setSuccessMessage}
+                        setIsLoading={reservationManager.setIsLoading}
+                        setReservationPrice={setReservationPrice}
+                    />
+                )}
             </div>
-            {isLoading && (
-                <TransparentModal isOpen={isLoading}>
-                    <Loader/>
-                </TransparentModal>
-            )
-            }
-            <TransparentModal isOpen={canOpenErrorModal}>
+
+
+            <TransparentModal isOpen={reservationManager.isLoading}>
+                <Loader/>
+            </TransparentModal>
+
+            <TransparentModal isOpen={reservationManager.canOpenErrorModal}>
                 <ErrorModal
-                    onCloseErrorModal={() => setCanOpenErrorModal(false)}
-                    message={errorMessage}
+                    onCloseErrorModal={() => reservationManager.setCanOpenErrorModal(false)}
+                    message={reservationManager.errorMessage}
                 />
             </TransparentModal>
-            <TransparentModal isOpen={canOpenSuccessModal}>
+
+            <TransparentModal isOpen={reservationManager.canOpenSuccessModal}>
                 <SuccessModal
-                    canOpenSuccessModal={setCanOpenSuccessModal}
-                    message={successMessage}
+                    canOpenSuccessModal={reservationManager.setCanOpenSuccessModal}
+                    message={reservationManager.successMessage}
                     makeAction={() => {
-                        setStep(1)
+                        reservationManager.setStep(1)
                         onClose()
                         openPaymentModal()
                     }}

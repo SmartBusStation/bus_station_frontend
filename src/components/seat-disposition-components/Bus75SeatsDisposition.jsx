@@ -17,11 +17,11 @@ export default  function Bus75SeatsDisposition({setSelectedSeats, _reservedSeats
 
 
     return (
-        <div className="p-5">
-            <div className="grid grid-cols-2 w-fit gap-12 min-h-screen overflow-y-auto">
+        <div className="p-0 lg:p-5">
+            <div className="grid grid-cols-2 w-fit gap-12  min-h-screen overflow-y-auto">
                 {/* Premiere rangee */}
-                <div className="grid gap-2 w-fit grid-cols-3 min-h-screen p-2">
-                    <div className="col-span-3 border-2 border-gray-400 flex justify-center items-center rounded-lg font-bold h-12  mt-1">
+                <div className="grid gap-4 lg:gap-2  w-fit grid-cols-3 min-h-screen p-2">
+                    <div className="col-span-3 border-2 border-gray-400 flex justify-center items-center rounded-lg font-bold lg:h-12 h-10  mt-1">
                         <p className="text-xl text-reservation-color">Driver</p>
                     </div>
                     {Array.from({length: 45}, (_, index) => (
@@ -37,7 +37,7 @@ export default  function Bus75SeatsDisposition({setSelectedSeats, _reservedSeats
                 </div>
 
                 {/* Deuxieme rangee */}
-                <div className="grid grid-cols-2 w-fit gap-2 p-2">
+                <div className="grid grid-cols-2 w-fit gap-2  p-4 p-2">
                     {Array.from({length: 12}, (_, index) => {
                        const seatNumber = index + 46;
                        const isDoor = seatNumber === 50 || seatNumber === 51;

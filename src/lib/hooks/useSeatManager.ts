@@ -14,14 +14,14 @@ export function useSeatManager ()  {
     }
 
     function getSeatClass  (seatNumber)  {
-        const baseClass = "w-12 h-12 border-2 rounded-lg ";
+        const baseClass = "lg:w-12 lg:h-12 w-10 h-10 border-2 rounded-lg ";
         if (reservedSeats.includes(seatNumber)) {
             return baseClass + "border-red-500 bg-red-300 cursor-not-allowed";
         }
         if (selectedSeats.includes(seatNumber)) {
             return baseClass + "border-green-500 bg-green-300";
         }
-        return baseClass + "border-gray-400 bg-gray-200";
+        return baseClass + "border-gray-400 bg-gray-200 cursor-pointer";
     }
 
     return {

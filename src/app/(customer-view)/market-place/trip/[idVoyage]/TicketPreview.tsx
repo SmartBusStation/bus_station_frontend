@@ -1,7 +1,17 @@
 import {Briefcase, Bus, Calendar, Clock, CreditCard, DollarSign, MapPin, User, Users} from "lucide-react";
+import {formatDateOnly, formatDateToTime} from "@/lib/services/date-services";
+import {Trip} from "@/lib/types/models/Trip";
+import {PassengerFormType} from "@/lib/types/schema/passengerReservationSchema";
 
 
-export default function TicketPreview({tripDetails, passengerData, seatNumber}) {
+
+interface TicketPreviewPropsInterface{
+    tripDetails: Trip,
+    passengerData: PassengerFormType,
+    seatNumber: number
+}
+
+export default function TicketPreview({tripDetails, passengerData, seatNumber}: TicketPreviewPropsInterface) {
 
 
     return (
