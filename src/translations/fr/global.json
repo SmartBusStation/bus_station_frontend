@@ -88,7 +88,6 @@
       "planATrip": "Planifiez un voyage"
     }
   },
-
   "footer": {
     "slogan": "La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
     "followUs": "Suivez-nous",
@@ -96,15 +95,16 @@
     "legal": "Légal",
     "contact": "Contact",
     "allRight": "Moving.com. Tous droits réservés.",
-    "trip": "voyage",
-    "about-us": "A propos de nous",
-    "contact-us": "Contactez nous",
+    "trip": "Voyages",
+    "about-us": "A propos",
+    "contact-us": "Contact",
     "terms-and-condition": "Conditions d'utilisation",
-    "policies": "Politique de confidentialité",
+    "privacy-policy": "Politique de confidentialité",
+    "cookies": "Cookies",
+    "faq": "FAQ",
     "agency": "Agences",
     "schedule": "Lun-Ven: 9h-18h"
   },
-
   "aboutUs": {
     "hero": {
       "message": "A propos de nous",
@@ -186,7 +186,6 @@
       "button": "Nous Contacter"
     }
   },
-
   "faqPage": {
     "title": "Foire Aux Questions",
     "subtitle": "Trouvez rapidement des réponses à vos questions les plus fréquentes.",
@@ -220,7 +219,6 @@
       "documents": "Tous les documents dont vous avez besoin pour voyager sereinement.",
       "payment": "Découvrez toutes nos options de paiement et de financement."
     },
-
     "questions": {
       "bookingProcess": "Comment réserver un voyage via Moving.com ?",
       "cancellation": "Quelle est la politique d'annulation ?",
@@ -250,7 +248,6 @@
       "customerService": "Notre service client est disponible 7j/7 par téléphone au +33 1 23 45 67 89, par email à support@moving.com, ou via le chat en direct sur notre site et notre application mobile. Pour les urgences en voyage, nous disposons d'une ligne dédiée accessible 24h/24."
     }
   },
-
   "contactPage": {
     "title": "Contactez-nous",
     "subtitle": "Notre équipe est à votre disposition pour répondre à vos questions et vous aider à planifier votre prochain voyage.",
@@ -281,54 +278,249 @@
     "globalDescription": "Avec des bureaux et des partenaires dans plus de 30 pays, nous sommes présents partout où vos voyages vous mènent.",
     "mapPlaceholder": "Carte interactive de notre présence mondiale"
   },
-
-"agenciesPage": {
-  "sidebar": {
-    "title": "Agences de voyage",
-    "searchPlaceholder": "Rechercher une agence...",
-    "noResults": "Aucune agence trouvée"
-  },
-  "emptyView": {
-    "title": "Explorez nos agences partenaires",
-    "description": "Sélectionnez une agence dans la liste pour voir ses détails et les voyages disponibles.",
-    "tip1": {
-      "title": "Recherche facile",
-      "description": "Trouvez des agences par nom ou localisation"
+  "agenciesPage": {
+    "sidebar": {
+      "title": "Agences de voyage",
+      "searchPlaceholder": "Rechercher une agence...",
+      "noResults": "Aucune agence trouvée"
     },
-    "tip2": {
-      "title": "Destinations variées",
-      "description": "Découvrez des voyages partout au Cameroun et au-delà"
+    "emptyView": {
+      "title": "Explorez nos agences partenaires",
+      "description": "Sélectionnez une agence dans la liste pour voir ses détails et les voyages disponibles.",
+      "tip1": {
+        "title": "Recherche facile",
+        "description": "Trouvez des agences par nom ou localisation"
+      },
+      "tip2": {
+        "title": "Destinations variées",
+        "description": "Découvrez des voyages partout au Cameroun et au-delà"
+      },
+      "tip3": {
+        "title": "Agences vérifiées",
+        "description": "Toutes nos agences partenaires sont certifiées et fiables"
+      }
     },
-    "tip3": {
-      "title": "Agences vérifiées",
-      "description": "Toutes nos agences partenaires sont certifiées et fiables"
+    "profile": {
+      "backButton": "Retour à la liste",
+      "aboutTitle": "À propos",
+      "specialtiesTitle": "Spécialités",
+      "contactTitle": "Contact",
+      "phoneLabel": "Téléphone",
+      "emailLabel": "Email",
+      "websiteLabel": "Site web",
+      "tripsTitle": "Voyages disponibles",
+      "noTrips": "Cette agence n'a pas encore publié de voyages.",
+      "viewTripButton": "Voir ce voyage",
+      "moreItems": "plus"
     }
   },
-  "profile": {
-    "backButton": "Retour à la liste",
-    "aboutTitle": "À propos",
-    "specialtiesTitle": "Spécialités",
-    "contactTitle": "Contact",
-    "phoneLabel": "Téléphone",
-    "emailLabel": "Email",
-    "websiteLabel": "Site web",
-    "tripsTitle": "Voyages disponibles",
-    "noTrips": "Cette agence n'a pas encore publié de voyages.",
-    "viewTripButton": "Voir ce voyage",
-    "moreItems": "plus"
-  }
-},
   "notFound": {
     "title": "Destination introuvable",
     "slogan": "Oups ! Il semble que vous vous soyez égaré. Cette page n'existe pas ou a été déplacée.",
     "backToHome": "Retour à l'accueil",
     "goBack": "Retour à la page précédente"
   },
-  "loadingPage":
-  {
+  "loadingPage": {
     "loadingText": "Chargement en cours..."
+  },
+  "dashboard": {
+    "sidebar": {
+      "overview": "Aperçu",
+      "resources": "Ressources",
+      "tripPlanning": "Planification",
+      "bookings": "Réservations",
+      "agencyMarketplace": "Mes Voyages Publiés",
+      "calendar": "Calendrier",
+      "feedback": "Retours Clients",
+      "subscription": "Abonnement",
+      "settings": "Paramètres",
+      "menu": "Menu",
+      "other": "Autres",
+      "logout": "Déconnexion"
+    },
+    "overview": {
+      "title": "Aperçu du Dashboard",
+      "subtitle": "Voici un résumé de l'activité de votre agence.",
+      "totalRevenue": "Revenu Total",
+      "totalBookings": "Réservations",
+      "publishedTrips": "Voyages Publiés",
+      "newCustomers": "Nouveaux Clients",
+      "charts": {
+        "bookingsOverview": "Aperçu des Réservations",
+        "bookingsLabel": "Réservations"
+      },
+      "recentBookings": {
+        "title": "Réservations Récentes",
+        "bookedTrip": "a réservé \"{{trip}}\""
+      }
+    },
+    "resources": {
+      "title": "Gestion des Ressources",
+      "subtitle": "Gérez vos véhicules, chauffeurs et employés.",
+      "addVehicle": "Ajouter un Véhicule",
+      "addDriver": "Ajouter un Chauffeur",
+      "addEmployee": "Ajouter un Employé",
+      "tabs": {
+        "vehicles": "Véhicules",
+        "drivers": "Chauffeurs",
+        "employees": "Employés"
+      },
+      "vehicles": {
+        "name": "Nom",
+        "plate": "Plaque",
+        "capacity": "Capacité",
+        "status": "Statut",
+        "actions": "Actions",
+        "seats": "places"
+      },
+      "drivers": {
+        "name": "Nom",
+        "license": "Permis",
+        "phone": "Téléphone",
+        "status": "Statut",
+        "actions": "Actions",
+        "yearsExp": "ans d'exp."
+      },
+      "employees": {
+        "name": "Nom",
+        "role": "Rôle",
+        "email": "Email",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "status": {
+        "available": "Disponible",
+        "in_use": "En voyage",
+        "on_trip": "En voyage",
+        "maintenance": "En maintenance",
+        "on_leave": "En congé",
+        "active": "Actif",
+        "inactive": "Inactif"
+      }
+    },
+    "tripPlanning": {
+      "title": "Planifier un nouveau voyage",
+      "subtitle": "Remplissez les détails pour créer et publier un voyage.",
+      "drafts": {
+        "title": "Brouillons",
+        "edit": "Modifier",
+        "noDrafts": "Aucun brouillon en cours.",
+        "newTrip": "Nouveau Voyage",
+        "lastSaved": "Dernière sauvegarde: {{time}}"
+      },
+      "form": {
+        "title": "Détails du Voyage",
+        "tripTitle": "Titre du voyage",
+        "tripTitlePlaceholder": "Ex: Aventure dans les Alpes",
+        "departure": "Départ",
+        "departurePlaceholder": "Yaoundé",
+        "destination": "Destination",
+        "destinationPlaceholder": "Bafoussam",
+        "departureDate": "Date de départ",
+        "returnDate": "Date de retour",
+        "vehicle": "Véhicule",
+        "selectVehicle": "Sélectionner un véhicule",
+        "driver": "Chauffeur",
+        "selectDriver": "Sélectionner un chauffeur",
+        "price": "Prix par siège",
+        "pricePlaceholder": "Prix par siège en FCFA",
+        "description": "Description",
+        "descriptionPlaceholder": "Ajoutez des détails sur le voyage...",
+        "saveDraft": "Enregistrer en brouillon",
+        "publishTrip": "Publier le voyage",
+        "seats": "places"
+      }
+    },
+    "bookings": {
+      "title": "Gestion des Réservations",
+      "subtitle": "Consultez et gérez toutes les réservations de vos clients.",
+      "searchPlaceholder": "Rechercher par client ou voyage...",
+      "filters": "Filtres",
+      "table": {
+        "customer": "Client",
+        "trip": "Voyage",
+        "bookingDate": "Date Rés.",
+        "seats": "Sièges",
+        "amount": "Montant",
+        "status": "Statut",
+        "action": "Action"
+      },
+      "status": {
+        "confirmed": "Confirmée",
+        "pending": "En attente",
+        "cancelled": "Annulée"
+      },
+      "action": {
+        "view": "Voir"
+      }
+    },
+    "agencyMarketplace": {
+      "title": "Marketplace de l'Agence",
+      "subtitle": "Suivez les performances de vos voyages publiés.",
+      "reservations": "Réservations",
+      "estRevenue": "Revenu Est.",
+      "cancelTrip": "Annuler",
+      "status": {
+        "onSchedule": "Programmé",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
+      }
+    },
+    "calendar": {
+      "title": "Calendrier des Voyages",
+      "subtitle": "Visualisez tous vos voyages planifiés, passés et à venir.",
+      "legend": {
+          "published": "Publié",
+          "completed": "Terminé",
+          "cancelled": "Annulé"
+      }
+    },
+    "feedback": {
+      "title": "Retours Clients",
+      "subtitle": "Lisez ce que vos clients pensent de leurs voyages.",
+      "onTrip": "sur le voyage"
+    },
+    "subscription": {
+      "title": "Mon Abonnement",
+      "subtitle": "Gérez votre plan d'abonnement et consultez votre facturation.",
+      "billingHistory": "Historique de facturation",
+      "currentPlan": "Plan Actuel",
+      "choosePlan": "Choisir ce Plan",
+      "plans": {
+        "basic": {
+          "name": "Basique",
+          "price": "49€/mois",
+          "features": ["10 voyages publiés", "Support par email", "Analyses de base"]
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "99€/mois",
+          "features": ["Voyages illimités", "Support prioritaire", "Analyses avancées", "API d'intégration"]
+        },
+        "enterprise": {
+          "name": "Entreprise",
+          "price": "Sur devis",
+          "features": ["Toutes les fonctionnalités Pro", "Gestion multi-utilisateurs", "Support dédié"]
+        }
+      },
+      "table": {
+        "date": "Date",
+        "amount": "Montant",
+        "status": "Statut"
+      },
+      "status": {
+        "paid": "Payé"
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Gérez les informations de votre agence et les préférences de votre compte.",
+      "saveChanges": "Enregistrer les modifications",
+      "form": {
+        "agencyName": "Nom de l'agence",
+        "contactEmail": "Email de contact",
+        "welcomeMessage": "Message d'accueil"
+      }
+    }
   }
-
-
-
 }
