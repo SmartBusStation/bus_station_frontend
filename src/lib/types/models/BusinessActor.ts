@@ -32,13 +32,14 @@ export  interface BusinessActor {
 
 
 export interface Customer {
-    userId: string,
-    last_name: string,
-    first_name: string,
-    email:string,
-    username: string,
-    phone_number: string,
-    role: string[],
+  avatar: any;
+  userId: string;
+  last_name: string;
+  first_name: string;
+  email: string;
+  username: string;
+  phone_number: string;
+  role: string[];
 }
 
 export interface UserInterface extends Customer{

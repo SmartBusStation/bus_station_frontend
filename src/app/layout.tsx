@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import LanguageProvider from "@/context/LanguageProvider";
-import { ResourceProvider } from "@/context/ResourceContext";
+// import { ResourceProvider } from "@/context/ResourceContext";
 import {BusStationProvider} from "@/context/Provider";
 
 
@@ -16,11 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`antialiased`}>
         <LanguageProvider>
-          <BusStationProvider>
-            <ResourceProvider>
-              {children}
-            </ResourceProvider>
-          </BusStationProvider>
+          <BusStationProvider>{children}</BusStationProvider>
         </LanguageProvider>
       </body>
     </html>
