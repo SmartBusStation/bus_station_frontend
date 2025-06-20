@@ -1,12 +1,12 @@
 import Image from "next/image";
 import {ArrowRight, Clock, MapPin, Users} from "lucide-react";
 import React from "react";
-import {AvailableTrips} from "@/lib/hooks/useMarketPlace";
-import {formatDuration} from "@/lib/services/dateServices";
+import {formatDurationSimple} from "@/lib/services/date-services";
+import {Trip} from "@/lib/types/models/Trip";
 
 
 export interface TripGrid {
-    filteredTrips: AvailableTrips[],
+    filteredTrips: Partial<Trip>[],
     getClassColor: (classe: string) => string,
     getAmenityIcon: (amenity: string) => React.JSX.Element|null,
     navigate: (tripId: string) => void
@@ -31,7 +31,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         <div
-                            className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold ${getClassColor(trip.nomClasseVoyage)}`}
+                            className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold ${getClassColor(trip.nomClasseVoyage || "")}`}
                         >
                             {trip.nomClasseVoyage}
                         </div>
@@ -45,16 +45,18 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                     <div className="p-6">
                         <div className="flex justify-between items-start mb-4">
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-1">{trip.nomAgence}</h3>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4 ml-2">{trip.nomAgence}</h3>
                                 <div className="flex items-center gap-2 text-gray-600">
-                                    <MapPin className="h-4 w-4"/>
+                                    <div className="ml-2 h-7 w-7 rounded-full bg-red-100 flex items-center justify-center">
+                                        <MapPin className="h-4 w-4 text-red-400"/>
+                                    </div>
                                     <span className="text-sm">{trip.lieuDepart}</span>
                                     <ArrowRight className="h-4 w-4"/>
                                     <span className="text-sm">{trip.lieuArrive}</span>
                                 </div>
                             </div>
                             <div className="text-right flex gap-2">
-                                <p className="text-2xl font-bold text-blue-600">{trip.prix.toLocaleString()}</p>
+                                <p className="text-2xl font-bold text-blue-600">{trip?.prix && trip.prix.toLocaleString()}</p>
                                 <p className="mt-1.5 text-sm text-gray-500">FCFA</p>
                             </div>
                         </div>
@@ -67,7 +69,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                                 <div>
                                     <p className="text-sm text-gray-500">Duration</p>
                                     <p className="font-semibold text-gray-900">
-                                        {formatDuration(trip.dureeVoyage.seconds)}
+                                        {formatDurationSimple(trip.dureeVoyage && trip.dureeVoyage || "0")}
                                     </p>
                                 </div>
                             </div>
@@ -85,7 +87,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                         </div>
 
                         <div className="flex flex-wrap gap-2 mb-6">
-                            {trip.amenities.map((amenity, index) => (
+                            {trip.amenities && trip.amenities.map((amenity, index) => (
                                 <div
                                     key={index}
                                     className="flex items-center gap-1 px-3 py-1 rounded-full bg-blue-100 text-blue-600 text-sm"
@@ -97,7 +99,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                         </div>
 
                         <button
-                            onClick={() => navigate(trip.idVoyage)}
+                            onClick={() => navigate(trip.idVoyage || "")}
                             className="translate-x-1/2 cursor-pointer px-4 bg-primary text-white rounded-xl py-2 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                         >
                             Book This Trip

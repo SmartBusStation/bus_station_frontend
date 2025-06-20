@@ -6,6 +6,10 @@ import Link from "next/link";
 import React from "react";
 import { JSX } from "react";
 import {useRegistration} from "@/lib/hooks/registration-hooks/useRegistration";
+import LanguageSwitch from "@/components/authentication-pages-components/LanguageSwitch";
+import {changeLanguage} from "@/lib/services/i18n-services/languageService";
+import {useTranslation} from "react-i18next";
+import {SupportedLanguage} from "@/lib/types/common";
 
 
 export interface RegistrationFormProps {
@@ -18,9 +22,28 @@ export interface RegistrationFormProps {
 export default function RegistrationForm({step, goBack, changeStep} : RegistrationFormProps ): JSX.Element
 {
    const {agreeTerms, setAgreeTerms, createAgency, setCreateAgency} = useRegistration();
+  const [t,i18n] = useTranslation();
+
+  function updateLangage()
+  {
+      if (i18n.language === "fr")
+      {
+          changeLanguage("en");
+      }
+      else {
+          changeLanguage("fr");
+      }
+  }
 
     return (
         <div className="p-6 md:p-8">
+
+            <div className="flex justify-end mb-6">
+                <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}} transition={{duration: 0.3}}>
+                    <LanguageSwitch language={i18n.language as SupportedLanguage} onToggle={updateLangage}/>
+                </motion.div>
+            </div>
+
             <div>
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -65,8 +88,10 @@ export default function RegistrationForm({step, goBack, changeStep} : Registrati
                         {step === 3 && (
                             <>
                                 <div className="text-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-800">Details of your travel agency</h2>
-                                    <p className="text-gray-500 mt-2">This information could be visible to potential customers.</p>
+                                    <h2 className="text-xl font-semibold text-gray-800">Details of your travel
+                                        agency</h2>
+                                    <p className="text-gray-500 mt-2">This information could be visible to potential
+                                        customers.</p>
                                 </div>
                                 <TravelAgencyForm
                                     agreeTerms={agreeTerms}
@@ -74,7 +99,7 @@ export default function RegistrationForm({step, goBack, changeStep} : Registrati
                                     setAgreeTerms={setAgreeTerms}
                                     createAgency={createAgency}
                                     goBack={goBack}
-                                    changeStep = {changeStep}
+                                    changeStep={changeStep}
                                 />
                             </>
                         )}

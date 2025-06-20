@@ -11,11 +11,28 @@ import SocialConnexionButton from "@/components/authentication-pages-components/
 import {useBusStation} from "@/context/Provider";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
+import LanguageSwitch from "@/components/authentication-pages-components/LanguageSwitch";
+import {SupportedLanguage} from "@/lib/types/common";
+import {useTranslation} from "react-i18next";
+import {changeLanguage} from "@/lib/services/i18n-services/languageService";
 
 export default function LoginPage(): JSX.Element {
 
     const {login, axiosErrors,isLoading,...zodParams} = useBusStation();
     const navigation = useNavigation();
+
+    const [t,i18n] = useTranslation();
+
+    function updateLangage()
+    {
+        if (i18n.language === "fr")
+        {
+            changeLanguage("en");
+        }
+        else {
+            changeLanguage("fr");
+        }
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col justify-center items-center p-4 md:p-8">
@@ -36,6 +53,12 @@ export default function LoginPage(): JSX.Element {
                     <p className="text-blue-100 mt-2">Accédez à votre espace personnel</p>
                 </div>
 
+                <div className="flex justify-end mr-6 mt-4">
+                    <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}}
+                                transition={{duration: 0.3}}>
+                        <LanguageSwitch language={i18n.language as SupportedLanguage} onToggle={updateLangage}/>
+                    </motion.div>
+                </div>
                 {axiosErrors && <p className="text-sm text-red-500 font-semibold m-2">{axiosErrors}</p>}
                 <div className="p-6 md:p-8">
                     {isLoading && (
@@ -64,7 +87,8 @@ export default function LoginPage(): JSX.Element {
                             />
                             <div className="flex items-center justify-end mb-6">
                                 <div className="text-sm">
-                                    <Link href="/forgot-password" className="text-blue-600 hover:text-blue-800 font-medium">
+                                    <Link href="/forgot-password"
+                                          className="text-blue-600 hover:text-blue-800 font-medium">
                                         Forgotten password ?
                                     </Link>
                                 </div>

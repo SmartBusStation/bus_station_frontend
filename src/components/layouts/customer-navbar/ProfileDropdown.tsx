@@ -29,8 +29,7 @@ export default function ProfileDropdown({
   isDashboard = false,
 }: ProfileDropdownProps) {
   const { logout } = useBusStation();
-  //const { t } = useTranslation();
-  useTranslation();
+  const { t } = useTranslation();
 
   const userRole = isDashboard ? "Admin Agence" : "Membre Premium";
 
@@ -47,7 +46,7 @@ export default function ProfileDropdown({
         </div>
         <div className="relative">
           <Image
-            src={userData.avatar || userIcon}
+            src={userData?.avatar || userIcon}
             alt="Profile"
             width={40}
             height={40}
@@ -64,7 +63,7 @@ export default function ProfileDropdown({
           <div className="p-4 border-b border-gray-100">
             <div className="flex items-center gap-3">
               <Image
-                src={userData.avatar || userIcon}
+                src={userData?.avatar || userIcon}
                 alt="Profile"
                 width={48}
                 height={48}
@@ -74,7 +73,7 @@ export default function ProfileDropdown({
                 <h3 className="font-semibold text-gray-900">
                   {userData?.first_name + " " + (userData?.last_name || "")}
                 </h3>
-                <p className="text-sm text-gray-500">{userData.email}</p>
+                <p className="text-sm text-gray-500">{userData?.email}</p>
                 <span className="inline-block px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs rounded-full mt-1">
                   {userRole}
                 </span>
