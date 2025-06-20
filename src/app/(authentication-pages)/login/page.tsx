@@ -67,7 +67,6 @@ export default function LoginPage(): JSX.Element {
                         </TransparentModal>
                     )}
                     <form onSubmit={zodParams.handleSubmit(login)}>
-
                         <div className="space-y-6 ">
                             <InputField
                                 id={"username"}

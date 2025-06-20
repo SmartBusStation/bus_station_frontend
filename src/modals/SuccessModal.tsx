@@ -20,8 +20,6 @@ export function SuccessModal ({canOpenSuccessModal, message, makeAction }: Succe
         }
     }
 
-
-
     return (
          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-4">

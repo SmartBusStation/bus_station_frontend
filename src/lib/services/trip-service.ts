@@ -57,14 +57,15 @@ export async function retrieveAllTrips(): Promise<TripAxiosResponseInterface | n
 }
 
 
-export async function retrieveTripDetail(tripId: string): Promise<Trip[] | null>
+export async function retrieveTripDetail(tripId: string): Promise<Trip | null>
 {
     if(!tripId || tripId === "") throw new Error("the trip id must not empty");
     try
     {
-        const apiResponse: AxiosResponse<Trip[]> = await axiosInstance.get(`/${url}/byId/${tripId}`);
+        const apiResponse: AxiosResponse<Trip> = await axiosInstance.get(`/${url}/byId/${tripId}`);
         if (apiResponse.status === 200)
         {
+            console.log(apiResponse);
             return apiResponse.data;
         }
         else

@@ -1,14 +1,14 @@
 "use client"
 
 import React, {JSX} from "react"
-import MarketPlaceHeader from "@/components/market-place-components/Market-Place-Header";
-import Filters from "@/components/market-place-components/Filters";
-import TripGrid from "@/components/market-place-components/TripGrid";
-import Loader from "@/components/market-place-components/loader";
+import MarketPlaceHeader from "@/components/market-place-components/market-place/Market-Place-Header";
+import Filters from "@/components/market-place-components/market-place/Filters";
+import TripGrid from "@/components/market-place-components/market-place/TripGrid";
+import Loader from "@/components/market-place-components/market-place/loader";
 import {useMarketPlace} from "@/lib/hooks/useMarketPlace";
 import {useNavigation} from "@/lib/hooks/useNavigation";
-import NoTripFound from "@/components/market-place-components/NoTripFound";
-import TripError from "@/components/market-place-components/TripError";
+import NoTripFound from "@/components/market-place-components/market-place/NoTripFound";
+import TripError from "@/components/market-place-components/market-place/TripError";
 
 
 

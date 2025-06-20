@@ -35,11 +35,6 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                         >
                             {trip.nomClasseVoyage}
                         </div>
-                        {/*<div
-                            className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1">
-                            <Star className="h-4 w-4 text-yellow-500 fill-current"/>
-                            <span className="text-sm font-semibold">{trip.rating}</span>
-                        </div>*/}
                     </div>
 
                     <div className="p-6">
