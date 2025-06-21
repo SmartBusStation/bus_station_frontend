@@ -17,10 +17,10 @@ export default  function Bus75SeatsDisposition({setSelectedSeats, _reservedSeats
 
 
     return (
-        <div className="p-0 lg:p-5">
-            <div className="grid grid-cols-2 w-fit gap-12  min-h-screen overflow-y-auto">
+        <div className="p-0 lg:p-5 lg:ml-0 sm:ml-0 md:ml-6">
+            <div className="grid grid-cols-2 w-fit lg:gap-12 sm:gap-12 md:gap-16 gap-12  min-h-screen overflow-y-auto">
                 {/* Premiere rangee */}
-                <div className="grid gap-4 lg:gap-2  w-fit grid-cols-3 min-h-screen p-2">
+                <div className="grid sm:gap-8 md:gap-4 lg:gap-2 gap-8  w-fit grid-cols-3 min-h-screen p-2">
                     <div className="col-span-3 border-2 border-gray-400 flex justify-center items-center rounded-lg font-bold lg:h-12 h-10  mt-1">
                         <p className="text-xl text-reservation-color">Driver</p>
                     </div>
@@ -74,7 +74,7 @@ export default  function Bus75SeatsDisposition({setSelectedSeats, _reservedSeats
             </div>
 
             {/*  Dernier banc avec 6 places  */}
-            <div className="grid gap-2 w-fit grid-cols-6 p-2">
+            <div className="grid lg:gap-2 sm:gap-2 gap-2  md:gap-5 w-fit grid-cols-6 p-2">
                 {Array.from({length: 6}, (_, index) => (
                     <button
                         key={index}

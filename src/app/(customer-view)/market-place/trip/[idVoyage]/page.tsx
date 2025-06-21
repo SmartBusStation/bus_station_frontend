@@ -62,10 +62,9 @@ export default function TripDetails({ params }: { params: Promise<{ idVoyage: st
 
             <TransparentModal isOpen={tripDetailsHook.canOpenReservationModal}>
                 <ReservationProcessModal
-                    onClose={() => tripDetailsHook.setCanOpenReservationModal(false)}
+                    onCloseAction={() => tripDetailsHook.setCanOpenReservationModal(false)}
                     tripDetails={tripDetailsHook.tripDetails}
-                    openPaymentModal={() => tripDetailsHook.setCanOpenPaymentRequestModal(true)}
-                    setReservationPrice={tripDetailsHook.setReservationPrice}
+                    openPaymentModalAction={() => tripDetailsHook.setCanOpenPaymentRequestModal(true)}
                 />
             </TransparentModal>
 

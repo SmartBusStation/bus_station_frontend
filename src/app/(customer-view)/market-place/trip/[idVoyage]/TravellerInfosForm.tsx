@@ -1,16 +1,15 @@
-import { Briefcase, Calendar, CreditCard, User, Users } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { PassengerFormType, passengerSchema } from "@/lib/types/schema/passengerReservationSchema";
+import {Users } from "lucide-react";
 import InputField from "@/ui/InputField";
 import SelectField from "@/ui/SelectField";
-
+import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { PassengersArrayFormType } from "@/lib/types/schema/passengerReservationSchema";
+import {JSX} from "react";
 
 export interface TravellerInfosFormProps {
     seatNumber: number;
-    onPassengerChange: (seatNumber: number, data: PassengerFormType) => void;
-    initialData?: PassengerFormType;
+    index: number; // Index dans le tableau
+    register: UseFormRegister<PassengersArrayFormType>;
+    errors: FieldErrors<PassengersArrayFormType>;
 }
 
 const genderOptions = [
@@ -18,44 +17,11 @@ const genderOptions = [
     { label: "Femme", value: "Female" }
 ];
 
-export default function TravellerInfosForm({
-                                               seatNumber,
-                                               onPassengerChange,
-                                               initialData
-                                           }: TravellerInfosFormProps) {
+export default function TravellerInfosForm({seatNumber, index, register, errors}: TravellerInfosFormProps): JSX.Element
+{
 
-    const form = useForm<PassengerFormType>({
-        resolver: zodResolver(passengerSchema),
-        defaultValues: initialData || {
-            nom: "",
-            genre: undefined,
-            age: undefined,
-            nbrBaggage: 0,
-            numeroPieceIdentific: "",
-            placeChoisis: seatNumber
-        },
-        mode: "onChange" // Validation en temps réel
-    });
-
-    const { register, watch, formState: { errors } } = form;
-
-
-
-    // Déclencher onChange quand les données changent
-    useEffect(() => {
-        const subscription = watch((data) => {
-            // Vérifier si toutes les données requises sont présentes et valides
-            const result = passengerSchema.safeParse(data);
-            if (result.success) {
-                onPassengerChange(seatNumber, result.data);
-            } else {
-                // Envoyer les données même si invalides pour permettre la validation globale
-                onPassengerChange(seatNumber, data as PassengerFormType);
-            }
-        });
-
-        return () => subscription.unsubscribe();
-    }, [watch, seatNumber, onPassengerChange]);
+   
+    const passengerErrors = errors.passengers?.[index];
 
     return (
         <div className="rounded-lg border-2 border-gray-200 p-4 mb-6 shadow-sm hover:shadow-md transition-shadow duration-300">
@@ -70,25 +36,21 @@ export default function TravellerInfosForm({
                     <div className="flex-grow">
                         <InputField
                             id={`nom-${seatNumber}`}
-                            name="nom"
+                            name={`passengers.${index}.nom`}
                             label="Nom complet du voyageur"
                             placeholder="Nom complet du voyageur"
-                            icon={<User className="w-4 h-4 text-gray-400"/>}
-                            register={register("nom")}
-                            error={errors.nom?.message}
-                            required
+                            register={register(`passengers.${index}.nom`)}
+                            error={passengerErrors?.nom?.message}
                         />
                     </div>
                     <div className="w-1/4">
                         <SelectField
                             id={`genre-${seatNumber}`}
-                            name="genre"
+                            name={`passengers.${index}.genre`}
                             label="Genre"
                             options={genderOptions}
-                            icon={<Users className="w-4 h-4 text-gray-400"/>}
-                            register={register("genre")}
-                            error={errors.genre?.message}
-                            required
+                            register={register(`passengers.${index}.genre`)}
+                            error={passengerErrors?.genre?.message}
                         />
                     </div>
                 </div>
@@ -98,42 +60,41 @@ export default function TravellerInfosForm({
                     <div className="w-1/3">
                         <InputField
                             id={`age-${seatNumber}`}
-                            name="age"
                             label="Âge"
-                            placeholder="Âge"
+                            placeholder={"12 ans"}
                             type="number"
-                            icon={<Calendar className="w-4 h-4 text-gray-400"/>}
-                            register={register("age")}
-                            error={errors.age?.message}
-                            required
+                            register={register(`passengers.${index}.age`, { valueAsNumber: true })}
+                            error={passengerErrors?.age?.message}
                         />
                     </div>
                     <div className="w-1/3">
                         <InputField
                             id={`baggage-${seatNumber}`}
-                            name="nbrBaggage"
-                            label="Bagages"
-                            placeholder="Nombre de bagages"
+                            label="Nombre de Bagages"
+                            placeholder={"1 bagage"}
                             type="number"
-                            icon={<Briefcase className="w-4 h-4 text-gray-400"/>}
-                            register={register("nbrBaggage")}
-                            error={errors.nbrBaggage?.message}
-                            required
+                            register={register(`passengers.${index}.nbrBaggage`, { valueAsNumber: true })}
+                            error={passengerErrors?.nbrBaggage?.message}
                         />
                     </div>
                     <div className="w-1/3">
                         <InputField
                             id={`id-${seatNumber}`}
-                            name="numeroPieceIdentific"
+                            name={`passengers.${index}.numeroPieceIdentific`}
                             label="Pièce d'identité"
-                            placeholder="Numéro pièce d'identité"
-                            icon={<CreditCard className="w-4 h-4 text-gray-400"/>}
-                            register={register("numeroPieceIdentific")}
-                            error={errors.numeroPieceIdentific?.message}
-                            required
+                            type="text"
+                            register={register(`passengers.${index}.numeroPieceIdentific`)}
+                            error={passengerErrors?.numeroPieceIdentific?.message}
                         />
                     </div>
                 </div>
+
+                {/* Champ caché pour placeChoisis */}
+                <input
+                    type="hidden"
+                    {...register(`passengers.${index}.placeChoisis`, { valueAsNumber: true })}
+                    value={seatNumber}
+                />
             </div>
         </div>
     );

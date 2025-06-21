@@ -56,7 +56,6 @@ export function useTripDetails(idVoyage: string)
     });
     const [canOpenReservationModal, setCanOpenReservationModal] = useState<boolean>(false);
     const [canOpenPaymentRequestModal, setCanOpenPaymentRequestModal] = useState<boolean>(false);
-    const [reservationPrice, setReservationPrice] = useState<number>(0);
     const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string>("");
@@ -144,7 +143,6 @@ export function useTripDetails(idVoyage: string)
         tripDetails,
         axiosError,
         setCanOpenPaymentRequestModal,
-        setReservationPrice,
 
     }
 }

@@ -4,7 +4,7 @@ import constate from 'constate';
 import {useEffect, useMemo, useState} from "react";
 import {loginSchema, LoginSchemaType} from "@/lib/types/schema/loginSchema";
 import {Customer} from "@/lib/types/models/BusinessActor";
-import {getConnectedUser, onLogin} from "@/lib/services/businessActor-service";
+import {getConnectedUser, loginBusinessActor} from "@/lib/services/businessActor-service";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tokenKeyName} from "@/lib/services/axios-services/interceptors/auth-interceptor";
@@ -62,7 +62,7 @@ function useBusStationProvider() {
         setIsAgencyConnected(false);
         setUserData(null);
         setIsLoading(true);
-        await onLogin(data)
+        await loginBusinessActor(data)
             .then((result) => {
                 if(result)
                 {

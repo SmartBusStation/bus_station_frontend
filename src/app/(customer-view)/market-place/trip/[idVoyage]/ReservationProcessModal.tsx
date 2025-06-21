@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import ReservationStep1 from "./ReservationStep1"
 import ReservationStep2 from "./ReservationStep2"
@@ -13,25 +11,25 @@ import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 
 
 export interface ReservationProcessModalPropsInterface {
-    onClose: ()=>void,
+    onCloseAction: ()=>void,
     tripDetails: Trip,
-    openPaymentModal: ()=>void,
-    setReservationPrice: (param: number)=> void,
+    openPaymentModalAction: ()=>void,
 }
 
-export default function ReservationProcessModal({  onClose, tripDetails, openPaymentModal, setReservationPrice }: ReservationProcessModalPropsInterface) {
+export default function ReservationProcessModal({  onCloseAction, tripDetails, openPaymentModalAction }: ReservationProcessModalPropsInterface) {
 
 
     const reservationManager = useReservation(tripDetails);
     return (
         <>
-            <div className="bg-white relative lg:rounded-xl  rounded-xl lg:max-w-5xl  max-w-[380px] lg:h-[90vh] h-[75vh] overflow-y-auto">
+            <div className="bg-white relative lg:rounded-xl  rounded-xl lg:max-w-5xl md:max-w-[1000px] sm:max-w-[370px] max-w-[330px] lg:h-[90vh] h-[75vh] overflow-y-auto">
                 {reservationManager.step === 1 && (
                     <ReservationStep1
+                        totalPrice={reservationManager.totalPrice}
                         tripDetails={tripDetails}
                         setSelectedSeats={reservationManager.setSelectedSeats}
                         selectedSeats={reservationManager.selectedSeats}
-                        onClose={onClose}
+                        onClose={onCloseAction}
                         onContinue={() => reservationManager.setStep(2)}
                     />
                 )}
@@ -39,8 +37,8 @@ export default function ReservationProcessModal({  onClose, tripDetails, openPay
                     <ReservationStep2
                         onBack={reservationManager.onBack}
                         onClose={() => {
-                            onClose()
-                            reservationManager.setStep(1)
+                            onCloseAction();
+                            reservationManager.setStep(1);
                         }}
                         selectedSeats={reservationManager.selectedSeats}
                         setStep={reservationManager.setStep}
@@ -52,15 +50,9 @@ export default function ReservationProcessModal({  onClose, tripDetails, openPay
                     <ReservationStep3
                         selectedSeats={reservationManager.selectedSeats}
                         tripDetails={tripDetails}
-                        onClose={onClose}
+                        onClose={onCloseAction}
                         passengersData={reservationManager.passengersData}
                         setStep={reservationManager.setStep}
-                        setCanOpenErrorModal={reservationManager.setCanOpenErrorModal}
-                        setCanOpenSuccessModal={reservationManager.setCanOpenSuccessModal}
-                        setErrorMessage={reservationManager.setErrorMessage}
-                        setSuccessMessage={reservationManager.setSuccessMessage}
-                        setIsLoading={reservationManager.setIsLoading}
-                        setReservationPrice={setReservationPrice}
                     />
                 )}
             </div>
@@ -83,8 +75,8 @@ export default function ReservationProcessModal({  onClose, tripDetails, openPay
                     message={reservationManager.successMessage}
                     makeAction={() => {
                         reservationManager.setStep(1)
-                        onClose()
-                        openPaymentModal()
+                        onCloseAction()
+                        openPaymentModalAction()
                     }}
                 />
             </TransparentModal>

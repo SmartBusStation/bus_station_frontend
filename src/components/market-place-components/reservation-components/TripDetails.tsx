@@ -10,12 +10,13 @@ export interface TripDetailsPropsInterface {
     tripDetails: Trip,
     selectedSeats: number[],
     onClose: ()=> void,
-    onContinue: ()=> void
+    onContinue: ()=> void,
+    totalPrice: number
 }
 
-export default function TripDetails({onClose, selectedSeats,onContinue, tripDetails}: TripDetailsPropsInterface): JSX.Element
+export default function TripDetails({onClose, selectedSeats,onContinue, tripDetails, totalPrice}: TripDetailsPropsInterface): JSX.Element
 {
-    const reservationManager = useReservation(tripDetails);
+    const {reservationDetails} = useReservation(tripDetails);
     return (
         <>
             <div className=" flex justify-between items-center mb-6">
@@ -25,7 +26,7 @@ export default function TripDetails({onClose, selectedSeats,onContinue, tripDeta
                 </button>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 lg:gap-6 mb-6">
-                {reservationManager.reservationDetails.map((detail, index) => (
+                {reservationDetails.map((detail, index) => (
                     <div key={index} className="flex items-center">
                         <detail.icon className="w-5 h-5 text-primary mr-3"/>
                         <div className="flex-1">
@@ -47,7 +48,7 @@ export default function TripDetails({onClose, selectedSeats,onContinue, tripDeta
                     <FaDollarSign className="w-5 h-5 text-green-500 mr-3"/>
                     <div className="flex-1">
                         <p className="lg:text-sm text-xs font-medium text-gray-500">Total Price</p>
-                        <p className="lg:text-lg text-md font-semibold text-green-500">{reservationManager.totalPrice + " FCFA"}</p>
+                        <p className="lg:text-lg text-md font-semibold text-green-500">{totalPrice + " FCFA"}</p>
                     </div>
                 </div>
             </div>

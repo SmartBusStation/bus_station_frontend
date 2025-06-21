@@ -12,10 +12,11 @@ export interface ReservationStep1PropsInterface {
     setSelectedSeats: (param: number[])=> void,
     selectedSeats: number[],
     onClose: ()=> void,
-    onContinue: ()=> void
+    onContinue: ()=> void,
+    totalPrice: number
 }
 
-export default function ReservationStep1({ tripDetails, setSelectedSeats, selectedSeats, onClose, onContinue }: ReservationStep1PropsInterface) {
+export default function ReservationStep1({ tripDetails, setSelectedSeats, selectedSeats, onClose, onContinue, totalPrice }: ReservationStep1PropsInterface) {
 
 
 
@@ -79,6 +80,7 @@ export default function ReservationStep1({ tripDetails, setSelectedSeats, select
                 {/* Reservation and trip details */}
                 <div className="bg-gray-50 w-full lg:w-1/2 lg:h-full lg:overflow-y-auto flex flex-col p-6">
                     <TripDetails
+                        totalPrice={totalPrice}
                         onClose={onClose}
                         selectedSeats={selectedSeats}
                         onContinue={onContinue}
