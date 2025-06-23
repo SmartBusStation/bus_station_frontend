@@ -7,7 +7,7 @@ import {JSX} from "react";
 
 export interface TravellerInfosFormProps {
     seatNumber: number;
-    index: number; // Index dans le tableau
+    index: number;
     register: UseFormRegister<PassengersArrayFormType>;
     errors: FieldErrors<PassengersArrayFormType>;
 }

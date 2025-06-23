@@ -9,6 +9,8 @@ import DetailedInformation from "@/components/market-place-components/trip-detai
 import TripDetailsLoadingError from "@/components/market-place-components/trip-details/TripDetailsLoadingError";
 import TransparentModal from "@/modals/TransparentModal";
 import ReservationProcessModal from "@/app/(customer-view)/market-place/trip/[idVoyage]/ReservationProcessModal";
+import {PaymentModal} from "@/app/(customer-view)/market-place/trip/[idVoyage]/PaymentRequestModal";
+
 
 
 export default function TripDetails({ params }: { params: Promise<{ idVoyage: string }> }): JSX.Element
@@ -60,44 +62,35 @@ export default function TripDetails({ params }: { params: Promise<{ idVoyage: st
                 </div>
             </div>
 
+
             <TransparentModal isOpen={tripDetailsHook.canOpenReservationModal}>
                 <ReservationProcessModal
+                    setReservationSuccessMessage={tripDetailsHook.setReservationSuccessMessage}
                     onCloseAction={() => tripDetailsHook.setCanOpenReservationModal(false)}
                     tripDetails={tripDetailsHook.tripDetails}
-                    openPaymentModalAction={() => tripDetailsHook.setCanOpenPaymentRequestModal(true)}
+                    setCanOpenPaymentModal={tripDetailsHook.setCanOpenPaymentModal}
                 />
             </TransparentModal>
 
-            {/* Modals - gardés tels qu'ils sont */}
-            {/* <ErrorModal
-            isOpen={canOpenErrorModal}
-            onCloseErrorModal={() => setCanOpenErrorModal(false)}
-            message={errorMessage}
-          />
-          <ReservationProcessModal
-            isOpen={canOpenReservationModal}
-            onClose={() => setCanOpenReservationModal(false)}
-            tripDetails={tripDetails}
-            openPaymentModal={() => setCanOpenPaymentRequestModal(true)}
-            setReservationPrice={setReservationPrice}
-          />
-          <PaymentModal
-            onClose={() => setCanOpenPaymentRequestModal(false)}
-            isOpen={canOpenPaymentRequestModal}
-            reservationAmount={reservationPrice}
-            setIsLoading={setIsLoading}
-            setCanOpenSuccessModal={setCanOpenSuccessModal}
-            setSuccessMessage={setSuccessMessage}
-          />
-          <SuccessModal
-            canOpenSuccessModal={setCanOpenSuccessModal}
-            isOpen={canOpenSuccessModal}
-            message={successMessage}
-            makeAction={() => {
-              setCanOpenPaymentRequestModal(false)
-              router.push("/available-trips")
-            }}
-          /> */}
+            <TransparentModal isOpen={tripDetailsHook.canOpenPaymentModal}>
+                <PaymentModal
+                    onClose={() => tripDetailsHook.setCanOpenPaymentModal(false)}
+                    reservationSuccessMessage={tripDetailsHook.reservationSuccessMessage}
+                />
+            </TransparentModal>
+
+
+
+            {/*
+              <SuccessModal
+                canOpenSuccessModal={setCanOpenSuccessModal}
+                isOpen={canOpenSuccessModal}
+                message={successMessage}
+                makeAction={() => {
+                  setCanOpenPaymentRequestModal(false)
+                  router.push("/market-place")
+                }}
+              /> */}
         </div>
     )
 }

@@ -1,8 +1,10 @@
 import {JSX} from "react";
-import {X} from "lucide-react";
-import {FaChair, FaDollarSign, FaUsers} from "react-icons/fa";
+import {MapPin, X} from "lucide-react";
+import {FaCalendar, FaChair, FaDollarSign, FaMoneyBill, FaUsers} from "react-icons/fa";
 import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 import {Trip} from "@/lib/types/models/Trip";
+import {FaHouse} from "react-icons/fa6";
+import {formatDateOnly} from "@/lib/services/date-services";
 
 
 
@@ -16,7 +18,16 @@ export interface TripDetailsPropsInterface {
 
 export default function TripDetails({onClose, selectedSeats,onContinue, tripDetails, totalPrice}: TripDetailsPropsInterface): JSX.Element
 {
-    const {reservationDetails} = useReservation(tripDetails);
+
+
+    const reservationDetails = [
+        { icon: FaHouse, label: "Travel agency", value: tripDetails?.nomAgence },
+        { icon: FaCalendar, label: "Travel date", value: formatDateOnly(tripDetails?.dateDepartPrev || "")},
+        { icon: MapPin, label: "Departure location", value: tripDetails?.lieuDepart },
+        { icon: MapPin, label: "Arrival Location", value: tripDetails?.lieuArrive },
+        { icon: FaMoneyBill, label: "Unit price", value: tripDetails?.prix + " FCFA" },
+    ];
+
     return (
         <>
             <div className=" flex justify-between items-center mb-6">

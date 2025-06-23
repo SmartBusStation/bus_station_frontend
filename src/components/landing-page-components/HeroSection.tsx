@@ -12,7 +12,7 @@ export default function HeroSection(): JSX.Element
     const [heroRef, heroInView] = useInView({
         triggerOnce: false,
         threshold: 0.1,
-    })
+    });
 
     const{t} = useTranslation();
     const navigation = useNavigation();
@@ -43,9 +43,10 @@ export default function HeroSection(): JSX.Element
                     </motion.p>
                     <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
                         <button
-                            onClick={navigation.onGoToLogin}
+                            onClick={navigation.onGoToMarketPlace}
                             className="cursor-pointer px-6 py-3 rounded-2xl bg-transparent font-bold border-2 border-base-color text-base-color hover:text-primary hover:bg-base-color duration-500 transition-all">
-                            {t("landingPage.heroSection.loginText")}
+
+                            {t("landingPage.heroSection.ctaMarketPlace")}
                         </button>
                         <motion.button
                             variants={fadeInRight}

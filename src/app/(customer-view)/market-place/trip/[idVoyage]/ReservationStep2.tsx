@@ -15,11 +15,16 @@ interface ReservationStep2PropsInterface {
     setPassengers: (param: PassengerFormType[]) => void;
 }
 
-export default function ReservationStep2({selectedSeats, tripDetails, onBack, onClose, setStep, setPassengers}: ReservationStep2PropsInterface)
-{
+export default function ReservationStep2({
+                                             selectedSeats,
+                                             tripDetails,
+                                             onBack,
+                                             onClose,
+                                             setStep,
+                                             setPassengers
+                                         }: ReservationStep2PropsInterface) {
 
-
-    const {handleSubmit, onContinue, register, errors, fields, isValid, watchedPassengers} = useReservationStep2(selectedSeats,setStep, setPassengers);
+    const {handleSubmit, onContinue, register, errors, fields, isValid, watchedPassengers} = useReservationStep2(selectedSeats, setStep, setPassengers);
 
     return (
         <form onSubmit={handleSubmit(onContinue)} className="flex flex-col lg:flex-row h-full">

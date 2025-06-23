@@ -2,10 +2,6 @@ import React from "react"
 import ReservationStep1 from "./ReservationStep1"
 import ReservationStep2 from "./ReservationStep2"
 import ReservationStep3 from "./ReservationStep3"
-import TransparentModal from "@/modals/TransparentModal";
-import {SuccessModal} from "@/modals/SuccessModal";
-import ErrorModal from "@/modals/ErrorModal";
-import Loader from "@/modals/Loader";
 import {Trip} from "@/lib/types/models/Trip";
 import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 
@@ -13,13 +9,14 @@ import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 export interface ReservationProcessModalPropsInterface {
     onCloseAction: ()=>void,
     tripDetails: Trip,
-    openPaymentModalAction: ()=>void,
+    setCanOpenPaymentModal: (param: boolean) => void,
+    setReservationSuccessMessage: (param: string) => void
 }
 
-export default function ReservationProcessModal({  onCloseAction, tripDetails, openPaymentModalAction }: ReservationProcessModalPropsInterface) {
+export default function ReservationProcessModal({  onCloseAction, tripDetails, setCanOpenPaymentModal, setReservationSuccessMessage }: ReservationProcessModalPropsInterface) {
 
+    const reservationManager = useReservation(setCanOpenPaymentModal,tripDetails, onCloseAction, setReservationSuccessMessage);
 
-    const reservationManager = useReservation(tripDetails);
     return (
         <>
             <div className="bg-white relative lg:rounded-xl  rounded-xl lg:max-w-5xl md:max-w-[1000px] sm:max-w-[370px] max-w-[330px] lg:h-[90vh] h-[75vh] overflow-y-auto">
@@ -30,7 +27,7 @@ export default function ReservationProcessModal({  onCloseAction, tripDetails, o
                         setSelectedSeats={reservationManager.setSelectedSeats}
                         selectedSeats={reservationManager.selectedSeats}
                         onClose={onCloseAction}
-                        onContinue={() => reservationManager.setStep(2)}
+                        onContinue={() => reservationManager.continueToStep2()}
                     />
                 )}
                 {reservationManager.step === 2 && (
@@ -53,34 +50,14 @@ export default function ReservationProcessModal({  onCloseAction, tripDetails, o
                         onClose={onCloseAction}
                         passengersData={reservationManager.passengersData}
                         setStep={reservationManager.setStep}
+                        totalPrice={reservationManager.totalPrice}
+                        totalLuggage={reservationManager.totalLuggage}
+                        totalPassengers={reservationManager.totalPassengers}
+                        onBookTrip={reservationManager.bookTrip}
+                        isLoading={reservationManager.isLoading}
                     />
                 )}
             </div>
-
-
-            <TransparentModal isOpen={reservationManager.isLoading}>
-                <Loader/>
-            </TransparentModal>
-
-            <TransparentModal isOpen={reservationManager.canOpenErrorModal}>
-                <ErrorModal
-                    onCloseErrorModal={() => reservationManager.setCanOpenErrorModal(false)}
-                    message={reservationManager.errorMessage}
-                />
-            </TransparentModal>
-
-            <TransparentModal isOpen={reservationManager.canOpenSuccessModal}>
-                <SuccessModal
-                    canOpenSuccessModal={reservationManager.setCanOpenSuccessModal}
-                    message={reservationManager.successMessage}
-                    makeAction={() => {
-                        reservationManager.setStep(1)
-                        onCloseAction()
-                        openPaymentModalAction()
-                    }}
-                />
-            </TransparentModal>
         </>
     )
 }
-

@@ -1,187 +1,136 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { XIcon, CreditCard, ArrowLeft } from 'lucide-react';
-import axiosInstance from "@/Utils/AxiosInstance";
-import {useAuthentication} from "@/Utils/Provider";
-import WaitForPageLoad from "@/components/Modals/WaitForPageLoad";
+import {usePayment} from "@/lib/hooks/usePayment";
+import {Reservation} from "@/lib/types/models/Reservation";
+import InputField from "@/ui/InputField";
+import {useBusStation} from "@/context/Provider";
 
+export interface PaymentRequestModalInterface {
+    onClose: ()=> void,
+    reservationSuccessMessage?: string
+    reservation?: Reservation
+}
 
+export function PaymentModal({  onClose, reservationSuccessMessage, reservation}: PaymentRequestModalInterface) {
 
-export function PaymentModal({ isOpen, onClose, reservationAmount, setCanOpenSuccessModal, setSuccessMessage, idReservation}) {
-    const [step, setStep] = useState(1);
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [name, setName] = useState("");
-    const [amount, setAmount] = useState(reservationAmount.toString());
-    const {userData} = useAuthentication();
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
-
-    function handleConfirmPayment () {
-        setStep(2);
-    }
-
-
-
-    async function handleSubmitPayment (e){
-        e.preventDefault();
-        setIsLoading(true);
-        let paymentData = {
-            mobilePhone: '+237'+phoneNumber,
-            mobilePhoneName: name,
-            amount: amount,
-            userId: userData?.userId,
-            reservationId: idReservation ? idReservation : localStorage.getItem('idCurrentReservation'),
-        };
-
-        console.log(paymentData);
-        try
-        {
-            const paymentResponse = await axiosInstance.put("/reservation/payer", paymentData);
-            setIsLoading(false);
-            if (paymentResponse.status === 200)
-            {
-                localStorage.removeItem('idCurrentReservation');
-                setSuccessMessage("transaction initiated successfully, follow steps on your phone to complete the transaction");
-                setCanOpenSuccessModal(true);
-            }
-
-        }
-        catch (error)
-        {
-            console.log(error);
-            setIsLoading(false);
-            setSuccessMessage("");
-            setCanOpenSuccessModal(false);
-            if (error.response.status === 400)
-            {
-                setError("Any mobile account is associated with your phone number .... please retry !");
-            }
-            else if (error.response.status === 404)
-            {
-                setError("Your phone number doesn't exist!");
-            }
-            else
-            {
-                setError("Something went wrong when initializing the payment, please retry !!");
-            }
-        }
-
-    }
-
-    function resetAndClose ()  {
-        setStep(1);
-        localStorage.removeItem('idCurrentReservation');
-        onClose();
-    }
-
-    if (!isOpen) return null;
-
-    if (isLoading) return <WaitForPageLoad/>
+    const paymentManager = usePayment(reservation);
+    const {userData} = useBusStation();
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-xl">
-                <div className="p-6">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="lg:text-3xl  text-2xl font-semibold text-reservation-color">
-                            {step === 1 ? "Confirm Payment" : "Payment Details"}
-                        </h2>
-                        <button onClick={resetAndClose} className="text-red-500 hover:text-red-700">
-                            <XIcon className="h-6 w-6" />
-                        </button>
-                    </div>
+        <div className="bg-white rounded-lg shadow-xl lg:rounded-xl  rounded-xl lg:max-w-4xl md:max-w-[800px] sm:max-w-[370px] max-w-[330px]">
+            <div className="p-6">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="lg:text-2xl  md:text-2xl text-xl font-semibold text-primary">
+                        {paymentManager.step === 1 ? "Confirm Payment" : "Payment Details"}
+                    </h2>
+                    <button onClick={() => {paymentManager.setStep(1); onClose()}} className="w-8 h-8 bg-red-100 flex justify-center items-center rounded-full cursor-pointer text-red-500 hover:text-red-700">
+                        <XIcon className="h-6 w-6" />
+                    </button>
+                </div>
 
-                    {step === 1 ? (
+
+
+                {paymentManager.step === 1 ? (
+                    <>
+                        {reservationSuccessMessage && <p className="mt-2 mb-4 text-green-500 font-semibold text-md">{reservationSuccessMessage}</p>}
                         <div className="space-y-6">
-                            <p className="text-center text-lg text-gray-600">
+                            <p className="text-center lg:text-lg md:text-md text-md text-gray-600">
                                 Are you ready to proceed with the payment?
                             </p>
                             <div className="flex justify-center">
-                                <div className="bg-blue-100 rounded-full p-3">
-                                    <CreditCard className="h-8 w-8 text-reservation-color" />
+                                <div className="bg-blue-100 rounded-full lg:p-3 p-2">
+                                    <CreditCard className="lg:h-8 lg:w-8 w-7 h-7 text-primary"/>
                                 </div>
                             </div>
-                            <p className="text-center text-xl font-semibold">
-                                Total Amount: {reservationAmount} FCFA
+                            <p className="text-center lg:text-xl md:text-lg text-md font-semibold">
+                                Total Amount: {paymentManager.amount} FCFA
                             </p>
                             <div className="flex space-x-4">
                                 <button
-                                    onClick={handleConfirmPayment}
-                                    className="flex-1 lg:px-4 lg:py-2 px-2 py-1 font-semibold  bg-reservation-color text-white rounded-md hover:bg-reservation-color/90 transition-colors"
+                                    onClick={paymentManager.handleConfirmPayment}
+                                    className="cursor-pointer flex-1 lg:px-4 lg:py-2 px-2 py-1 lg:text-md text-sm font-semibold  bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
                                 >
                                     Proceed to Payment
                                 </button>
                                 <button
-                                    onClick={resetAndClose}
-                                    className="flex-1 lg:px-4 py-2 px-2  bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
+                                    onClick={() => {
+                                        paymentManager.setStep(1);
+                                        onClose()
+                                    }}
+                                    className="cursor-pointer flex-1 lg:px-4 py-2 px-2  bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
                                 >
                                     Not Now
                                 </button>
                             </div>
                         </div>
-                    ) : (
-                        <form onSubmit={handleSubmitPayment} className="space-y-4">
-                            {error && <p className="text-red-500 m-2 text-md font-semibold">{error}</p>}
-                            <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Phone Number
-                                </label>
-                                <input
-                                    id="phone"
-                                    type="tel"
-                                    placeholder="Enter your phone number"
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
-                                    required
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-reservation-color"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Name
-                                </label>
-                                <input
-                                    id="name"
-                                    type="text"
-                                    placeholder="Enter the name associated with the account"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-reservation-color"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Amount (FCFA)
-                                </label>
-                                <input
-                                    id="amount"
-                                    type="number"
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    required
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-reservation-color"
-                                />
-                            </div>
-                            <div className="flex justify-between pt-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setStep(1)}
-                                    className="flex items-center px-4 py-2 bg-gray-200 font-semibold text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
-                                >
-                                    <ArrowLeft className="h-4 w-4 mr-2" />
-                                    Back
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-reservation-color text-white font-semibold rounded-md hover:bg-reservation-color/90 transition-colors"
-                                >
-                                    Complete Payment
-                                </button>
-                            </div>
-                        </form>
-                    )}
-                </div>
+                    </>
+
+                ) : (
+                    <form onSubmit={paymentManager.handleSubmit(paymentManager.handleSubmitPayment)}
+                          className="space-y-4">
+                        {paymentManager.axiosPaymentError &&
+                            <p className="text-red-500 mt-2 mb-4  text-sm font-semibold">{paymentManager.axiosPaymentError}</p>}
+
+                        <InputField
+                            id={"mobilePhone"}
+                            type={"text"}
+                            label={"Enter your phone number"}
+                            placeholder={"6XXXXXXXX"}
+                            register={paymentManager.register("mobilePhone")}
+                            error={paymentManager.errors.mobilePhone?.message}
+                        />
+
+                        <InputField
+                            id={"name"}
+                            type={"text"}
+                            label={"Enter your name"}
+                            placeholder={"John Doe"}
+                            register={paymentManager.register("mobilePhoneName")}
+                            error={paymentManager.errors.mobilePhoneName?.message}
+                        />
+
+                        <InputField
+                            id={"amount"}
+                            type="number"
+                            placeholder={"2500"}
+                            label={"Enter the amount you want to pay"}
+                            register={paymentManager.register("amount")}
+                            error={paymentManager.errors.amount?.message}
+                        />
+
+                        {/* Champ caché pour userId */}
+                        <input
+                            type="hidden"
+                            {...paymentManager.register("userId")}
+                            value={userData?.userId || ""}
+                        />
+
+                        {/* Champ caché pour idReservation */}
+                        <input
+                            type="hidden"
+                            {...paymentManager.register("reservationId")}
+                            value={paymentManager.currentReservation?.idReservation || ""}
+                        />
+
+                        <div className="flex justify-between pt-4 gap-5">
+                            <button
+                                type="button"
+                                onClick={() => paymentManager.setStep(1)}
+                                className="cursor-pointer flex items-center px-4 py-2 bg-gray-200 font-semibold text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+                            >
+                                <ArrowLeft className="h-4 w-4 mr-2" />
+                                Back
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={paymentManager.isLoading}
+                                className="cursor-pointer px-4 py-2 bg-primary text-white font-semibold rounded-md hover:bg-primary/90 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            >
+                                {paymentManager.isLoading ? "Processing..." : "Complete Payment"}
+                            </button>
+                        </div>
+                    </form>
+                )}
             </div>
         </div>
     );

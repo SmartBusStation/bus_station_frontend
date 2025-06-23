@@ -2,11 +2,12 @@ import axiosInstance from "@/lib/services/axios-services/axiosInstance";
 import {ReservationCreationSchema} from "@/lib/types/schema/reservationCreationSchema";
 import {AxiosResponse} from "axios";
 import {Reservation} from "@/lib/types/models/Reservation";
+import {PaymentRequestFormType} from "@/lib/types/schema/paymentRequestSchema";
 
 const url :string= "reservation";
 
 
-async function createReservation(data: ReservationCreationSchema): Promise<Reservation|null>
+export async function createReservation(data: ReservationCreationSchema): Promise<Reservation|null>
 {
     if (!data) throw new Error("reservation data must not be empty");
     try
@@ -28,4 +29,30 @@ async function createReservation(data: ReservationCreationSchema): Promise<Reser
         console.error("erreur lors de la reservation ", error);
         throw new Error("Une erreur est survenue lors de la reservation");
     }
+}
+
+
+export async function createPayment(data: PaymentRequestFormType): Promise<string|number>
+{
+    if (!data) throw new Error("payment data must not be empty");
+    try
+    {
+        const apiResponse: AxiosResponse<void> = await axiosInstance.put(`${url}/payer`, data);
+        if(apiResponse.status === 200 || apiResponse.status === 204)
+        {
+            console.info("payment success", apiResponse.data);
+            return "payment success";
+        }
+        else
+        {
+            console.warn("unattended http code ", apiResponse.status, apiResponse);
+            return apiResponse.status;
+        }
+    }
+    catch(error)
+    {
+        console.error("erreur lors de la reservation ", error);
+        throw new Error("Une erreur est survenue lors de la reservation");
+    }
+
 }

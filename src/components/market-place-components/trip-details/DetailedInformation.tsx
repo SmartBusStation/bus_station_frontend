@@ -55,7 +55,7 @@ export default function DetailedInformation({tripDetails, equipmentsOnBus}: Deta
                                 </div>
                                 <p className="text-sm text-gray-500">Available Seats</p>
                                 <p className="font-semibold text-gray-900">
-                                    {tripDetails.nbrPlaceRestante}/{tripDetails.nbrPlaceReservable}
+                                    {tripDetails.nbrPlaceReservable}/{tripDetails.nbrPlaceRestante}
                                 </p>
                             </div>
                         </div>

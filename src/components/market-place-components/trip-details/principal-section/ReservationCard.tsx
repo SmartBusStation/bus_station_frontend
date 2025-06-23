@@ -19,7 +19,7 @@ export default function ReservationCard({tripDetails, setCanOpenReservationModal
                     </div>
                     <div className="lg:ml-0 ml-2 flex items-center gap-2 text-sm text-gray-600">
                         <Users className="h-4 w-4"/>
-                        <span>Only <span className="font-extrabold text-black">{tripDetails.nbrPlaceRestante}</span> seats left at this price</span>
+                        <span>Only <span className="font-extrabold text-black">{tripDetails.nbrPlaceReservable}</span> seats left at this price</span>
                     </div>
                 </div>
 

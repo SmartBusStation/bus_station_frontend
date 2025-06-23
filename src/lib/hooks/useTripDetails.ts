@@ -14,7 +14,9 @@ export type equipmentOnBusType = {
 export function useTripDetails(idVoyage: string)
 {
 
+    const [reservationSuccessMessage, setReservationSuccessMessage] = useState<string>("");
     const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+    const [canOpenPaymentModal, setCanOpenPaymentModal] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [tripDetails, setTripDetail] = useState<Trip>({
         amenities: [],
@@ -55,22 +57,13 @@ export function useTripDetails(idVoyage: string)
         }
     });
     const [canOpenReservationModal, setCanOpenReservationModal] = useState<boolean>(false);
-    const [canOpenPaymentRequestModal, setCanOpenPaymentRequestModal] = useState<boolean>(false);
-    const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
-    const [successMessage, setSuccessMessage] = useState<string>("");
-    const [errorMessage, setErrorMessage] = useState<string>("");
-    const [canOpenErrorModal, setCanOpenErrorModal] = useState<boolean>(false);
-
-
     const [axiosError, setAxiosError] = useState<string|null>(null);
-
     const images = [
        // tripDetails && tripDetails.smallImage,
         tripDetails && tripDetails.bigImage,
         tripDetails && tripDetails.bigImage,
 
     ];
-
     const equipmentsOnBus : equipmentOnBusType[] = [
         { icon: Wifi, label: "Free WiFi", color: "text-blue-600" },
         { icon: Coffee, label: "Meals & Drinks", color: "text-orange-600" },
@@ -142,7 +135,9 @@ export function useTripDetails(idVoyage: string)
         canOpenReservationModal,
         tripDetails,
         axiosError,
-        setCanOpenPaymentRequestModal,
-
+        canOpenPaymentModal,
+        setCanOpenPaymentModal,
+        reservationSuccessMessage,
+        setReservationSuccessMessage
     }
 }

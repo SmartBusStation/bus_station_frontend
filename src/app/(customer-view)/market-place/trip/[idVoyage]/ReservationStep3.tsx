@@ -14,23 +14,21 @@ import {formatDateOnly, formatDateToTime} from "@/lib/services/date-services";
 import {Trip} from "@/lib/types/models/Trip";
 import {PassengerFormType} from "@/lib/types/schema/passengerReservationSchema";
 import {Tooltip} from "antd";
-import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 
-
-interface ReservationStep2PropsInterface{
+interface ReservationStep3PropsInterface{
     selectedSeats: number[],
     tripDetails: Trip,
     passengersData: PassengerFormType[],
     onClose: ()=>void,
     setStep: (step: number)=>void,
+    totalPrice: number,
+    totalLuggage: number,
+    totalPassengers: number,
+    onBookTrip: () => Promise<void>,
+    isLoading: boolean,
 }
 
-export default function ReservationStep3({selectedSeats, tripDetails, passengersData,onClose, setStep}: ReservationStep2PropsInterface) {
-
-
-
-
-  const {bookTrip, totalLuggage, totalPrice, totalPassengers} = useReservation();
+export default function ReservationStep3({selectedSeats, tripDetails, passengersData, onClose, setStep, totalPrice, totalLuggage, totalPassengers, onBookTrip, isLoading}: ReservationStep3PropsInterface) {
 
 
 
@@ -77,7 +75,6 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
                         ))}
                     </div>
                 </div>
-
 
                 {/*** TRIP DETAILS ***/}
                 <div className="p-4 lg:p-6 border-b border-gray-200">
@@ -168,7 +165,6 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
                     </div>
                 </div>
 
-
                 {/*** PRICE SUMMARY ***/}
                 <div className="p-4 lg:p-6">
                     <h3 className="font-semibold text-lg text-primary mb-4 flex items-center">
@@ -196,14 +192,14 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
 
             <div className="flex justify-end mr-2 mt-8">
                 <button
-                    onClick={async () => await bookTrip()}
-                    className="bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition-colors duration-200 flex items-center justify-center"
+                    onClick={onBookTrip}
+                    disabled={isLoading}
+                    className={` ${isLoading && "animate-bounce "} cursor-pointer bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition-colors duration-200 flex items-center justify-center`}
                 >
                     <CheckCircle className="w-5 h-5 mr-2"/>
-                    Book
+                    {isLoading ? "Booking..." : "Book"}
                 </button>
             </div>
         </div>
     )
 }
-
