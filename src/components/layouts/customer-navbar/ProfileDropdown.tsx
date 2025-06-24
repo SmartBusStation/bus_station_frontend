@@ -92,7 +92,7 @@ export default function ProfileDropdown({
           {/* Menu Items */}
           <div className="p-2">
             <Link
-              href={isDashboard ? "/dashboard/settings" : "/user-profile"}
+              href={isDashboard ? "/dashboard/settings" : "/profil"}
               className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
               onClick={() => setIsProfileOpen(false)}>
               <User className="h-4 w-4 text-gray-500" />

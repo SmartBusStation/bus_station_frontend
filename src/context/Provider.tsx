@@ -1,169 +1,107 @@
 "use client";
 
 import constate from 'constate';
-import {useEffect, useMemo, useState} from "react";
-import {loginSchema, LoginSchemaType} from "@/lib/types/schema/loginSchema";
-import {Customer} from "@/lib/types/models/BusinessActor";
-import {getConnectedUser, loginBusinessActor} from "@/lib/services/businessActor-service";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {tokenKeyName} from "@/lib/services/axios-services/interceptors/auth-interceptor";
+import { useEffect, useMemo, useState } from "react";
+import { loginSchema, LoginSchemaType } from "@/lib/types/schema/loginSchema";
+import { Customer } from "@/lib/types/models/BusinessActor";
+import { getConnectedUser, loginBusinessActor } from "@/lib/services/businessActor-service";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { tokenKeyName } from "@/lib/services/axios-services/interceptors/auth-interceptor";
 
-
-
-
-export const [BusStationProvider, useBusStation] = constate(useBusStationProvider, value=> value.authMethods);
-
+export const [BusStationProvider, useBusStation] = constate(useBusStationProvider, value => value.authMethods);
 
 function useBusStationProvider() {
-
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [userData, setUserData] = useState<Customer|null>(null);
-    const [axiosErrors, setAxiosErrors] = useState<string|null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [userData, setUserData] = useState<Customer | null>(null);
+    const [axiosErrors, setAxiosErrors] = useState<string | null>(null);
     const [isCustomerAuthenticated, setIsCustomerAuthenticated] = useState<boolean>(false);
     const [isAgencyConnected, setIsAgencyConnected] = useState<boolean>(false);
     const [isOrganizationConnected, setIsOrganizationConnected] = useState<boolean>(false);
 
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginSchemaType>({
+        resolver: zodResolver(loginSchema),
+    });
 
-
-    /*** Zod variables for login Process ***/
-    const {register, handleSubmit, formState: { errors }} = useForm<LoginSchemaType>(
-        {
-            resolver: zodResolver(loginSchema),
-        });
-
-
-    function saveAuthParams(token:string, expirationDate?:string)
-    {
+    function saveAuthParams(token: string, expirationDate?: string) {
         localStorage.setItem(tokenKeyName, token);
         if (expirationDate) localStorage.setItem("bus_station_token_expirationDate", expirationDate);
     }
 
-
-    function clearLocaleStorage()
-    {
+    function clearLocaleStorage() {
         localStorage.removeItem(tokenKeyName);
         localStorage.removeItem("bus_station_token_expirationDate");
-
     }
 
-
-
-    function logout()
-    {
+    function logout() {
         clearLocaleStorage();
-        window.location.href="/"
+        window.location.href = "/";
     }
 
-    async function login(data: LoginSchemaType): Promise<void>
-    {
-        console.log(data);
-        setIsCustomerAuthenticated(false);
-        setIsAgencyConnected(false);
-        setUserData(null);
+    // --- LOGIQUE DE CONNEXION CORRIGÉE ---
+    async function login(data: LoginSchemaType): Promise<string[] | null> {
         setIsLoading(true);
-        await loginBusinessActor(data)
-            .then((result) => {
-                if(result)
-                {
-                    setUserData(result);
-                    saveAuthParams(result?.token);
-                    if(result?.role.includes("USAGER"))
-                    {
-                        setIsCustomerAuthenticated(true);
-                        window.location.href = "/market-place";
-                    }
-                    if (result?.role.includes("ORGANISATION"))
-                    {
-                        setIsAgencyConnected(true);
-                        setIsOrganizationConnected(true);
-                        window.location.href = "/dashboard";
-                    }
-                    if (result?.role.includes("AGENCE_VOYAGE"))
-                    {
-                        setIsAgencyConnected(true);
-                        window.location.href = "/dashboard";
-                    }
-                }
-                else
-                {
-                    setAxiosErrors("Something went wrong, please try again !");
-                }
+        setAxiosErrors(null);
+        try {
+            const result = await loginBusinessActor(data);
+            if (result) {
+                setUserData(result);
+                saveAuthParams(result.token);
 
-            })
-            .catch((error): void => {
-                if(error?.status === 401 || error?.status === 403)
-                {
-                    setAxiosErrors("Wrong credentials, please try again !");
+                if (result.role.includes("USAGER")) setIsCustomerAuthenticated(true);
+                if (result.role.includes("ORGANISATION")) {
+                    setIsAgencyConnected(true);
+                    setIsOrganizationConnected(true);
                 }
-                else if (error?.status === 404)
-                {
-                    setAxiosErrors("User not found, please try again !");
-                }
-                else
-                {
-                    setAxiosErrors("Something went wrong, please try again !");
-                }
-            })
-            .finally(()=> setIsLoading(false));
+                if (result.role.includes("AGENCE_VOYAGE")) setIsAgencyConnected(true);
+                
+                setIsLoading(false);
+                return result.role; // RETOURNE LE TABLEAU DE RÔLES POUR QUE LA PAGE GÈRE LA REDIRECTION
+            } else {
+                setAxiosErrors("Une erreur inattendue est survenue.");
+                setIsLoading(false);
+                return null;
+            }
+        } catch (error: any) {
+            if (error?.response?.status === 401 || error?.response?.status === 403) {
+                setAxiosErrors("Identifiants incorrects, veuillez réessayer !");
+            } else if (error?.response?.status === 404) {
+                setAxiosErrors("Utilisateur non trouvé, veuillez réessayer !");
+            } else {
+                setAxiosErrors("Une erreur est survenue. Vérifiez votre connexion.");
+            }
+            setIsLoading(false);
+            return null;
+        }
     }
 
-
-
-    async function getCurrentUser():Promise<void>
-    {
-        const token = localStorage.getItem(tokenKeyName) as string;
-        if(token === "" &&  token === undefined)
-        {
-            setIsCustomerAuthenticated(false);
-            setIsAgencyConnected(false);
-            setUserData(null);
+    async function getCurrentUser(): Promise<void> {
+        const token = localStorage.getItem(tokenKeyName);
+        if (!token) {
+            setIsLoading(false);
+            return;
         }
-        else
-        {
-            await getConnectedUser(token)
-                .then((result) => {
-                    if(result)
-                    {
-                        if(result?.role.includes("USAGER"))
-                        {
-                            setIsCustomerAuthenticated(true);
-                            setIsAgencyConnected(false);
-                        }
-                        else
-                        {
-                            setIsAgencyConnected(true);
-                            setIsCustomerAuthenticated(false);
-                        }
-                        setUserData(result);
-                    }
-                    else
-                    {
-                        setIsCustomerAuthenticated(false);
-                        setIsAgencyConnected(false);
-                        setIsOrganizationConnected(false);
-                        setUserData(null);
-                    }
-                })
-                .catch(() => {
-                    setIsCustomerAuthenticated(false);
-                    setIsAgencyConnected(false);
-                    setIsOrganizationConnected(false);
-                    setUserData(null);
-                });
+        try {
+            const result = await getConnectedUser(token);
+            if (result) {
+                setUserData(result);
+                if (result.role.includes("USAGER")) setIsCustomerAuthenticated(true);
+                if (result.role.includes("AGENCE_VOYAGE")) setIsAgencyConnected(true);
+                if (result.role.includes("ORGANISATION")) setIsOrganizationConnected(true);
+            } else {
+                clearLocaleStorage();
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération de l'utilisateur :", error);
+            clearLocaleStorage();
+        } finally {
+            setIsLoading(false);
         }
-
     }
 
     useEffect(() => {
-        const token = localStorage.getItem(tokenKeyName) as string;
-        if (token !== "" && token !== undefined)
-        {
-            getCurrentUser();
-        }
+        getCurrentUser();
     }, []);
-
-
 
     const authMethods = useMemo(() => ({
         login,
@@ -177,10 +115,7 @@ function useBusStationProvider() {
         logout,
         isAgencyConnected,
         isOrganizationConnected,
-
-
-    }), [isLoading, userData, axiosErrors, register, handleSubmit, errors, isCustomerAuthenticated, isAgencyConnected, isOrganizationConnected]);
+    }), [isLoading, userData, axiosErrors, errors, isCustomerAuthenticated, isAgencyConnected, isOrganizationConnected]);
 
     return { authMethods };
-
 }
