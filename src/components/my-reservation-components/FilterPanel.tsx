@@ -24,17 +24,9 @@ const statusOptions = [
     "Pending Payment"
 ];
 
-export default function FiltersPanel({
-                                         selectedAgency,
-                                         selectedStatus,
-                                         selectedDate,
-                                         onAgencyChange,
-                                         onStatusChange,
-                                         onDateChange,
-                                         onClearFilters
-                                     }: FiltersPanelProps) {
+export default function FiltersPanel({selectedAgency, selectedStatus, selectedDate, onAgencyChange, onStatusChange, onDateChange, onClearFilters}: FiltersPanelProps) {
     return (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="mt-4 p-4 bg-white rounded-lg border border-primary">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Agency Filter */}
                 <div>
@@ -89,7 +81,7 @@ export default function FiltersPanel({
                 <div className="flex items-end">
                     <button
                         onClick={onClearFilters}
-                        className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                        className="w-full px-4 py-2 bg-primary cursor-pointer text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors font-medium"
                     >
                         Clear Filters
                     </button>
