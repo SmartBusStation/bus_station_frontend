@@ -34,7 +34,7 @@ export default function RegisterPage() {
                                 <span className="font-bold text-2xl text-blue-600">M</span>
                             </div>
                         </div>
-                        <h1 className="text-2xl font-bold">Create an account on Moving.com</h1>
+                        <h1 className="text-2xl font-bold">Create an account on Bus Station</h1>
                         <p className="mt-2 font-semibold text-white">Join our community of travelers and agencies</p>
                         <p className="text-white mt-2">
                             {step === 1 && "Let's start with your personal information."}

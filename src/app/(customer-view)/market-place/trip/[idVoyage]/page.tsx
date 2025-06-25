@@ -8,8 +8,8 @@ import PrincipalSection from "@/components/market-place-components/trip-details/
 import DetailedInformation from "@/components/market-place-components/trip-details/DetailedInformation";
 import TripDetailsLoadingError from "@/components/market-place-components/trip-details/TripDetailsLoadingError";
 import TransparentModal from "@/modals/TransparentModal";
-import ReservationProcessModal from "@/app/(customer-view)/market-place/trip/[idVoyage]/ReservationProcessModal";
-import {PaymentModal} from "@/app/(customer-view)/market-place/trip/[idVoyage]/PaymentRequestModal";
+import ReservationProcessModal from "@/modals/ReservationProcessModal";
+import {PaymentModal} from "@/modals/PaymentRequestModal";
 
 
 
@@ -62,7 +62,6 @@ export default function TripDetails({ params }: { params: Promise<{ idVoyage: st
                 </div>
             </div>
 
-
             <TransparentModal isOpen={tripDetailsHook.canOpenReservationModal}>
                 <ReservationProcessModal
                     setReservationSuccessMessage={tripDetailsHook.setReservationSuccessMessage}
@@ -78,19 +77,6 @@ export default function TripDetails({ params }: { params: Promise<{ idVoyage: st
                     reservationSuccessMessage={tripDetailsHook.reservationSuccessMessage}
                 />
             </TransparentModal>
-
-
-
-            {/*
-              <SuccessModal
-                canOpenSuccessModal={setCanOpenSuccessModal}
-                isOpen={canOpenSuccessModal}
-                message={successMessage}
-                makeAction={() => {
-                  setCanOpenPaymentRequestModal(false)
-                  router.push("/market-place")
-                }}
-              /> */}
         </div>
     )
 }

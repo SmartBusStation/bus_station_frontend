@@ -39,7 +39,7 @@ export default function ServerErrorPage({errorStatus}: {errorStatus: number}) {
                     <p>If the problem persists, contact our technical support: </p>
                     <div className="underline text-reservation-color font-medium flex gap-1">
                         <MailIcon/>
-                        <p className="mr-4">technicalsupport@mooving.com</p>
+                        <p className="mr-4">technicalsupport@busstation.com</p>
                         <PhoneCall/>
                         <p>+237 6 98 55 25 32</p>
                     </div>

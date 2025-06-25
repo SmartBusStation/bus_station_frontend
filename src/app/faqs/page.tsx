@@ -60,8 +60,8 @@ export default function FAQPage() {
   const faqItems: FAQItem[] = [
     {
       id: 1,
-      question: t("faqPage.questions.bookingProcess", "Comment réserver un voyage via Moving.com ?"),
-      answer: t("faqPage.answers.bookingProcess", "Pour réserver un voyage sur Moving.com, connectez-vous à votre compte, recherchez votre destination, sélectionnez les options qui vous conviennent et procédez au paiement. Vous recevrez une confirmation par email avec tous les détails de votre réservation."),
+      question: t("faqPage.questions.bookingProcess", "Comment réserver un voyage via Bus Station ?"),
+      answer: t("faqPage.answers.bookingProcess", "Pour réserver un voyage sur Bus Station, connectez-vous à votre compte, recherchez votre destination, sélectionnez les options qui vous conviennent et procédez au paiement. Vous recevrez une confirmation par email avec tous les détails de votre réservation."),
       category: "booking"
     },
     {
@@ -102,7 +102,7 @@ export default function FAQPage() {
     },
     {
       id: 8,
-      question: t("faqPage.questions.agencyRegistration", "Comment inscrire mon agence sur Moving.com ?"),
+      question: t("faqPage.questions.agencyRegistration", "Comment inscrire mon agence sur Bus Station ?"),
       answer: t("faqPage.answers.agencyRegistration", "Pour inscrire votre agence, rendez-vous sur notre page 'Devenir partenaire' et suivez le processus d'inscription. Vous devrez fournir des informations sur votre agence, vos licences professionnelles et accepter nos conditions d'utilisation. Notre équipe examinera votre demande dans un délai de 48 heures."),
       category: "agency"
     },
@@ -127,7 +127,7 @@ export default function FAQPage() {
     {
       id: 12,
       question: t("faqPage.questions.customerService", "Comment contacter le service client ?"),
-      answer: t("faqPage.answers.customerService", "Notre service client est disponible 7j/7 par téléphone au +33 1 23 45 67 89, par email à support@moving.com, ou via le chat en direct sur notre site et notre application mobile. Pour les urgences en voyage, nous disposons d'une ligne dédiée accessible 24h/24."),
+      answer: t("faqPage.answers.customerService", "Notre service client est disponible 7j/7 par téléphone au +33 1 23 45 67 89, par email à support@busstation.com, ou via le chat en direct sur notre site et notre application mobile. Pour les urgences en voyage, nous disposons d'une ligne dédiée accessible 24h/24."),
       category: "support"
     }
   ]
@@ -341,7 +341,7 @@ export default function FAQPage() {
                     </div>
                     <div className="flex items-center">
                       <Mail className="h-5 w-5 text-blue-300 mr-3" />
-                      <span className="text-white">support@moving.com</span>
+                      <span className="text-white">support@busstation.com</span>
                     </div>
                   </motion.div>
                 </div>

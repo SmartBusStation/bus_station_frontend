@@ -4,7 +4,7 @@
   },
   "landingPage": {
     "heroSection": {
-      "slogan": "Plan your trip, share it, and inspire dreams with Moving.com",
+      "slogan": "Plan your trip, share it, and inspire dreams with Bus Station",
       "fullSlogan": "The platform that connects travel agencies and travelers for a smooth and secure booking experience.",
       "loginText": "Log In",
       "ctaMarketPlace": "Explore our travel offers",
@@ -48,7 +48,7 @@
     },
     "agencySection": {
       "title": "For Travel Agencies",
-      "slogan": "Moving.com offers travel agencies a complete platform to manage their operations and grow their customer base.",
+      "slogan": "Bus Station offers travel agencies a complete platform to manage their operations and grow their customer base.",
       "exclusiveBenefits": "Exclusive Benefits",
       "features": {
         "planning": {
@@ -85,7 +85,7 @@
     },
     "CTASection": {
       "title": "Ready to simplify your trips and bookings?",
-      "slogan": "Join Moving.com today and discover a new, easier, and more enjoyable way to manage your travels.",
+      "slogan": "Join Bus Station today and discover a new, easier, and more enjoyable way to manage your travels.",
       "planATrip": "Plan a trip"
     }
   },
@@ -95,7 +95,7 @@
     "quickLink": "Quick links",
     "legal": "Legal",
     "contact": "Contact",
-    "allRight": "Moving.com. All rights reserved.",
+    "allRight": "Bus Station. All rights reserved.",
     "trip": "Trips",
     "about-us": "About us",
     "contact-us": "Contact us",
@@ -221,21 +221,21 @@
       "payment": "Discover all our payment and financing options."
     },
     "questions": {
-      "bookingProcess": "How to book a trip via Moving.com?",
+      "bookingProcess": "How to book a trip via Bus Station?",
       "cancellation": "What is the cancellation policy?",
       "payment": "What payment methods do you accept?",
       "refund": "How long does it take to get a refund?",
       "account": "How do I modify my account information?",
       "travelDocuments": "What travel documents are required?",
       "insurance": "Is travel insurance included?",
-      "agencyRegistration": "How do I register my agency on Moving.com?",
+      "agencyRegistration": "How do I register my agency on Bus Station ?",
       "commission": "What are the commissions for partner agencies?",
       "api": "Do you offer an API for agencies?",
-      "mobileApp": "Is there a Moving.com mobile application?",
+      "mobileApp": "Is there a Bus Station mobile application?",
       "customerService": "How do I contact customer service?"
     },
     "answers": {
-      "bookingProcess": "To book a trip on Moving.com, log in to your account, search for your destination, select the options that suit you and proceed to payment. You will receive a confirmation email with all the details of your reservation.",
+      "bookingProcess": "To book a trip on Bus Station, log in to your account, search for your destination, select the options that suit you and proceed to payment. You will receive a confirmation email with all the details of your reservation.",
       "cancellation": "Our cancellation policy varies depending on the provider. Generally, cancellations made 30 days before departure are refunded 100%, 15-29 days before 50%, and less than 15 days are non-refundable. Consult the specific conditions for each reservation.",
       "payment": "We accept credit cards (Visa, Mastercard, American Express), PayPal, bank transfers and in some countries installment payments. All transactions are secured with SSL encryption.",
       "refund": "Refunds are generally processed within 5 to 10 business days. The time it takes to appear on your bank account depends on your bank and can take up to 30 days depending on financial institutions.",
@@ -246,7 +246,7 @@
       "commission": "Our commission structure is progressive and based on sales volume. It generally ranges from 8% to 15%. Premium partners benefit from preferential rates and additional advantages. Contact our partner team for more details.",
       "api": "Yes, we offer a complete API allowing partner agencies to integrate our travel inventory and booking system directly into their website or application. Technical documentation and API keys are available after approval of your partner account.",
       "mobileApp": "Yes, our mobile application is available for free on iOS and Android. It allows you to search and book trips, access your existing reservations, receive travel notifications and contact our customer service, even while on the move.",
-      "customerService": "Our customer service is available 7 days a week by phone at +33 1 23 45 67 89, by email at support@moving.com, or via live chat on our website and mobile application. For travel emergencies, we have a dedicated line accessible 24/7."
+      "customerService": "Our customer service is available 7 days a week by phone at +33 1 23 45 67 89, by email at support@busstation.com, or via live chat on our website and mobile application. For travel emergencies, we have a dedicated line accessible 24/7."
     }
   },
   "contactPage": {

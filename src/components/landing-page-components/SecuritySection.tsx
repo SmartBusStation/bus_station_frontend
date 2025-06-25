@@ -30,7 +30,7 @@ export default function SecuritySection(): JSX.Element
                         <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-lg">
                             <Image
                                 src="/placeholder.svg?height=400&width=600"
-                                alt="Sécurité Moving.com"
+                                alt="Sécurité Bus Station"
                                 fill
                                 className="object-cover"
                             />
@@ -40,7 +40,7 @@ export default function SecuritySection(): JSX.Element
                         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Sécurité et fiabilité
                             garanties</h2>
                         <p className="text-lg mb-6 text-gray-700">
-                            Chez Moving.com, nous prenons la sécurité très au sérieux. Notre plateforme est conçue avec
+                            Chez Bus Station, nous prenons la sécurité très au sérieux. Notre plateforme est conçue avec
                             les plus
                             hauts standards de sécurité pour protéger vos données et vos transactions.
                         </p>

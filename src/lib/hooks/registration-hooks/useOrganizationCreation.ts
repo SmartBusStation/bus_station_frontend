@@ -58,6 +58,8 @@ export function useOrganizationCreation (changeStep: (step: number) => void, cre
         e.preventDefault();
         if(!createAgency)
         {
+            sessionStorage.removeItem("createdBusinessActor");
+            sessionStorage.removeItem("currentBusinessActor");
             setIsLoading(false);
             setSuccessMessage("Your account has been created successfully!");
             setCanOpenSuccessModal(true);

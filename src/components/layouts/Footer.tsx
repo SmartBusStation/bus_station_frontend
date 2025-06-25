@@ -77,7 +77,7 @@ export default function Footer(): JSX.Element {
 
     const contactInfo = [
         { icon: MapPin, text: "BP 9878, 75001 Yaounde, Cameroon" },
-        { icon: Mail, text: "contact@moving.com", link: "mailto:contact@moving.com" },
+        { icon: Mail, text: "contact@busstation.com", link: "mailto:contact@busstation.com" },
         { icon: Phone, text: "+237 6 98 45 67 89" },
         { icon: Clock, text: translate("schedule") }
     ];
@@ -101,9 +101,9 @@ export default function Footer(): JSX.Element {
                     <div className="mb-8 md:mb-0 md:max-w-sm">
                         <div className="flex items-center mb-4">
                             <div className="bg-primary w-10 h-10 rounded-lg flex items-center justify-center mr-3">
-                                <span className="font-bold text-xl">M</span>
+                                <span className="font-bold text-xl">B</span>
                             </div>
-                            <h2 className="text-2xl font-bold">Moving.com</h2>
+                            <h2 className="text-2xl font-bold">Bus Station</h2>
                         </div>
                         <p className="text-gray-400 mb-6">
                             {translate("slogan")}

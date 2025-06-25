@@ -22,8 +22,8 @@ export const linkList = [
         icon: FaHome,
     },
     {
-        name: "Scheduled Trips",
-        link: "/scheduled-trips",
+        name: "My reservations",
+        link: "/my-reservations",
         icon: FaBus,
     },
     {

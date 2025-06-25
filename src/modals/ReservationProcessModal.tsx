@@ -1,7 +1,7 @@
 import React from "react"
-import ReservationStep1 from "./ReservationStep1"
-import ReservationStep2 from "./ReservationStep2"
-import ReservationStep3 from "./ReservationStep3"
+import ReservationStep1 from "../components/reservation-components/ReservationStep1"
+import ReservationStep2 from "../components/reservation-components/ReservationStep2"
+import ReservationStep3 from "../components/reservation-components/ReservationStep3"
 import {Trip} from "@/lib/types/models/Trip";
 import {useReservation} from "@/lib/hooks/reservation-hooks/useReservation";
 

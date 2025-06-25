@@ -110,8 +110,8 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-xl font-semibold mb-4">{t("contactPage.emailUs", "Écrivez-nous")}</h3>
                 <p className="text-gray-600 mb-4">{t("contactPage.emailDescription", "Pour toute demande d'information ou assistance")}</p>
-                <a href="mailto:contact@moving.com" className="text-blue-600 font-semibold hover:underline">
-                  contact@moving.com
+                <a href="mailto:contact@bustation.com" className="text-blue-600 font-semibold hover:underline">
+                  contact@bustation.com
                 </a>
               </motion.div>
 
@@ -300,8 +300,8 @@ export default function ContactPage() {
                       <div className="flex items-start">
                         <Mail className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                         <p className="text-gray-600">
-                          <a href="mailto:contact@moving.com" className="hover:text-blue-600">contact@moving.com</a><br />
-                          <a href="mailto:support@moving.com" className="hover:text-blue-600">support@moving.com</a>
+                          <a href="mailto:contact@busstation.com" className="hover:text-blue-600">contact@busstation.com</a><br />
+                          <a href="mailto:support@busstation.com" className="hover:text-blue-600">support@busstation.com</a>
                         </p>
                       </div>
                       <div className="flex items-start">

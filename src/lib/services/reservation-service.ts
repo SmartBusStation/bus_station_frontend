@@ -1,10 +1,14 @@
 import axiosInstance from "@/lib/services/axios-services/axiosInstance";
 import {ReservationCreationSchema} from "@/lib/types/schema/reservationCreationSchema";
 import {AxiosResponse} from "axios";
-import {Reservation} from "@/lib/types/models/Reservation";
+import {Reservation, ReservationDetails} from "@/lib/types/models/Reservation";
 import {PaymentRequestFormType} from "@/lib/types/schema/paymentRequestSchema";
 
+
 const url :string= "reservation";
+
+
+
 
 
 export async function createReservation(data: ReservationCreationSchema): Promise<Reservation|null>
@@ -56,3 +60,49 @@ export async function createPayment(data: PaymentRequestFormType): Promise<strin
     }
 
 }
+
+
+export async function getCustomerReservations(idUser: string): Promise<ReservationDetails|null>
+{
+    try
+    {
+        const apiResponse: AxiosResponse<ReservationDetails> = await axiosInstance.get(`/${url}/utilisateur/${idUser}`);
+        if(apiResponse.status === 200)
+        {
+            console.log(apiResponse);
+            return apiResponse.data;
+        }
+        else
+        {
+            console.warn("unattended http code ", apiResponse.status, apiResponse);
+            return null;
+        }
+    }
+    catch (error)
+    {
+        console.error("error during retrieving reservations ", error);
+        throw new Error("error during retrieving reservations");
+    }
+}
+
+
+export async function getReservationDetail(idReservation: string): Promise<ReservationDetails|null>
+{
+    try {
+        const apiResponse: AxiosResponse<ReservationDetails> = await axiosInstance.get(`/${url}/${idReservation}`);
+        if (apiResponse.status === 200) {
+            console.log(apiResponse);
+            return apiResponse.data;
+        }
+        else
+        {
+            console.warn("unattended http code ", apiResponse.status, apiResponse);
+            return null;
+        }
+    }catch (error)
+    {
+        console.error("error during retrieving reservation detail ", error);
+        throw new Error("error during retrieving reservation details");
+    }
+}
+

@@ -50,7 +50,7 @@ export default function Header() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center gap-10">
                         <Link href="/" className="flex items-center">
-                            <span className="md:text-4xl text-3xl text-white font-extrabold">Moving.com</span>
+                            <span className="md:text-4xl text-3xl text-white font-extrabold">Bus Station</span>
                         </Link>
 
                         {/* Desktop Navigation */}

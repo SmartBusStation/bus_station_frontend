@@ -58,11 +58,11 @@ export default function ForgotPasswordPage() {
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center">
-              <span className="font-bold text-2xl text-blue-600">M</span>
+              <span className="font-bold text-2xl text-blue-600">B</span>
             </div>
           </div>
           <h1 className="text-2xl font-bold">Mot de passe oublié</h1>
-          <p className="text-blue-100 mt-2">Réinitialisez votre mot de passe Moving.com</p>
+          <p className="text-blue-100 mt-2">Réinitialisez votre mot de passe Bus Station</p>
         </div>
 
         {/* Contenu principal */}
@@ -166,7 +166,7 @@ export default function ForgotPasswordPage() {
 
       {/* Pied de page */}
       <p className="mt-8 text-center text-gray-500 text-sm">
-        &copy; {new Date().getFullYear()} Moving.com. Tous droits réservés.
+        &copy; {new Date().getFullYear()} Bus Station. Tous droits réservés.
       </p>
     </div>
   )

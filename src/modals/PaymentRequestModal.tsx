@@ -54,6 +54,7 @@ export function PaymentModal({  onClose, reservationSuccessMessage, reservation}
                                 </button>
                                 <button
                                     onClick={() => {
+                                        sessionStorage.removeItem("createdReservation");
                                         paymentManager.setStep(1);
                                         onClose()
                                     }}
