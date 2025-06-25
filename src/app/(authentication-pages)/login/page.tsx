@@ -1,46 +1,57 @@
 "use client"
 
-import React, {JSX} from "react";
+import React, { JSX } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {Lock, User } from "lucide-react";
-import {useNavigation} from "@/lib/hooks/useNavigation";
+import { Lock, User } from "lucide-react";
+import { useNavigation } from "@/lib/hooks/useNavigation";
 import AnimateCircle from "@/ui/AnimateCircle";
 import InputField from "@/ui/InputField";
 import SocialConnexionButton from "@/components/authentication-pages-components/SocialConnexionButton";
-import {useBusStation} from "@/context/Provider";
+import { useBusStation } from "@/context/Provider";
 import TransparentModal from "@/modals/TransparentModal";
 import Loader from "@/modals/Loader";
 import LanguageSwitch from "@/components/authentication-pages-components/LanguageSwitch";
-import {SupportedLanguage} from "@/lib/types/common";
-import {useTranslation} from "react-i18next";
-import {changeLanguage} from "@/lib/services/i18n-services/languageService";
+import { SupportedLanguage } from "@/lib/types/common";
+import { useTranslation } from "react-i18next";
+import { changeLanguage } from "@/lib/services/i18n-services/languageService";
+import { useRouter } from "next/navigation";
+import { LoginSchemaType } from "@/lib/types/schema/loginSchema";
 
 export default function LoginPage(): JSX.Element {
-
-    const {login, axiosErrors,isLoading,...zodParams} = useBusStation();
+    const { login, axiosErrors, isLoading, ...zodParams } = useBusStation();
     const navigation = useNavigation();
+    const router = useRouter();
+    const [_t, i18n] = useTranslation(); // Corrigé : _t pour variable non utilisée
 
-    const [t,i18n] = useTranslation();
-
-    function updateLangage()
-    {
-        if (i18n.language === "fr")
-        {
+    function updateLangage() {
+        if (i18n.language === "fr") {
             changeLanguage("en");
-        }
-        else {
+        } else {
             changeLanguage("fr");
         }
     }
 
+    const handleLoginSubmit = async (data: LoginSchemaType) => {
+        const userRoles = await login(data);
+        if (userRoles) { // La vérification est maintenant sûre grâce à la correction du Provider
+            if (userRoles.includes("USAGER")) {
+                router.push('/market-place');
+            } else if (userRoles.includes("ORGANISATION") || userRoles.includes("AGENCE_VOYAGE")) {
+                router.push('/dashboard');
+            } else {
+                router.push('/');
+            }
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col justify-center items-center p-4 md:p-8">
-            <AnimateCircle/>
+            <AnimateCircle />
             <motion.div
-                initial={{opacity: 0, y: 20}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.3}}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
                 className="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden"
             >
                 <div onClick={navigation.goToHome} className="cursor-pointer bg-blue-600 p-6 text-white text-center">
@@ -52,27 +63,25 @@ export default function LoginPage(): JSX.Element {
                     <h1 className="text-2xl font-bold">Login to Bus Station</h1>
                     <p className="text-blue-100 mt-2">Accédez à votre espace personnel</p>
                 </div>
-
                 <div className="flex justify-end mr-6 mt-4">
-                    <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}}
-                                transition={{duration: 0.3}}>
-                        <LanguageSwitch language={i18n.language as SupportedLanguage} onToggle={updateLangage}/>
+                    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                        <LanguageSwitch language={i18n.language as SupportedLanguage} onToggle={updateLangage} />
                     </motion.div>
                 </div>
-                {axiosErrors && <p className="text-sm text-red-500 font-semibold m-2">{axiosErrors}</p>}
+                {axiosErrors && <p className="text-sm text-red-500 font-semibold m-2 text-center">{axiosErrors}</p>}
                 <div className="p-6 md:p-8">
                     {isLoading && (
                         <TransparentModal isOpen={isLoading}>
-                            <Loader/>
+                            <Loader />
                         </TransparentModal>
                     )}
-                    <form onSubmit={zodParams.handleSubmit(login)}>
+                    <form onSubmit={zodParams.handleSubmit(handleLoginSubmit)}>
                         <div className="space-y-6 ">
                             <InputField
                                 id={"username"}
                                 label={"Username"}
                                 placeholder={"Enter your username here"}
-                                icon={<User className="h-5 w-5 text-gray-400"/>}
+                                icon={<User className="h-5 w-5 text-gray-400" />}
                                 register={zodParams.register("username")}
                                 error={zodParams.errors.username?.message}
                             />
@@ -80,14 +89,13 @@ export default function LoginPage(): JSX.Element {
                                 id={"password"}
                                 label={"Password"}
                                 placeholder={"Enter your password here"}
-                                icon={<Lock className="h-5 w-5 text-gray-400"/>}
+                                icon={<Lock className="h-5 w-5 text-gray-400" />}
                                 register={zodParams.register("password")}
                                 error={zodParams.errors.password?.message}
                             />
                             <div className="flex items-center justify-end mb-6">
                                 <div className="text-sm">
-                                    <Link href="/forgot-password"
-                                          className="text-blue-600 hover:text-blue-800 font-medium">
+                                    <Link href="/forgot-password" className="text-blue-600 hover:text-blue-800 font-medium">
                                         Forgotten password ?
                                     </Link>
                                 </div>
@@ -95,16 +103,14 @@ export default function LoginPage(): JSX.Element {
                         </div>
                         <motion.button
                             type="submit"
-                            whileHover={{scale: 1.02}}
-                            whileTap={{scale: 0.98}}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             className="w-full bg-primary text-base-color py-3 px-4 rounded-lg font-semibold cursor-pointer hover:bg-blue-700 transition-colors flex items-center justify-center"
+                            disabled={isLoading}
                         >
-                            Login
+                            {isLoading ? "Connexion..." : "Login"}
                         </motion.button>
                     </form>
-
-
-                    {/* Lien d'inscription */}
                     <div className="mt-8 text-center">
                         <p className="text-gray-600">
                             You don't have an account yet ?{" "}
@@ -113,14 +119,12 @@ export default function LoginPage(): JSX.Element {
                             </Link>
                         </p>
                     </div>
-
-                    {/* Boutons de connexion sociale*/}
-                    <SocialConnexionButton/>
+                    <SocialConnexionButton />
                 </div>
             </motion.div>
             <p className="mt-8 text-center text-gray-500 text-sm">
-                &copy; {new Date().getFullYear()} Bus Station. Tous droits réservés.
+                © {new Date().getFullYear()} Bus Station. Tous droits réservés.
             </p>
         </div>
-    )
+    );
 }
