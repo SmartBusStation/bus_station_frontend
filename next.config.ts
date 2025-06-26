@@ -6,6 +6,7 @@ const nextConfig: import('next').NextConfig = {
             'st.depositphotos.com',
             'c.wallhere.com',
             'media.istockphoto.com',
+
         ].map(hostname => ({
             protocol: 'https' as const,
             hostname,

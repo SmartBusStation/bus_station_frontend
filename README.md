@@ -73,7 +73,7 @@ bun install
   [GitHub](https://github.com/ThierryNgoupaye) • [LinkedIn](https://www.linkedin.com/in/thierry-ngoupaye/)
 
 - **ATABONG Stephane** — *Frontend Developer*  
-  [GitHub](https://github.com/ATABONGStephane) • [LinkedIn](https://www.linkedin.com/in/stephane-atabong/)
+  [GitHub](https://github.com/atabong45) • [LinkedIn](https://www.linkedin.com/in/stephane-atabong/)
 
 - **STEVE Ulrich Fotseu** — *Frontend Developer*  
   [GitHub](https://github.com/steveulrichfotseu) • [LinkedIn](https://www.linkedin.com/in/steve-ulrich-fotseu/)

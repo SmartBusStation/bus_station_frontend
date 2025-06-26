@@ -4,9 +4,10 @@
   },
   "landingPage": {
     "heroSection": {
-      "slogan": "Planifiez votre voyage, partagez-le, et faites rêver avec Moving.com",
+      "slogan": "Planifiez votre voyage, partagez-le, et faites rêver avec busstation.com",
       "fullSlogan": "La plateforme qui connecte les agences de voyages et les voyageurs pour une expérience de réservation fluide et sécurisée.",
       "loginText": "Se connecter",
+      "ctaMarketPlace": "Explorer nos offres de voyage",
       "registerText": "S'inscrire gratuitement"
     },
     "customerSection": {
@@ -47,7 +48,7 @@
     },
     "agencySection": {
       "title": "Pour les agences de voyage",
-      "slogan": "Moving.com offre aux agences de voyages une plateforme complète pour gérer leurs activités et développer leur clientèle.",
+      "slogan": "Bus Station offre aux agences de voyages une plateforme complète pour gérer leurs activités et développer leur clientèle.",
       "exclusiveBenefits": "Avantages Exclusifs",
       "features": {
         "planning": {
@@ -84,7 +85,7 @@
     },
     "CTASection": {
       "title": "Prêt à simplifier vos voyages et vos réservations ?",
-      "slogan": "Rejoignez Moving.com dès aujourd'hui et découvrez une nouvelle façon de gérer vos voyages, plus simple et plus agréable.",
+      "slogan": "Rejoignez Bus Station dès aujourd'hui et découvrez une nouvelle façon de gérer vos voyages, plus simple et plus agréable.",
       "planATrip": "Planifiez un voyage"
     }
   },
@@ -94,7 +95,7 @@
     "quickLink": "Lien rapides",
     "legal": "Légal",
     "contact": "Contact",
-    "allRight": "Moving.com. Tous droits réservés.",
+    "allRight": "Bus Station. Tous droits réservés.",
     "trip": "Voyages",
     "about-us": "A propos",
     "contact-us": "Contact",
@@ -220,21 +221,21 @@
       "payment": "Découvrez toutes nos options de paiement et de financement."
     },
     "questions": {
-      "bookingProcess": "Comment réserver un voyage via Moving.com ?",
+      "bookingProcess": "Comment réserver un voyage via Bus Station ?",
       "cancellation": "Quelle est la politique d'annulation ?",
       "payment": "Quels moyens de paiement acceptez-vous ?",
       "refund": "Combien de temps faut-il pour obtenir un remboursement ?",
       "account": "Comment modifier les informations de mon compte ?",
       "travelDocuments": "Quels documents de voyage sont nécessaires ?",
       "insurance": "L'assurance voyage est-elle incluse ?",
-      "agencyRegistration": "Comment inscrire mon agence sur Moving.com ?",
+      "agencyRegistration": "Comment inscrire mon agence sur Bus Station ?",
       "commission": "Quelles sont les commissions pour les agences partenaires ?",
       "api": "Proposez-vous une API pour les agences ?",
-      "mobileApp": "Existe-t-il une application mobile Moving.com ?",
+      "mobileApp": "Existe-t-il une application mobile Bus Station ?",
       "customerService": "Comment contacter le service client ?"
     },
     "answers": {
-      "bookingProcess": "Pour réserver un voyage sur Moving.com, connectez-vous à votre compte, recherchez votre destination, sélectionnez les options qui vous conviennent et procédez au paiement. Vous recevrez une confirmation par email avec tous les détails de votre réservation.",
+      "bookingProcess": "Pour réserver un voyage sur Bus Station, connectez-vous à votre compte, recherchez votre destination, sélectionnez les options qui vous conviennent et procédez au paiement. Vous recevrez une confirmation par email avec tous les détails de votre réservation.",
       "cancellation": "Notre politique d'annulation varie selon les prestataires. En général, les annulations effectuées 30 jours avant le départ sont remboursées à 100%, 15-29 jours avant à 50%, et moins de 15 jours ne sont pas remboursables. Consultez les conditions spécifiques à chaque réservation.",
       "payment": "Nous acceptons les cartes de crédit (Visa, Mastercard, American Express), PayPal, les virements bancaires et dans certains pays les paiements en plusieurs fois. Toutes les transactions sont sécurisées avec un cryptage SSL.",
       "refund": "Les remboursements sont généralement traités dans un délai de 5 à 10 jours ouvrables. Le délai d'apparition sur votre compte bancaire dépend de votre banque et peut prendre jusqu'à 30 jours selon les institutions financières.",
@@ -245,7 +246,7 @@
       "commission": "Notre structure de commission est progressive et basée sur le volume de ventes. Elle varie généralement de 8% à 15%. Les partenaires Premium bénéficient de taux préférentiels et d'avantages supplémentaires. Contactez notre équipe partenaires pour plus de détails.",
       "api": "Oui, nous proposons une API complète permettant aux agences partenaires d'intégrer notre inventaire de voyages et notre système de réservation directement dans leur site web ou application. La documentation technique et les clés d'API sont disponibles après approbation de votre compte partenaire.",
       "mobileApp": "Oui, notre application mobile est disponible gratuitement sur iOS et Android. Elle vous permet de rechercher et réserver des voyages, d'accéder à vos réservations existantes, de recevoir des notifications de voyage et de contacter notre service client, même en déplacement.",
-      "customerService": "Notre service client est disponible 7j/7 par téléphone au +33 1 23 45 67 89, par email à support@moving.com, ou via le chat en direct sur notre site et notre application mobile. Pour les urgences en voyage, nous disposons d'une ligne dédiée accessible 24h/24."
+      "customerService": "Notre service client est disponible 7j/7 par téléphone au +33 1 23 45 67 89, par email à support@busstation.com, ou via le chat en direct sur notre site et notre application mobile. Pour les urgences en voyage, nous disposons d'une ligne dédiée accessible 24h/24."
     }
   },
   "contactPage": {

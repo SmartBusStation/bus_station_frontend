@@ -1,12 +1,22 @@
-export function formatDurationSimple(isoDuration: string) {
-    const hours = isoDuration.match(/(\d+)H/)?.[1] || 0;
-    const minutes = isoDuration.match(/(\d+)M/)?.[1] || 0;
+/**
+ * Format une durée ISO 8601 (comme "PT8H30M") en "8:30"
+ */
+export function formatDurationSimple(isoDuration: string): string {
+    const hours = parseInt(isoDuration.match(/(\d+)H/)?.[1] ?? "0", 10);
+    const minutes = parseInt(isoDuration.match(/(\d+)M/)?.[1] ?? "0", 10);
 
-    return `${hours}:${minutes}`;
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
 }
 
-export function formatDateToTime(dateString: string) {
+/**
+ * Format une date en heure (ex: "3:45 PM")
+ */
+export function formatDateToTime(dateString: string): string {
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return "Invalid date";
+    }
+
     return date.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
@@ -14,7 +24,15 @@ export function formatDateToTime(dateString: string) {
     });
 }
 
-export function formatFullDateTime(dateString: string) {
+/**
+ * Format une date complète avec l'heure (ex: "June 19, 2025, 3:45 PM")
+ */
+export function formatFullDateTime(dateString: string): string {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return "Invalid date";
+    }
+
     return new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'long',
@@ -22,18 +40,28 @@ export function formatFullDateTime(dateString: string) {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
-    }).format(new Date(dateString));
+    }).format(date);
 }
 
-export function formatDateOnly(dateString: string) {
+/**
+ * Format uniquement la date (ex: "June 19, 2025")
+ */
+export function formatDateOnly(dateString: string): string {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return "Invalid date";
+    }
+
     return new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
-    }).format(new Date(dateString));
+    }).format(date);
 }
 
-
+/**
+ * Format une durée en secondes (ex: 5400 => "1h 30min")
+ */
 export function formatDuration(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);

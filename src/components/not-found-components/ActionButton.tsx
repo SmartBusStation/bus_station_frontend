@@ -12,7 +12,7 @@ export default function ActionButton({t}: TranslationProps): JSX.Element
     return (
         <div>
             <motion.div className="flex flex-col md:flex-row gap-4 justify-center" variants={itemVariants}>
-                <Link href="/">
+                <Link href="/public">
                     <motion.button
                         className="cursor-pointer px-6 py-3 bg-primary text-white font-bold rounded-2xl hover:bg-blue-700 transition-colors duration-500 flex items-center justify-center gap-2"
                         whileHover={{scale: 1.05}}

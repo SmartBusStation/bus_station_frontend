@@ -1,4 +1,3 @@
-// src/components/layouts/customer-navbar/ProfileDropdown.tsx
 import Image from "next/image";
 import {
   ChevronDown,
@@ -22,12 +21,8 @@ export interface ProfileDropdownProps {
   isDashboard?: boolean;
 }
 
-export default function ProfileDropdown({
-  setIsProfileOpen,
-  isProfileOpen,
-  userData,
-  isDashboard = false,
-}: ProfileDropdownProps) {
+export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userData, isDashboard = false,}: ProfileDropdownProps) {
+
   const { logout } = useBusStation();
   useTranslation();
 
@@ -38,10 +33,10 @@ export default function ProfileDropdown({
       {/* Profile Button */}
       <button
         onClick={() => setIsProfileOpen(!isProfileOpen)}
-        className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+        className="cursor-pointer flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
         <div className="hidden lg:block text-right">
           <p className="font-semibold text-gray-900 text-sm">
-            {userData?.first_name || "Visitor"}
+            {userData?.last_name || "Visitor"}
           </p>
           <p className="text-xs text-gray-500">{userRole}</p>
         </div>
@@ -92,7 +87,7 @@ export default function ProfileDropdown({
           {/* Menu Items */}
           <div className="p-2">
             <Link
-              href={isDashboard ? "/dashboard/settings" : "/user-profile"}
+              href={isDashboard ? "/dashboard/settings" : "/profil"}
               className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
               onClick={() => setIsProfileOpen(false)}>
               <User className="h-4 w-4 text-gray-500" />

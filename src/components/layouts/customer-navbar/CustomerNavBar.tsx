@@ -31,9 +31,9 @@ export default function CustomerNavBar({
             <div>
               <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
                 {isDashboard ? "Dashboard Agence" : "Bienvenue,"}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 ml-2">
+                <span className="mt-1 text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500 ml-2">
                   {customerNavBar.userData
-                    ? customerNavBar.userData.first_name
+                    ? customerNavBar.userData.last_name
                     : customerNavBar?.visitorUserData?.username}
                 </span>
               </h1>

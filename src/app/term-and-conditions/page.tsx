@@ -14,7 +14,7 @@ export default function TermsAndConditionsPage() {
           <div >
   <h1 className="text-gray-600 mb-4">Conditions Générales d&#39;Utilisation</h1>
 
-  <p>Bienvenue sur mooving.com !</p>
+  <p>Bienvenue sur Bus Station !</p>
 
   <p>En utilisant notre plateforme de réservation et d&#39;achat de billets de voyage, vous acceptez les présentes conditions générales. Merci de les lire attentivement.</p>
 

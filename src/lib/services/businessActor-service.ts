@@ -40,7 +40,7 @@ export async function createBusinessActor(data: BusinessActorFormType): Promise<
 
 
 
-export async function onLogin(data: LoginSchemaType): Promise<UserInterface | null>
+export async function loginBusinessActor(data: LoginSchemaType): Promise<UserInterface | null>
 {
     try
     {

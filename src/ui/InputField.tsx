@@ -25,7 +25,7 @@ export default function InputField({id, name, label, placeholder, type = "text",
                     name={name}
                     type={inputType}
                     placeholder={placeholder}
-                    className={`pl-10 ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
+                    className={`${icon ? 'pl-10' : 'pl-3'}  ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
                     required={required}
                     {...register}
                 />

@@ -1,15 +1,8 @@
 import {useEffect, useState} from "react";
-import {AxiosError} from "axios";
 import {SearchFilterType} from "@/app/(customer-view)/market-place/page";
 import { Wifi, Snowflake, Usb } from "lucide-react";
 import {Trip} from "@/lib/types/models/Trip";
 import {retrieveAllTrips} from "@/lib/services/trip-service";
-
-
-
-
-
-
 
 
 
@@ -19,7 +12,7 @@ export function useMarketPlace()
 
     const [availableTrips, setAvailableTrips] = useState<Partial<Trip>[] | null>(null);
     const [filteredTrips, setFilteredTrips] = useState<Partial<Trip>[]|null>(null);
-    const [error, setError] = useState<AxiosError|null>(null);
+    const [error, setError] = useState<string|null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [activeFilter, setActiveFilter] = useState<string>("all");
     const [searchFilters, setSearchFilters] = useState<SearchFilterType>({
@@ -37,7 +30,6 @@ export function useMarketPlace()
 
     useEffect(() => {
         filterTrips();
-        console.log("filtered trips", filteredTrips);
     }, [activeFilter, availableTrips]);
 
 
@@ -45,7 +37,9 @@ export function useMarketPlace()
     function filterTrips() {
         if (activeFilter === "all") {
             setFilteredTrips(availableTrips)
-        } else {
+        }
+        else
+        {
             const filtered = availableTrips && availableTrips.filter(
                 (trip) => trip.lieuDepart === activeFilter || trip.lieuArrive === activeFilter,
             )
@@ -73,7 +67,10 @@ export function useMarketPlace()
                         setAvailableTrips(null);
                     }
                 })
-                .catch((error) => {
+                .catch(() => {
+                    setAvailableTrips(null);
+                    setFilteredTrips(null);
+                    setError("Something went wrong when retrieving all trips. If the problem persists please contact the support at support@busstation.com or +237 690878909");
 
                 })
                 .finally(()=> setIsLoading(false));
@@ -82,7 +79,8 @@ export function useMarketPlace()
 
 
 
-    function handleSearch() {
+    function handleSearch()
+    {
         let filtered = availableTrips
 
         if (searchFilters.departure) {
@@ -102,7 +100,6 @@ export function useMarketPlace()
         }
         setFilteredTrips(filtered);
     }
-
 
 
 
@@ -136,7 +133,6 @@ export function useMarketPlace()
     }
 
     return {
-        filterTrips,
         handleSearch,
         getAmenityIcon,
         getClassColor,
@@ -145,7 +141,7 @@ export function useMarketPlace()
         activeFilter,
         setActiveFilter,
         searchFilters,
-        setSearchFilters
-
+        setSearchFilters,
+        error,
     }
 }

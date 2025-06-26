@@ -11,9 +11,9 @@ export default function LogoAnimation(): JSX.Element
             transition={{duration: 0.8, ease: "easeOut"}}
         >
             <div className="relative h-16 w-16 mr-2 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white text-2xl font-bold">M</span>
+                <span className="text-white text-2xl font-bold">B</span>
             </div>
-            <span className="text-3xl font-bold text-blue-600">Moving.com</span>
+            <span className="text-3xl font-bold text-blue-600">Bus Station</span>
         </motion.div>
     )
 }
