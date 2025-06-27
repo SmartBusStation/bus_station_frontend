@@ -8,10 +8,10 @@ interface HeaderProps {
 }
 
 export default function MyReservationHeader({ hook }: HeaderProps) {
-    const [showFilters, setShowFilters] = useState(false);
-    const [selectedAgency, setSelectedAgency] = useState("All Agencies");
-    const [selectedStatus, setSelectedStatus] = useState("All Status");
-    const [selectedDate, setSelectedDate] = useState("");
+    const [showFilters, setShowFilters] = useState<boolean>(false);
+    const [selectedAgency, setSelectedAgency] = useState<string>("All Agencies");
+    const [selectedStatus, setSelectedStatus] = useState<string>("All Status");
+    const [selectedDate, setSelectedDate] = useState<string>("");
 
     const handleClearFilters = () => {
         setSelectedAgency("All Agencies");

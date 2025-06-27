@@ -58,12 +58,12 @@ export default function ScheduledTripsPage() {
                         <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
                             <MapPin className="h-10 w-10 text-gray-400" />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">No trips found</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">No booked trips found</h3>
                         <p className="text-gray-600 mb-6">
                             {hook.searchQuery ? "Try adjusting your search terms" : "You haven't booked any trips yet"}
                         </p>
                         <button
-                            onClick={() => router.push("/available-trips")}
+                            onClick={() => router.push("/market-place")}
                             className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
                         >
                             Browse Available Trips

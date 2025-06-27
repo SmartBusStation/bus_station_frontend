@@ -5,7 +5,7 @@ import { ArrowLeft, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../../../../../components/my-reservation-components/LoadingSpinner";
 import ErrorHandler from "../../../../../components/error-handler/ErrorHandler";
-import TripAnnulationModal from "../../TripAnnulationModal";
+import TripAnnulationModal from "../../../../../modals/TripAnnulationModal";
 import ReservationSummary from "../../../../../components/my-reservation-components/ReservationSummary";
 import PassengerDetails from "@/components/my-reservation-components/PassengerDetails";
 import {useMyReservation} from "@/lib/hooks/reservation-hooks/useMyReservation";
