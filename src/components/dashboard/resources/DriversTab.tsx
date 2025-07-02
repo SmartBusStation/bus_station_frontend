@@ -3,9 +3,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { Driver } from "@/lib/types/dashboard";
+import { useDashboard } from "@/context/DashboardContext"; // NOUVEAU
 
 const DriversTab = () => {
   const { t } = useTranslation();
+  const { drivers } = useDashboard(); // Utiliser les données du contexte
 
   const mockDrivers: Driver[] = [
     {
