@@ -129,7 +129,7 @@ export default function ReservationSummary({ reservationDetails }: ReservationSu
                             <div>
                                 <p className="text-md text-gray-500">Passengers</p>
                                 <p className="font-bold">
-                                    {reservationDetails?.passager?.length || 0} passenger(s)
+                                    {/*reservationDetails?.passager?.length || **/0} passenger(s)
                                 </p>
                             </div>
                         </div>

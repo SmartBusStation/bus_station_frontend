@@ -25,7 +25,7 @@ export default function MyReservationHeader({ hook }: HeaderProps) {
             <div className="max-w-7xl mx-auto p-4">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">My Booked Trips</h1>
+                        <h1 className="text-2xl font-bold text-primary">My Booked Trips</h1>
                         <p className="text-gray-600">Manage your reservations and track your journeys</p>
                     </div>
                     <div className="relative flex-1 max-w-md">
@@ -43,7 +43,7 @@ export default function MyReservationHeader({ hook }: HeaderProps) {
                 <div className="flex justify-end gap-3">
                     <button
                         onClick={() => setShowFilters(!showFilters)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+                        className={`cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
                             showFilters ? "bg-primary text-white" : "bg-white text-gray-600 hover:bg-gray-50"
                         }`}
                     >
@@ -56,11 +56,11 @@ export default function MyReservationHeader({ hook }: HeaderProps) {
                             <button
                                 key={mode}
                                 onClick={() => hook.setViewMode(mode as "grid" | "list")}
-                                className={`p-2 rounded-md transition-colors ${
+                                className={`cursor-pointer p-2 rounded-md transition-colors ${
                                     hook.viewMode === mode ? "bg-white text-primary shadow-sm" : "text-gray-600"
                                 }`}
                             >
-                                {mode === "grid" ? <Grid3X3 className="h-4 w-4" /> : <List className="h-4 w-4" />}
+                                {mode === "grid" ? <Grid3X3 className="h-4 w-4" /> : <List className="hidden lg:block h-4 w-4" />}
                             </button>
                         ))}
                     </div>

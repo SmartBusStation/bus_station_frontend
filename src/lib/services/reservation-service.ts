@@ -3,6 +3,7 @@ import {ReservationCreationSchema} from "@/lib/types/schema/reservationCreationS
 import {AxiosResponse} from "axios";
 import {Reservation, ReservationDetails} from "@/lib/types/models/Reservation";
 import {PaymentRequestFormType} from "@/lib/types/schema/paymentRequestSchema";
+import {PaginatedResponse} from "@/lib/types/common";
 
 
 const url :string= "reservation";
@@ -62,11 +63,11 @@ export async function createPayment(data: PaymentRequestFormType): Promise<strin
 }
 
 
-export async function getCustomerReservations(idUser: string): Promise<ReservationDetails|null>
+export async function getCustomerReservations(idUser: string): Promise<PaginatedResponse<ReservationDetails>|null>
 {
     try
     {
-        const apiResponse: AxiosResponse<ReservationDetails> = await axiosInstance.get(`/${url}/utilisateur/${idUser}`);
+        const apiResponse: AxiosResponse<PaginatedResponse<ReservationDetails>> = await axiosInstance.get(`/${url}/utilisateur/${idUser}`);
         if(apiResponse.status === 200)
         {
             console.log(apiResponse);

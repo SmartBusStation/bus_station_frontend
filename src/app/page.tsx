@@ -1,5 +1,3 @@
-"use client"
-
 import HeroSection from "@/components/landing-page-components/HeroSection";
 import AgencySection from "@/components/landing-page-components/AgencySection";
 import StatisticSection from "@/components/landing-page-components/StatisticSection";

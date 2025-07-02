@@ -32,7 +32,6 @@ export  interface BusinessActor {
 
 
 export interface Customer {
-  avatar: any;
   userId: string;
   last_name: string;
   first_name: string;

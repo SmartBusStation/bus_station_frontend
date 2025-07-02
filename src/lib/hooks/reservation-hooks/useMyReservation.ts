@@ -1,44 +1,33 @@
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useBusStation } from "@/context/Provider";
 import { getCustomerReservations, getReservationDetail } from "@/lib/services/reservation-service";
 import { ReservationDetails } from "@/lib/types/models/Reservation";
 
-interface PaginatedResponse<T> {
-    content: T[];
-    totalPages: number;
-    totalElements: number;
-    size: number;
-    number: number;
-    empty: boolean;
-    first: boolean;
-    last: boolean;
-}
+
 
 export function useMyReservation() {
-    const router = useRouter();
     const { userData } = useBusStation();
 
-    // États pour les réservations
+   /*** STATE FOR MY SCHEDULED TRIPS ***/
     const [myScheduledTrips, setMyScheduledTrips] = useState<ReservationDetails[]>([]);
     const [reservationDetail, setReservationDetail] = useState<ReservationDetails | null>(null);
     const [selectedTrip, setSelectedTrip] = useState<ReservationDetails | null>(null);
 
-    // États de navigation et pagination
+    /*** STATE FOR PAGINATION ***/
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [canRenderPaginationContent, setCanRenderPaginationContent] = useState(false);
 
-    // États de recherche et filtres
+    /*** STATE FOR SEARCH ***/
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredTrips, setFilteredTrips] = useState<ReservationDetails[]>([]);
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-    // États de chargement et erreurs
+   /*** STATE FOR LOADING AND ERRROS ***/
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
-    // États des modals
+    /*** STATE FOR MODALS ***/
     const [canOpenTripAnnulationModal, setCanOpenTripAnnulationModal] = useState(false);
     const [canOpenPaymentRequestModal, setCanOpenPaymentRequestModal] = useState(false);
     const [canOpenSuccessModal, setCanOpenSuccessModal] = useState(false);
@@ -46,14 +35,15 @@ export function useMyReservation() {
     // Messages
     const [successMessage, setSuccessMessage] = useState("");
 
-    // Chargement initial des réservations
+
+
     useEffect(() => {
         if (userData?.userId) {
             fetchMyScheduledTrips(userData.userId);
         }
     }, [userData?.userId]);
 
-    // Filtrage des voyages
+
     useEffect(() => {
         if (searchQuery.trim()) {
             const filtered = myScheduledTrips.filter((trip) => {
@@ -72,43 +62,50 @@ export function useMyReservation() {
         }
     }, [searchQuery, myScheduledTrips]);
 
-    async function fetchMyScheduledTrips(userId: string) {
+
+    async function fetchMyScheduledTrips(userId: string)
+    {
         setIsLoading(true);
         setError(null);
-        try {
-            const response = await getCustomerReservations(userId) as PaginatedResponse<ReservationDetails> | null;
-            if (response?.content) {
-                setMyScheduledTrips(response.content);
-                setTotalPages(response.totalPages || 1);
-                setCanRenderPaginationContent(!response.empty);
-                setFilteredTrips(response.content);
-            } else {
+        await getCustomerReservations(userId)
+            .then((result) => {
+                if(result?.content)
+                {
+                    setMyScheduledTrips(result.content);
+                    setTotalPages(result.totalPages || 1);
+                    setCanRenderPaginationContent(!result.empty);
+                    setFilteredTrips(result.content);
+                }
+                else {
+                    setMyScheduledTrips([]);
+                    setFilteredTrips([]);
+                    setCanRenderPaginationContent(false);
+                }
+            })
+            .catch((error) => {
+                setError(error as Error);
                 setMyScheduledTrips([]);
                 setFilteredTrips([]);
-                setCanRenderPaginationContent(false);
-            }
-        } catch (error) {
-            console.error("Error fetching reservations:", error);
-            setError(error as Error);
-            setMyScheduledTrips([]);
-            setFilteredTrips([]);
-        } finally {
-            setIsLoading(false);
-        }
+            })
+            .finally(()=> setIsLoading(false));
     }
+
+
 
     function openPaymentModal(trip: ReservationDetails) {
         setSelectedTrip(trip);
         setCanOpenPaymentRequestModal(true);
     }
 
+
     function openCancellationModal(trip: ReservationDetails) {
         setSelectedTrip(trip);
         setCanOpenTripAnnulationModal(true);
     }
 
+
     function navigateToDetails(reservationId: string) {
-        router.push(`/my-reservations/reservation-details/${reservationId}`);
+        window.location.href = `/my-reservations/reservation-details/${reservationId}`;
     }
 
     function filterByStatus(status: string) {
@@ -127,12 +124,14 @@ export function useMyReservation() {
         setFilteredTrips(filtered);
     }
 
+
     function filterByAgency(agencyName: string) {
         const filtered = agencyName === "All Agencies"
             ? myScheduledTrips
             : myScheduledTrips.filter((trip) => trip.agence?.longName === agencyName);
         setFilteredTrips(filtered);
     }
+
 
     function filterByDate(dateString: string) {
         const filtered = !dateString
@@ -141,10 +140,14 @@ export function useMyReservation() {
         setFilteredTrips(filtered);
     }
 
+
     function clearAllFilters() {
         setSearchQuery("");
         setFilteredTrips(myScheduledTrips);
     }
+
+
+
 
 
     async function fetchReservationDetail(idReservation: string) {
@@ -153,30 +156,50 @@ export function useMyReservation() {
         setIsLoading(true);
         setError(null);
 
-        try {
-            const response = await getReservationDetail(idReservation);
-            setReservationDetail(response);
-        } catch (error) {
-            console.error("Error fetching reservation detail:", error);
-            setError(error as Error);
-            setReservationDetail(null);
-        } finally {
-            setIsLoading(false);
-        }
+        await getReservationDetail(idReservation)
+            .then((result)=> {
+                if(result) setReservationDetail(result)
+                else setReservationDetail(null);
+            })
+            .catch((error)=> {
+                setError(error as Error);
+                setReservationDetail(null);
+            })
+            .finally(() => setIsLoading(false));
     }
 
-    return {
-        // Données
-        myScheduledTrips, filteredTrips, selectedTrip,reservationDetail,
-        // États UI
-        isLoading, error, searchQuery, currentPage, totalPages, canRenderPaginationContent, viewMode,
-        // Modals
-        canOpenTripAnnulationModal, canOpenPaymentRequestModal, canOpenSuccessModal, successMessage,
-        // Actions
-        setSearchQuery, setCurrentPage, setViewMode, openPaymentModal, openCancellationModal,
-        navigateToDetails, filterByStatus, filterByAgency, filterByDate, clearAllFilters,
-        // Setters pour modals
-        setCanOpenTripAnnulationModal, setCanOpenPaymentRequestModal, setCanOpenSuccessModal, fetchReservationDetail
 
-    };
+
+
+    return {
+        myScheduledTrips,
+        filteredTrips,
+        selectedTrip,
+        reservationDetail,
+        isLoading,
+        error,
+        searchQuery,
+        currentPage,
+        totalPages,
+        canRenderPaginationContent,
+        viewMode,
+        canOpenTripAnnulationModal,
+        canOpenPaymentRequestModal,
+        canOpenSuccessModal,
+        successMessage,
+        setSearchQuery,
+        setCurrentPage,
+        setViewMode,
+        openPaymentModal,
+        openCancellationModal,
+        navigateToDetails,
+        filterByStatus,
+        filterByAgency,
+        filterByDate,
+        clearAllFilters,
+        setCanOpenTripAnnulationModal,
+        setCanOpenPaymentRequestModal,
+        setCanOpenSuccessModal,
+        fetchReservationDetail
+    }
 }

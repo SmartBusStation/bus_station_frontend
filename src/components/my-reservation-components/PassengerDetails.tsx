@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import {
     User,
     Ticket,
@@ -19,8 +19,8 @@ export default function PassengerDetails({ reservationDetails, onCancelTrip }: P
     const isConfirmed = reservationDetails?.reservation?.statutReservation === "CONFIRMER";
 
     const calculateTicketPrice = () => {
-        const totalPrice = Number.parseInt(reservationDetails?.reservation?.prixTotal || "0");
-        const passengerCount = Number.parseInt(reservationDetails?.reservation?.nbrPassager || "1");
+        const totalPrice = reservationDetails?.reservation?.prixTotal ;
+        const passengerCount = reservationDetails?.reservation?.nbrPassager;
         return totalPrice / passengerCount;
     };
 
@@ -113,3 +113,5 @@ export default function PassengerDetails({ reservationDetails, onCancelTrip }: P
         </div>
     );
 }
+
+ */

@@ -76,7 +76,7 @@ const EditProfileModal = ({ user, onClose, onUpdate }: { user: Customer, onClose
             const updatedUser = await mockUpdateProfile(user, data);
             onUpdate(updatedUser);
             onClose();
-        } catch (error: any) { setApiError(error.message || "Une erreur est survenue."); } 
+        } catch (error: any) { setApiError(error.message || "Une erreur est survenue."); }
         finally { setIsSubmitting(false); }
     };
 
@@ -157,7 +157,7 @@ const ChangePasswordModal = ({ onClose }: { onClose: () => void }) => {
 export default function ProfilPage() {
     const router = useRouter();
     const { userData: initialUserData, isLoading, isCustomerAuthenticated, isAgencyConnected, logout } = useBusStation();
-    const isAuthenticated = !!(isCustomerAuthenticated || isAgencyConnected);
+    const isAuthenticated = (isCustomerAuthenticated || isAgencyConnected);
     const [displayUserData, setDisplayUserData] = useState<Customer | null>(null);
     const [modalOpen, setModalOpen] = useState<'edit' | 'password' | null>(null);
     // On n'a plus besoin de la référence pour le champ de fichier (useRef)
@@ -227,7 +227,7 @@ export default function ProfilPage() {
                                 <ProfileField icon={<User size={20} />} label="Nom d'utilisateur" value={displayUserData.username} />
                                 <ProfileField icon={<Mail size={20} />} label="Email" value={displayUserData.email} />
                                 <ProfileField icon={<Phone size={20} />} label="Téléphone" value={displayUserData.phone_number} />
-                                <ProfileField icon={<Mail size={20} />} label="Adresse" value={displayUserData.address} />
+                                 {/*  <ProfileField icon={<Mail size={20} />} label="Adresse" value={displayUserData.address} />   */}
                             </div>
                             <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap gap-4">
                                 <button onClick={() => setModalOpen('edit')} className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">

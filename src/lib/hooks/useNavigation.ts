@@ -1,11 +1,5 @@
-import { useRouter } from "next/navigation";
-
-
-
-
 export function useNavigation() {
 
-    const router = useRouter();
 
 
     function setStepOnLocaleStorage()
@@ -19,7 +13,7 @@ export function useNavigation() {
 
     function navigate (route: string): void
     {
-        router.push(route);
+        window.location.href = route;
     }
 
 

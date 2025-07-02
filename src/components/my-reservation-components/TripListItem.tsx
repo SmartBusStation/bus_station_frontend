@@ -7,23 +7,33 @@ import {
     AlertTriangle,
     CheckCircle2
 } from "lucide-react";
+import {Reservation, ReservationDetails} from "@/lib/types/models/Reservation";
+import {Trip} from "@/lib/types/models/Trip";
+import {TravelAgency} from "@/lib/types/models/Agency";
+import {formatDateOnly, formatDateToTime} from "@/lib/services/date-services";
+import {FaDollarSign} from "react-icons/fa";
+
 
 interface TripListItemProps {
-    trip: any;
+    reservationDetails: ReservationDetails;
     onPayment: () => void;
     onCancel: () => void;
     onViewDetails: () => void;
 }
 
-export default function TripListItem({ trip, onPayment, onCancel, onViewDetails }: TripListItemProps) {
-    const tripDetails = trip?.voyage;
-    const reservation = trip?.reservation;
-    const agencyInfo = trip?.agence;
+export default function TripListItem({ reservationDetails, onPayment, onCancel, onViewDetails }: TripListItemProps) {
 
-    const needsPayment = reservation?.statutReservation === "RESERVER";
-    const remainingAmount = Number.parseInt(reservation?.prixTotal || 0) - Number.parseInt(reservation?.montantPaye || 0);
 
-    const getStatusInfo = (status: string, statutReservation: string) => {
+    const tripDetails: Trip = reservationDetails?.voyage;
+    const reservation:Reservation = reservationDetails?.reservation;
+    const agencyInfo: TravelAgency = reservationDetails?.agence;
+
+    const needsPayment:boolean = reservation?.statutReservation === "RESERVER";
+    const remainingAmount:number = (reservation?.prixTotal || 0) - (reservation?.montantPaye || 0);
+
+
+    function getStatusInfo (status: string, statutReservation: string)
+    {
         if (status === "CONFIRMER" && statutReservation === "CONFIRMER") {
             return {
                 label: "Paid",
@@ -43,37 +53,12 @@ export default function TripListItem({ trip, onPayment, onCancel, onViewDetails 
                 icon: AlertTriangle
             };
         }
-    };
+    }
 
-    const getClassColor = (className: string) => {
-        const colors = {
-            VIP: "from-purple-500 to-pink-500",
-            Premium: "from-blue-500 to-purple-500",
-            Standard: "from-blue-400 to-blue-500",
-            Economy: "from-gray-400 to-gray-500",
-        };
-        return colors[className as keyof typeof colors] || colors.Standard;
-    };
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString("fr-FR", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-        });
-    };
-
-    const formatTime = (dateString: string) => {
-        return new Date(dateString).toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-    };
-
-    const statusInfo = getStatusInfo(reservation?.status, reservation?.statutReservation);
+    const statusInfo = getStatusInfo(reservation?.statutPayement, reservation?.statutReservation);
 
     return (
-        <div className="bg-white rounded-lg border border-gray-100 p-4 hover:shadow-sm transition-all duration-200">
+        <div className="bg-gray-100 rounded-lg border border-gray-100 p-4 hover:shadow-sm transition-all duration-200">
             <div className="flex items-center gap-4">
                 {/* Image */}
                 <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
@@ -92,15 +77,12 @@ export default function TripListItem({ trip, onPayment, onCancel, onViewDetails 
                             <h3 className="font-semibold text-gray-900 truncate">
                                 {tripDetails?.lieuDepart} → {tripDetails?.lieuArrive}
                             </h3>
-                            <p className="text-sm text-gray-600 truncate">{agencyInfo?.nom}</p>
+                            <p className="text-sm text-gray-600 truncate">{agencyInfo?.longName}</p>
                         </div>
                         <div className="flex items-center gap-2 ml-4">
                             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${statusInfo.color}`}>
                                 <statusInfo.icon className="h-3 w-3" />
                                 {statusInfo.label}
-                            </div>
-                            <div className={`bg-gradient-to-r ${getClassColor(tripDetails?.nomClasseVoyage)} text-white px-2 py-1 rounded-full text-xs font-medium`}>
-                                {tripDetails?.nomClasseVoyage}
                             </div>
                         </div>
                     </div>
@@ -108,24 +90,25 @@ export default function TripListItem({ trip, onPayment, onCancel, onViewDetails 
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-600">
                             <div className="flex items-center gap-1">
+                                <FaDollarSign className={"h-4 w-4 text-primary text-md"}/>
+                                <p className="font-extrabold text-md text-primary">{Number.parseInt(String(reservation?.prixTotal || 0)).toLocaleString()} FCFA</p>
+                            </div>
+                            <div className="flex items-center gap-1">
                                 <Calendar className="h-4 w-4" />
-                                <span>{formatDate(tripDetails?.dateDepartEffectif)}</span>
+                                <span>{formatDateOnly(tripDetails?.dateDepartEffectif)}</span>
                             </div>
                             <div className="flex items-center gap-1">
                                 <Clock className="h-4 w-4" />
-                                <span>{formatTime(tripDetails?.heureDepartEffectif)}</span>
+                                <span>{formatDateToTime(tripDetails?.heureDepartEffectif)}</span>
                             </div>
                             <div className="flex items-center gap-1">
                                 <Users className="h-4 w-4" />
-                                <span>{reservation?.nbrPassager}</span>
+                                <span>{reservation?.nbrPassager} Passenger(s)</span>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-3">
                             <div className="text-right">
-                                <div className="font-bold text-primary">
-                                    {Number.parseInt(reservation?.prixTotal || 0).toLocaleString()} FCFA
-                                </div>
                                 {needsPayment && (
                                     <div className="text-xs text-orange-600">
                                         {remainingAmount.toLocaleString()} FCFA remaining
@@ -134,12 +117,6 @@ export default function TripListItem({ trip, onPayment, onCancel, onViewDetails 
                             </div>
 
                             <div className="flex gap-2">
-                                <button
-                                    onClick={onViewDetails}
-                                    className="bg-primary text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
-                                >
-                                    Details
-                                </button>
                                 {needsPayment && (
                                     <button
                                         onClick={onPayment}
@@ -148,6 +125,12 @@ export default function TripListItem({ trip, onPayment, onCancel, onViewDetails 
                                         Pay
                                     </button>
                                 )}
+                                <button
+                                    onClick={onViewDetails}
+                                    className="bg-primary text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+                                >
+                                    Details
+                                </button>
                                 <button
                                     onClick={onCancel}
                                     className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"

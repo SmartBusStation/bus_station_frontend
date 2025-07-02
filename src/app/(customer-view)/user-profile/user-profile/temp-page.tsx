@@ -6,7 +6,7 @@ import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { fadeInUp, staggerContainer } from "@/lib/animations/animationTool";
 import { JSX } from "react";
-import { User, Mail, Phone, Calendar, MapPin, CreditCard, Award, TrendingUp, TrendingDown } from "lucide-react";
+import { User, Mail, Phone, Calendar, MapPin, Award, TrendingUp, TrendingDown } from "lucide-react";
 import { ClipboardList, CheckCircle, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

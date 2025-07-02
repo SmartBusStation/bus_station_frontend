@@ -22,7 +22,8 @@ export default function LoginPage(): JSX.Element {
     const { login, axiosErrors, isLoading, ...zodParams } = useBusStation();
     const navigation = useNavigation();
     const router = useRouter();
-    const [_t, i18n] = useTranslation(); // Corrigé : _t pour variable non utilisée
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [t, i18n] = useTranslation(); // Corrigé : _t pour variable non utilisée
 
     function updateLangage() {
         if (i18n.language === "fr") {
@@ -113,7 +114,7 @@ export default function LoginPage(): JSX.Element {
                     </form>
                     <div className="mt-8 text-center">
                         <p className="text-gray-600">
-                            You don't have an account yet ?{" "}
+                            You don&#39;t have an account yet ?{" "}
                             <Link href="/register" className="text-blue-600 hover:text-blue-800 font-medium">
                                 Register
                             </Link>
