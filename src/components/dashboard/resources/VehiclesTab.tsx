@@ -3,9 +3,13 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { Vehicle } from "@/lib/types/dashboard";
+import { useDashboard } from "@/context/DashboardContext"; // NOUVEAU
+
 
 const VehiclesTab = () => {
   const { t } = useTranslation();
+  const { vehicles } = useDashboard(); // Utiliser les données du contexte
+  
   const mockVehicles: Vehicle[] = [
     {
       id: "veh-01",

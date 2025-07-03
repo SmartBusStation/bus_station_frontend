@@ -56,16 +56,41 @@ export interface Booking {
   status: "confirmed" | "pending" | "cancelled";
 }
 
-export interface PublishedTrip {
+// export interface PublishedTrip {
+//   id: string;
+//   title: string;
+//   route: string;
+//   departureDate: string;
+//   reservations: number;
+//   capacity: number;
+//   estimatedRevenue: number;
+//   status: "on_schedule" | "completed" | "cancelled";
+// }
+
+export type Trip = {
   id: string;
   title: string;
-  route: string;
-  departureDate: string;
-  reservations: number;
+  departureLocation: string;
+  destinationLocation: string;
+  departureDate: string; // format "yyyy-MM-dd"
+  returnDate?: string; // format "yyyy-MM-dd"
+  price: number;
+  description?: string;
+  vehicleId: string;
+  driverId: string;
   capacity: number;
-  estimatedRevenue: number;
-  status: "on_schedule" | "completed" | "cancelled";
-}
+  reservations: number;
+  route: string;
+
+
+  status: "on_schedule" | "completed" | "cancelled"; // Statut du voyage
+};
+
+
+
+
+
+
 
 export interface CalendarEvent {
   id: string;
@@ -96,4 +121,37 @@ export interface BillingHistoryItem {
   date: string;
   amount: number;
   status: "paid" | "pending" | "failed";
+}
+
+
+
+// src/lib/types/dashboard.ts
+// (Créez ce fichier s'il n'existe pas ou mettez-le à jour)
+
+export type ResourceStatus = 'available' | 'in_use' | 'maintenance';
+export type DriverStatus = 'available' | 'on_trip' | 'on_leave';
+export type TripStatus = 'published' | 'completed' | 'cancelled';
+
+
+export interface Driver {
+  id: string;
+  name: string;
+  license: string;
+  phone: string;
+  status: DriverStatus;
+}
+
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  start: Date;
+  end: Date;
+  status: TripStatus;
+  // Ajoutez d'autres champs du voyage si nécessaire
+  departureLocation?: string;
+  destinationLocation?: string;
+  vehicleId?: string;
+  driverId?: string;
+  price?: number;
+  description?: string;
 }

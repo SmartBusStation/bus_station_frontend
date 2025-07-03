@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar"; // MODIFIÉ: import SlotInfo
 import { format } from "date-fns";
 import { parse } from "date-fns";
 import { startOfWeek } from "date-fns";
@@ -44,7 +44,35 @@ const eventStyleGetter = (event: CalendarEvent) => {
   return { style };
 };
 
-const CalendarView = ({ events }: { events: CalendarEvent[] }) => {
+// // MODIFIÉ: Ajout de la prop onSelectDate
+// const CalendarView = ({
+//   events,
+//   onSelectDate,
+// }: {
+//   events: CalendarEvent[];
+//   onSelectDate: (date: Date) => void;
+// }) => {
+//   // NOUVEAU: Handler pour la sélection d'un slot
+//   const handleSelectSlot = (slotInfo: SlotInfo) => {
+//     // On appelle la fonction passée en prop avec la date de début du slot
+//     onSelectDate(slotInfo.start);
+//   };
+
+
+const CalendarView = ({
+  events,
+  onSelectDate,
+  onSelectEvent, // NOUVEAU
+}: {
+  events: CalendarEvent[];
+  onSelectDate: (date: Date) => void;
+  onSelectEvent: (event: CalendarEvent) => void; // NOUVEAU
+}) => {
+  const handleSelectSlot = (slotInfo: SlotInfo) => {
+    onSelectDate(slotInfo.start);
+  };
+
+
   return (
     <div>
       <div className="h-[70vh]">
@@ -64,6 +92,9 @@ const CalendarView = ({ events }: { events: CalendarEvent[] }) => {
             agenda: "Agenda",
           }}
           eventPropGetter={eventStyleGetter}
+          selectable={true} // NOUVEAU: Permet de sélectionner les dates
+          onSelectSlot={handleSelectSlot} // NOUVEAU: Gère l'événement de sélection
+          onSelectEvent={onSelectEvent} // NOUVEAU
         />
       </div>
       <div className="mt-4 flex items-center justify-center space-x-4 text-sm">

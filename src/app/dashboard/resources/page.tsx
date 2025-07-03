@@ -1,8 +1,9 @@
 // src/app/dashboard/resources/page.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "next/navigation"; // NOUVEAU
 import { Car, UserCheck, Users } from "lucide-react";
 import PageHeader from "@/components/dashboard/PageHeader";
 import VehiclesTab from "@/components/dashboard/resources/VehiclesTab";
@@ -12,7 +13,19 @@ import { ResourceTab } from "@/lib/types/dashboard";
 
 const ResourcesPage = () => {
   const { t } = useTranslation();
+  const searchParams = useSearchParams(); // NOUVEAU
   const [activeTab, setActiveTab] = useState<ResourceTab>("vehicles");
+
+  // NOUVEAU: Lire le paramètre d'URL au chargement
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === 'vehicles' || tab === 'drivers' || tab === 'employees') {
+        setActiveTab(tab);
+    }
+  }, [searchParams]);
+
+
+
 
   const tabs = [
     {
