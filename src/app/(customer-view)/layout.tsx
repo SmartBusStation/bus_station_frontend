@@ -1,11 +1,11 @@
 "use client";
 import NavBar from "@/components/layouts/customer-navbar/CustomerNavBar";
-import { ReactNodeProps } from "@/lib/types/common";
 import Sidebar from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import Footer from "@/components/layouts/Footer";
 import { useCustomerSidebar } from "@/lib/hooks/sidebar-hooks/useCustomerSidebar";
+import React from "react";
 
-export default function Layout({ children }: ReactNodeProps) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 
 
     const { isSidebarOpen, setIsSidebarOpen } = useCustomerSidebar();

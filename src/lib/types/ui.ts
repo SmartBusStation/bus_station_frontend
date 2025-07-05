@@ -1,6 +1,7 @@
 import React, {JSX} from "react";
 import {Variants} from "framer-motion";
 import {UseFormRegisterReturn} from "react-hook-form";
+import {ReservationDetails} from "@/lib/types/models/Reservation";
 
 export interface LinkListProps {
     name: string,
@@ -121,4 +122,11 @@ export interface AgencyProfileProps {
 export interface TripCardProps {
     trip: Trip;
     index: number;
+}
+
+export interface GridCardTripProps {
+    reservationDetails: ReservationDetails;
+    onPayment: () => void;
+    onCancel: () => void;
+    onViewDetails: () => void;
 }

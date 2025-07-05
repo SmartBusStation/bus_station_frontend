@@ -8,24 +8,21 @@ import {
     CheckCircle2
 } from "lucide-react";
 import { FaDollarSign } from "react-icons/fa";
-import { ReservationDetails } from "@/lib/types/models/Reservation";
+import {formatDateOnly, formatDateToTime} from "@/lib/services/date-services";
+import {GridCardTripProps} from "@/lib/types/ui";
 
-interface GridCardTripProps {
-    trip: ReservationDetails;
-    onPayment: () => void;
-    onCancel: () => void;
-    onViewDetails: () => void;
-}
 
-export default function GridCardTrip({ trip, onPayment, onCancel, onViewDetails }: GridCardTripProps) {
-    const tripDetails = trip?.voyage;
-    const reservation = trip?.reservation;
-    const agencyInfo = trip?.agence;
+
+export default function GridCardTrip({ reservationDetails, onPayment, onCancel, onViewDetails }: GridCardTripProps) {
+    const tripDetails = reservationDetails?.voyage;
+    const reservation = reservationDetails?.reservation;
+    const agencyInfo = reservationDetails?.agence;
 
     const needsPayment = reservation?.statutReservation === "RESERVER";
     const remainingAmount = (reservation?.prixTotal || 0) - (reservation?.montantPaye || 0);
 
-    const getStatusInfo = (statutReservation: string) => {
+    function getStatusInfo  (statutReservation: string)
+    {
         switch (statutReservation) {
             case "CONFIRMEE":
                 return {
@@ -52,39 +49,11 @@ export default function GridCardTrip({ trip, onPayment, onCancel, onViewDetails 
                     icon: AlertTriangle
                 };
         }
-    };
-
-    const getClassColor = (className?: string) => {
-        const colors = {
-            VIP: "from-purple-500 to-pink-500",
-            Premium: "from-blue-500 to-purple-500",
-            Standard: "from-blue-400 to-blue-500",
-            Economy: "from-gray-400 to-gray-500",
-        };
-        return colors[className as keyof typeof colors] || colors.Standard;
-    };
-
-    const formatDate = (dateString?: string) => {
-        if (!dateString) return "Not specified";
-        return new Date(dateString).toLocaleDateString("fr-FR", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-        });
-    };
-
-    const formatTime = (dateString?: string) => {
-        if (!dateString) return "Not specified";
-        return new Date(dateString).toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-    };
-
+    }
     const statusInfo = getStatusInfo(reservation?.statutReservation || "");
 
     return (
-        <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 group">
+        <div className={` ${statusInfo.color && `border border-${statusInfo.color}`} bg-gray-100 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 group`}>
             {/* Image Header */}
             <div className="relative h-60 overflow-hidden">
                 <Image
@@ -103,12 +72,6 @@ export default function GridCardTrip({ trip, onPayment, onCancel, onViewDetails 
                     </div>
                 </div>
 
-                {/* Class Badge */}
-                <div className="absolute top-3 left-3">
-                    <div className={`bg-gradient-to-r ${getClassColor(tripDetails?.nomClasseVoyage)} text-white px-2 py-1 rounded-full text-xs font-medium`}>
-                        {tripDetails?.nomClasseVoyage || "Standard"}
-                    </div>
-                </div>
 
                 {/* Route Info */}
                 <div className="absolute bottom-3 left-3 right-3 text-white">
@@ -126,12 +89,12 @@ export default function GridCardTrip({ trip, onPayment, onCancel, onViewDetails 
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Calendar className="h-4 w-4" />
                         <span>
-                            Travel Date: <strong className="text-primary">{formatDate(tripDetails?.dateDepartEffectif)}</strong>
+                            Travel Date: <strong className="text-primary">{formatDateOnly(tripDetails?.dateDepartEffectif)}</strong>
                         </span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Clock className="h-4 w-4" />
-                        <span>At: <strong>{formatTime(tripDetails?.heureDepartEffectif)}</strong></span>
+                        <span>At: <strong>{formatDateToTime(tripDetails?.heureDepartEffectif)}</strong></span>
                     </div>
                 </div>
 

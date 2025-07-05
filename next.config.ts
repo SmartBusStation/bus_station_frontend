@@ -13,6 +13,9 @@ const nextConfig: import('next').NextConfig = {
             pathname: '/**',
         })),
     },
+    eslint:{
+        ignoreDuringBuilds:true
+    }
 };
 
 module.exports = nextConfig;

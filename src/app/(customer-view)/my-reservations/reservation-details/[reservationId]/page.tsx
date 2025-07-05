@@ -5,9 +5,8 @@ import { ArrowLeft, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../../../../../components/my-reservation-components/LoadingSpinner";
 import ErrorHandler from "../../../../../components/error-handler/ErrorHandler";
-import TripAnnulationModal from "../../TripAnnulationModal";
+import TripAnnulationModal from "../../../../../modals/TripAnnulationModal";
 import ReservationSummary from "../../../../../components/my-reservation-components/ReservationSummary";
-import PassengerDetails from "@/components/my-reservation-components/PassengerDetails";
 import {useMyReservation} from "@/lib/hooks/reservation-hooks/useMyReservation";
 
 
@@ -25,7 +24,7 @@ export default function ReservationDetails({ params }: {params: Promise<{reserva
     if (reservationId) {
       reservationHook.fetchReservationDetail(reservationId);
     }
-  }, [reservationId]);
+  }, [reservationHook, reservationId]);
 
   if (reservationHook.isLoading) {
     return <LoadingSpinner />;
@@ -73,11 +72,11 @@ export default function ReservationDetails({ params }: {params: Promise<{reserva
           {/* Reservation Summary */}
           <ReservationSummary reservationDetails={reservationHook.reservationDetail} />
 
-          {/* Passenger Details */}
+          {/* Passenger Details
           <PassengerDetails
               reservationDetails={reservationHook.reservationDetail}
               onCancelTrip={() => reservationHook.setCanOpenTripAnnulationModal(true)}
-          />
+          /> */}
         </div>
 
         {/* Modal d'annulation */}

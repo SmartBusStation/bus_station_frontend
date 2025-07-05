@@ -96,3 +96,13 @@ body {
 }
 
 
+
+/* src/app/globals.css */
+
+/* ... autres styles ... */
+
+/* Style pour le survol des jours dans le calendrier */
+.rbc-day-bg:not(.rbc-off-range-bg):hover {
+  background-color: #eff6ff; /* blue-50 de Tailwind */
+  cursor: pointer;
+}

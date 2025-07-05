@@ -12,3 +12,14 @@ export interface TranslationProps  {
 export type Gender = "MALE" | "FEMALE" | "OTHER";
 
 export type SupportedLanguage = 'en' | 'fr';
+
+export interface PaginatedResponse<T> {
+    content: T[];
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    empty: boolean;
+    first: boolean;
+    last: boolean;
+}

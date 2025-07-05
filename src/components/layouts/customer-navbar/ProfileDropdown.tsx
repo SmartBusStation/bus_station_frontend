@@ -43,7 +43,7 @@ export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userDa
 
         <div className="relative">
           <Image
-            src={userData?.avatar || userIcon}
+            src={userIcon}
             alt="Profile"
             width={40}
             height={40}
@@ -62,7 +62,7 @@ export default function ProfileDropdown({setIsProfileOpen, isProfileOpen, userDa
           <div className="p-4 border-b border-gray-100">
             <div className="flex items-center gap-3">
               <Image
-                src={userData?.avatar || userIcon}
+                src={userIcon}
                 alt="Profile"
                 width={48}
                 height={48}

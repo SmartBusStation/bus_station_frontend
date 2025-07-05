@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import LanguageProvider from "@/context/LanguageProvider";
-// import { ResourceProvider } from "@/context/ResourceContext";
 import {BusStationProvider} from "@/context/Provider";
 
 

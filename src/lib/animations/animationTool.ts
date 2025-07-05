@@ -70,6 +70,7 @@ export const cloudVariants: Variants = {
     },
 }
 
+
 export const planeVariants: Variants = {
     hidden: {x: -100, y: 50, opacity: 0},
     visible: {
@@ -86,7 +87,7 @@ export const planeVariants: Variants = {
         x: 5,
         transition: {
             duration: 0.3,
-            yoyo: Number.POSITIVE_INFINITY,
+           // yoyo: Number.POSITIVE_INFINITY,
         },
     },
 }

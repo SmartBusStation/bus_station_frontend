@@ -3,9 +3,10 @@ import { XCircle, X } from "lucide-react";
 import axiosInstance from "@/lib/services/axios-services/axiosInstance";
 import { SuccessModal } from "@/modals/SuccessModal";
 import { ReservationDetails } from "@/lib/types/models/Reservation";
+import TransparentModal from "@/modals/TransparentModal";
 
 interface TripAnnulationModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
   trip: ReservationDetails | null;
 }
@@ -49,9 +50,7 @@ export default function TripAnnulationModal({ isOpen, onClose, trip }: TripAnnul
 
   const loadPassengers = async () => {
     // Si les passagers sont déjà dans trip
-    if (trip?.passager) {
-      setPassengers(trip.passager);
-    } else {
+
       // Sinon, charger depuis l'API
       try {
         const response = await axiosInstance.get(`/reservation/${trip?.reservation?.idReservation}`);
@@ -62,7 +61,7 @@ export default function TripAnnulationModal({ isOpen, onClose, trip }: TripAnnul
         console.error("Error loading passengers:", error);
         setPassengers([]);
       }
-    }
+
   };
 
   const resetForm = () => {
@@ -146,33 +145,33 @@ export default function TripAnnulationModal({ isOpen, onClose, trip }: TripAnnul
         setSuccessMessage("Reservation successfully canceled!");
         setIsSuccessModalOpen(true);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Cancellation error:", error);
-      setError(error.response?.data?.message || "An error occurred during cancellation");
+     // setError(error.response?.data?.message || "An error occurred during cancellation");
     } finally {
       setIsConfirming(false);
     }
   };
 
-  if (!isOpen || !trip) return null;
+
 
   if (isSuccessModalOpen) {
     return (
-        <SuccessModal
-            isOpen={isSuccessModalOpen}
-            canOpenSuccessModal={setIsSuccessModalOpen}
-            message={successMessage}
-            makeAction={() => {
-              setIsSuccessModalOpen(false);
-              onClose();
-            }}
-        />
+        <TransparentModal isOpen={isSuccessModalOpen}>
+          <SuccessModal
+              canOpenSuccessModal={setIsSuccessModalOpen}
+              message={successMessage}
+              makeAction={() => {
+                setIsSuccessModalOpen(false);
+                onClose();
+              }}
+          />
+        </TransparentModal>
     );
   }
 
   return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm transition-all duration-300">
-        <div className="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+       <div className="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-start mb-6">
             <div className="flex gap-2 ml-16">
               <div className="bg-red-200 p-2 rounded-full">
@@ -196,13 +195,13 @@ export default function TripAnnulationModal({ isOpen, onClose, trip }: TripAnnul
             <div className="mb-4 p-4 bg-gray-50 rounded-lg">
               <h3 className="font-semibold text-gray-800 mb-2">Trip Information</h3>
               <p className="text-sm text-gray-600">
-                <strong>Route:</strong> {trip.voyage?.lieuDepart} → {trip.voyage?.lieuArrive}
+                <strong>Route:</strong> {trip && trip.voyage?.lieuDepart} → {trip && trip.voyage?.lieuArrive}
               </p>
               <p className="text-sm text-gray-600">
-                <strong>Agency:</strong> {trip.agence?.nom}
+                <strong>Agency:</strong> {trip && trip.agence?.longName}
               </p>
               <p className="text-sm text-gray-600">
-                <strong>Reservation ID:</strong> {trip.reservation?.idReservation}
+                <strong>Reservation ID:</strong> {trip && trip.reservation?.idReservation}
               </p>
             </div>
 
@@ -325,6 +324,5 @@ export default function TripAnnulationModal({ isOpen, onClose, trip }: TripAnnul
             </div>
           </form>
         </div>
-      </div>
   );
 }

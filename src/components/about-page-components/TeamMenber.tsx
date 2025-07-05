@@ -3,9 +3,9 @@
 
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/lib/animations/animationTool";
-import { TeamMemberProps } from "@/lib/type";
 import Image from "next/image";
 import { Github, Linkedin, Mail } from "lucide-react";
+import {TeamMemberProps} from "@/lib/types/ui";
 
 export default function TeamMember({
   name,

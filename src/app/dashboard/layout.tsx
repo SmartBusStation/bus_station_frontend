@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import CustomerNavBar from "@/components/layouts/customer-navbar/CustomerNavBar"; // Changer l'import
 import Footer from "@/components/layouts/Footer"; // Importer le Footer
+import { DashboardProvider } from "@/context/DashboardContext";
 
 export default function DashboardLayout({
   children,
@@ -14,6 +15,7 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
+    <DashboardProvider>
     <div className="flex flex-col min-h-screen bg-gray-100/50">
       <div className="flex flex-1">
         <DashboardSidebar
@@ -36,5 +38,6 @@ export default function DashboardLayout({
       </div>
       <Footer />
     </div>
+    </DashboardProvider>
   );
 }
