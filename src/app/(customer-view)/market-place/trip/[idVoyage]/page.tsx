@@ -1,82 +1,141 @@
-"use client"
+"use client";
 
-import React, {JSX, use} from "react"
-import {FaArrowLeft} from "react-icons/fa"
+import React, { JSX, use } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import TripDetailsLoader from "@/components/market-place-components/trip-details/TripDetailsLoader";
-import {useTripDetails} from "@/lib/hooks/useTripDetails";
+import { useTripDetails } from "@/lib/hooks/useTripDetails";
 import PrincipalSection from "@/components/market-place-components/trip-details/principal-section/PrincipalSection";
 import DetailedInformation from "@/components/market-place-components/trip-details/DetailedInformation";
 import TripDetailsLoadingError from "@/components/market-place-components/trip-details/TripDetailsLoadingError";
 import TransparentModal from "@/modals/TransparentModal";
 import ReservationProcessModal from "@/modals/ReservationProcessModal";
-import {PaymentModal} from "@/modals/PaymentRequestModal";
+import { PaymentModal } from "@/modals/PaymentRequestModal";
+import type { Metadata, ResolvingMetadata } from "next";
+import { retrieveTripDetail } from "@/lib/services/trip-service";
 
+type Props = {
+  params: { idVoyage: string };
+};
 
+// export async function generateMetadata(
+//   { params }: Props,
+//   parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//   // Récupérer l'ID du voyage depuis les paramètres
+//   const id = params.idVoyage;
 
-export default function TripDetails({ params }: { params: Promise<{ idVoyage: string }> }): JSX.Element
-{
-    const {idVoyage} = use(params);
-    const tripDetailsHook = useTripDetails(idVoyage);
+//   // Récupérer les détails du voyage depuis votre API
+//   const trip = await retrieveTripDetail(id);
 
+//   // Si le voyage n'est pas trouvé, retourner des métadonnées par défaut
+//   if (!trip) {
+//     return {
+//       title: "Voyage non trouvé",
+//       description: "Ce voyage n'est plus disponible ou le lien est incorrect.",
+//     };
+//   }
 
-    if (tripDetailsHook.isLoading) return <TripDetailsLoader/>
+//   // Créer des métadonnées dynamiques
+//   const title = `Réservez : ${trip.titre} de ${trip.lieuDepart} à ${trip.lieuArrive}`;
+//   const description = `Réservez votre place pour le voyage ${trip.titre} avec ${
+//     trip.nomAgence
+//   }. Départ le ${new Date(
+//     trip.dateDepartPrev
+//   ).toLocaleDateString()}. ${trip.description.substring(0, 100)}...`;
 
-    if (tripDetailsHook.axiosError) return <TripDetailsLoadingError/>
+//   return {
+//     title,
+//     description,
+//     openGraph: {
+//       title: title,
+//       description: description,
+//       images: [
+//         {
+//           url: trip.bigImage || "/default-trip-image.jpg", // Fournir une image par défaut
+//           width: 1200,
+//           height: 630,
+//           alt: `Image pour le voyage ${trip.titre}`,
+//         },
+//       ],
+//       locale: "fr_FR",
+//       type: "website",
+//     },
+//   };
+// }
 
-    return (
-        <div className="min-h-screen">
-            {/* Header avec bouton retour */}
-            <div className="bg-gray-100 rounded-xl">
-                <div className="max-w-7xl mx-auto px-6 py-4">
-                    <button
-                        onClick={() => window.history.back()}
-                        className="flex items-center cursor-pointer gap-2 text-blue-600 hover:text-blue-700 transition-colors group"
-                    >
-                        <FaArrowLeft className="text-lg group-hover:-translate-x-1 transition-transform duration-200" />
-                        <span className="font-semibold">Back to Available Trips</span>
-                    </button>
-                </div>
-            </div>
+export default function TripDetails({
+  params,
+}: {
+  params: Promise<{ idVoyage: string }>;
+}): JSX.Element {
+  const { idVoyage } = use(params);
+  const tripDetailsHook = useTripDetails(idVoyage);
 
-            <div className="max-w-7xl mx-auto p-2">
-                {/* Section principale */}
-                <PrincipalSection
-                    tripDetails={tripDetailsHook.tripDetails}
-                    setCanOpenReservationModal={tripDetailsHook.setCanOpenReservationModal}
-                />
+  if (tripDetailsHook.isLoading) return <TripDetailsLoader />;
 
-                {/* Informations détaillées */}
-                <DetailedInformation
-                    tripDetails={tripDetailsHook.tripDetails}
-                    equipmentsOnBus={tripDetailsHook.equipmentsOnBus}
-                />
+  if (tripDetailsHook.axiosError) return <TripDetailsLoadingError />;
 
-                {/* Bouton mobile */}
-                <div className="mt-4  lg:hidden  p-2">
-                    <button
-                        onClick={() => tripDetailsHook.setCanOpenReservationModal(true)}
-                        className="w-full bg-primary text-white rounded-xl py-2.5 font-semibold text-lg cursor-pointer hover:bg-blue-800 transition-all duration-300 shadow-lg"
-                    >
-                        Book This Trip - {tripDetailsHook.tripDetails.prix.toLocaleString()} FCFA
-                    </button>
-                </div>
-            </div>
-
-            <TransparentModal isOpen={tripDetailsHook.canOpenReservationModal}>
-                <ReservationProcessModal
-                    setReservationSuccessMessage={tripDetailsHook.setReservationSuccessMessage}
-                    onCloseAction={() => tripDetailsHook.setCanOpenReservationModal(false)}
-                    tripDetails={tripDetailsHook.tripDetails}
-                    setCanOpenPaymentModal={tripDetailsHook.setCanOpenPaymentModal}
-                />
-            </TransparentModal>
-
-            <TransparentModal isOpen={tripDetailsHook.canOpenPaymentModal}>
-                <PaymentModal
-                    onClose={() => tripDetailsHook.setCanOpenPaymentModal(false)}
-                    reservationSuccessMessage={tripDetailsHook.reservationSuccessMessage}
-                />
-            </TransparentModal>
+  return (
+    <div className="min-h-screen">
+      {/* Header avec bouton retour */}
+      <div className="bg-gray-100 rounded-xl">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <button
+            onClick={() => window.history.back()}
+            className="flex items-center cursor-pointer gap-2 text-blue-600 hover:text-blue-700 transition-colors group"
+          >
+            <FaArrowLeft className="text-lg group-hover:-translate-x-1 transition-transform duration-200" />
+            <span className="font-semibold">Back to Available Trips</span>
+          </button>
         </div>
-    )
+      </div>
+
+      <div className="max-w-7xl mx-auto p-2">
+        {/* Section principale */}
+        <PrincipalSection
+          tripDetails={tripDetailsHook.tripDetails}
+          setCanOpenReservationModal={
+            tripDetailsHook.setCanOpenReservationModal
+          }
+        />
+
+        {/* Informations détaillées */}
+        <DetailedInformation
+          tripDetails={tripDetailsHook.tripDetails}
+          equipmentsOnBus={tripDetailsHook.equipmentsOnBus}
+        />
+
+        {/* Bouton mobile */}
+        <div className="mt-4  lg:hidden  p-2">
+          <button
+            onClick={() => tripDetailsHook.setCanOpenReservationModal(true)}
+            className="w-full bg-primary text-white rounded-xl py-2.5 font-semibold text-lg cursor-pointer hover:bg-blue-800 transition-all duration-300 shadow-lg"
+          >
+            Book This Trip - {tripDetailsHook.tripDetails.prix.toLocaleString()}{" "}
+            FCFA
+          </button>
+        </div>
+      </div>
+
+      <TransparentModal isOpen={tripDetailsHook.canOpenReservationModal}>
+        <ReservationProcessModal
+          setReservationSuccessMessage={
+            tripDetailsHook.setReservationSuccessMessage
+          }
+          onCloseAction={() =>
+            tripDetailsHook.setCanOpenReservationModal(false)
+          }
+          tripDetails={tripDetailsHook.tripDetails}
+          setCanOpenPaymentModal={tripDetailsHook.setCanOpenPaymentModal}
+        />
+      </TransparentModal>
+
+      <TransparentModal isOpen={tripDetailsHook.canOpenPaymentModal}>
+        <PaymentModal
+          onClose={() => tripDetailsHook.setCanOpenPaymentModal(false)}
+          reservationSuccessMessage={tripDetailsHook.reservationSuccessMessage}
+        />
+      </TransparentModal>
+    </div>
+  );
 }

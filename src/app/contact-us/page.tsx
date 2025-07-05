@@ -1,55 +1,65 @@
-"use client"
+"use client";
 
-import React, { useState, useRef } from "react"
-import { motion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
-import { Mail, Phone, MapPin, Send, Globe, Clock } from "lucide-react"
-import { fadeInUp, fadeInLeft, fadeInRight } from "@/lib/animations/animationTool"
-import { useTranslation } from "react-i18next"
-import Header from "@/components/layouts/Header"
-import Footer from "@/components/layouts/Footer"
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { Mail, Phone, MapPin, Send, Globe, Clock } from "lucide-react";
+import {
+  fadeInUp,
+  fadeInLeft,
+  fadeInRight,
+} from "@/lib/animations/animationTool";
+import { useTranslation } from "react-i18next";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Contactez-Nous",
+  description:
+    "Contactez notre équipe pour toute question sur nos services, partenariats ou pour obtenir de l'aide.",
+};
 export default function ContactPage() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [subject, setSubject] = useState("")
-  const [message, setMessage] = useState("")
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
-  const { t } = useTranslation()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const { t } = useTranslation();
 
   const [contactRef, contactInView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
-  })
+  });
 
   const [formRef2, formInView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
-  })
+  });
 
   const [mapRef, mapInView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
-  })
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     // Simuler l'envoi du formulaire (à remplacer par un vrai appel API)
     setTimeout(() => {
-      setSubmitted(true)
-      setLoading(false)
-      setName("")
-      setEmail("")
-      setSubject("")
-      setMessage("")
+      setSubmitted(true);
+      setLoading(false);
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
       // Réinitialiser l'état après 5 secondes
-      setTimeout(() => setSubmitted(false), 5000)
-    }, 1500)
-  }
+      setTimeout(() => setSubmitted(false), 5000);
+    }, 1500);
+  };
 
   return (
     <>
@@ -69,11 +79,17 @@ export default function ContactPage() {
             >
               {t("contactPage.title", "Contactez-nous")}
             </motion.h1>
-            <motion.p variants={fadeInUp} className="md:text-xl text-lg mb-8 text-blue-100 max-w-3xl mx-auto text-center">
-              {t("contactPage.subtitle", "Notre équipe est à votre disposition pour répondre à vos questions et vous aider à planifier votre prochain voyage.")}
+            <motion.p
+              variants={fadeInUp}
+              className="md:text-xl text-lg mb-8 text-blue-100 max-w-3xl mx-auto text-center"
+            >
+              {t(
+                "contactPage.subtitle",
+                "Notre équipe est à votre disposition pour répondre à vos questions et vous aider à planifier votre prochain voyage."
+              )}
             </motion.p>
           </div>
-          
+
           {/* Séparateur ondulé */}
           <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] transform rotate-180">
             <svg
@@ -108,9 +124,19 @@ export default function ContactPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Mail className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{t("contactPage.emailUs", "Écrivez-nous")}</h3>
-                <p className="text-gray-600 mb-4">{t("contactPage.emailDescription", "Pour toute demande d'information ou assistance")}</p>
-                <a href="mailto:contact@bustation.com" className="text-blue-600 font-semibold hover:underline">
+                <h3 className="text-xl font-semibold mb-4">
+                  {t("contactPage.emailUs", "Écrivez-nous")}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {t(
+                    "contactPage.emailDescription",
+                    "Pour toute demande d'information ou assistance"
+                  )}
+                </p>
+                <a
+                  href="mailto:contact@bustation.com"
+                  className="text-blue-600 font-semibold hover:underline"
+                >
                   contact@bustation.com
                 </a>
               </motion.div>
@@ -123,10 +149,20 @@ export default function ContactPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Phone className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{t("contactPage.callUs", "Appelez-nous")}</h3>
-                <p className="text-gray-600 mb-4">{t("contactPage.callDescription", "Notre service client est disponible 7j/7")}</p>
-                <a href="tel:+33123456789" className="text-blue-600 font-semibold hover:underline">
-                +237 6 98 45 67 89
+                <h3 className="text-xl font-semibold mb-4">
+                  {t("contactPage.callUs", "Appelez-nous")}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {t(
+                    "contactPage.callDescription",
+                    "Notre service client est disponible 7j/7"
+                  )}
+                </p>
+                <a
+                  href="tel:+33123456789"
+                  className="text-blue-600 font-semibold hover:underline"
+                >
+                  +237 6 98 45 67 89
                 </a>
               </motion.div>
 
@@ -138,7 +174,9 @@ export default function ContactPage() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
                   <Clock className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{t("contactPage.hours", "Horaires d'ouverture")}</h3>
+                <h3 className="text-xl font-semibold mb-4">
+                  {t("contactPage.hours", "Horaires d'ouverture")}
+                </h3>
                 <p className="text-gray-600 mb-2">
                   {t("contactPage.workdays", "Lun - Ven: 9h00 - 20h00")}
                 </p>
@@ -162,15 +200,27 @@ export default function ContactPage() {
             <div className="flex flex-col lg:flex-row gap-55">
               {/* Form */}
               <motion.div variants={fadeInLeft} className="lg:w-1/2">
-                <h2 className="text-3xl font-semibold mb-6">{t("contactPage.formTitle", "Envoyez-nous un message")}</h2>
+                <h2 className="text-3xl font-semibold mb-6">
+                  {t("contactPage.formTitle", "Envoyez-nous un message")}
+                </h2>
                 <p className="text-gray-600 mb-8">
-                  {t("contactPage.formDescription", "Vous avez une question ou une requête spécifique ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.")}
+                  {t(
+                    "contactPage.formDescription",
+                    "Vous avez une question ou une requête spécifique ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
+                  )}
                 </p>
 
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
                         {t("contactPage.name", "Nom complet")}
                       </label>
                       <input
@@ -179,12 +229,18 @@ export default function ContactPage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder={t("contactPage.namePlaceholder", "Votre nom")}
+                        placeholder={t(
+                          "contactPage.namePlaceholder",
+                          "Votre nom"
+                        )}
                         required
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
                         {t("contactPage.email", "Email")}
                       </label>
                       <input
@@ -193,14 +249,20 @@ export default function ContactPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder={t("contactPage.emailPlaceholder", "votre@email.com")}
+                        placeholder={t(
+                          "contactPage.emailPlaceholder",
+                          "votre@email.com"
+                        )}
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       {t("contactPage.subject", "Sujet")}
                     </label>
                     <input
@@ -209,13 +271,19 @@ export default function ContactPage() {
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder={t("contactPage.subjectPlaceholder", "Objet de votre message")}
+                      placeholder={t(
+                        "contactPage.subjectPlaceholder",
+                        "Objet de votre message"
+                      )}
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       {t("contactPage.message", "Message")}
                     </label>
                     <textarea
@@ -224,7 +292,10 @@ export default function ContactPage() {
                       onChange={(e) => setMessage(e.target.value)}
                       rows={6}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder={t("contactPage.messagePlaceholder", "Détaillez votre demande ici...")}
+                      placeholder={t(
+                        "contactPage.messagePlaceholder",
+                        "Détaillez votre demande ici..."
+                      )}
                       required
                     ></textarea>
                   </div>
@@ -237,8 +308,14 @@ export default function ContactPage() {
                         required
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
-                      <label htmlFor="privacy" className="ml-2 block text-sm text-gray-700">
-                        {t("contactPage.privacyPolicy", "J'accepte la politique de confidentialité")}
+                      <label
+                        htmlFor="privacy"
+                        className="ml-2 block text-sm text-gray-700"
+                      >
+                        {t(
+                          "contactPage.privacyPolicy",
+                          "J'accepte la politique de confidentialité"
+                        )}
                       </label>
                     </div>
                   </div>
@@ -264,7 +341,10 @@ export default function ContactPage() {
 
                   {submitted && (
                     <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg">
-                      {t("contactPage.successMessage", "Votre message a été envoyé avec succès. Nous reviendrons vers vous rapidement.")}
+                      {t(
+                        "contactPage.successMessage",
+                        "Votre message a été envoyé avec succès. Nous reviendrons vers vous rapidement."
+                      )}
                     </div>
                   )}
                 </form>
@@ -280,18 +360,27 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-4">{t("contactPage.ourOffices", "Nos bureaux")}</h3>
+                    <h3 className="text-xl font-semibold mb-4">
+                      {t("contactPage.ourOffices", "Nos bureaux")}
+                    </h3>
                     <div className="space-y-4">
                       <div className="flex items-start">
                         <MapPin className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                         <p className="text-gray-600">
-                          123 Avenue des Champs-Élysées,<br />75008 Paris, France
+                          123 Avenue des Champs-Élysées,
+                          <br />
+                          75008 Paris, France
                         </p>
                       </div>
                       <div className="flex items-start">
                         <Globe className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                         <div>
-                          <p className="text-gray-600 mb-1">{t("contactPage.international", "Bureaux internationaux:")}</p>
+                          <p className="text-gray-600 mb-1">
+                            {t(
+                              "contactPage.international",
+                              "Bureaux internationaux:"
+                            )}
+                          </p>
                           <ul className="text-gray-600 space-y-1">
                             <li>New York • London • Dubai • Tokyo • Sydney</li>
                           </ul>
@@ -300,15 +389,37 @@ export default function ContactPage() {
                       <div className="flex items-start">
                         <Mail className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                         <p className="text-gray-600">
-                          <a href="mailto:contact@busstation.com" className="hover:text-blue-600">contact@busstation.com</a><br />
-                          <a href="mailto:support@busstation.com" className="hover:text-blue-600">support@busstation.com</a>
+                          <a
+                            href="mailto:contact@busstation.com"
+                            className="hover:text-blue-600"
+                          >
+                            contact@busstation.com
+                          </a>
+                          <br />
+                          <a
+                            href="mailto:support@busstation.com"
+                            className="hover:text-blue-600"
+                          >
+                            support@busstation.com
+                          </a>
                         </p>
                       </div>
                       <div className="flex items-start">
                         <Phone className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                         <p className="text-gray-600">
-                          <a href="tel:+33123456789" className="hover:text-blue-600">+237 6 98 45 67 89</a><br />
-                          <a href="tel:+33198765432" className="hover:text-blue-600">+237 6 98 45 67 89</a>
+                          <a
+                            href="tel:+33123456789"
+                            className="hover:text-blue-600"
+                          >
+                            +237 6 98 45 67 89
+                          </a>
+                          <br />
+                          <a
+                            href="tel:+33198765432"
+                            className="hover:text-blue-600"
+                          >
+                            +237 6 98 45 67 89
+                          </a>
                         </p>
                       </div>
                     </div>
@@ -329,16 +440,24 @@ export default function ContactPage() {
         >
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-semibold mb-4">{t("contactPage.globalPresence", "Notre présence mondiale")}</h2>
+              <h2 className="text-3xl font-semibold mb-4">
+                {t("contactPage.globalPresence", "Notre présence mondiale")}
+              </h2>
               <p className="text-gray-600 max-w-3xl mx-auto">
-                {t("contactPage.globalDescription", "Avec des bureaux et des partenaires dans plus de 30 pays, nous sommes présents partout où vos voyages vous mènent.")}
+                {t(
+                  "contactPage.globalDescription",
+                  "Avec des bureaux et des partenaires dans plus de 30 pays, nous sommes présents partout où vos voyages vous mènent."
+                )}
               </p>
             </div>
-            
+
             {/* World Map Visualization - Placeholder */}
             <div className="bg-gray-100 rounded-xl p-4 h-96 flex items-center justify-center">
               <p className="text-gray-500 text-lg">
-                {t("contactPage.mapPlaceholder", "Carte interactive de notre présence mondiale")}
+                {t(
+                  "contactPage.mapPlaceholder",
+                  "Carte interactive de notre présence mondiale"
+                )}
               </p>
             </div>
           </div>
@@ -346,5 +465,5 @@ export default function ContactPage() {
       </main>
       <Footer />
     </>
-  )
+  );
 }
