@@ -1,6 +1,5 @@
 // import { CheckCircle } from 'lucide-react';
 
-
 // interface SuccessModalProps {
 //     canOpenSuccessModal: (param: boolean) => void,
 //     message: string,
@@ -8,9 +7,6 @@
 // }
 
 // export function SuccessModal ({canOpenSuccessModal, message, makeAction }: SuccessModalProps) {
-
-
-
 
 //     function onCloseModal()
 //     {
@@ -41,17 +37,11 @@
 //     );
 // }
 
-
-
-
-
-
-
 // src/modals/SuccessModal.tsx
 "use client";
 
-import React from 'react';
-import { CheckCircle } from 'lucide-react';
+import React from "react";
+import { CheckCircle } from "lucide-react";
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -59,7 +49,11 @@ interface SuccessModalProps {
   message: string;
 }
 
-const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, message }) => {
+const SuccessModal: React.FC<SuccessModalProps> = ({
+  isOpen,
+  onClose,
+  message,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -70,7 +64,8 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, message })
         </div>
         <h3 className="mt-4 text-lg font-semibold text-gray-900">{message}</h3>
         <p className="mt-2 text-sm text-gray-600">
-          Le voyage est maintenant visible dans le calendrier et sur le marketplace.
+          Le voyage est maintenant visible dans le calendrier et sur le
+          marketplace.
         </p>
         <div className="mt-6">
           <button

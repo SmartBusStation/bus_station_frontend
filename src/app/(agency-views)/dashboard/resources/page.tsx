@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "next/navigation"; // NOUVEAU
+import { useSearchParams } from "next/navigation";
 import { Car, UserCheck, Users } from "lucide-react";
 import PageHeader from "@/components/dashboard/PageHeader";
 import VehiclesTab from "@/components/dashboard/resources/VehiclesTab";
@@ -13,19 +13,15 @@ import { ResourceTab } from "@/lib/types/dashboard";
 
 const ResourcesPage = () => {
   const { t } = useTranslation();
-  const searchParams = useSearchParams(); // NOUVEAU
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<ResourceTab>("vehicles");
 
-  // NOUVEAU: Lire le paramètre d'URL au chargement
   useEffect(() => {
     const tab = searchParams.get("tab");
-    if (tab === 'vehicles' || tab === 'drivers' || tab === 'employees') {
-        setActiveTab(tab);
+    if (tab === "vehicles" || tab === "drivers" || tab === "employees") {
+      setActiveTab(tab);
     }
   }, [searchParams]);
-
-
-
 
   const tabs = [
     {
@@ -62,7 +58,8 @@ const ResourcesPage = () => {
                 activeTab === tab.id
                   ? "border-primary text-primary"
                   : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-              }`}>
+              }`}
+            >
               <tab.icon className="h-5 w-5" />
               {tab.label}
             </button>

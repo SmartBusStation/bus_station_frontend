@@ -15,19 +15,6 @@ import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import { useNavigation } from "@/lib/hooks/useNavigation";
 import SearchBar from "@/components/faqs-page-component/SearchBar";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "FAQ - Foire Aux Questions",
-  description:
-    "Trouvez les réponses à vos questions les plus fréquentes sur la réservation, les paiements, et l'utilisation de la plateforme Bus Station.",
-};
-interface FAQItem {
-  id: number;
-  question: string;
-  answer: string;
-  category: string;
-}
 
 // Fix 1: Properly type the recentSearches state
 export default function FAQPage() {
@@ -72,6 +59,14 @@ export default function FAQPage() {
       console.error("Error retrieving recent searches:", e);
     }
   }, []);
+
+  // FAQ item type definition
+  type FAQItem = {
+    id: number;
+    question: string;
+    answer: string;
+    category: string;
+  };
 
   // FAQ data
   const faqItems: FAQItem[] = [
