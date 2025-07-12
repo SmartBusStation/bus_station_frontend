@@ -47,7 +47,8 @@ const SidebarLink = ({
       href={href}
       className={`group relative flex items-center gap-2.5 rounded-lg py-2 px-4 font-medium text-gray-700 duration-300 ease-in-out hover:bg-blue-50 hover:text-primary ${
         isActive && "bg-blue-100 text-primary"
-      }`}>
+      }`}
+    >
       <Icon className="h-5 w-5" />
       {label}
     </Link>
@@ -129,18 +130,20 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       ref={sidebar}
       className={`absolute left-0 top-0 z-50 flex h-screen w-72 flex-col overflow-y-hidden bg-white shadow-lg duration-300 ease-linear lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
-      }`}>
+      }`}
+    >
       {/* Sidebar Header */}
       <div className="flex items-center justify-between gap-2 px-6 py-5 lg:py-6">
         <Link href="/dashboard" className="flex items-center gap-2">
           <div className="bg-primary w-10 h-10 rounded-lg flex items-center justify-center">
-            <span className="font-bold text-xl text-white">M</span>
+            <span className="font-bold text-xl text-white">B</span>
           </div>
-          <h2 className="text-2xl font-bold text-primary">Moving.com</h2>
+          <h2 className="text-2xl font-bold text-primary">Bus Station</h2>
         </Link>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="block lg:hidden text-gray-600 hover:text-primary">
+          className="block lg:hidden text-gray-600 hover:text-primary"
+        >
           <X className="h-6 w-6" />
         </button>
       </div>
@@ -173,7 +176,8 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <button
                   onClick={logout}
-                  className="group relative flex w-full items-center gap-2.5 rounded-lg py-2 px-4 font-medium text-gray-700 duration-300 ease-in-out hover:bg-red-50 hover:text-red-600">
+                  className="group relative flex w-full items-center gap-2.5 rounded-lg py-2 px-4 font-medium text-gray-700 duration-300 ease-in-out hover:bg-red-50 hover:text-red-600"
+                >
                   <LogOut className="h-5 w-5" />
                   {t("dashboard.sidebar.logout")}
                 </button>
