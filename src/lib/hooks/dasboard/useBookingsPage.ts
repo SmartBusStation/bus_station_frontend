@@ -1,4 +1,3 @@
-// src/lib/hooks/dasboard/useBookingsPage.ts
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
@@ -14,8 +13,8 @@ export function useBookingsPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [apiError, setApiError] = useState<string | null>(null);
 
-    // États pour la pagination et le filtrage
-    const [currentPage, setCurrentPage] = useState(1); // antd pagination commence à 1
+
+    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
@@ -25,18 +24,19 @@ export function useBookingsPage() {
         setIsLoading(true);
         setApiError(null);
         try {
-            const response: PaginatedResponse<ReservationPreviewDTO> = await getReservationsByAgency(id, page - 1, 10);
+            const response: PaginatedResponse<ReservationPreviewDTO> = await getReservationsByAgency(id);
             setBookings(response.content || []);
             setTotalPages(response.totalPages || 1);
             setTotalElements(response.totalElements || 0);
         } catch (error) {
+            console.error(error);
             setApiError("Impossible de charger les réservations.");
         } finally {
             setIsLoading(false);
         }
     }, []);
 
-    // Initialisation
+
     useEffect(() => {
         if (!isUserLoading && userData?.userId) {
             getAgencyByChefId(userData.userId).then(agency => {
@@ -53,14 +53,14 @@ export function useBookingsPage() {
         }
     }, [userData, isUserLoading, fetchBookings]);
 
-    // Effet pour la pagination
+
     useEffect(() => {
         if (agencyId) {
             fetchBookings(agencyId, currentPage);
         }
     }, [currentPage, agencyId, fetchBookings]);
 
-    // Filtrage côté client basé sur les données actuelles de la page
+
     const filteredBookings = useMemo(() => {
         return bookings.filter(booking => {
             const reservation = booking.reservation;

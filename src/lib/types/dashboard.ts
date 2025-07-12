@@ -1,5 +1,7 @@
 // src/lib/types/dashboard.ts
 
+import React from "react";
+
 export type StatCardData = {
   label: string;
   value: string;
@@ -92,13 +94,13 @@ export type Trip = {
 
 
 
-export interface CalendarEvent {
+/*export interface CalendarEvent {
   id: string;
   title: string;
   start: Date;
   end: Date;
   status: "published" | "completed" | "cancelled";
-}
+}*/
 
 export interface Feedback {
   id: string;
@@ -141,7 +143,7 @@ export interface Driver {
   status: DriverStatus;
 }
 
-export interface CalendarEvent {
+/*export interface CalendarEvent {
   id: string;
   title: string;
   start: Date;
@@ -154,4 +156,14 @@ export interface CalendarEvent {
   driverId?: string;
   price?: number;
   description?: string;
+} */
+
+export interface CalendarEvent {
+  id: string; // idVoyage
+  title: string; // titre du voyage
+  start: Date;
+  end: Date;
+  allDay?: boolean;
+  resource?: any; // Pour react-big-calendar
+  status: 'EN_ATTENTE' | 'PUBLIE' | 'EN_COURS' | 'TERMINE' | 'ANNULE';
 }

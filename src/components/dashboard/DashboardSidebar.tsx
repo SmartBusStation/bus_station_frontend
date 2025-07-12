@@ -18,7 +18,7 @@ import {
   Cog,
   X,
   Bus,
-  LogOut,
+  LogOut, FileEdit,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBusStation } from "@/context/Provider";
@@ -89,6 +89,11 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       href: "/dashboard/trip-planning",
       icon: Bus,
       label: t("dashboard.sidebar.tripPlanning"),
+    },
+    {
+      href: "/dashboard/drafts",
+      icon: FileEdit,
+      label: "Brouillons",
     },
     {
       href: "/dashboard/bookings",

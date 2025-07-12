@@ -5,7 +5,7 @@ import { Eye, Filter, Search, CheckCircle, Clock, XCircle, AlertCircle, RefreshC
 import PageHeader from "@/components/dashboard/PageHeader";
 import { useBookingsPage } from "@/lib/hooks/dasboard/useBookingsPage";
 import { Reservation, ReservationPreviewDTO } from "@/lib/types/generated-api";
-import { formatDateOnly, formatDateToTime } from "@/lib/services/date-services";
+import { formatDateOnly } from "@/lib/services/date-services";
 import { Pagination, Tooltip } from 'antd';
 import Loader from "@/modals/Loader";
 
