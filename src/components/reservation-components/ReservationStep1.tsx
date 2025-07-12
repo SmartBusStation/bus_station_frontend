@@ -38,15 +38,19 @@ export default function ReservationStep1({ tripDetails, setSelectedSeats, select
                     <p className="italic text-md mb-6 text-gray-600">Please choose the seat(s) you want to book</p>
                     <div className="flex flex-wrap gap-4 mb-6">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg border-2 border-gray-500 bg-gray-200"/>
+                            <div className="w-6 h-6 rounded-lg border-2 border-gray-500 bg-gray-200"/>
                             <span className="text-sm text-gray-500 font-medium">Available</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-green-300 border-2 border-green-500"/>
+                            <div className="w-6 h-6 rounded-lg bg-green-300 border-2 border-green-500"/>
                             <span className="text-sm text-green-600 font-medium">Selected </span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-red-300 border-2 border-red-500"/>
+                            <div className="w-6 h-6 rounded-lg bg-orange-300 border-2 border-red-500"/>
+                            <span className="text-sm text-orange-600 font-medium">Occupied </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-lg bg-red-300 border-2 border-red-500"/>
                             <span className="text-sm text-red-600 font-medium">Reserved </span>
                         </div>
                     </div>
@@ -54,24 +58,28 @@ export default function ReservationStep1({ tripDetails, setSelectedSeats, select
                         <Bus70SeatsDisposition
                             setSeats={setSelectedSeats}
                             _reservedSeats={tripDetails?.placeReservees}
+                            tripId={tripDetails.idVoyage}
                         />
                     )}
                     {tripDetails.nbrPlaceRestante === 75 && (
                         <Bus75SeatsDisposition
-                            setSelectedSeats={setSelectedSeats}
+                            setSeats={setSelectedSeats}
                             _reservedSeats={tripDetails?.placeReservees}
+                            tripId={tripDetails.idVoyage}
                         />
                     )}
                     {tripDetails.nbrPlaceRestante === 80 && (
                         <Bus80SeatsDisposition
-                            setSelectedSeats={setSelectedSeats}
+                            setSeats={setSelectedSeats}
                             _reservedSeats={tripDetails?.placeReservees}
+                            tripId={tripDetails.idVoyage}
                         />
                     )}
                     {tripDetails.nbrPlaceRestante === 56 && (
                         <Bus56SeatsDisposition
-                            setSelectedSeats={setSelectedSeats}
+                            setSeats={setSelectedSeats}
                             _reservedSeats={tripDetails?.placeReservees}
+                            tripId={tripDetails.idVoyage}
                         />
                     )}
                 </div>
@@ -91,4 +99,3 @@ export default function ReservationStep1({ tripDetails, setSelectedSeats, select
         </>
     )
 }
-
