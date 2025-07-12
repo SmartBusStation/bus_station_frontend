@@ -1,5 +1,6 @@
 import { Vehicle } from "@/lib/types/models/vehicle";
 import { SortInterface } from "@/lib/types/common";
+import {Customer} from "@/lib/types/models/BusinessActor";
 export type Amenities = "WiFi" | "AC" | "USB" | "Snacks" | "Meals";
 
 export interface Trip {
@@ -43,6 +44,10 @@ export interface Trip {
   vehicule: Vehicle;
   placeReservees: number[];
   amenities: Amenities[];
+}
+
+export interface TripDetails extends Trip {
+  chauffeur: Customer
 }
 
 export interface TripAxiosResponseInterface {

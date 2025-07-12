@@ -53,6 +53,7 @@ export async function createTrip(data: VoyageCreateRequestDTO): Promise<Voyage |
   }
 }
 
+
 export async function updateTrip(id: string, data: Partial<VoyageCreateRequestDTO>): Promise<Voyage | null> {
   try {
     const response: AxiosResponse<Voyage> = await axiosInstance.put(`${url}/${id}`, data);
@@ -63,6 +64,7 @@ export async function updateTrip(id: string, data: Partial<VoyageCreateRequestDT
     throw axiosError;
   }
 }
+
 
 export async function getTripsByAgency(agencyId: string, page = 0, size = 25): Promise<PaginatedResponse<Voyage> | null> {
   if (!agencyId) return null;
@@ -78,8 +80,7 @@ export async function getTripsByAgency(agencyId: string, page = 0, size = 25): P
   }
 }
 
-// NOTE: L'API Swagger ne montre pas de route spécifique pour "publier".
-// On assume que c'est une mise à jour du statut.
+
 export async function publishTrip(tripId: string): Promise<Voyage | null> {
   console.log(`[trip-service] Publication du voyage ID: ${tripId}`);
   const payload : Record<string, 'EN_ATTENTE' | 'PUBLIE' | 'EN_COURS' | 'TERMINE' | 'ANNULE'>= { statusVoyage: "PUBLIE" };

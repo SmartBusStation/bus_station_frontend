@@ -121,10 +121,8 @@ export function useTripPlanner() {
     console.log(data);
     setIsSubmitting(true);
     setApiError(null);
-
-    // Le DTO attend `nbrPlaceRestante`, qui est égal à `nbrPlaceReservable` à la création.
     const { nbrPlaceReservable, ...restOfData } = data;
-    const payload: VoyageCreateRequestDTO = {
+    const planningTrip: VoyageCreateRequestDTO = {
       ...restOfData,
       nbrPlaceReservable: nbrPlaceReservable,
       nbrPlaceRestante: nbrPlaceReservable,
@@ -136,15 +134,15 @@ export function useTripPlanner() {
 
     try {
       if (selectedDraftId) {
-        await updateTrip(selectedDraftId, payload);
+        await updateTrip(selectedDraftId, planningTrip);
         setSuccessMessage("Voyage mis à jour avec succès !");
       } else {
-        await createTrip(payload);
-        setSuccessMessage("Voyage créé avec succès !");
+        await createTrip(planningTrip);
+        setSuccessMessage("Votre voyage a ete créé avec succès !");
       }
       setIsSuccess(true);
       if (agency) await loadAgencyData(agency.agencyId);
-      handleSelectDraft(null); // Réinitialise le formulaire
+      handleSelectDraft(null);
     } catch (err: any) {
       setApiError(err.response?.data?.message || "Une erreur est survenue.");
     } finally {
