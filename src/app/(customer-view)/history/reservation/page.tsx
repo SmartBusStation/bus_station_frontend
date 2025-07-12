@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {JSX, useState} from 'react';
 import {
   MapPin,
   Clock,
@@ -56,8 +56,7 @@ interface TransparentModalProps {
   children: React.ReactNode;
 }
 
-type FilterType = 'all' | 'vip' | 'standard';
-type StatusType = 'all' | 'en cours' | 'en attente' | 'terminé';
+
 
 // Données de démonstration
 const historiqueData: HistoriqueData = {
@@ -173,7 +172,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
 
     const ticketContent = `
       <!DOCTYPE html>
-      <html>
+      <html lang="en">
         <head>
           <title>Billet de Voyage - Mooving Voyages</title>
           <meta charset="utf-8">
@@ -456,6 +455,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
     return 'bg-green-100 text-green-800 border-green-200';
   };
 
+
   const getStateBadge = (state: string): string => {
     switch (state) {
       case 'en cours':
@@ -469,7 +469,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
     }
   };
 
-  const renderReservationDetails = (reservation: Reservation): React.ReactElement => {
+  const renderReservationDetails = (reservation: Reservation): JSX.Element => {
     return (
         <div className="flex items-center justify-center p-4">
           <div className="bg-white shadow-2xl rounded-xl max-w-5xl w-full relative max-h-[90vh] overflow-y-auto">
@@ -477,7 +477,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white relative">
               <button
                   onClick={() => setSelectedReservation(null)}
-                  className="absolute top-6 right-4 text-white bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-200"
+                  className="cursor-pointer absolute top-6 right-4 text-white bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-200"
                   type="button"
               >
                 <X className="h-6 w-6" />
@@ -681,7 +681,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
               <div className="mt-6 flex justify-center">
                 <button
                     onClick={downloadTicket}
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-6 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center gap-2 text-lg font-semibold"
+                    className="bg-primary text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-200 flex items-center gap-2 text-lg font-semibold"
                 >
                   <Download className="h-5 w-5" />
                   Télécharger le Billet
@@ -697,7 +697,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
       <div className="min-h-screen p-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl shadow-sm p-6 mb-8 border border-gray-200">
+          <div className="bg-gray-100 rounded-xl shadow-sm p-6 mb-8 border border-gray-200">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Historique des Voyages</h1>
@@ -851,7 +851,7 @@ export default function HistoriqueVoyage(): React.ReactElement {
                     <div className="mt-6 flex justify-center">
                       <button
                           onClick={() => setSelectedReservation(reservation)}
-                          className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center gap-2"
+                          className="cursor-pointer bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-all duration-200 flex items-center gap-2"
                       >
                         <Eye className="h-4 w-4" />
                         Voir les détails
