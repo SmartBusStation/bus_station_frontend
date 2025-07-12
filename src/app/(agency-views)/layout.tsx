@@ -1,5 +1,5 @@
-// app/agencies/layout.tsx
 import Footer from "@/components/layouts/Footer";
+import React from "react";
 
 
 export default function AgenciesLayout({

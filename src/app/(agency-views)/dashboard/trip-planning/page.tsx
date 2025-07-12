@@ -1,4 +1,3 @@
-// src/app/dashboard/trip-planning/page.tsx
 "use client";
 
 import React, { Suspense } from "react";

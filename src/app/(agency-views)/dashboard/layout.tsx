@@ -3,13 +3,10 @@
 import React, { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import CustomerNavBar from "@/components/layouts/customer-navbar/CustomerNavBar";
-import Footer from "@/components/layouts/Footer";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+
+export default function DashboardLayout({children,}: { children: React.ReactNode})
+{
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (

@@ -15,9 +15,10 @@ import {
 import InputField from "@/ui/InputField";
 import TextareaField from "@/ui/TextareaField";
 import SelectField from "@/ui/SelectField";
-import SuccessModal from "@/modals/SuccessModal";
 import Loader from "@/modals/Loader";
 import { useTripPlanner } from "@/lib/hooks/dasboard/useTripPlanner";
+import {SuccessModal} from "@/modals/SuccessModal";
+import TransparentModal from "@/modals/TransparentModal";
 
 interface TripPlannerFormProps {
   hook: ReturnType<typeof useTripPlanner>;
@@ -44,11 +45,12 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
   return (
     <>
-      <SuccessModal
-        isOpen={isSuccess}
-        onClose={() => setIsSuccess(false)}
-        message={successMessage}
-      />
+      <TransparentModal isOpen={isSuccess}>
+        <SuccessModal
+            canOpenSuccessModal={() => setIsSuccess(false)}
+            message={successMessage}
+        />
+      </TransparentModal>
 
       <form
         onSubmit={handleSubmit((data) => {
