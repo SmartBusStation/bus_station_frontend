@@ -55,6 +55,7 @@ export default function ReservationProcessModal({  onCloseAction, tripDetails, s
                         totalPassengers={reservationManager.totalPassengers}
                         onBookTrip={reservationManager.bookTrip}
                         isLoading={reservationManager.isLoading}
+                        errorMessage = {reservationManager.errorMessage}
                     />
                 )}
             </div>

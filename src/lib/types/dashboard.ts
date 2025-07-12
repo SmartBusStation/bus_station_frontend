@@ -61,7 +61,7 @@ export interface Booking {
 //   title: string;
 //   route: string;
 //   departureDate: string;
-//   reservations: number;
+//   reservation: number;
 //   capacity: number;
 //   estimatedRevenue: number;
 //   status: "on_schedule" | "completed" | "cancelled";

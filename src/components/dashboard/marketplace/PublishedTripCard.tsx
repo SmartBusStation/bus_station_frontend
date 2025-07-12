@@ -6,7 +6,7 @@
 
 // const PublishedTripCard = ({ trip }: { trip: PublishedTrip }) => {
 //   const { t } = useTranslation();
-//   const reservationPercentage = (trip.reservations / trip.capacity) * 100;
+//   const reservationPercentage = (trip.reservation / trip.capacity) * 100;
 
 //   const getStatusInfo = () => {
 //     switch (trip.status) {
@@ -54,10 +54,10 @@
 //       <div>
 //         <div className="flex justify-between text-sm mb-1">
 //           <span className="font-medium text-gray-700">
-//             {t("dashboard.agencyMarketplace.reservations")}
+//             {t("dashboard.agencyMarketplace.reservation")}
 //           </span>
 //           <span>
-//             {trip.reservations} / {trip.capacity}
+//             {trip.reservation} / {trip.capacity}
 //           </span>
 //         </div>
 //         <div className="w-full bg-gray-200 rounded-full h-2">
@@ -112,7 +112,7 @@ const PublishedTripCard = ({ trip }: { trip: Trip }) => {
   
   const vehicle = getVehicleById(trip.vehicleId);
   const capacity = vehicle ? vehicle.capacity : 0;
-  // Note: la logique de 'reservations' et 'revenue' n'est pas encore dans le contexte, on simule.
+  // Note: la logique de 'reservation' et 'revenue' n'est pas encore dans le contexte, on simule.
   const reservations = 0; 
   const reservationPercentage = capacity > 0 ? (reservations / capacity) * 100 : 0;
 
@@ -175,7 +175,7 @@ const PublishedTripCard = ({ trip }: { trip: Trip }) => {
       <div>
         <div className="flex justify-between text-sm mb-1">
           <span className="font-medium text-gray-700">
-            {t("dashboard.agencyMarketplace.reservations")}
+            {t("dashboard.agencyMarketplace.reservation")}
           </span>
           <span>
             {trip.reservations} / {trip.capacity}

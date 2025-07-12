@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../../../../../components/my-reservation-components/LoadingSpinner";
@@ -8,6 +8,7 @@ import ErrorHandler from "../../../../../components/error-handler/ErrorHandler";
 import TripAnnulationModal from "../../../../../modals/TripAnnulationModal";
 import ReservationSummary from "../../../../../components/my-reservation-components/ReservationSummary";
 import {useMyReservation} from "@/lib/hooks/reservation-hooks/useMyReservation";
+import TransparentModal from "@/modals/TransparentModal";
 
 
 
@@ -16,15 +17,10 @@ export default function ReservationDetails({ params }: {params: Promise<{reserva
 
 
   const router = useRouter();
-  const reservationHook = useMyReservation();
   const resolvedParams = React.use(params);
   const reservationId = resolvedParams?.reservationId;
+  const reservationHook = useMyReservation(reservationId);
 
-  useEffect(() => {
-    if (reservationId) {
-      reservationHook.fetchReservationDetail(reservationId);
-    }
-  }, [reservationHook, reservationId]);
 
   if (reservationHook.isLoading) {
     return <LoadingSpinner />;
@@ -80,11 +76,12 @@ export default function ReservationDetails({ params }: {params: Promise<{reserva
         </div>
 
         {/* Modal d'annulation */}
-        <TripAnnulationModal
-            trip={reservationHook.reservationDetail}
-            isOpen={reservationHook.canOpenTripAnnulationModal}
-            onClose={() => reservationHook.setCanOpenTripAnnulationModal(false)}
-        />
+          <TransparentModal isOpen={reservationHook.canOpenTripAnnulationModal}>
+              <TripAnnulationModal
+                  trip={reservationHook.reservationDetail}
+                  onClose={() => reservationHook.setCanOpenTripAnnulationModal(false)}
+              />
+          </TransparentModal>
       </div>
   );
 }

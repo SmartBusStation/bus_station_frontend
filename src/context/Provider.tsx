@@ -11,7 +11,8 @@ import { tokenKeyName } from "@/lib/services/axios-services/interceptors/auth-in
 
 export const [BusStationProvider, useBusStation] = constate(useBusStationProvider, value => value.authMethods);
 
-function useBusStationProvider() {
+function useBusStationProvider()
+{
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [userData, setUserData] = useState<Customer | null>(null);
     const [axiosErrors, setAxiosErrors] = useState<string | null>(null);
@@ -38,7 +39,7 @@ function useBusStationProvider() {
         window.location.href = "/";
     }
 
-    // --- LOGIQUE DE CONNEXION CORRIGÉE ---
+
     async function login(data: LoginSchemaType): Promise<string[] | null> {
         setIsLoading(true);
         setAxiosErrors(null);
@@ -48,15 +49,17 @@ function useBusStationProvider() {
                 setUserData(result);
                 saveAuthParams(result.token);
 
-                if (result.role.includes("USAGER")) setIsCustomerAuthenticated(true);
-                if (result.role.includes("ORGANISATION")) {
+                if (result.role.includes("AGENCE_VOYAGE")) setIsAgencyConnected(true);
+                else if (result.role.includes("ORGANISATION")) {
                     setIsAgencyConnected(true);
                     setIsOrganizationConnected(true);
                 }
-                if (result.role.includes("AGENCE_VOYAGE")) setIsAgencyConnected(true);
+                else setIsCustomerAuthenticated(true);
+
+
                 
                 setIsLoading(false);
-                return result.role; // RETOURNE LE TABLEAU DE RÔLES POUR QUE LA PAGE GÈRE LA REDIRECTION
+                return result.role;
             } else {
                 setAxiosErrors("Une erreur inattendue est survenue.");
                 setIsLoading(false);
@@ -85,9 +88,9 @@ function useBusStationProvider() {
             const result = await getConnectedUser(token);
             if (result) {
                 setUserData(result);
-                if (result.role.includes("USAGER")) setIsCustomerAuthenticated(true);
                 if (result.role.includes("AGENCE_VOYAGE")) setIsAgencyConnected(true);
-                if (result.role.includes("ORGANISATION")) setIsOrganizationConnected(true);
+                else if (result.role.includes("ORGANISATION")) setIsOrganizationConnected(true);
+                else setIsCustomerAuthenticated(true);
             } else {
                 clearLocaleStorage();
             }

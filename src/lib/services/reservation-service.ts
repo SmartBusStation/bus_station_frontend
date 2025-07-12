@@ -32,7 +32,7 @@ export async function createReservation(data: ReservationCreationSchema): Promis
     catch(error)
     {
         console.error("erreur lors de la reservation ", error);
-        throw new Error("Une erreur est survenue lors de la reservation");
+        throw error;
     }
 }
 
@@ -57,7 +57,7 @@ export async function createPayment(data: PaymentRequestFormType): Promise<strin
     catch(error)
     {
         console.error("erreur lors de la reservation ", error);
-        throw new Error("Une erreur est survenue lors de la reservation");
+        throw error;
     }
 
 }
@@ -81,8 +81,8 @@ export async function getCustomerReservations(idUser: string): Promise<Paginated
     }
     catch (error)
     {
-        console.error("error during retrieving reservations ", error);
-        throw new Error("error during retrieving reservations");
+        console.error("error during retrieving reservation ", error);
+        throw error;
     }
 }
 
@@ -103,7 +103,7 @@ export async function getReservationDetail(idReservation: string): Promise<Reser
     }catch (error)
     {
         console.error("error during retrieving reservation detail ", error);
-        throw new Error("error during retrieving reservation details");
+        throw error;
     }
 }
 

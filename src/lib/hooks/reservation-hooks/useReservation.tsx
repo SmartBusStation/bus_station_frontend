@@ -100,8 +100,7 @@ export function useReservation(setCanOpenPaymentModal: (param:boolean) => void, 
                     setCanOpenPaymentModal(false);
                 }
             })
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .catch((error): void => {
+            .catch((): void => {
                 setErrorMessage("An error occurred during your booking, please retry !!");
                 setReservationSuccessMessage("");
                 setCanOpenPaymentModal(false);

@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   description:
     "Trouvez les réponses à vos questions les plus fréquentes sur la réservation, les paiements, et l'utilisation de la plateforme Bus Station.",
 };
+
 interface FAQItem {
   id: number;
   question: string;

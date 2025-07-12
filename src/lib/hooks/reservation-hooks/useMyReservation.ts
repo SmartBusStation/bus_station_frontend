@@ -5,7 +5,7 @@ import { ReservationDetails } from "@/lib/types/models/Reservation";
 
 
 
-export function useMyReservation() {
+export function useMyReservation(reservationId: string) {
     const { userData } = useBusStation();
 
    /*** STATE FOR MY SCHEDULED TRIPS ***/
@@ -42,6 +42,15 @@ export function useMyReservation() {
             fetchMyScheduledTrips(userData.userId);
         }
     }, [userData?.userId]);
+
+
+    useEffect(() => {
+        if (reservationId) {
+            fetchReservationDetail(reservationId);
+        }
+    }, [reservationId]);
+
+
 
 
     useEffect(() => {
@@ -200,6 +209,5 @@ export function useMyReservation() {
         setCanOpenTripAnnulationModal,
         setCanOpenPaymentRequestModal,
         setCanOpenSuccessModal,
-        fetchReservationDetail
     }
 }

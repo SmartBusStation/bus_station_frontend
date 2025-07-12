@@ -10,64 +10,10 @@ import TripDetailsLoadingError from "@/components/market-place-components/trip-d
 import TransparentModal from "@/modals/TransparentModal";
 import ReservationProcessModal from "@/modals/ReservationProcessModal";
 import { PaymentModal } from "@/modals/PaymentRequestModal";
-import type { Metadata, ResolvingMetadata } from "next";
-import { retrieveTripDetail } from "@/lib/services/trip-service";
 
-type Props = {
-  params: { idVoyage: string };
-};
 
-// export async function generateMetadata(
-//   { params }: Props,
-//   parent: ResolvingMetadata
-// ): Promise<Metadata> {
-//   // Récupérer l'ID du voyage depuis les paramètres
-//   const id = params.idVoyage;
-
-//   // Récupérer les détails du voyage depuis votre API
-//   const trip = await retrieveTripDetail(id);
-
-//   // Si le voyage n'est pas trouvé, retourner des métadonnées par défaut
-//   if (!trip) {
-//     return {
-//       title: "Voyage non trouvé",
-//       description: "Ce voyage n'est plus disponible ou le lien est incorrect.",
-//     };
-//   }
-
-//   // Créer des métadonnées dynamiques
-//   const title = `Réservez : ${trip.titre} de ${trip.lieuDepart} à ${trip.lieuArrive}`;
-//   const description = `Réservez votre place pour le voyage ${trip.titre} avec ${
-//     trip.nomAgence
-//   }. Départ le ${new Date(
-//     trip.dateDepartPrev
-//   ).toLocaleDateString()}. ${trip.description.substring(0, 100)}...`;
-
-//   return {
-//     title,
-//     description,
-//     openGraph: {
-//       title: title,
-//       description: description,
-//       images: [
-//         {
-//           url: trip.bigImage || "/default-trip-image.jpg", // Fournir une image par défaut
-//           width: 1200,
-//           height: 630,
-//           alt: `Image pour le voyage ${trip.titre}`,
-//         },
-//       ],
-//       locale: "fr_FR",
-//       type: "website",
-//     },
-//   };
-// }
-
-export default function TripDetails({
-  params,
-}: {
-  params: Promise<{ idVoyage: string }>;
-}): JSX.Element {
+export default function TripDetails({params,}: { params: Promise<{ idVoyage: string }>; }): JSX.Element
+{
   const { idVoyage } = use(params);
   const tripDetailsHook = useTripDetails(idVoyage);
 
@@ -119,12 +65,8 @@ export default function TripDetails({
 
       <TransparentModal isOpen={tripDetailsHook.canOpenReservationModal}>
         <ReservationProcessModal
-          setReservationSuccessMessage={
-            tripDetailsHook.setReservationSuccessMessage
-          }
-          onCloseAction={() =>
-            tripDetailsHook.setCanOpenReservationModal(false)
-          }
+          setReservationSuccessMessage={tripDetailsHook.setReservationSuccessMessage}
+          onCloseAction={() => tripDetailsHook.setCanOpenReservationModal(false)}
           tripDetails={tripDetailsHook.tripDetails}
           setCanOpenPaymentModal={tripDetailsHook.setCanOpenPaymentModal}
         />

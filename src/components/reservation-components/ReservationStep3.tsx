@@ -26,9 +26,10 @@ interface ReservationStep3PropsInterface{
     totalPassengers: number,
     onBookTrip: () => Promise<void>,
     isLoading: boolean,
+    errorMessage: string
 }
 
-export default function ReservationStep3({selectedSeats, tripDetails, passengersData, onClose, setStep, totalPrice, totalLuggage, totalPassengers, onBookTrip, isLoading}: ReservationStep3PropsInterface) {
+export default function ReservationStep3({selectedSeats, tripDetails, passengersData, onClose, setStep, totalPrice, totalLuggage, totalPassengers, onBookTrip, isLoading, errorMessage}: ReservationStep3PropsInterface) {
 
 
 
@@ -39,24 +40,29 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
                     <Tooltip placement={"top"} title={"go back"}>
                         <button
                             onClick={() => setStep(2)}
-                            className="w-10 h-10 bg-green-100 text-green-600 p-2 rounded-full hover:bg-green-200 transition-all duration-300"
+                            className="cursor-pointer w-10 h-10 bg-green-100 text-green-600 p-2 rounded-full hover:bg-green-200 transition-all duration-300"
                         >
                             <ArrowLeft/>
                         </button>
                     </Tooltip>
-                    <h2 className="text-2xl lg:text-3xl font-semibold text-primary">Reservation Summary</h2>
+                    <div className={`${errorMessage !== "" && "flex justify-between items-center gap-5"}`}>
+                        <h2 className="text-2xl lg:text-3xl font-semibold text-primary">Reservation Summary</h2>
+                        <p className="text-red-500 text-md font-semibold mt-1">
+                            {errorMessage}
+                        </p>
+                    </div>
                 </div>
                 <Tooltip placement={"top"} title={"close"}>
                     <button
                         onClick={onClose}
-                        className="w-10 h-10 bg-red-100 text-red-600 p-2 rounded-full hover:bg-red-200 transition-all duration-300"
-                    >
-                        <X/>
-                    </button>
-                </Tooltip>
-            </div>
+                        className="cursor-pointer w-10 h-10 bg-red-100 text-red-600 p-2 rounded-full hover:bg-red-200 transition-all duration-300"
+                        >
+                            <X/>
+                        </button>
+                    </Tooltip>
+                </div>
 
-            <div className="rounded-xl overflow-hidden border border-gray-200">
+                <div className="rounded-xl overflow-hidden border border-gray-200">
 
                 {/*** TRAVELLER ***/}
                 <div className="p-4 lg:p-6 border-b border-gray-200">
@@ -67,7 +73,7 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         {passengersData.map((passenger: PassengerFormType) => (
                             <div key={passenger.placeChoisis} className="bg-gray-100 p-3 rounded-lg">
-                                <p className="font-medium text-gray-800">{passenger.nom}</p>
+                            <p className="font-medium text-gray-800">{passenger.nom}</p>
                                 <p className="text-sm text-gray-600">
                                     Seat {passenger.placeChoisis} - {passenger.nbrBaggage} luggage(s)
                                 </p>
@@ -190,7 +196,10 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
                 </div>
             </div>
 
-            <div className="flex justify-end mr-2 mt-8">
+            <div className={`flex ${errorMessage === "" ? "justify-end" : "justify-between"}  mr-2 mt-8`}>
+                <p className="text-red-500 text-md font-semibold">
+                    {errorMessage}
+                </p>
                 <button
                     onClick={onBookTrip}
                     disabled={isLoading}

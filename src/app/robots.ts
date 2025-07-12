@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         "/dashboard/", // Bloque l'accès à toutes les pages du dashboard
         "/profil/", // Bloque l'accès aux profils utilisateurs
-        "/(customer-view)/my-reservations/", // Bloque l'accès aux réservations personnelles
+        "/(customer-view)/my-reservation/", // Bloque l'accès aux réservations personnelles
       ],
     },
     sitemap: `${BASE_URL}/sitemap.xml`, // Indique l'emplacement du sitemap

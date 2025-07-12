@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { XCircle, X } from "lucide-react";
 import axiosInstance from "@/lib/services/axios-services/axiosInstance";
-import { SuccessModal } from "@/modals/SuccessModal";
 import { ReservationDetails } from "@/lib/types/models/Reservation";
 import TransparentModal from "@/modals/TransparentModal";
+import {SuccessModal} from "@/modals/SuccessModal";
+
+
 
 interface TripAnnulationModalProps {
   isOpen?: boolean;
