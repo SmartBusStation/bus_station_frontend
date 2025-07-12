@@ -8,7 +8,7 @@ export type StatCardData = {
   icon: React.ElementType;
 };
 
-export type ResourceTab = "vehicles" | "drivers" | "employees";
+export type ResourceTab = "vehicles" | "drivers" | "employees"|"classes";
 
 export interface Vehicle {
   id: string;

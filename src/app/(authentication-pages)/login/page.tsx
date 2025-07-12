@@ -35,11 +35,11 @@ export default function LoginPage(): JSX.Element {
 
     const handleLoginSubmit = async (data: LoginSchemaType) => {
         const userRoles = await login(data);
-        if (userRoles) { // La vérification est maintenant sûre grâce à la correction du Provider
-            if (userRoles.includes("USAGER")) {
-                router.push('/market-place');
-            } else if (userRoles.includes("ORGANISATION") || userRoles.includes("AGENCE_VOYAGE")) {
-                router.push('/dashboard');
+        if (userRoles) {
+            if  (userRoles.includes("ORGANISATION") || userRoles.includes("AGENCE_VOYAGE")) {
+                navigation.onGoToDashboard();
+            } else if (userRoles.includes("USAGER")) {
+                navigation.onGoToMarketPlace();
             } else {
                 router.push('/');
             }

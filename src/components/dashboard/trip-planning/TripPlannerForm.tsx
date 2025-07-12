@@ -1,23 +1,10 @@
-"use client";
-
 import React from "react";
-import {
-  Car,
-  User,
-  MapPin,
-  Calendar,
-  DollarSign,
-  Image as ImageIcon,
-  Info,
-  Save,
-  Send,
-} from "lucide-react";
+import { Save, Send } from "lucide-react";
 import InputField from "@/ui/InputField";
 import TextareaField from "@/ui/TextareaField";
 import SelectField from "@/ui/SelectField";
-import Loader from "@/modals/Loader";
 import { useTripPlanner } from "@/lib/hooks/dasboard/useTripPlanner";
-import {SuccessModal} from "@/modals/SuccessModal";
+import { SuccessModal } from "@/modals/SuccessModal";
 import TransparentModal from "@/modals/TransparentModal";
 
 interface TripPlannerFormProps {
@@ -25,109 +12,162 @@ interface TripPlannerFormProps {
 }
 
 const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
-  const {
-    form,
-    onSubmit,
-    isSubmitting,
-    isSuccess,
-    successMessage,
-    setIsSuccess,
-    apiError,
-    isEditMode,
-    availableVehicles,
-    availableDrivers,
-  } = hook;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = form;
+  const { form, onSubmit, isSubmitting, isSuccess, successMessage, setIsSuccess, apiError, isEditMode, availableVehicles, availableDrivers, availableTravelClasses } = hook;
+  const { register, handleSubmit, formState: { errors } } = form;
+
+  const vehicleOptions= availableVehicles.map(v => ({ label: `${v.nom} (${v.plaqueMatricule}) - ${v.nbrPlaces} places`, value: v.idVehicule || '' }));
+  const driverOptions = availableDrivers.map(d => ({ label: `${d.first_name} ${d.last_name}`, value: d.userId || '' }));
+  const travelClassOptions = availableTravelClasses.map(c => ({ label: `${c.nom} (${c.prix} FCFA)`, value: c.idClassVoyage || '' }));
+  const amenitiesList = ["WIFI", "AC", "USB", "SNACKS", "BEVERAGES", "POWER_OUTLETS", "ENTERTAINMENT"];
 
   return (
-    <>
-      <TransparentModal isOpen={isSuccess}>
-        <SuccessModal
-            canOpenSuccessModal={() => setIsSuccess(false)}
-            message={successMessage}
-        />
-      </TransparentModal>
+      <>
+        <TransparentModal isOpen={isSuccess}>
+          <SuccessModal canOpenSuccessModal={() => setIsSuccess(false)} message={successMessage} />
+        </TransparentModal>
 
-      <form
-        onSubmit={handleSubmit((data) => {
-          /* No-op, handled by buttons */
-        })}
-        className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
-      >
-        <h3 className="text-xl font-semibold text-gray-900 mb-6 border-b pb-4">
-          {isEditMode ? "Modifier le Voyage" : "Détails du Nouveau Voyage"}
-        </h3>
+        <form onSubmit={handleSubmit(() => {})} className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <h3 className="text-xl font-semibold text-gray-900 mb-6 border-b pb-4">
+            {isEditMode ? "Modifier le Voyage" : "Planifier un Nouveau Voyage"}
+          </h3>
+          {apiError && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">{apiError}</div>}
 
-        {apiError && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
-            {apiError}
-          </div>
-        )}
-
-        {/* ... (tous les champs InputField, SelectField, TextareaField comme avant) ... */}
-        {/* Je copie un seul groupe pour l'exemple, mais vous devez tous les inclure ici */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="md:col-span-2">
+          <div className="space-y-4">
             <InputField
-              id="titre"
-              label="Titre du voyage"
-              placeholder="Ex: Aventure dans les Alpes"
-              register={register("titre")}
-              error={errors.titre?.message}
-              icon={<Info />}
+                id="titre"
+                label="Titre du voyage"
+                register={register("titre")}
+                error={errors.titre?.message}
             />
-          </div>
-          {/* ... TOUS VOS AUTRES CHAMPS ... */}
-          <InputField
-            id="lieuDepart"
-            label="Ville de Départ"
-            register={register("lieuDepart")}
-            error={errors.lieuDepart?.message}
-            icon={<MapPin />}
-          />
-          <InputField
-            id="lieuArrive"
-            label="Ville d'Arrivée"
-            register={register("lieuArrive")}
-            error={errors.lieuArrive?.message}
-            icon={<MapPin />}
-          />
-        </div>
+            <TextareaField
+                id="description"
+                label="Description"
+                register={register("description")}
+                error={errors.description?.message}
+            />
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={handleSubmit((data) => onSubmit(data, "EN_ATTENTE"))}
-            disabled={isSubmitting}
-            className="rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2 disabled:opacity-50"
-          >
-            <Save className="h-4 w-4" />
-            {isSubmitting
-              ? "Sauvegarde..."
-              : isEditMode
-              ? "Enregistrer les modifications"
-              : "Enregistrer en brouillon"}
-          </button>
-          <button
-            type="button"
-            onClick={handleSubmit((data) => onSubmit(data, "PUBLIE"))}
-            disabled={isSubmitting}
-            className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primary/90 disabled:bg-primary/50 flex items-center justify-center gap-2"
-          >
-            <Send className="h-4 w-4" />
-            {isSubmitting
-              ? "Publication..."
-              : isEditMode
-              ? "Mettre à jour et Publier"
-              : "Publier le voyage"}
-          </button>
-        </div>
-      </form>
-    </>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
+              <InputField
+                  id="lieuDepart"
+                  label="Ville de Départ"
+                  register={register("lieuDepart")}
+                  error={errors.lieuDepart?.message}
+              />
+              <InputField
+                  id="pointDeDepart"
+                  label="Point de Départ précis"
+                  register={register("pointDeDepart")}
+                  error={errors.pointDeDepart?.message}
+              />
+              <InputField
+                  id="lieuArrive"
+                  label="Ville d'Arrivée"
+                  register={register("lieuArrive")}
+                  error={errors.lieuArrive?.message}
+              />
+              <InputField
+                  id="pointArrivee"
+                  label="Point d'Arrivée précis"
+                  register={register("pointArrivee")}
+                  error={errors.pointArrivee?.message}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
+              <InputField
+                  id="dateDepartPrev"
+                  type="date"
+                  label="Date de départ"
+                  register={register("dateDepartPrev")}
+                  error={errors.dateDepartPrev?.message}
+              />
+              <InputField
+                  id="heureArrive"
+                  type="time"
+                  label="Heure d'arrivée prévue"
+                  register={register("heureArrive")}
+                  error={errors.heureArrive?.message}
+              />
+              <InputField
+                  id="dateLimiteReservation"
+                  type="date"
+                  label="Date Limite Réservation"
+                  register={register("dateLimiteReservation")}
+                  error={errors.dateLimiteReservation?.message}
+              />
+              <InputField
+                  id="dateLimiteConfirmation"
+                  type="date"
+                  label="Date Limite Confirmation"
+                  register={register("dateLimiteConfirmation")}
+                  error={errors.dateLimiteConfirmation?.message}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
+              {/* <InputField
+                  id="prix"
+                  type="number"
+                  label="Prix par place (FCFA)"
+                  register={register("prix")}
+                  error={errors.prix?.message}
+              />*/}
+              <InputField
+                  id="nbrPlaceReservable"
+                  type="number"
+                  label="Nombre de places reservables"
+                  register={register("nbrPlaceReservable")}
+                  error={errors.nbrPlaceReservable?.message}
+              />
+            </div>
+
+            <div className="space-y-4 pt-4 border-t">
+              <SelectField
+                  id="classVoyageId"
+                  label="Classe de Voyage"
+                  options={travelClassOptions}
+                  register={register("classVoyageId")}
+                  error={errors.classVoyageId?.message}
+              />
+              <SelectField
+                  id="vehiculeId"
+                  label="Véhicule"
+                  options={vehicleOptions}
+                  register={register("vehiculeId")}
+                  error={errors.vehiculeId?.message}
+              />
+              <SelectField
+                  id="chauffeurId"
+                  label="Chauffeur"
+                  options={driverOptions}
+                  register={register("chauffeurId")}
+                  error={errors.chauffeurId?.message}
+              />
+            </div>
+
+            <div className="pt-4 border-t">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Services et Équipements</label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4 border rounded-lg">
+                {amenitiesList.map(amenity => (
+                    <label key={amenity} className="flex items-center gap-2 text-sm">
+                      <input type="checkbox" value={amenity} {...register("amenities")} className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"/>
+                      {amenity}
+                    </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <button type="button" onClick={handleSubmit((data) => onSubmit(data, "EN_ATTENTE"))} disabled={isSubmitting} className=" cursor-pointer flex items-center justify-center gap-2 rounded-md border bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50 disabled:opacity-50">
+              <Save className="h-4 w-4" /> {isEditMode ? 'Mettre à jour le brouillon' : 'Enregistrer en brouillon'}
+            </button>
+            <button type="button" onClick={handleSubmit((data) => onSubmit(data, "PUBLIE"))} disabled={isSubmitting} className="cursor-pointer flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:bg-primary/50">
+              <Send className="h-4 w-4" /> {isEditMode ? 'Mettre à jour et Publier' : 'Publier le voyage'}
+            </button>
+          </div>
+        </form>
+      </>
   );
 };
 

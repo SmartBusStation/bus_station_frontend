@@ -1,49 +1,40 @@
+// src/lib/hooks/dasboard/useVehiclesTab.ts
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  VehicleFormType,
-  vehicleFormSchema,
-} from "@/lib/types/schema/vehicleSchema";
-import {
-  getVehiclesByAgency,
-  createVehicleForAgency,
-} from "@/lib/services/vehicule-service";
+import { VehicleFormType, vehicleFormSchema } from "@/lib/types/schema/vehicleSchema";
+import { getVehiclesByAgency, createVehicleForAgency, updateVehicle, deleteVehicle } from "@/lib/services/vehicule-service";
 import { getAgencyByChefId } from "@/lib/services/agency-service";
 import { useBusStation } from "@/context/Provider";
-import { Vehicle } from "@/lib/types/models/vehicle";
+import { Vehicule, VehiculeDTO } from "@/lib/types/generated-api";
 
 export function useVehiclesTab() {
-  console.log("[useVehiclesTab] Initialisation du hook.");
   const { userData, isLoading: isUserLoading } = useBusStation();
 
-  // États des données
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  // États de données
+  const [vehicles, setVehicles] = useState<Vehicule[]>([]);
   const [agencyId, setAgencyId] = useState<string | null>(null);
 
-  // États de l'UI
+  // États UI
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+
+  // NOUVEAU : État pour gérer le mode (création ou édition)
+  const [editingVehicle, setEditingVehicle] = useState<Vehicule | null>(null);
 
   const form = useForm<VehicleFormType>({
     resolver: zodResolver(vehicleFormSchema),
   });
 
   const fetchVehicles = useCallback(async (id: string) => {
-    console.log(
-      `[useVehiclesTab] Récupération des véhicules pour l'agence ID: ${id}`
-    );
     setIsLoading(true);
+    setApiError(null);
     try {
       const response = await getVehiclesByAgency(id);
       setVehicles(response || []);
     } catch (error) {
-      console.error(
-        "[useVehiclesTab] Erreur lors de la récupération des véhicules:",
-        error
-      );
       setApiError("Impossible de charger la liste des véhicules.");
     } finally {
       setIsLoading(false);
@@ -51,82 +42,91 @@ export function useVehiclesTab() {
   }, []);
 
   useEffect(() => {
+    // ... (la logique d'initialisation reste la même) ...
     const initialize = async () => {
-      if (isUserLoading) return;
-      if (userData && userData.userId) {
-        console.log(
-          `[useVehiclesTab] Utilisateur trouvé (ID: ${userData.userId}). Recherche de l'agence...`
-        );
-        try {
-          const agency = await getAgencyByChefId(userData.userId);
-          if (agency && agency.agencyId) {
-            setAgencyId(agency.agencyId);
-            await fetchVehicles(agency.agencyId);
-          } else {
-            setApiError("Aucune agence n'est associée à votre compte.");
-            setIsLoading(false);
-          }
-        } catch (error) {
-          setApiError(
-            "Erreur lors de la récupération des informations de votre agence."
-          );
+      if (isUserLoading || !userData?.userId) return;
+      try {
+        const agency = await getAgencyByChefId(userData.userId);
+        if (agency?.agencyId) {
+          setAgencyId(agency.agencyId);
+          await fetchVehicles(agency.agencyId);
+        } else {
+          setApiError("Aucune agence n'est associée à votre compte.");
           setIsLoading(false);
         }
-      } else {
-        setApiError("Session utilisateur non trouvée.");
+      } catch (error) {
+        setApiError("Erreur de récupération de votre agence.");
         setIsLoading(false);
       }
     };
     initialize();
   }, [userData, isUserLoading, fetchVehicles]);
 
-  const openModal = () => {
-    console.log(
-      "[useVehiclesTab] Ouverture de la modale de création de véhicule."
-    );
+  const openModalForCreate = () => {
+    setEditingVehicle(null);
     form.reset();
     setApiError(null);
     setIsModalOpen(true);
   };
 
-  const closeModal = () => setIsModalOpen(false);
+  const openModalForEdit = (vehicle: Vehicule) => {
+    setEditingVehicle(vehicle);
+    form.reset({
+      nom: vehicle.nom,
+      modele: vehicle.modele,
+      plaqueMatricule: vehicle.plaqueMatricule,
+      nbrPlaces: vehicle.nbrPlaces,
+      description: vehicle.description || '',
+      lienPhoto: vehicle.lienPhoto || ''
+    });
+    setApiError(null);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingVehicle(null);
+  };
 
   const onSubmit = async (data: VehicleFormType) => {
     if (!agencyId) {
-      const errorMessage =
-        "L'ID de l'agence est introuvable. Impossible de créer un véhicule.";
-      console.error(`[useVehiclesTab] ${errorMessage}`);
-      setApiError(errorMessage);
+      setApiError("ID de l'agence introuvable.");
+      return;
+    }
+    setIsSubmitting(true);
+    setApiError(null);
+    const payload: VehiculeDTO = { ...data, idAgenceVoyage: agencyId };
+
+    try {
+      if (editingVehicle && editingVehicle.idVehicule) {
+        // Mode UPDATE
+        await updateVehicle(editingVehicle.idVehicule, payload);
+      } else {
+        // Mode CREATE
+        await createVehicleForAgency(payload);
+      }
+      await fetchVehicles(agencyId);
+      closeModal();
+    } catch (error: any) {
+      setApiError(error.response?.data?.message || "Une erreur est survenue.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (vehicleId: string) => {
+    // Demander une confirmation à l'utilisateur
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce véhicule ? Cette action est irréversible.")) {
       return;
     }
 
-    setIsSubmitting(true);
     setApiError(null);
-
-    const payload = {
-      ...data,
-      idAgenceVoyage: agencyId,
-      description: data.description ?? "",
-      lienPhoto: data.lienPhoto ?? "",
-    };
-
-    console.log(
-      "[useVehiclesTab] Soumission du formulaire avec le payload:",
-      payload
-    );
-
     try {
-      await createVehicleForAgency(payload);
-      await fetchVehicles(agencyId); // Recharger la liste après la création
-      closeModal();
+      await deleteVehicle(vehicleId);
+      // Mettre à jour l'état local pour une réactivité immédiate
+      setVehicles(prev => prev.filter(v => v.idVehicule !== vehicleId));
     } catch (error: any) {
-      const message =
-        error.response?.data?.message ||
-        "Une erreur est survenue lors de la création du véhicule.";
-      console.error("[useVehiclesTab] Erreur de soumission:", error);
-      setApiError(message);
-    } finally {
-      setIsSubmitting(false);
+      setApiError(error.response?.data?.message || "Erreur lors de la suppression.");
     }
   };
 
@@ -137,8 +137,11 @@ export function useVehiclesTab() {
     isModalOpen,
     apiError,
     form,
-    openModal,
+    editingVehicle, // Exporter pour la modale
+    openModalForCreate,
+    openModalForEdit,
     closeModal,
     onSubmit,
+    handleDelete
   };
 }

@@ -18,10 +18,10 @@ export const driverFormSchema = z.object({
 
   // Champs spécifiques au rôle de Chauffeur
   // Note: ces champs ne sont pas dans ChauffeurRequestDTO mais sont logiques à avoir
-  numeroPermis: z.string().min(5, "Le numéro de permis est requis."),
-  dateExpirationPermis: z.string().refine((val) => !isNaN(Date.parse(val)), {
+  //numeroPermis: z.string().min(5, "Le numéro de permis est requis."),
+ /* dateExpirationPermis: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Veuillez entrer une date d'expiration valide.",
-  }),
+  }),*/
 });
 
 export type DriverFormType = z.infer<typeof driverFormSchema>;

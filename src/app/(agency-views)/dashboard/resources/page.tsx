@@ -4,12 +4,13 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
-import { Car, UserCheck, Users } from "lucide-react";
+import {Car, Tag, UserCheck, Users} from "lucide-react";
 import PageHeader from "@/components/dashboard/PageHeader";
 import VehiclesTab from "@/components/dashboard/resources/VehiclesTab";
 import DriversTab from "@/components/dashboard/resources/DriversTab";
 import EmployeesTab from "@/components/dashboard/resources/EmployeesTab";
 import { ResourceTab } from "@/lib/types/dashboard";
+import ClassVoyageTab from "@/components/dashboard/resources/ClassVoyageTab";
 
 const ResourcesPage = () => {
   const { t } = useTranslation();
@@ -39,6 +40,10 @@ const ResourcesPage = () => {
       label: t("dashboard.resources.tabs.employees"),
       icon: Users,
     },
+    {
+      id: "classes",
+      label: "Classes de Voyage",
+      icon: Tag },
   ];
 
   return (
@@ -71,6 +76,7 @@ const ResourcesPage = () => {
         {activeTab === "vehicles" && <VehiclesTab />}
         {activeTab === "drivers" && <DriversTab />}
         {activeTab === "employees" && <EmployeesTab />}
+        {activeTab === "classes" && <ClassVoyageTab />}
       </div>
     </>
   );

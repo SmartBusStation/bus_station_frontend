@@ -8,7 +8,7 @@ interface SidebarHeaderProps {
 
 export default function SidebarHeader({ onClose }: SidebarHeaderProps) {
     return (
-        <div className="flex-1 relative p-6 bg-primary overflow-hidden">
+        <div onClick={()=> window.location.href="/"} className="cursor-pointer flex-1 relative p-6 bg-primary overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
                 <div

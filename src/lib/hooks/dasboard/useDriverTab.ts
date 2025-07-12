@@ -1,140 +1,144 @@
+// src/lib/hooks/dasboard/useDriverTab.ts
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  DriverFormType,
-  driverFormSchema,
-} from "@/lib/types/schema/driverSchema";
-import {
-  getDriversByAgency,
-  createDriverForAgency,
-} from "@/lib/services/chauffeur-service";
+import { DriverFormType, driverFormSchema } from "@/lib/types/schema/driverSchema";
+import { getDriversByAgency, createDriverForAgency, updateDriver, deleteDriver } from "@/lib/services/chauffeur-service";
 import { getAgencyByChefId } from "@/lib/services/agency-service";
 import { useBusStation } from "@/context/Provider";
-import { UserResponseCreatedDTO } from "@/lib/types/models/BusinessActor";
-import { ChauffeurRequestDTO } from "@/lib/types/models/BusinessActor";
+import { UserResponseCreatedDTO, ChauffeurRequestDTO } from "@/lib/types/generated-api";
+import {Customer} from "@/lib/types/models/BusinessActor";
 
 export function useDriversTab() {
-  console.log("[useDriversTab] Initialisation du hook.");
-  const { userData } = useBusStation();
+  const { userData, isLoading: isUserLoading } = useBusStation();
 
-  // États des données
-  const [drivers, setDrivers] = useState<UserResponseCreatedDTO[]>([]);
+  // États de données
+  const [drivers, setDrivers] = useState<Customer[]>([]);
   const [agencyId, setAgencyId] = useState<string | null>(null);
 
-  // États de l'UI
+  // États UI
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+
+  // NOUVEAU : État pour gérer le mode (création ou édition)
+  const [editingDriver, setEditingDriver] = useState<UserResponseCreatedDTO | null>(null);
 
   const form = useForm<DriverFormType>({
     resolver: zodResolver(driverFormSchema),
   });
 
   const fetchDrivers = useCallback(async (id: string) => {
-    console.log(
-      `[useDriversTab] Récupération des chauffeurs pour l'agence ID: ${id}`
-    );
     setIsLoading(true);
+    setApiError(null);
     try {
       const data = await getDriversByAgency(id);
-      setDrivers(data || []);
+      console.log(data);
+      if (data) setDrivers(data || []);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.error(
-        "[useDriversTab] Erreur lors de la récupération des chauffeurs:",
-        error
-      );
       setApiError("Impossible de charger la liste des chauffeurs.");
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  // Effet pour trouver l'agence et charger les chauffeurs
   useEffect(() => {
+    // ... (la logique d'initialisation reste la même) ...
     const initialize = async () => {
-      if (userData && userData.userId) {
-        console.log(
-          "[useDriversTab] Utilisateur détecté, recherche de l'agence..."
-        );
-        try {
-          const agency = await getAgencyByChefId(userData.userId);
-          if (agency && agency.agencyId) {
-            setAgencyId(agency.agencyId);
-            await fetchDrivers(agency.agencyId);
-          } else {
-            setApiError("Aucune agence n'est associée à votre compte.");
-            setIsLoading(false);
-          }
-        } catch (error) {
-          setApiError(
-            "Erreur lors de la récupération des informations de votre agence."
-          );
+      if (isUserLoading || !userData?.userId) return;
+      try {
+        const agency = await getAgencyByChefId(userData.userId);
+        if (agency?.agencyId) {
+          setAgencyId(agency.agencyId);
+          await fetchDrivers(agency.agencyId);
+        } else {
+          setApiError("Aucune agence n'est associée à votre compte.");
           setIsLoading(false);
         }
-      } else {
-        // Gérer le cas où userData n'est pas encore disponible
-        setIsLoading(true);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        setApiError("Erreur de récupération de votre agence.");
+        setIsLoading(false);
       }
     };
-
     initialize();
-  }, [userData, fetchDrivers]);
+  }, [userData, isUserLoading, fetchDrivers]);
 
-  const openModal = () => {
-    console.log(
-      "[useDriversTab] Ouverture de la modale de création de chauffeur."
-    );
-    form.reset();
+  const openModalForCreate = () => {
+    setEditingDriver(null);
+    form.reset({ password: '', });
     setApiError(null);
     setIsModalOpen(true);
   };
 
-  const closeModal = () => setIsModalOpen(false);
+  const openModalForEdit = (driver: UserResponseCreatedDTO) => {
+    setEditingDriver(driver);
+    form.reset({
+      first_name: driver.first_name,
+      last_name: driver.last_name,
+      username: driver.username,
+      email: driver.email,
+      phone_number: driver.phone_number,
+      gender: driver.gender,
+      password: '', // On ne pré-remplit pas le mot de passe pour la sécurité
+    });
+    setApiError(null);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingDriver(null);
+  };
 
   const onSubmit = async (data: DriverFormType) => {
     if (!agencyId) {
-      const errorMessage =
-        "L'identifiant de l'agence est introuvable. Impossible de créer un chauffeur.";
-      console.error(`[useDriversTab] ${errorMessage}`);
-      setApiError(errorMessage);
+      setApiError("ID de l'agence introuvable.");
       return;
     }
-
     setIsSubmitting(true);
     setApiError(null);
 
+
     const payload: ChauffeurRequestDTO = {
-      first_name: data.first_name,
-      last_name: data.last_name,
-      username: data.username,
-      email: data.email,
-      phone_number: data.phone_number,
-      password: data.password,
-      gender: data.gender,
+      ...data,
       role: ["USAGER"],
       agenceVoyageId: agencyId,
-      userExist: false,
+      userExist: !!editingDriver // true en mode édition, false en création
     };
 
-    console.log(
-      "[useDriversTab] Soumission du formulaire avec le payload:",
-      payload
-    );
 
     try {
-      await createDriverForAgency(payload);
-      await fetchDrivers(agencyId); // Recharger la liste après la création
+      if (editingDriver && editingDriver.id) {
+        await updateDriver(editingDriver.id, payload);
+      } else {
+        await createDriverForAgency(payload);
+      }
+      await fetchDrivers(agencyId);
       closeModal();
     } catch (error: any) {
-      const message =
-        error.response?.data?.message ||
-        "Une erreur est survenue lors de la création du chauffeur.";
-      console.error("[useDriversTab] Erreur de soumission:", error);
-      setApiError(message);
+      setApiError(error.response?.data?.message || "Une erreur est survenue.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (driverId: string) => {
+
+
+
+    console.log("[SERVICE_REQUEST] Suppression du chauffeur ID:", driverId);
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce chauffeur ?")) {
+      return;
+    }
+    setApiError(null);
+    try {
+      await deleteDriver(driverId);
+      setDrivers(prev => prev.filter(d => d.userId !== driverId));
+    } catch (error: any) {
+      setApiError(error.response?.data?.message || "Erreur lors de la suppression.");
     }
   };
 
@@ -145,8 +149,11 @@ export function useDriversTab() {
     isModalOpen,
     apiError,
     form,
-    openModal,
+    editingDriver,
+    openModalForCreate,
+    openModalForEdit,
     closeModal,
     onSubmit,
+    handleDelete
   };
 }

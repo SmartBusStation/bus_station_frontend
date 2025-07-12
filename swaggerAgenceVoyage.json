@@ -1,0 +1,6511 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BusStation API",
+    "description": "API de Bus Station",
+    "contact": {
+      "name": "Tchassi Daniel",
+      "email": "tchassidaniel@gmail.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://agence-voyage.ddns.net/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Notifications",
+      "description": "API de test pour le système de notifications"
+    }
+  ],
+  "paths": {
+    "/voyage/{id}": {
+      "put": {
+        "tags": [
+          "voyage-controller"
+        ],
+        "summary": "Mettre à jour un voyage",
+        "description": "Modifie un voyage existant.",
+        "operationId": "updateVoyage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Voyage"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Voyage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Voyage mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Voyage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Voyage non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Voyage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "voyage-controller"
+        ],
+        "summary": "Supprimer un voyage",
+        "description": "Supprime un voyage en fonction de son identifiant.",
+        "operationId": "deleteVoyage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Voyage supprimé avec succès"
+          },
+          "404": {
+            "description": "Voyage non trouvé"
+          }
+        }
+      }
+    },
+    "/vehicule/{id}": {
+      "get": {
+        "tags": [
+          "vehicule-controller"
+        ],
+        "summary": "Obtenir un vehicule par ID",
+        "description": "Récupère un vehicule en fonction de son identifiant.",
+        "operationId": "getVehiculeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Vehicule trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehicule non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "vehicule-controller"
+        ],
+        "summary": "Mettre à jour un vehicule",
+        "description": "Modifie un vehicule existant.",
+        "operationId": "updateVehicule",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehiculeDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Vehicule mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "vehicule non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "vehicule-controller"
+        ],
+        "summary": "Supprimer un vehicule",
+        "description": "Supprime un vehicule en fonction de son identifiant.",
+        "operationId": "deleteVehicule",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Vehicule supprimé avec succès"
+          },
+          "404": {
+            "description": "Vehicule non trouvé"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/employe/{employeId}": {
+      "put": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Update employe agence voyage",
+        "operationId": "updateEmployeAgenceVoyage",
+        "parameters": [
+          {
+            "name": "employeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing data",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Employe updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseCreatedDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employe not found",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Delete employe agence voyage",
+        "operationId": "deleteEmployeAgenceVoyage",
+        "parameters": [
+          {
+            "name": "employeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employe not found",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User is not an employe",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Employe deleted successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/chauffeur/{chauffeurId}": {
+      "put": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Update chauffeur agence voyage",
+        "operationId": "updateChauffeurAgenceVoyage",
+        "parameters": [
+          {
+            "name": "chauffeurId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChauffeurRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing data",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Chauffeur updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseCreatedDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Chauffeur not found",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Delete chauffeur agence voyage",
+        "operationId": "deleteChauffeurAgenceVoyage",
+        "parameters": [
+          {
+            "name": "chauffeurId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Chauffeur deleted successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Chauffeur not found",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/solde-indemnisation/{id}": {
+      "get": {
+        "tags": [
+          "solde-indeminsation-controller"
+        ],
+        "summary": "Obtenir un solde indemnisation par son ID",
+        "description": "Récupère un solde indemnisation en fonction de son identifiant.",
+        "operationId": "getVoyageById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "solde indemnisation non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "solde indemnisation trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "solde-indeminsation-controller"
+        ],
+        "summary": "Mettre à jour un solde indemnisation",
+        "description": "Modifie un solde indemnisation existant.",
+        "operationId": "updateVoyage_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SoldeIndemnisation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "solde indemnisation non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "solde indemnisation mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "solde-indeminsation-controller"
+        ],
+        "summary": "Supprimer un solde indemnisation",
+        "description": "Supprime un solde indemnisation en fonction de son identifiant.",
+        "operationId": "deleteVoyage_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "solde indemnisation non trouvé"
+          },
+          "204": {
+            "description": "solde indemnisation supprimé avec succès"
+          }
+        }
+      }
+    },
+    "/reservation/{id}": {
+      "get": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Obtenir une réservation et la liste de ses passagers par ID",
+        "description": "Récupère une réservation spécifique par ID Ainsi que la liste de tout ses passagers.",
+        "operationId": "getReservationById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Réservation non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDetailDTO"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Réservation trouvée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDetailDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Mettre à jour une réservation",
+        "description": "Modifie une réservation existante.",
+        "operationId": "updateReservation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reservation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Réservation mise à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Réservation non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Supprimer une réservation",
+        "description": "Supprime une réservation par son ID.",
+        "operationId": "deleteReservation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Réservation supprimée avec succès"
+          },
+          "404": {
+            "description": "Réservation non trouvée"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservation/payer": {
+      "put": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Payer une réservation",
+        "description": "Permet à un utilisateur de payer une réservation. En cas de succès, la réservation est considérée comme payée.",
+        "operationId": "payerReservation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Réservation inexistante ou non trouvée.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Réservation payée avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur, données de paiement invalides ou problème avec le paiement.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/politique-annulation/{id}": {
+      "get": {
+        "tags": [
+          "politique-annulation-controller"
+        ],
+        "summary": "Obtenir une politique d'annulation par ID",
+        "description": "Récupère une politique d'annulation spécifique par ID.",
+        "operationId": "getPolicyById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Politique trouvée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Politique non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "politique-annulation-controller"
+        ],
+        "summary": "Mettre à jour une politique d'annulation",
+        "description": "Modifie une politique d'annulation existante.",
+        "operationId": "updatePolicy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PolitiqueAnnulation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Politique mise à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Politique non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "politique-annulation-controller"
+        ],
+        "summary": "Supprimer une politique d'annulation",
+        "description": "Supprime une politique d'annulation par son ID.",
+        "operationId": "deletePolicy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Politique non trouvée"
+          },
+          "204": {
+            "description": "Politique supprimée avec succès"
+          }
+        }
+      }
+    },
+    "/historique/{id}": {
+      "get": {
+        "tags": [
+          "historique-controller"
+        ],
+        "summary": "Obtenir un historique par ID",
+        "description": "Récupère un historique spécifique par ID.",
+        "operationId": "getHistoriqueById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Historique trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Historique non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "historique-controller"
+        ],
+        "summary": "Mettre à jour un historique",
+        "description": "Modifie un historique existant.",
+        "operationId": "updateHistorique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Historique"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Historique mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Historique non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "historique-controller"
+        ],
+        "summary": "Supprimer un historique",
+        "description": "Supprime un historique par son ID.",
+        "operationId": "deleteHistorique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Historique supprimé avec succès"
+          },
+          "404": {
+            "description": "Historique non trouvé"
+          }
+        }
+      }
+    },
+    "/coupon/{id}": {
+      "get": {
+        "tags": [
+          "coupon-controller"
+        ],
+        "summary": "Obtenir un coupon par ID",
+        "description": "Récupère un coupon spécifique par son ID.",
+        "operationId": "getCouponById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Coupon non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Coupon trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "coupon-controller"
+        ],
+        "summary": "Mettre à jour un coupon",
+        "description": "Modifie un coupon existant.",
+        "operationId": "updateCoupon",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Coupon mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Coupon non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "coupon-controller"
+        ],
+        "summary": "Supprimer un coupon",
+        "description": "Supprime un coupon par son ID.",
+        "operationId": "deleteCoupon",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Coupon supprimé avec succès"
+          },
+          "404": {
+            "description": "Coupon non trouvé"
+          }
+        }
+      }
+    },
+    "/class-voyage/{id}": {
+      "get": {
+        "tags": [
+          "class-voyage-controller"
+        ],
+        "summary": "Obtenir une classe de voyage par ID",
+        "description": "Récupère une classe de voyage en fonction de son identifiant.",
+        "operationId": "getClassVoyageById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Classe de voyage trouvée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Classe de voyage non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "class-voyage-controller"
+        ],
+        "summary": "Mettre à jour une classe de voyage",
+        "description": "Modifie une classe de voyage existante.",
+        "operationId": "updateClassVoyage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassVoyageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Classe de voyage mise à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Classe de voyage non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "class-voyage-controller"
+        ],
+        "summary": "Supprimer une classe de voyage",
+        "description": "Supprime une classe de voyage en fonction de son identifiant.",
+        "operationId": "deleteClassVoyage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Classe de voyage non trouvée"
+          },
+          "204": {
+            "description": "Classe de voyage supprimée avec succès"
+          }
+        }
+      }
+    },
+    "/baggages/{id}": {
+      "get": {
+        "tags": [
+          "baggage-controller"
+        ],
+        "summary": "Obtenir un bagage par ID",
+        "description": "Récupère un bagage spécifique par son ID.",
+        "operationId": "getBaggageById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bagage non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Bagage trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "baggage-controller"
+        ],
+        "summary": "Mettre à jour un bagage",
+        "description": "Modifie un bagage existant.",
+        "operationId": "updateBaggage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Baggage"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Bagage mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bagage non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "baggage-controller"
+        ],
+        "summary": "Supprimer un bagage",
+        "description": "Supprime un bagage par son ID.",
+        "operationId": "deleteBaggage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Bagage supprimé avec succès"
+          },
+          "404": {
+            "description": "Bagage non trouvé"
+          }
+        }
+      }
+    },
+    "/voyage/create": {
+      "post": {
+        "tags": [
+          "voyage-controller"
+        ],
+        "summary": "Créer un voyage",
+        "description": "Ajoute un nouveau voyage à la base de données.",
+        "operationId": "createVoyage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoyageCreateRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoyageDetailsDTO"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Voyage créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Voyage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicule": {
+      "get": {
+        "tags": [
+          "vehicule-controller"
+        ],
+        "summary": "Obtenir tous les vehicules",
+        "description": "Récupère la liste de tous les vehicules enregistrés.",
+        "operationId": "getAllVehicules",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vehicule"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "vehicule-controller"
+        ],
+        "summary": "Créer un vehicule",
+        "description": "Ajoute un nouveau vehicule à la base de données.",
+        "operationId": "createVehicule",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehiculeDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Vehicule créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicule"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/inscription": {
+      "post": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Sign up a user",
+        "operationId": "inscription",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseCreatedDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/utilisateur/employe": {
+      "post": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Create employe agence voyage",
+        "operationId": "createEmployeAgenceVoyage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Employe created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseCreatedDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/connexion": {
+      "post": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Get a token for an user",
+        "operationId": "getToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthentificationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/utilisateur/chauffeur": {
+      "post": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Create chauffeur agence voyage",
+        "operationId": "createChauffeurAgenceVoyage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChauffeurRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Chauffeur created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseCreatedDTO"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseCreatedDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/solde-indemnisation": {
+      "get": {
+        "tags": [
+          "solde-indeminsation-controller"
+        ],
+        "summary": "Obtenir tous les sodes d'indemnisation",
+        "description": "Récupère la liste de tous les sodes d'indemnisation enregistrés.",
+        "operationId": "getAllVoyages",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VoyagePreviewDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "solde-indeminsation-controller"
+        ],
+        "summary": "Créer un solde indemnisation",
+        "description": "Ajoute un nouveau solde indemnisation à la base de données.",
+        "operationId": "createVoyage_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SoldeIndemnisation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "solde indemnisation créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoldeIndemnisation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservation/voyage/annuler": {
+      "post": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Annuler un voyage par une agence uniquement",
+        "description": "Permet d'annuler un voyage.",
+        "operationId": "annulerVoyage",
+        "parameters": [
+          {
+            "name": "voyageCancelDTO",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/VoyageCancelDTO"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Voyage annulé avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Voyage inexistant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur, Voyage non existant ou données invalides.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservation/reserver": {
+      "post": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Créer une réservation",
+        "description": "Ajoute une nouvelle réservation.",
+        "operationId": "createReservation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "le voyage dont l'id est donnée n'existe pas",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Réservation créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservation/annuler": {
+      "post": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Annuler une réservation",
+        "description": "Permet d'annuler une réservation en par un utilisateur. Si l'annulation a lieu après confirmation, un coupon est généré.",
+        "operationId": "annulerReservation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservationCancelDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur, réservation non existante ou données invalides.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "reservation inexistante.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Réservation annulée avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/politique-annulation": {
+      "get": {
+        "tags": [
+          "politique-annulation-controller"
+        ],
+        "summary": "Obtenir toutes les politiques d'annulation",
+        "description": "Récupère la liste de toutes les politiques d'annulation.",
+        "operationId": "getAllPolicies",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PolitiqueAnnulation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "politique-annulation-controller"
+        ],
+        "summary": "Créer une politique d'annulation",
+        "description": "Ajoute une nouvelle politique d'annulation.",
+        "operationId": "createPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PolitiqueAnnulation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Politique créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolitiqueAnnulation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "post": {
+        "tags": [
+          "organization-controller"
+        ],
+        "operationId": "createOrganization",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganizationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notification/test": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Tester l'envoi d'une notification",
+        "description": "Envoie une notification de test à l'adresse email spécifiée. Endpoint de développement uniquement.",
+        "operationId": "testNotification",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Adresse email du destinataire",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "test@example.com"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Notification envoyée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "Notification de test envoyée à: test@example.com"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur lors de l'envoi de la notification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "Erreur: Message d'erreur détaillé"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notification/test-welcome/{userId}": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Tester une notification de bienvenue",
+        "description": "Envoie une notification de bienvenue à un utilisateur existant basée sur son ID",
+        "operationId": "testWelcomeNotification",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Identifiant unique de l'utilisateur",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Notification de bienvenue envoyée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "Notification de bienvenue envoyée à: user@example.com"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur lors de l'envoi ou utilisateur non trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "Erreur: Utilisateur non trouvé"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notification/test-type": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Tester une notification par type",
+        "description": "Envoie une notification selon le type spécifié avec des données de test appropriées",
+        "operationId": "testNotificationByType",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Type de notification à envoyer",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "VOYAGE_CREATED",
+                "VOYAGE_UPDATED",
+                "VOYAGE_CANCELLED",
+                "VOYAGE_PUBLISHED",
+                "RESERVATION_CREATED",
+                "RESERVATION_CONFIRMED",
+                "RESERVATION_CANCELLED",
+                "RESERVATION_EXPIRED",
+                "PAYMENT_RECEIVED",
+                "PAYMENT_FAILED",
+                "PAYMENT_PENDING",
+                "USER_REGISTERED",
+                "USER_PROFILE_UPDATED",
+                "PASSWORD_RESET",
+                "AGENCY_CREATED",
+                "AGENCY_UPDATED",
+                "DRIVER_ASSIGNED",
+                "DRIVER_UNASSIGNED",
+                "EMPLOYEE_ADDED",
+                "EMPLOYEE_UPDATED",
+                "EMPLOYEE_REMOVED",
+                "ORGANIZATION_CREATED",
+                "ORGANIZATION_UPDATED",
+                "SYSTEM_MAINTENANCE",
+                "SYSTEM_UPDATE"
+              ]
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Adresse email du destinataire",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "test@example.com"
+          },
+          {
+            "name": "recipientName",
+            "in": "query",
+            "description": "Nom du destinataire (optionnel)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Jean Dupont"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Notification envoyée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "Notification de type VOYAGE_CREATED envoyée à: test@example.com"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur lors de l'envoi de la notification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "Erreur: Message d'erreur détaillé"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/historique": {
+      "get": {
+        "tags": [
+          "historique-controller"
+        ],
+        "summary": "Obtenir tous les historique",
+        "description": "Récupère la liste de tous les historiques.",
+        "operationId": "getAllHistoriques",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Historique"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "historique-controller"
+        ],
+        "summary": "Créer un historique",
+        "description": "Ajoute un nouvel historique.",
+        "operationId": "createHistorique",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Historique"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Historique créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Historique"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/coupon": {
+      "get": {
+        "tags": [
+          "coupon-controller"
+        ],
+        "summary": "Obtenir tous les coupons",
+        "description": "Récupère la liste de tous les coupons.",
+        "operationId": "getAllCoupons",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Coupon"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "coupon-controller"
+        ],
+        "summary": "Créer un coupon",
+        "description": "Ajoute un nouveau coupon.",
+        "operationId": "createCoupon",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Coupon créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coupon"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/class-voyage": {
+      "get": {
+        "tags": [
+          "class-voyage-controller"
+        ],
+        "summary": "Obtenir toutes les classes de voyage",
+        "description": "Récupère la liste de toutes les classes de voyage enregistrées.",
+        "operationId": "getAllClassVoyages",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClassVoyage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "class-voyage-controller"
+        ],
+        "summary": "Créer une classe de voyage",
+        "description": "Ajoute une nouvelle classe de voyage à la base de données.",
+        "operationId": "createClassVoyage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassVoyageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Classe de voyage créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassVoyage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/baggages": {
+      "get": {
+        "tags": [
+          "baggage-controller"
+        ],
+        "summary": "Obtenir tous les bagages",
+        "description": "Récupère la liste de tous les bagages.",
+        "operationId": "getAllBaggages",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Baggage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "baggage-controller"
+        ],
+        "summary": "Créer un bagage",
+        "description": "Ajoute un nouveau bagage.",
+        "operationId": "createBaggage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Baggage"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Bagage créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Baggage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agence": {
+      "post": {
+        "tags": [
+          "agence-voyage-controller"
+        ],
+        "summary": "Create a new travel agency",
+        "operationId": "createAgence",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgenceVoyageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or duplicate agency names",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Travel agency created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/agence/{id}": {
+      "delete": {
+        "tags": [
+          "agence-voyage-controller"
+        ],
+        "summary": "Delete a travel agency",
+        "operationId": "deleteAgence",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Travel agency deleted successfully"
+          },
+          "404": {
+            "description": "Agency not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "agence-voyage-controller"
+        ],
+        "summary": "Update an existing travel agency",
+        "operationId": "updateAgence",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgenceVoyageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Travel agency updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or duplicate agency names",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agency not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/voyage/byId/{id}": {
+      "get": {
+        "tags": [
+          "voyage-controller"
+        ],
+        "summary": "Obtenir les détails d'un voyage par ID",
+        "description": "Récupère un voyage en fonction de son identifiant.",
+        "operationId": "getVoyageById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Voyage non trouvé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoyageDetailsDTO"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Voyage trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoyageDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/voyage/all": {
+      "get": {
+        "tags": [
+          "voyage-controller"
+        ],
+        "summary": "Obtenir tous les voyages",
+        "description": "Récupère la liste de tous les voyages (champs stricts pour le preview) enregistrés.",
+        "operationId": "getAllVoyages_1",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 12
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VoyagePreviewDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/voyage/agence/{agenceId}": {
+      "get": {
+        "tags": [
+          "voyage-controller"
+        ],
+        "summary": "Obtenir tous les voyages d'une agence",
+        "description": "Récupère la liste de tous les voyages d'une agence spécifique.",
+        "operationId": "getAllVoyagesByAgence",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 12
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VoyagePreviewDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicule/agence/{idAgence}": {
+      "get": {
+        "tags": [
+          "vehicule-controller"
+        ],
+        "summary": "Obtenir tous les vehicules d'une agence",
+        "description": "Récupère la liste de tous les vehicules de l'agence dont l'id est passé dans la route enregistrés.",
+        "operationId": "getAllVehiculesForAgence",
+        "parameters": [
+          {
+            "name": "idAgence",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vehicule"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/test": {
+      "get": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Test endpoint",
+        "operationId": "test",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/utilisateur/profil": {
+      "get": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Get a user information by token",
+        "operationId": "getMethodName",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO2"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/employes/{agenceId}": {
+      "get": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Get employes by agence ID",
+        "operationId": "getEmployesByAgenceId",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Employes found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/chauffeurs/{agenceId}": {
+      "get": {
+        "tags": [
+          "utilisateur-controller"
+        ],
+        "summary": "Get chauffeurs by agence ID",
+        "operationId": "getChauffeursByAgenceId",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Chauffeurs found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/utilisateur/billet/{idPassager}": {
+      "get": {
+        "tags": [
+          "Billet"
+        ],
+        "summary": "Obtenir les informations d'un billet",
+        "description": "Cette méthode permet de récupérer toutes les informations liées à un billet, y compris les informations sur le passager et le voyage.",
+        "operationId": "getBilletInformation",
+        "parameters": [
+          {
+            "name": "idPassager",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Le passager ou les informations associées n'ont pas été trouvés",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Billet trouvé et retourné avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BilletDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/statistics/agence/{agenceId}/general": {
+      "get": {
+        "tags": [
+          "statistic-controller"
+        ],
+        "summary": "Obtenir les statistiques générales d'une agence",
+        "description": "Récupère toutes les statistiques chiffrées d'une agence : nombre d'employés, voyages, réservations, revenus, etc.",
+        "operationId": "getAgenceStatistics",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Statistiques récupérées avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceStatisticsDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/statistics/agence/{agenceId}/evolution": {
+      "get": {
+        "tags": [
+          "statistic-controller"
+        ],
+        "summary": "Obtenir les évolutions dans le temps pour une agence",
+        "description": "Récupère les données d'évolution temporelle : réservations, voyages, revenus et utilisateurs sur les derniers mois.",
+        "operationId": "getAgenceEvolution",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Évolutions récupérées avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceEvolutionDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/statistics/agence/{agenceId}/complete": {
+      "get": {
+        "tags": [
+          "statistic-controller"
+        ],
+        "summary": "Obtenir toutes les statistiques d'une agence",
+        "description": "Récupère à la fois les statistiques générales et les évolutions temporelles en un seul appel.",
+        "operationId": "getCompleteAgenceStatistics",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Toutes les statistiques récupérées avec succès",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservation/utilisateur/{idUser}": {
+      "get": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Obtenir toutes les réservations d'un utilisateur",
+        "description": "Récupère la liste de toutes les réservations d'un utilisateur.",
+        "operationId": "getAllReservationsForUser",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "données invalides.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReservationPreviewDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservation/agence/{agenceId}": {
+      "get": {
+        "tags": [
+          "reservation-controller"
+        ],
+        "summary": "Obtenir toutes les réservations d'une agence",
+        "description": "Récupère la liste de toutes les réservations pour les voyages d'une agence spécifique.",
+        "operationId": "getAllReservationsByAgence",
+        "parameters": [
+          {
+            "name": "agenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReservationPreviewDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/organizations/agencies/{organisationId}": {
+      "get": {
+        "tags": [
+          "organization-controller"
+        ],
+        "summary": "Obtenir toutes les agences d'une organisations",
+        "description": "Récupère la liste de toutes les agences de l'organisation",
+        "operationId": "getAllCoupons_1",
+        "parameters": [
+          {
+            "name": "organisationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgenceVoyage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notification/types": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Lister les types de notifications",
+        "description": "Retourne la liste de tous les types de notifications disponibles dans le système",
+        "operationId": "getNotificationTypes",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste des types de notifications récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "Tableau des types de notifications disponibles",
+                  "enum": [
+                    "VOYAGE_CREATED",
+                    "VOYAGE_UPDATED",
+                    "VOYAGE_CANCELLED",
+                    "VOYAGE_PUBLISHED",
+                    "RESERVATION_CREATED",
+                    "RESERVATION_CONFIRMED",
+                    "RESERVATION_CANCELLED",
+                    "RESERVATION_EXPIRED",
+                    "PAYMENT_RECEIVED",
+                    "PAYMENT_FAILED",
+                    "PAYMENT_PENDING",
+                    "USER_REGISTERED",
+                    "USER_PROFILE_UPDATED",
+                    "PASSWORD_RESET",
+                    "AGENCY_CREATED",
+                    "AGENCY_UPDATED",
+                    "DRIVER_ASSIGNED",
+                    "DRIVER_UNASSIGNED",
+                    "EMPLOYEE_ADDED",
+                    "EMPLOYEE_UPDATED",
+                    "EMPLOYEE_REMOVED",
+                    "ORGANIZATION_CREATED",
+                    "ORGANIZATION_UPDATED",
+                    "SYSTEM_MAINTENANCE",
+                    "SYSTEM_UPDATE"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/historique/reservation/{idUtilisateur}": {
+      "get": {
+        "tags": [
+          "historique-controller"
+        ],
+        "summary": "Obtenir tous les historique de reservation d'un utilisateur",
+        "description": "Récupère la liste de tous les historiques de reservations d'un utilisateur.",
+        "operationId": "getHistoriqueReservation",
+        "parameters": [
+          {
+            "name": "idUtilisateur",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Historique"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/coupon/user/{userId}": {
+      "get": {
+        "tags": [
+          "coupon-controller"
+        ],
+        "summary": "Obtenir tous les coupons d'un utilisateur",
+        "description": "Récupère la liste de tous les coupons d'un utilisateur.",
+        "operationId": "getCouponsByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Liste récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Coupon"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agence/chef-agence/{id}": {
+      "get": {
+        "tags": [
+          "agence-voyage-controller"
+        ],
+        "summary": "Retouner une agence d evoyage à partir de l'id du chef d'agence",
+        "operationId": "getChefAgenceById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Agence trouvée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agence non trouvée",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgenceVoyage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      },
+      "Voyage": {
+        "type": "object",
+        "properties": {
+          "idVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "titre": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dateDepartPrev": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuDepart": {
+            "type": "string"
+          },
+          "dateDepartEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateArriveEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuArrive": {
+            "type": "string"
+          },
+          "heureDepartEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pointDeDepart": {
+            "type": "string"
+          },
+          "pointArrivee": {
+            "type": "string"
+          },
+          "dureeVoyage": {
+            "type": "object",
+            "properties": {
+              "seconds": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "zero": {
+                "type": "boolean"
+              },
+              "nano": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "negative": {
+                "type": "boolean"
+              },
+              "units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "durationEstimated": {
+                      "type": "boolean"
+                    },
+                    "timeBased": {
+                      "type": "boolean"
+                    },
+                    "dateBased": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "heureArrive": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nbrPlaceReservable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceReserve": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceConfirm": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceRestante": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "datePublication": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateLimiteReservation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateLimiteConfirmation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusVoyage": {
+            "type": "string",
+            "enum": [
+              "EN_ATTENTE",
+              "PUBLIE",
+              "EN_COURS",
+              "TERMINE",
+              "ANNULE"
+            ]
+          },
+          "smallImage": {
+            "type": "string"
+          },
+          "bigImage": {
+            "type": "string"
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "WIFI",
+                "AC",
+                "USB",
+                "SNACKS",
+                "BEVERAGES",
+                "POWER_OUTLETS",
+                "ENTERTAINMENT",
+                "COMFORTABLE_SEATS",
+                "RESTROOMS",
+                "LUGGAGE_STORAGE",
+                "CHILD_SEATS",
+                "PET_FRIENDLY",
+                "AIRPORT_PICKUP",
+                "AIRPORT_DROP_OFF",
+                "MEAL_SERVICE",
+                "ONBOARD_GUIDE",
+                "SEAT_SELECTION",
+                "GROUP_DISCOUNTS",
+                "LATE_CHECK_IN",
+                "LATE_CHECK_OUT"
+              ]
+            }
+          }
+        }
+      },
+      "VehiculeDTO": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "modele": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "nbrPlaces": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "plaqueMatricule": {
+            "type": "string"
+          },
+          "lienPhoto": {
+            "type": "string"
+          },
+          "idAgenceVoyage": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Vehicule": {
+        "type": "object",
+        "properties": {
+          "idVehicule": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "modele": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "nbrPlaces": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lienPhoto": {
+            "type": "string"
+          },
+          "idAgenceVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "plaqueMatricule": {
+            "type": "string"
+          }
+        }
+      },
+      "EmployeRequestDTO": {
+        "type": "object",
+        "properties": {
+          "last_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USAGER",
+                "EMPLOYE",
+                "AGENCE_VOYAGE",
+                "ORGANISATION"
+              ]
+            }
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "agenceVoyageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "poste": {
+            "type": "string"
+          },
+          "departement": {
+            "type": "string"
+          },
+          "salaire": {
+            "type": "number",
+            "format": "double"
+          },
+          "managerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userExist": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "agenceVoyageId",
+          "email",
+          "gender",
+          "password",
+          "role",
+          "username"
+        ]
+      },
+      "UserResponseCreatedDTO": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "deleted_at": {
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "updated_by": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "friendly_name": {
+            "type": "string"
+          },
+          "secondary_email": {
+            "type": "string"
+          },
+          "date_of_birth": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "country_code": {
+            "type": "string"
+          },
+          "dial_code": {
+            "type": "string"
+          },
+          "secondary_phone_number": {
+            "type": "string"
+          },
+          "avatar_picture": {
+            "type": "string"
+          },
+          "profile_picture": {
+            "type": "string"
+          },
+          "country_id": {
+            "type": "string"
+          },
+          "last_login_time": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "registration_date": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PROVIDER",
+              "CONSUMER"
+            ]
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USAGER",
+                "EMPLOYE",
+                "AGENCE_VOYAGE",
+                "ORGANISATION"
+              ]
+            }
+          }
+        }
+      },
+      "ChauffeurRequestDTO": {
+        "type": "object",
+        "properties": {
+          "last_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USAGER",
+                "EMPLOYE",
+                "AGENCE_VOYAGE",
+                "ORGANISATION"
+              ]
+            }
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "agenceVoyageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userExist": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "agenceVoyageId",
+          "email",
+          "gender",
+          "password",
+          "role",
+          "username"
+        ]
+      },
+      "SoldeIndemnisation": {
+        "type": "object",
+        "properties": {
+          "idSolde": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "solde": {
+            "type": "number",
+            "format": "double"
+          },
+          "type": {
+            "type": "string"
+          },
+          "idUser": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idAgenceVoyage": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Reservation": {
+        "type": "object",
+        "properties": {
+          "idReservation": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateReservation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateConfirmation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nbrPassager": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prixTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "statutReservation": {
+            "type": "string",
+            "enum": [
+              "RESERVER",
+              "CONFIRMER",
+              "ANNULER",
+              "VALIDER"
+            ]
+          },
+          "idUser": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "statutPayement": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "NO_PAYMENT",
+              "PAID",
+              "FAILED"
+            ]
+          },
+          "transactionCode": {
+            "type": "string"
+          },
+          "montantPaye": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PayRequestDTO": {
+        "type": "object",
+        "description": "Données nécessaires pour payer la réservation (détails du paiement).",
+        "properties": {
+          "mobilePhone": {
+            "type": "string"
+          },
+          "mobilePhoneName": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reservationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PolitiqueAnnulation": {
+        "type": "object",
+        "properties": {
+          "idPolitique": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "listeTauxPeriode": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TauxPeriode"
+            }
+          },
+          "dureeCoupon": {
+            "type": "object",
+            "properties": {
+              "seconds": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "zero": {
+                "type": "boolean"
+              },
+              "nano": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "negative": {
+                "type": "boolean"
+              },
+              "units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "durationEstimated": {
+                      "type": "boolean"
+                    },
+                    "duration": {
+                      "type": "object",
+                      "properties": {
+                        "seconds": {
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        "zero": {
+                          "type": "boolean"
+                        },
+                        "nano": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "negative": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "timeBased": {
+                      "type": "boolean"
+                    },
+                    "dateBased": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "idAgenceVoyage": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "TauxPeriode": {
+        "type": "object",
+        "properties": {
+          "dateDebut": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "taux": {
+            "type": "number",
+            "format": "double"
+          },
+          "compensation": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Historique": {
+        "type": "object",
+        "properties": {
+          "idHistorique": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "statusHistorique": {
+            "type": "string",
+            "enum": [
+              "ANNULER_PAR_AGENCE_APRES_RESERVATION",
+              "ANNULER_PAR_USAGER_APRES_RESERVATION",
+              "ANNULER_PAR_AGENCE_APRES_CONFIRMATION",
+              "ANNULER_PAR_USAGER_APRES_CONFIRMATION",
+              "VALIDER"
+            ]
+          },
+          "dateReservation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateConfirmation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateAnnulation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "causeAnnulation": {
+            "type": "string"
+          },
+          "origineAnnulation": {
+            "type": "string"
+          },
+          "tauxAnnulation": {
+            "type": "number",
+            "format": "double"
+          },
+          "compensation": {
+            "type": "number",
+            "format": "double"
+          },
+          "idReservation": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Coupon": {
+        "type": "object",
+        "properties": {
+          "idCoupon": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateDebut": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusCoupon": {
+            "type": "string",
+            "enum": [
+              "VALIDE",
+              "EXPIRER",
+              "UTILISER"
+            ]
+          },
+          "valeur": {
+            "type": "number",
+            "format": "double"
+          },
+          "idHistorique": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idSoldeIndemnisation": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ClassVoyageDTO": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "prix": {
+            "type": "number",
+            "format": "double"
+          },
+          "tauxAnnulation": {
+            "type": "number",
+            "format": "double"
+          },
+          "idAgenceVoyage": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ClassVoyage": {
+        "type": "object",
+        "properties": {
+          "idClassVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prix": {
+            "type": "number",
+            "format": "double"
+          },
+          "tauxAnnulation": {
+            "type": "number",
+            "format": "double"
+          },
+          "idAgenceVoyage": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Baggage": {
+        "type": "object",
+        "properties": {
+          "idBaggage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nbreBaggage": {
+            "type": "string"
+          },
+          "idPassager": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "VoyageCreateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "titre": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dateDepartPrev": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuDepart": {
+            "type": "string"
+          },
+          "lieuArrive": {
+            "type": "string"
+          },
+          "heureArrive": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pointDeDepart": {
+            "type": "string"
+          },
+          "pointArrivee": {
+            "type": "string"
+          },
+          "nbrPlaceReservable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceReserve": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceConfirm": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "statusVoyage": {
+            "type": "string",
+            "enum": [
+              "EN_ATTENTE",
+              "PUBLIE",
+              "EN_COURS",
+              "TERMINE",
+              "ANNULE"
+            ]
+          },
+          "nbrPlaceRestante": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateLimiteReservation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateLimiteConfirmation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "smallImage": {
+            "type": "string"
+          },
+          "bigImage": {
+            "type": "string"
+          },
+          "chauffeurId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vehiculeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "classVoyageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "agenceVoyageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "WIFI",
+                "AC",
+                "USB",
+                "SNACKS",
+                "BEVERAGES",
+                "POWER_OUTLETS",
+                "ENTERTAINMENT",
+                "COMFORTABLE_SEATS",
+                "RESTROOMS",
+                "LUGGAGE_STORAGE",
+                "CHILD_SEATS",
+                "PET_FRIENDLY",
+                "AIRPORT_PICKUP",
+                "AIRPORT_DROP_OFF",
+                "MEAL_SERVICE",
+                "ONBOARD_GUIDE",
+                "SEAT_SELECTION",
+                "GROUP_DISCOUNTS",
+                "LATE_CHECK_IN",
+                "LATE_CHECK_OUT"
+              ]
+            }
+          }
+        },
+        "required": [
+          "agenceVoyageId",
+          "chauffeurId",
+          "classVoyageId",
+          "dateDepartPrev",
+          "dateLimiteConfirmation",
+          "dateLimiteReservation",
+          "description",
+          "heureArrive",
+          "lieuArrive",
+          "lieuDepart",
+          "nbrPlaceReservable",
+          "nbrPlaceRestante",
+          "pointArrivee",
+          "pointDeDepart",
+          "titre",
+          "vehiculeId"
+        ]
+      },
+      "UserResponseDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "token": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USAGER",
+                "EMPLOYE",
+                "AGENCE_VOYAGE",
+                "ORGANISATION"
+              ]
+            }
+          }
+        }
+      },
+      "VoyageDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "idVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "titre": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dateDepartPrev": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuDepart": {
+            "type": "string"
+          },
+          "dateDepartEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateArriveEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuArrive": {
+            "type": "string"
+          },
+          "heureDepartEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dureeVoyage": {
+            "type": "object",
+            "properties": {
+              "seconds": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "zero": {
+                "type": "boolean"
+              },
+              "nano": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "negative": {
+                "type": "boolean"
+              },
+              "units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "durationEstimated": {
+                      "type": "boolean"
+                    },
+                    "timeBased": {
+                      "type": "boolean"
+                    },
+                    "dateBased": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "heureArrive": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nbrPlaceReservable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceRestante": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "datePublication": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateLimiteReservation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateLimiteConfirmation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusVoyage": {
+            "type": "string",
+            "enum": [
+              "EN_ATTENTE",
+              "PUBLIE",
+              "EN_COURS",
+              "TERMINE",
+              "ANNULE"
+            ]
+          },
+          "smallImage": {
+            "type": "string"
+          },
+          "bigImage": {
+            "type": "string"
+          },
+          "nomClasseVoyage": {
+            "type": "string"
+          },
+          "prix": {
+            "type": "number",
+            "format": "double"
+          },
+          "nomAgence": {
+            "type": "string"
+          },
+          "pointDeDepart": {
+            "type": "string"
+          },
+          "pointArrivee": {
+            "type": "string"
+          },
+          "vehicule": {
+            "$ref": "#/components/schemas/Vehicule"
+          },
+          "chauffeur": {
+            "$ref": "#/components/schemas/UserResponseDTO"
+          },
+          "placeReservees": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "WIFI",
+                "AC",
+                "USB",
+                "SNACKS",
+                "BEVERAGES",
+                "POWER_OUTLETS",
+                "ENTERTAINMENT",
+                "COMFORTABLE_SEATS",
+                "RESTROOMS",
+                "LUGGAGE_STORAGE",
+                "CHILD_SEATS",
+                "PET_FRIENDLY",
+                "AIRPORT_PICKUP",
+                "AIRPORT_DROP_OFF",
+                "MEAL_SERVICE",
+                "ONBOARD_GUIDE",
+                "SEAT_SELECTION",
+                "GROUP_DISCOUNTS",
+                "LATE_CHECK_IN",
+                "LATE_CHECK_OUT"
+              ]
+            }
+          }
+        }
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "last_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USAGER",
+                "EMPLOYE",
+                "AGENCE_VOYAGE",
+                "ORGANISATION"
+              ]
+            }
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          }
+        },
+        "required": [
+          "email",
+          "gender",
+          "password",
+          "role",
+          "username"
+        ]
+      },
+      "AuthentificationDTO": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "VoyageCancelDTO": {
+        "type": "object",
+        "properties": {
+          "causeAnnulation": {
+            "type": "string"
+          },
+          "origineAnnulation": {
+            "type": "string"
+          },
+          "canceled": {
+            "type": "boolean"
+          },
+          "agenceVoyageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idVoyage": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PassagerDTO": {
+        "type": "object",
+        "properties": {
+          "numeroPieceIdentific": {
+            "type": "string"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "genre": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrBaggage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "placeChoisis": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ReservationDTO": {
+        "type": "object",
+        "properties": {
+          "nbrPassager": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "montantPaye": {
+            "type": "number",
+            "format": "double"
+          },
+          "idUser": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "passagerDTO": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PassagerDTO"
+            }
+          }
+        }
+      },
+      "ReservationCancelDTO": {
+        "type": "object",
+        "description": "Données nécessaires pour annuler la réservation (ID de la réservation et informations supplémentaires).",
+        "properties": {
+          "causeAnnulation": {
+            "type": "string"
+          },
+          "origineAnnulation": {
+            "type": "string"
+          },
+          "idReservation": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idPassagers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "canceled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateOrganizationRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "long_name": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "business_domains": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "logo_url": {
+            "type": "string"
+          },
+          "legal_form": {
+            "type": "string"
+          },
+          "web_site_url": {
+            "type": "string"
+          },
+          "social_network": {
+            "type": "string"
+          },
+          "business_registration_number": {
+            "type": "string"
+          },
+          "tax_number": {
+            "type": "string"
+          },
+          "capital_share": {
+            "type": "number",
+            "format": "double"
+          },
+          "registration_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ceo_name": {
+            "type": "string"
+          },
+          "year_founded": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "number_of_employees": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "business_domains",
+          "email",
+          "legal_form",
+          "long_name",
+          "short_name"
+        ]
+      },
+      "OrganizationDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_by": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updated_by": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "business_domains": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "long_name": {
+            "type": "string"
+          },
+          "logo_url": {
+            "type": "string"
+          },
+          "is_individual_business": {
+            "type": "boolean"
+          },
+          "legal_form": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "website_url": {
+            "type": "string"
+          },
+          "social_network": {
+            "type": "string"
+          },
+          "business_registration_number": {
+            "type": "string"
+          },
+          "tax_number": {
+            "type": "string"
+          },
+          "capital_share": {
+            "type": "number",
+            "format": "double"
+          },
+          "registration_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ceo_name": {
+            "type": "string"
+          },
+          "year_founded": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AgenceVoyageDTO": {
+        "type": "object",
+        "properties": {
+          "organisation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "long_name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 3
+          },
+          "short_name": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          },
+          "social_network": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "greeting_message": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "location",
+          "long_name",
+          "short_name",
+          "user_id"
+        ]
+      },
+      "AgenceVoyage": {
+        "type": "object",
+        "properties": {
+          "agencyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organisationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "longName": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "socialNetwork": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "greetingMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "VoyagePreviewDTO": {
+        "type": "object",
+        "properties": {
+          "idVoyage": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nomAgence": {
+            "type": "string"
+          },
+          "lieuDepart": {
+            "type": "string"
+          },
+          "lieuArrive": {
+            "type": "string"
+          },
+          "nbrPlaceRestante": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrPlaceReservable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateDepartPrev": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dureeVoyage": {
+            "type": "object",
+            "properties": {
+              "seconds": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "zero": {
+                "type": "boolean"
+              },
+              "nano": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "negative": {
+                "type": "boolean"
+              },
+              "units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "durationEstimated": {
+                      "type": "boolean"
+                    },
+                    "timeBased": {
+                      "type": "boolean"
+                    },
+                    "dateBased": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "nomClasseVoyage": {
+            "type": "string"
+          },
+          "prix": {
+            "type": "number",
+            "format": "double"
+          },
+          "smallImage": {
+            "type": "string"
+          },
+          "bigImage": {
+            "type": "string"
+          },
+          "amenities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "WIFI",
+                "AC",
+                "USB",
+                "SNACKS",
+                "BEVERAGES",
+                "POWER_OUTLETS",
+                "ENTERTAINMENT",
+                "COMFORTABLE_SEATS",
+                "RESTROOMS",
+                "LUGGAGE_STORAGE",
+                "CHILD_SEATS",
+                "PET_FRIENDLY",
+                "AIRPORT_PICKUP",
+                "AIRPORT_DROP_OFF",
+                "MEAL_SERVICE",
+                "ONBOARD_GUIDE",
+                "SEAT_SELECTION",
+                "GROUP_DISCOUNTS",
+                "LATE_CHECK_IN",
+                "LATE_CHECK_OUT"
+              ]
+            }
+          }
+        }
+      },
+      "UserDTO2": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "telNumber": {
+            "type": "string"
+          },
+          "role": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "USAGER",
+                "EMPLOYE",
+                "AGENCE_VOYAGE",
+                "ORGANISATION"
+              ]
+            }
+          },
+          "address": {
+            "type": "string"
+          },
+          "idcoordonneeGPS": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "EmployeResponseDTO": {
+        "type": "object",
+        "properties": {
+          "employeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "poste": {
+            "type": "string"
+          },
+          "departement": {
+            "type": "string"
+          },
+          "dateEmbauche": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statutEmploye": {
+            "type": "string",
+            "enum": [
+              "ACTIF",
+              "INACTIF",
+              "SUSPENDU",
+              "EN_CONGE",
+              "DEMISSIONNE",
+              "LICENCIE"
+            ]
+          },
+          "nomManager": {
+            "type": "string"
+          },
+          "agenceVoyageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nomAgence": {
+            "type": "string"
+          }
+        }
+      },
+      "BilletDTO": {
+        "type": "object",
+        "properties": {
+          "titre": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dateDepartPrev": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuDepart": {
+            "type": "string"
+          },
+          "dateDepartEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateArriveEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lieuArrive": {
+            "type": "string"
+          },
+          "heureDepartEffectif": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dureeVoyage": {
+            "type": "object",
+            "properties": {
+              "seconds": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "zero": {
+                "type": "boolean"
+              },
+              "nano": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "negative": {
+                "type": "boolean"
+              },
+              "units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "durationEstimated": {
+                      "type": "boolean"
+                    },
+                    "timeBased": {
+                      "type": "boolean"
+                    },
+                    "dateBased": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "heureArrive": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusVoyage": {
+            "type": "string",
+            "enum": [
+              "EN_ATTENTE",
+              "PUBLIE",
+              "EN_COURS",
+              "TERMINE",
+              "ANNULE"
+            ]
+          },
+          "smallImage": {
+            "type": "string"
+          },
+          "bigImage": {
+            "type": "string"
+          },
+          "nomClasseVoyage": {
+            "type": "string"
+          },
+          "prix": {
+            "type": "number",
+            "format": "double"
+          },
+          "nomAgence": {
+            "type": "string"
+          },
+          "pointDeDepart": {
+            "type": "string"
+          },
+          "pointArrivee": {
+            "type": "string"
+          },
+          "numeroPieceIdentific": {
+            "type": "string"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "genre": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrBaggage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "placeChoisis": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AgenceStatisticsDTO": {
+        "type": "object",
+        "properties": {
+          "nombreEmployes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombreChauffeurs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombreVoyages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voyagesParStatut": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "nombreReservations": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reservationsParStatut": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "revenus": {
+            "type": "number",
+            "format": "double"
+          },
+          "nouveauxUtilisateurs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tauxOccupation": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "AgenceEvolutionDTO": {
+        "type": "object",
+        "properties": {
+          "evolutionReservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvolutionData"
+            }
+          },
+          "evolutionVoyages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvolutionData"
+            }
+          },
+          "evolutionRevenus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvolutionData"
+            }
+          },
+          "evolutionUtilisateurs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvolutionData"
+            }
+          }
+        }
+      },
+      "EvolutionData": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "valeur": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "montant": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Passager": {
+        "type": "object",
+        "properties": {
+          "idPassager": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "numeroPieceIdentific": {
+            "type": "string"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "genre": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbrBaggage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idReservation": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "placeChoisis": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ReservationDetailDTO": {
+        "type": "object",
+        "properties": {
+          "reservation": {
+            "$ref": "#/components/schemas/Reservation"
+          },
+          "passager": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Passager"
+            }
+          },
+          "voyage": {
+            "$ref": "#/components/schemas/Voyage"
+          },
+          "agence": {
+            "$ref": "#/components/schemas/AgenceVoyage"
+          },
+          "vehicule": {
+            "$ref": "#/components/schemas/Vehicule"
+          }
+        }
+      },
+      "ReservationPreviewDTO": {
+        "type": "object",
+        "properties": {
+          "reservation": {
+            "$ref": "#/components/schemas/Reservation"
+          },
+          "voyage": {
+            "$ref": "#/components/schemas/Voyage"
+          },
+          "agence": {
+            "$ref": "#/components/schemas/AgenceVoyage"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

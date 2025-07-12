@@ -1,38 +1,31 @@
-// src/lib/hooks/dashboard/useTripPlanner.ts
-
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import {
-  TripPlannerFormType,
-  tripPlannerSchema,
-} from "@/lib/types/schema/tripSchema";
+import { TripPlannerFormType, tripPlannerSchema } from "@/lib/types/schema/tripSchema";
 import { useBusStation } from "@/context/Provider";
 import { getAgencyByChefId } from "@/lib/services/agency-service";
-import {
-  createTrip,
-  updateTrip,
-  getTripsByAgency,
-  publishTrip,
-} from "@/lib/services/trip-service";
+import { createTrip, updateTrip, getTripsByAgency, publishTrip } from "@/lib/services/trip-service";
 import { getVehiclesByAgency } from "@/lib/services/vehicule-service";
 import { getDriversByAgency } from "@/lib/services/chauffeur-service";
-import { Vehicle } from "@/lib/types/models/vehicle";
-import { UserResponseCreatedDTO as Driver } from "@/lib/types/models/BusinessActor";
-import { Trip } from "@/lib/types/models/Trip";
-import { TravelAgency } from "@/lib/types/models/Agency";
+import { getAllClassesByAgency } from "@/lib/services/class-voyage-service";
+import { Vehicule, Voyage, VoyageCreateRequestDTO, ClassVoyage } from "@/lib/types/generated-api";
+import {Customer} from "@/lib/types/models/BusinessActor";
+import {TravelAgency} from "@/lib/types/models/Agency";
+
+
+const toISODateTime = (date: string, time: string): string => {
+  return new Date(`${date}T${time}:00`).toISOString();
+};
 
 export function useTripPlanner() {
-  // ... (tous les états restent les mêmes)
-  console.log("[useTripPlanner] Initialisation du hook.");
-  const router = useRouter();
+
   const { userData, isLoading: isUserLoading } = useBusStation();
 
   const [agency, setAgency] = useState<TravelAgency | null>(null);
-  const [drafts, setDrafts] = useState<Trip[]>([]);
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [drafts, setDrafts] = useState<Voyage[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicule[]>([]);
+  const [drivers, setDrivers] = useState<Customer[]>([]);
+  const [travelClasses, setTravelClasses] = useState<ClassVoyage[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,142 +38,113 @@ export function useTripPlanner() {
     resolver: zodResolver(tripPlannerSchema),
   });
 
-  // --- LOGIQUE DE CHARGEMENT ET DE FILTRAGE DES DONNÉES ---
-
   const loadAgencyData = useCallback(async (agencyId: string) => {
-    console.log(
-      `[useTripPlanner] Chargement des données pour l'agence ID: ${agencyId}`
-    );
     setIsLoading(true);
     setApiError(null);
     try {
-      // On récupère toutes les données en parallèle
-      const [allTripsResponse, vehiclesData, driversData] = await Promise.all([
-        getTripsByAgency(agencyId, 0, 25), // Récupère la page 0 avec 25 éléments
+      const [tripsResponse, vehiclesData, driversData, classesData] = await Promise.all([
+        getTripsByAgency(agencyId, 0, 100),
         getVehiclesByAgency(agencyId),
         getDriversByAgency(agencyId),
+        getAllClassesByAgency(agencyId),
       ]);
 
-      // Filtrage côté client pour les brouillons
-      if (allTripsResponse && allTripsResponse.content) {
-        const allTrips = allTripsResponse.content;
-        const draftsOnly = allTrips.filter(
-          (trip) => trip.statusVoyage === "EN_ATTENTE"
-        );
-        setDrafts(draftsOnly);
-        console.log(
-          `[useTripPlanner] ${allTrips.length} voyage(s) total récupéré(s), ${draftsOnly.length} brouillon(s) filtré(s).`
-        );
-      } else {
-        setDrafts([]);
-      }
+      const allTrips = tripsResponse?.content || [];
+      const draftsOnly = allTrips.filter((trip) => trip.statusVoyage === "EN_ATTENTE");
+      setDrafts(draftsOnly);
 
       setVehicles(vehiclesData || []);
       setDrivers(driversData || []);
+      setTravelClasses(classesData || []);
 
-      console.log(
-        "[useTripPlanner] Données de l'agence (brouillons, véhicules, chauffeurs) chargées."
-      );
     } catch (error) {
-      console.error(
-        "[useTripPlanner] Erreur lors du chargement des données de l'agence:",
-        error
-      );
+      console.error(error);
       setApiError("Impossible de charger les ressources de votre agence.");
     } finally {
       setIsLoading(false);
     }
   }, []);
 
+
+
   useEffect(() => {
     const initialize = async () => {
-      if (isUserLoading) return;
-
-      if (userData && userData.userId) {
-        console.log(
-          `[useTripPlanner] Utilisateur trouvé (ID: ${userData.userId}). Recherche de l'agence...`
-        );
-        try {
-          const foundAgency = await getAgencyByChefId(userData.userId);
-          if (foundAgency) {
-            setAgency(foundAgency);
-            form.setValue("agenceVoyageId", foundAgency.agencyId);
-            await loadAgencyData(foundAgency.agencyId);
-          } else {
-            setApiError("Aucune agence n'est associée à votre compte.");
-            setIsLoading(false);
-          }
-        } catch (error) {
-          setApiError("Erreur lors de la récupération des infos de l'agence.");
+      if (isUserLoading || !userData?.userId) return;
+      try {
+        const foundAgency = await getAgencyByChefId(userData.userId);
+        if (foundAgency?.agencyId && foundAgency) {
+          setAgency(foundAgency);
+          form.setValue("agenceVoyageId", foundAgency.agencyId);
+          await loadAgencyData(foundAgency.agencyId);
+        } else {
+          setApiError("Aucune agence n'est associée à ce compte.");
           setIsLoading(false);
         }
-      } else {
-        setApiError("Session utilisateur non trouvée.");
+      } catch (error) {
+        console.error(error);
+        setApiError("Erreur de récupération des informations de l'agence.");
         setIsLoading(false);
-        // Optionnel : router.push('/login');
       }
     };
     initialize();
-  }, [userData, isUserLoading, loadAgencyData, form, router]);
+  }, [userData, isUserLoading, loadAgencyData, form]);
+
+
 
   const handleSelectDraft = (tripId: string | null) => {
     setSelectedDraftId(tripId);
     if (tripId) {
-      const draftToEdit = drafts.find((d) => d.idVoyage === tripId);
-      if (draftToEdit) {
-        console.log(
-          "[useTripPlanner] Sélection du brouillon pour édition:",
-          draftToEdit
-        );
+      const draft = drafts.find((d) => d.idVoyage === tripId);
+      if (draft) {
         form.reset({
-          ...draftToEdit,
-          prix: Number(draftToEdit.prix),
-          nbrPlaceReservable: draftToEdit.nbrPlaceReservable,
-          vehiculeId: draftToEdit.vehicule.idVehicule,
-          // Note: L'API ne retourne pas le chauffeur dans le DTO de voyage, il faudra peut-être l'ajuster.
-          // chauffeurId: draftToEdit.chauffeur?.id,
-          agenceVoyageId: agency?.agencyId || "",
-          // ...autres conversions de types
+          ...draft,
+          nbrPlaceReservable: draft.nbrPlaceReservable,
+          vehiculeId: /*draft.vehicule?.idVehicule ||*/ "",
+          // chauffeurId est manquant dans le DTO de retour de voyage
+          chauffeurId: '', // L'utilisateur devra le resélectionner
+          classVoyageId: /*draft.classVoyageId ||*/ '',
+          dateDepartPrev: draft.dateDepartPrev ? draft.dateDepartPrev.split('T')[0] : '',
+          heureArrive: draft.heureArrive ? draft.heureArrive.split('T')[1].substring(0, 5) : '',
+          dateLimiteReservation: draft.dateLimiteReservation ? draft.dateLimiteReservation.split('T')[0] : '',
+          dateLimiteConfirmation: draft.dateLimiteConfirmation ? draft.dateLimiteConfirmation.split('T')[0] : '',
+          agenceVoyageId: agency?.agencyId,
         });
       }
     } else {
-      console.log("[useTripPlanner] Passage en mode création.");
-      form.reset({ agenceVoyageId: agency?.agencyId || "" });
+      form.reset({ agenceVoyageId: agency?.agencyId });
     }
   };
 
-  const handleSubmitForm = async (
-    data: TripPlannerFormType,
-    status: "EN_ATTENTE" | "PUBLIE"
-  ) => {
+
+
+  const handleSubmitForm = async (data: TripPlannerFormType, status: 'EN_ATTENTE' | 'PUBLIE') => {
+    console.log(data);
     setIsSubmitting(true);
     setApiError(null);
 
-    const payload = { ...data, statusVoyage: status };
-    console.log(
-      `[useTripPlanner] Soumission du formulaire avec statut ${status}. Payload:`,
-      payload
-    );
+    // Le DTO attend `nbrPlaceRestante`, qui est égal à `nbrPlaceReservable` à la création.
+    const { nbrPlaceReservable, ...restOfData } = data;
+    const payload: VoyageCreateRequestDTO = {
+      ...restOfData,
+      nbrPlaceReservable: nbrPlaceReservable,
+      nbrPlaceRestante: nbrPlaceReservable,
+      statusVoyage: status,
+      nbrPlaceConfirm: 0,
+      nbrPlaceReserve: 0,
+      heureArrive: toISODateTime(data.dateDepartPrev, data.heureArrive),
+    };
 
     try {
       if (selectedDraftId) {
         await updateTrip(selectedDraftId, payload);
-        setSuccessMessage(
-          status === "PUBLIE"
-            ? "Voyage mis à jour et publié !"
-            : "Brouillon mis à jour !"
-        );
+        setSuccessMessage("Voyage mis à jour avec succès !");
       } else {
         await createTrip(payload);
-        setSuccessMessage(
-          status === "PUBLIE"
-            ? "Voyage créé et publié !"
-            : "Voyage sauvegardé en brouillon."
-        );
+        setSuccessMessage("Voyage créé avec succès !");
       }
       setIsSuccess(true);
-      await loadAgencyData(agency!.agencyId);
-      handleSelectDraft(null);
+      if (agency) await loadAgencyData(agency.agencyId);
+      handleSelectDraft(null); // Réinitialise le formulaire
     } catch (err: any) {
       setApiError(err.response?.data?.message || "Une erreur est survenue.");
     } finally {
@@ -189,20 +153,15 @@ export function useTripPlanner() {
   };
 
   const handlePublishDraft = async (tripId: string) => {
+    if(!agency?.agencyId) return;
     setIsSubmitting(true);
-    setApiError(null);
-    console.log(
-      `[useTripPlanner] Publication directe du brouillon ID: ${tripId}`
-    );
     try {
       await publishTrip(tripId);
-      setSuccessMessage("Brouillon publié avec succès !");
+      setSuccessMessage("Brouillon publié !");
       setIsSuccess(true);
-      await loadAgencyData(agency!.agencyId);
+      await loadAgencyData(agency.agencyId);
     } catch (err: any) {
-      setApiError(
-        err.response?.data?.message || "Erreur lors de la publication."
-      );
+      setApiError(err.response?.data?.message || "Erreur de publication.");
     } finally {
       setIsSubmitting(false);
     }
@@ -219,6 +178,7 @@ export function useTripPlanner() {
     drafts,
     availableVehicles: vehicles,
     availableDrivers: drivers,
+    availableTravelClasses: travelClasses,
     handleSelectDraft,
     handlePublishDraft,
     isEditMode: !!selectedDraftId,

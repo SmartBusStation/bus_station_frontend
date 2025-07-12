@@ -37,8 +37,8 @@ export default function SelectField({id, name, label, options, required = false,
                     <option value="" disabled hidden>
                         Select a type
                     </option>
-                    {options.map((option) => (
-                        <option key={option.value} value={option.value}>
+                    {options.map((option, index) => (
+                        <option key={index} value={option.value}>
                             {option.label}
                         </option>
                     ))}
