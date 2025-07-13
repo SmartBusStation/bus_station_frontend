@@ -17,6 +17,11 @@ export function useClassVoyageTab() {
     const [apiError, setApiError] = useState<string | null>(null);
     const [editingClass, setEditingClass] = useState<ClassVoyage | null>(null);
 
+    // États pour la modal de confirmation (comme EmployeesTab)
+    const [canOpenConfirmationModal, setCanOpenConfirmationModal] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState("");
+    const [classToDelete, setClassToDelete] = useState<ClassVoyage | null>(null);
+
     const form = useForm<ClassVoyageFormType>({ resolver: zodResolver(classVoyageSchema) });
 
     const fetchAndFilterClasses = useCallback(async (currentAgencyId: string) => {
@@ -27,6 +32,7 @@ export function useClassVoyageTab() {
             const agencyClasses = response.content.filter(cls => cls.idAgenceVoyage === currentAgencyId);
             setClasses(agencyClasses);
         } catch (e) {
+            console.error(e);
             setApiError("Impossible de charger les classes de voyage.");
         } finally {
             setIsLoading(false);
@@ -51,14 +57,14 @@ export function useClassVoyageTab() {
 
     }, [userData, isUserLoading, fetchAndFilterClasses]);
 
-    const openModalForCreate = () => {
+    function openModalForCreate(): void {
         setEditingClass(null);
         form.reset({ nom: '', prix: 0, tauxAnnulation: 0 });
         setApiError(null);
         setIsModalOpen(true);
-    };
+    }
 
-    const openModalForEdit = (cls: ClassVoyage) => {
+    function openModalForEdit(cls: ClassVoyage): void {
         setEditingClass(cls);
         form.reset({
             nom: cls.nom,
@@ -67,11 +73,14 @@ export function useClassVoyageTab() {
         });
         setApiError(null);
         setIsModalOpen(true);
-    };
+    }
 
-    const closeModal = () => setIsModalOpen(false);
+    function closeModal(): void {
+        setIsModalOpen(false);
+        setEditingClass(null);
+    }
 
-    const onSubmit = async (data: ClassVoyageFormType) => {
+    async function onSubmit(data: ClassVoyageFormType): Promise<void> {
         if (!agencyId) {
             setApiError("ID de l'agence introuvable.");
             return;
@@ -89,22 +98,59 @@ export function useClassVoyageTab() {
             await fetchAndFilterClasses(agencyId);
             closeModal();
         } catch (e: any) {
+            console.error(e);
             setApiError(e.response?.data?.message || "Une erreur est survenue.");
         } finally {
             setIsSubmitting(false);
         }
-    };
+    }
 
-    const handleDelete = async (id: string) => {
-        if (window.confirm("Voulez-vous vraiment supprimer cette classe ?")) {
-            try {
-                await deleteClassVoyage(id);
-                setClasses(prev => prev.filter(c => c.idClassVoyage !== id));
-            } catch (e: any) {
-                setApiError(e.response?.data?.message || "Erreur de suppression.");
-            }
+    // Fonction pour ouvrir la modal de confirmation (comme EmployeesTab)
+    function openConfirmModal(classVoyage: ClassVoyage): void {
+        if (classVoyage && classVoyage.idClassVoyage) {
+            setConfirmationMessage(`Êtes-vous sûr de vouloir supprimer la classe "${classVoyage.nom}" ?`);
+            setClassToDelete(classVoyage);
+            setCanOpenConfirmationModal(true);
+        } else {
+            setConfirmationMessage("");
+            setApiError("Une erreur est survenue, veuillez réessayer plus tard");
         }
-    };
+    }
 
-    return { classes, isLoading, isSubmitting, isModalOpen, apiError, editingClass, form, openModalForCreate, openModalForEdit, closeModal, onSubmit, handleDelete };
+    // Fonction handleDelete modifiée (comme EmployeesTab)
+    async function handleDelete(): Promise<void> {
+        setIsLoading(true);
+        setApiError(null);
+        if (!classToDelete || !classToDelete.idClassVoyage) return;
+
+        try {
+            await deleteClassVoyage(classToDelete.idClassVoyage);
+            setClasses(prev => prev.filter(c => c.idClassVoyage !== classToDelete.idClassVoyage));
+            setCanOpenConfirmationModal(false);
+        } catch (e: any) {
+            console.error(e);
+            setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return {
+        classes,
+        isLoading,
+        isSubmitting,
+        isModalOpen,
+        apiError,
+        editingClass,
+        form,
+        openModalForCreate,
+        openModalForEdit,
+        closeModal,
+        onSubmit,
+        handleDelete,
+        canOpenConfirmationModal,
+        setCanOpenConfirmationModal,
+        confirmationMessage,
+        openConfirmModal
+    };
 }

@@ -25,5 +25,8 @@ export function useNavigation() {
         onGoToMarketPlace: ()=> navigate("/market-place"),
         onGoToTripDetail: (idVoyage: string) => navigate(`/market-place/trip/${idVoyage}`),
         onGoToDashboard: () => navigate("/dashboard"),
+        onGoToProfile: () => navigate("/profile"),
+        onGoToTripPlanning: () => navigate("dashboard/trip-planning"),
+        onGoToAboutUs: () => navigate("/about-us")
     };
 }

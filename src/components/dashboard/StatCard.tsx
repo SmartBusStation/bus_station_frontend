@@ -1,45 +1,49 @@
-// src/components/dashboard/StatCard.tsx
-import React from "react";
-import { ArrowUp, ArrowDown } from "lucide-react";
-import { StatCardData } from "@/lib/types/dashboard";
+import type React from "react"
+import { TrendingUp, TrendingDown } from "lucide-react"
 
-const StatCard: React.FC<StatCardData> = ({
-  label,
-  value,
-  change,
-  changeType,
-  icon: Icon,
-}) => {
-  const isIncrease = changeType === "increase";
+interface StatCardProps {
+  label: string
+  value: string
+  currency?: string
+  change: string
+  changeType: "increase" | "decrease"
+  icon: React.ElementType
+  gradient: string
+}
+
+const StatCard: React.FC<StatCardProps> = ({ label, value, currency, change, changeType, icon: Icon, gradient }) => {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-          <Icon className="h-6 w-6 text-primary" />
-        </div>
+      <div className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        {/* Background Gradient */}
         <div
-          className="flex items-center gap-1 rounded-full px-2 py-1"
-          style={{ backgroundColor: isIncrease ? "#dcfce7" : "#fee2e2" }}>
-          {isIncrease ? (
-            <ArrowUp className="h-4 w-4 text-green-600" />
-          ) : (
-            <ArrowDown className="h-4 w-4 text-red-600" />
-          )}
-          <span
-            className={`text-sm font-medium ${
-              isIncrease ? "text-green-700" : "text-red-700"
-            }`}>
-            {change}
-          </span>
+            className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}
+        ></div>
+
+        <div className="relative">
+          <div className="flex items-center justify-between mb-4">
+            <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg`}>
+              <Icon className="h-6 w-6 text-white" />
+            </div>
+            <div
+                className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                    changeType === "increase" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                }`}
+            >
+              {changeType === "increase" ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+              {change}
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-gray-600 mb-1">{label}</p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-2xl font-bold text-gray-900">{value}</p>
+              {currency && <span className="text-sm font-medium text-gray-500">{currency}</span>}
+            </div>
+          </div>
         </div>
       </div>
+  )
+}
 
-      <div className="mt-4">
-        <h4 className="text-2xl font-bold text-gray-900">{value}</h4>
-        <span className="text-sm font-medium text-gray-500">{label}</span>
-      </div>
-    </div>
-  );
-};
-
-export default StatCard;
+export default StatCard

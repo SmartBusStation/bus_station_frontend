@@ -1,4 +1,3 @@
-// src/lib/hooks/dasboard/useDriverTab.ts
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -125,22 +124,34 @@ export function useDriversTab() {
     }
   };
 
-  const handleDelete = async (driverId: string) => {
 
+  const [canOpenConfirmModal, setCanOpenConfirmModal] = useState(false);
+  const [driverToDelete, setDriverToDelete] = useState<Customer | null>(null);
+  const [confirmationMessage, setConfirmationMessage] = useState<string>("");
 
-
-    console.log("[SERVICE_REQUEST] Suppression du chauffeur ID:", driverId);
-    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce chauffeur ?")) {
+  function openConfirmModal(driver: Customer) {
+    if(!driver) {
+      setApiError("Something went wrong went attempting to delete this driver");
       return;
     }
+    setDriverToDelete(driver);
+    setConfirmationMessage(`Are you sure you want to delete the driver ${driver.first_name} ${driver.last_name} ?`);
+    setCanOpenConfirmModal(true);
+  }
+
+
+  const handleDelete = async () => {
+    if (!driverToDelete) return;
+    setIsLoading(true);
     setApiError(null);
-    try {
-      await deleteDriver(driverId);
-      setDrivers(prev => prev.filter(d => d.userId !== driverId));
-    } catch (error: any) {
-      setApiError(error.response?.data?.message || "Erreur lors de la suppression.");
-    }
+    await deleteDriver(driverToDelete.userId)
+        .then(()=> {
+          setDrivers(prev => prev.filter(d => d.userId !== driverToDelete?.userId));
+        })
+        .catch(()=>  setApiError("Erreur lors de la suppression."))
+        .finally(()=> setIsLoading(false))
   };
+
 
   return {
     drivers,
@@ -154,6 +165,10 @@ export function useDriversTab() {
     openModalForEdit,
     closeModal,
     onSubmit,
-    handleDelete
+    handleDelete,
+    openConfirmModal,
+    canOpenConfirmModal,
+    setCanOpenConfirmModal,
+    confirmationMessage,
   };
 }
