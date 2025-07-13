@@ -6,11 +6,27 @@ import {encryptDataWithAES} from "@/lib/services/encryption-service";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 
+
+
+interface FieldErrors {
+    long_name?: string;
+    ceo_name?: string;
+    email?: string;
+    description?: string;
+    short_name?: string;
+    year_founded?: string;
+    business_registration_number?: string;
+    tax_number?: string;
+    type?: string;
+    web_site_url?: string;
+    other?: string
+}
+
 export function useOrganizationCreation (changeStep: (step: number) => void, createAgency: boolean)
 {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [axiosErrors, setAxiosErrors] = useState<string|null>(null);
+    const [axiosErrors, setAxiosErrors] = useState<FieldErrors|null>(null);
     const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string|null>(null);
 
@@ -79,21 +95,39 @@ export function useOrganizationCreation (changeStep: (step: number) => void, cre
                 if(result)
                 {
                     await saveCreatedOrganization(result);
+                    setAxiosErrors(null);
                     changeStep(3);
                 }
                 else
                 {
-                    setAxiosErrors("Something when wrong when creating your organization");
+                    setAxiosErrors(
+                        {
+                            ...axiosErrors,
+                            other:"An error occurred while creating your user account, please try again later.",
+                        }
+                    );
                 }
             })
             .catch((error)=> {
+
                 if(error.status === 400 || error.status === 409)
                 {
-                    setAxiosErrors("Something when wrong when creating your organization");
+                    const badRequestError = error?.response?.data as FieldErrors;
+                    Object.entries(badRequestError).forEach(([key, value]:[string,string]): void => {
+                        setAxiosErrors((prevState) => ({
+                            ...prevState,
+                            [key]: value,
+                            other:"An account already exists with some of the identifiers you provided, please change them!"
+                        }));
+                    })
                 }
                 else
                 {
-                    setAxiosErrors("Something when wrong when creating your organization");
+                    setAxiosErrors(
+                        {
+                            ...axiosErrors,
+                            other:"Something went wrong while creating your organization account, please try again later.",
+                        })
                 }
 
             })

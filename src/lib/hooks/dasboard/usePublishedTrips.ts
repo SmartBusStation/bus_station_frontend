@@ -1,19 +1,21 @@
-// src/lib/hooks/dasboard/usePublishedTrips.ts
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
-import { getTripsByAgency, updateTrip } from '@/lib/services/trip-service';
-import { Voyage } from '@/lib/types/generated-api';
+import { getTripsByAgency, updateTrip, deleteVoyage } from '@/lib/services/trip-service';
 import { PaginatedResponse } from '@/lib/types/common';
-import { useRouter } from 'next/navigation';
+import {TripDetails} from "@/lib/types/models/Trip";
+
+
 
 export function usePublishedTrips() {
     const { userData, isLoading: isUserLoading } = useBusStation();
     const router = useRouter();
 
-    const [allTrips, setAllTrips] = useState<Voyage[]>([]);
+    const [allTrips, setAllTrips] = useState<TripDetails[]>([]);
     const [agencyId, setAgencyId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false); // Pour les actions (annuler, supprimer)
     const [apiError, setApiError] = useState<string | null>(null);
 
     const [filter, setFilter] = useState<'PUBLIE' | 'EN_COURS' | 'TERMINE' | 'ANNULE' | 'all'>('all');
@@ -22,12 +24,11 @@ export function usePublishedTrips() {
         setIsLoading(true);
         setApiError(null);
         try {
-            // On récupère un grand nombre pour simuler l'absence de pagination pour l'instant
-            const response: PaginatedResponse<Voyage> | null = await getTripsByAgency(id, 0, 100);
-            // On filtre les brouillons pour ne pas les afficher ici
-            const publishedOrFinishedTrips = response?.content?.filter(t => t.statusVoyage !== 'EN_ATTENTE') || [];
-            setAllTrips(publishedOrFinishedTrips);
+            const response: PaginatedResponse<TripDetails> | null = await getTripsByAgency(id);
+            const nonDraftTrips = response?.content?.filter(t => t.statusVoyage !== 'EN_ATTENTE') || [];
+            setAllTrips(nonDraftTrips);
         } catch (error) {
+            console.error(error);
             setApiError("Impossible de charger la liste des voyages publiés.");
         } finally {
             setIsLoading(false);
@@ -41,12 +42,10 @@ export function usePublishedTrips() {
                     setAgencyId(agency.agencyId);
                     fetchTrips(agency.agencyId);
                 } else {
-                    setApiError("Aucune agence associée trouvée.");
+                    setApiError("Aucune agence associée n'a été trouvée.");
                     setIsLoading(false);
                 }
             });
-        } else if (!isUserLoading) {
-            setIsLoading(false);
         }
     }, [userData, isUserLoading, fetchTrips]);
 
@@ -56,29 +55,50 @@ export function usePublishedTrips() {
     }, [allTrips, filter]);
 
     const handleCancelTrip = async (tripId: string) => {
-        if (!agencyId) return;
-        if (!window.confirm("Êtes-vous sûr de vouloir annuler ce voyage ? Les réservations existantes seront impactées.")) return;
+        if (!agencyId || !window.confirm("Êtes-vous sûr de vouloir annuler ce voyage ?")) return;
 
+        setIsActionLoading(true);
         try {
             await updateTrip(tripId, { statusVoyage: 'ANNULE' });
-            await fetchTrips(agencyId); // Recharger les données
-        } catch (error: any) {
-            setApiError(error.response?.data?.message || "Erreur lors de l'annulation du voyage.");
+            // Recharger les données pour refléter le changement
+            await fetchTrips(agencyId);
+        } catch (error: unknown) {
+            console.error(error);
+            alert("Erreur lors de l'annulation du voyage.");
+        } finally {
+            setIsActionLoading(false);
+        }
+    };
+
+    const handleDeleteTrip = async (tripId: string) => {
+        if (!agencyId || !window.confirm("ACTION IRRÉVERSIBLE !\nSupprimer définitivement ce voyage ?")) return;
+
+        setIsActionLoading(true);
+        try {
+            await deleteVoyage(tripId);
+            // Mettre à jour l'UI immédiatement sans recharger
+            setAllTrips(prev => prev.filter(trip => trip.idVoyage !== tripId));
+        } catch (error: unknown) {
+            console.error(error);
+            alert("Erreur lors de la suppression du voyage.");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const handleEditTrip = (tripId: string) => {
-        // Redirige vers la page de planification avec l'ID du voyage en paramètre
         router.push(`/dashboard/trip-planning?edit=${tripId}`);
     };
 
     return {
         isLoading,
+        isActionLoading,
         apiError,
         filteredTrips,
         filter,
         setFilter,
         handleCancelTrip,
+        handleDeleteTrip,
         handleEditTrip,
     };
 }

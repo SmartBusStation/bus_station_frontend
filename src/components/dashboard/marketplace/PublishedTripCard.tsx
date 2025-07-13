@@ -1,12 +1,14 @@
 import React from "react";
-import { MapPin, Calendar, Users, DollarSign, XCircle, Edit } from "lucide-react";
+import {MapPin, Calendar, Users, DollarSign, XCircle, Edit, Trash2} from "lucide-react";
 import { formatDateOnly } from "@/lib/services/date-services";
 import {TripDetails} from "@/lib/types/models/Trip";
+
 
 interface PublishedTripCardProps {
   trip: TripDetails;
   onCancel: (tripId: string) => void;
   onEdit: (tripId: string) => void;
+  onDelete: (tripId: string) => void; // AJOUTER
 }
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
@@ -25,7 +27,7 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   );
 };
 
-const PublishedTripCard: React.FC<PublishedTripCardProps> = ({ trip, onCancel, onEdit }) => {
+const PublishedTripCard: React.FC<PublishedTripCardProps> = ({ trip, onCancel, onEdit, onDelete }) => {
   const reservationPercentage =
       trip.nbrPlaceReservable && trip.nbrPlaceReservable > 0
           ? ((trip.nbrPlaceReservable - trip.nbrPlaceRestante || 0) / trip.nbrPlaceReservable) * 100
@@ -59,16 +61,30 @@ const PublishedTripCard: React.FC<PublishedTripCardProps> = ({ trip, onCancel, o
           <div className="border-t border-gray-100 pt-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm">
-                <DollarSign className="h-4 w-4 text-green-500" />
+                <DollarSign className="h-4 w-4 text-green-500"/>
                 <span className="font-medium text-gray-700">Revenu Actuel:</span>
                 <span className="font-semibold text-green-600">{estimatedRevenue.toLocaleString()} FCFA</span>
               </div>
+
+
               <div className="flex items-center gap-1">
-                <button onClick={() => trip.idVoyage && onEdit(trip.idVoyage)} className="p-1.5 text-gray-500 hover:text-primary hover:bg-gray-100 rounded-md"><Edit className="h-4 w-4" /></button>
+                {/* Le bouton Edit appelle onEdit */}
+                <button onClick={() => trip.idVoyage && onEdit(trip.idVoyage)}
+                        className="p-1.5 text-gray-500 hover:text-primary hover:bg-gray-100 rounded-md"><Edit
+                    className="h-4 w-4"/></button>
+
+                {/* Le bouton Cancel appelle onCancel */}
                 {trip.statusVoyage !== 'ANNULE' && trip.statusVoyage !== 'TERMINE' && (
-                    <button onClick={() => trip.idVoyage && onCancel(trip.idVoyage)} className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md"><XCircle className="h-4 w-4" /></button>
+                    <button onClick={() => trip.idVoyage && onCancel(trip.idVoyage)}
+                            className="p-1.5 text-gray-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-md"><XCircle
+                        className="h-4 w-4"/></button>
                 )}
+
+                {/* AJOUT: Le bouton Delete appelle onDelete */}
+                <button onClick={() => trip.idVoyage && onDelete(trip.idVoyage)}
+                        className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md"><Trash2 className="h-4 w-4"/></button>
               </div>
+
             </div>
           </div>
         </div>

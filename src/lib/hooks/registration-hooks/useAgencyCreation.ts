@@ -9,12 +9,26 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {BusinessActor} from "@/lib/types/models/BusinessActor";
 
 
+
+interface FieldErrors {
+    location?: string;
+    description?: string;
+    long_name?: string;
+    greeting_message?: string;
+    social_network?: string;
+    user_id?: string;
+    organisation_id?: string;
+    other?: string;
+}
+
+
+
 export function useAgencyCreation() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [canOpenSuccessModal, setCanOpenSuccessModal] = useState<boolean>(false);
     const [createdAgency, setCreatedAgency] = useState<TravelAgency|null>(null);
-    const [axiosErrors, setAxiosErrors] = useState<string|null>(null);
+    const [axiosErrors, setAxiosErrors] = useState<FieldErrors|null>(null);
     const [message, setMessage]= useState<string|null>(null);
 
 
@@ -54,7 +68,11 @@ export function useAgencyCreation() {
         }
         catch (error) {
             setIsLoading(false);
-            setAxiosErrors("Something went wrong when creating your travel agency, please retry!");
+            setAxiosErrors(
+                {
+                    ...axiosErrors,
+                    other:"An error occurred while creating your user account, please try again later.",
+                });
             console.error("Decryption failed:", error);
             throw new Error("Error during data decryption.");
         }
@@ -100,7 +118,11 @@ export function useAgencyCreation() {
                 }
                 else
                 {
-                    setAxiosErrors("Something went wrong when creating your travel agency");
+                    setAxiosErrors(
+                        {
+                            ...axiosErrors,
+                            other:"An error occurred while creating your user account, please try again later.",
+                        });
                     throw new Error("unexpected error");
                 }
 
@@ -108,7 +130,25 @@ export function useAgencyCreation() {
             .catch((error): void => {
                 console.error(error);
                 setCanOpenSuccessModal(false);
-                setAxiosErrors("Something went wrong when creating your travel agency");
+                if(error.status === 400 || error.status === 409)
+                {
+                    const badRequestError = error?.response?.data as FieldErrors;
+                    Object.entries(badRequestError).forEach(([key, value]:[string,string]): void => {
+                        setAxiosErrors((prevState) => ({
+                            ...prevState,
+                            [key]: value,
+                            other:"An account already exists with some of the identifiers you provided, please change them!"
+                        }));
+                    })
+                }
+                else
+                {
+                    setAxiosErrors(
+                        {
+                            ...axiosErrors,
+                            other:"Something went wrong while creating your organization account, please try again later.",
+                        })
+                }
             })
             .finally(() => setIsLoading(false));
     }

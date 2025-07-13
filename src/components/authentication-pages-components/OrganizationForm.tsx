@@ -47,7 +47,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                         </p>
                     </div>
 
-                    {axiosErrors && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors}</p>}
+                    {axiosErrors && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors.other}</p>}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <InputField
                             id="long_name"
@@ -55,7 +55,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="General Voyages"
                             icon={<Building className="h-5 w-5 text-gray-400"/>}
                             register={zodParams.register && zodParams.register("long_name")}
-                            error={zodParams?.errors?.long_name?.message}
+                            error={zodParams?.errors?.long_name?.message || axiosErrors?.long_name}
                         />
                         <InputField
                             id="ceo_name"
@@ -64,7 +64,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="KENFACK Adam"
                             icon={<User className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("ceo_name") }
-                            error={zodParams?.errors?.ceo_name?.message}
+                            error={zodParams?.errors?.ceo_name?.message || axiosErrors?.ceo_name}
                         />
                         <InputField
                             id="email"
@@ -73,7 +73,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             type="email"
                             icon={<Mail className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("email")}
-                            error={zodParams?.errors?.email?.message}
+                            error={zodParams?.errors?.email?.message || axiosErrors?.email}
                         />
                         <InputField
                             id="year_founded"
@@ -82,7 +82,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="2025"
                             icon={<Calendar className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("year_founded")}
-                            error={zodParams?.errors?.year_founded?.message}
+                            error={zodParams?.errors?.year_founded?.message || axiosErrors?.year_founded}
                         />
                         <InputField
                             id="business_registration_number"
@@ -90,7 +90,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="IM075123456"
                             icon={<Workflow className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("business_registration_number")}
-                            error={zodParams?.errors?.business_registration_number?.message}
+                            error={zodParams?.errors?.business_registration_number?.message || axiosErrors?.business_registration_number}
                         />
                         <InputField
                             id="tax_number"
@@ -98,14 +98,14 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="FR12345678901"
                             icon={<Workflow className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("tax_number")}
-                            error={zodParams?.errors?.tax_number?.message}
+                            error={zodParams?.errors?.tax_number?.message || axiosErrors?.tax_number}
                         />
                         <SelectField
                             id="type"
                             label="Type of organization"
                             options={organizationTypes}
                             register={zodParams?.register && zodParams?.register("type")}
-                            error={zodParams?.errors?.type?.message}
+                            error={zodParams?.errors?.type?.message || axiosErrors?.type}
                         />
                         <InputField
                             id="web_site_url"
@@ -114,7 +114,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="https://www.example.com"
                             icon={<Building className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("web_site_url")}
-                            error={zodParams?.errors?.web_site_url?.message}
+                            error={zodParams?.errors?.web_site_url?.message || axiosErrors?.web_site_url}
                         />
                         <TextareaField
                             id="descrption"
@@ -122,7 +122,7 @@ export default function OrganizationForm({changeStep, setCreateAgency, ...contin
                             placeholder="Voyages Extraordinaires"
                             icon={<Building className="h-5 w-5 text-gray-400"/>}
                             register={zodParams?.register && zodParams?.register("description")}
-                            error={zodParams?.errors?.description?.message}
+                            error={zodParams?.errors?.description?.message || axiosErrors?.description}
                         />
                     </div>
                 </motion.div>

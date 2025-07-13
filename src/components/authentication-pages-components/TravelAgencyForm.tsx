@@ -27,7 +27,7 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     <Loader/>
                 </TransparentModal>
             )}
-            {axiosErrors && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors}</p>}
+            {axiosErrors && <p className="text-red-500 font-semibold text-sm mb-5">{axiosErrors.other}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
                 <InputField
                     id="agency_long_name"
@@ -36,7 +36,7 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     placeholder="Extraordinary Travels"
                     icon={<Building className="h-5 w-5 text-gray-400"/>}
                     register={zodParams?.register(("long_name"))}
-                    error={zodParams?.errors?.long_name?.message}
+                    error={zodParams?.errors?.long_name?.message || axiosErrors?.long_name}
                 />
                 <InputField
                     id="location"
@@ -45,14 +45,14 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     placeholder="Paris, France"
                     icon={<MapPin className="h-5 w-5 text-gray-400"/>}
                     register={zodParams?.register(("location"))}
-                    error={zodParams?.errors?.location?.message}
+                    error={zodParams?.errors?.location?.message || axiosErrors?.location}
                 />
                 <TextareaField
                     id="description"
                     label="Agency Description"
                     placeholder="Describe your agency and the services you offer..."
                     register={zodParams?.register(("description"))}
-                    error={zodParams?.errors?.description?.message}
+                    error={zodParams?.errors?.description?.message || axiosErrors?.description}
                     icon={<Info className="h-5 w-5 text-gray-400"/>}
                 />
                 <TextareaField
@@ -60,7 +60,7 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     label="Welcome Message"
                     placeholder="Message that will be displayed to visitors of your page..."
                     register={zodParams?.register(("greeting_message"))}
-                    error={zodParams?.errors?.greeting_message?.message}
+                    error={zodParams?.errors?.greeting_message?.message || axiosErrors?.greeting_message}
                     icon={<Info className="h-5 w-5 text-gray-400"/>}
                 />
 
@@ -69,7 +69,7 @@ export default function TravelAgencyForm({changeStep, ...continueProps}: TravelA
                     label="Social Networks (optional)"
                     placeholder="@extraordinary_travels"
                     register={zodParams?.register(("social_network"))}
-                    error={zodParams?.errors?.social_network?.message}
+                    error={zodParams?.errors?.social_network?.message || axiosErrors?.social_network}
                     icon={<Globe className="h-5 w-5 text-gray-400"/>}
                 />
             </div>
