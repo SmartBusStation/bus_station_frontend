@@ -1,69 +1,194 @@
-// src/components/dashboard/resources/VehiclesTab.tsx
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Plus, Edit, Trash2, Car, AlertCircle } from "lucide-react";
-import { useVehiclesTab } from "@/lib/hooks/dasboard/useVehiclesTab";
-import AddVehicleModal from "./AddVehicleModal";
-import Loader from "@/modals/Loader";
+"use client"
+import { useTranslation } from "react-i18next"
+import { Plus, Edit, Trash2, Car, AlertCircle, Search } from "lucide-react"
+import { useVehiclesTab } from "@/lib/hooks/dasboard/useVehiclesTab"
+import AddVehicleModal from "./AddVehicleModal"
+import Loader from "@/modals/Loader"
+import { useState, useMemo } from "react"
+import TransparentModal from "@/modals/TransparentModal";
 
 const VehiclesTab = () => {
-    const { t } = useTranslation();
-    const hook = useVehiclesTab();
+    const { t } = useTranslation()
+    const hook = useVehiclesTab()
+
+    // État pour la recherche
+    const [searchTerm, setSearchTerm] = useState("")
+
+    // Filtrage des véhicules basé sur la recherche
+    const filteredVehicles = useMemo(() => {
+        if (!searchTerm) return hook.vehicles
+
+        return hook.vehicles.filter((vehicle) =>
+            vehicle.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            vehicle.modele?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            vehicle.plaqueMatricule?.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    }, [hook.vehicles, searchTerm])
 
     if (hook.isLoading) {
-        return <div className="flex justify-center p-10"><Loader /></div>;
+        return (
+            <div className="flex justify-center items-center py-20">
+                <Loader />
+            </div>
+        )
     }
 
-    // Affiche une erreur globale si elle survient HORS de la modale
     if (hook.apiError && !hook.isModalOpen) {
         return (
-            <div className="p-4 text-center text-red-600 bg-red-50 rounded-lg">
-                <AlertCircle className="mx-auto h-8 w-8 mb-2" />
-                {hook.apiError}
+            <div className="p-4 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                    <AlertCircle className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Erreur de chargement</h3>
+                <p className="text-gray-600 mb-4">{hook.apiError}</p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                    Réessayer
+                </button>
             </div>
-        );
+        )
     }
 
     return (
-        <div>
-            <div className="flex justify-end mb-4">
-                {/* Le bouton "Ajouter" appelle maintenant openModalForCreate */}
-                <button onClick={hook.openModalForCreate} className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90">
-                    <Plus className="h-4 w-4" />
-                    {t("dashboard.resources.addVehicle")}
-                </button>
+        <div className="p-4">
+            {/* Header avec recherche */}
+            <div className="mb-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-6">
+                    <div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">Gestion des Véhicules</h3>
+                        <p className="text-gray-600 text-sm">Gérez votre flotte de véhicules</p>
+                    </div>
+                    <button
+                        onClick={hook.openModalForCreate}
+                        className="cursor-pointer flex items-center gap-3 bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg"
+                    >
+                        <Plus className="h-5 w-5" />
+                        {t("dashboard.resources.addVehicle")}
+                    </button>
+                </div>
+
+                {/* Barre de recherche */}
+                <div className="group relative max-w-md">
+                    <Search className="group-hover:stroke-2 group-hover:stroke-primary absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Rechercher un véhicule..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 pr-4 py-3 w-full border-2 border-gray-200 rounded-2xl hover:border-2 hover:border-primary focus:outline-none outline-none focus:border-2 focus:border-primary ring-0  transition-colors"
+                    />
+                </div>
+
+                {/* Indicateur de résultats */}
+                {searchTerm && (
+                    <p className="mt-3 text-sm text-gray-600">
+                        {filteredVehicles.length} résultat(s) pour &#34;{searchTerm}&#34;
+                    </p>
+                )}
             </div>
 
-            <AddVehicleModal hook={hook} />
+            <TransparentModal isOpen={hook.isModalOpen} >
+                <AddVehicleModal hook={hook} />
+            </TransparentModal>
 
-            {hook.vehicles.length === 0 ? (
-                <div className="text-center py-10 border-2 border-dashed rounded-lg">
-                    <Car className="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 className="mt-2 text-sm font-semibold text-gray-900">Aucun véhicule trouvé</h3>
-                    <p className="mt-1 text-sm text-gray-500">Commencez par ajouter votre premier véhicule.</p>
+
+
+
+            {/* Contenu principal */}
+            {filteredVehicles.length === 0 ? (
+                <div className="text-center py-16 bg-white rounded-xl border border-gray-100">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
+                        <Car className="h-10 w-10 text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        {searchTerm ? "Aucun véhicule trouvé" : "Aucun véhicule dans votre flotte"}
+                    </h3>
+                    <p className="text-gray-600 mb-6 max-w-sm mx-auto">
+                        {searchTerm
+                            ? "Essayez de modifier votre recherche"
+                            : "Commencez par ajouter votre premier véhicule pour gérer votre flotte."
+                        }
+                    </p>
+                    {!searchTerm && (
+                        <button
+                            onClick={hook.openModalForCreate}
+                            className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+                        >
+                            <Plus className="h-5 w-5" />
+                            Ajouter un véhicule
+                        </button>
+                    )}
                 </div>
             ) : (
-                <div className="overflow-hidden rounded-lg border border-gray-200">
-                    <table className="min-w-full divide-y divide-gray-200 text-sm">
-                        <thead className="bg-gray-50">
+                <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <table className="min-w-full">
+                        <thead className="bg-blue-50">
                         <tr>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Nom / Modèle</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Plaque</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Capacité</th>
-                            <th className="px-4 py-3 text-right font-semibold text-gray-600">Actions</th>
+                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
+                                Véhicule
+                            </th>
+                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
+                                Plaque d&#39;immatriculation
+                            </th>
+                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
+                                Capacité
+                            </th>
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                Actions
+                            </th>
                         </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
-                        {hook.vehicles.map((vehicle) => (
-                            <tr key={vehicle.idVehicule}>
-                                <td className="px-4 py-3 whitespace-nowrap font-medium text-gray-900">{vehicle.nom} ({vehicle.modele})</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-gray-600">{vehicle.plaqueMatricule}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-gray-600">{vehicle.nbrPlaces} places</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-right space-x-2">
-                                    {/* Bouton Modifier qui appelle openModalForEdit */}
-                                    <button onClick={() => hook.openModalForEdit(vehicle)} className="cursor-pointer text-gray-500 hover:text-primary"><Edit className="h-4 w-4" /></button>
-                                    {/* Bouton Supprimer qui appelle handleDelete */}
-                                    <button onClick={async () => vehicle.idVehicule && await hook.handleDelete(vehicle.idVehicule)} className="cursor-pointer text-gray-500 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
+                        <tbody className="divide-y divide-gray-100">
+                        {filteredVehicles.map((vehicle, index) => (
+                            <tr key={vehicle.idVehicule} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-blue-50/50 transition-colors`}>
+                                {/* Véhicule */}
+                                <td className="px-8 py-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                            <Car className="h-6 w-6 text-primary" />
+                                        </div>
+                                        <div>
+                                            <div className="font-semibold text-gray-900 text-base">{vehicle.nom}</div>
+                                            <div className="text-gray-600 text-sm">{vehicle.modele}</div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                {/* Plaque */}
+                                <td className="px-8 py-6">
+                                        <span className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-800">
+                                            {vehicle.plaqueMatricule}
+                                        </span>
+                                </td>
+
+                                {/* Capacité */}
+                                <td className="px-8 py-6">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-2xl font-bold text-gray-900">{vehicle.nbrPlaces}</span>
+                                        <span className="text-gray-600">places</span>
+                                    </div>
+                                </td>
+
+                                {/* Actions */}
+                                <td className="px-8 py-6">
+                                    <div className="flex items-center justify-center gap-3">
+                                        <button
+                                            onClick={() => hook.openModalForEdit(vehicle)}
+                                            className="p-3 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                                            title="Modifier"
+                                        >
+                                            <Edit className="h-6 w-6" />
+                                        </button>
+                                        <button
+                                            onClick={async () => vehicle.idVehicule && (await hook.handleDelete(vehicle.idVehicule))}
+                                            className="p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
+                                            title="Supprimer"
+                                        >
+                                            <Trash2 className="h-6 w-6" />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -72,7 +197,7 @@ const VehiclesTab = () => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default VehiclesTab;
+export default VehiclesTab
