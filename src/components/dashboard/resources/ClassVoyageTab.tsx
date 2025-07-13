@@ -1,10 +1,22 @@
 "use client"
-import { Plus, Edit, Trash2, Tag, AlertCircle, Search } from "lucide-react"
+import {
+    Plus,
+    Edit,
+    Trash2,
+    Tag,
+    AlertCircle,
+    Search,
+    DollarSign,
+    TrendingDown,
+    Star,
+    Settings
+} from "lucide-react"
 import { useClassVoyageTab } from "@/lib/hooks/dasboard/useClassVoyageTab"
 import AddClassVoyageModal from "./AddClassVoyageModal"
 import Loader from "@/modals/Loader"
 import TransparentModal from "@/modals/TransparentModal"
 import { useState, useMemo } from "react"
+import { ConfirmationModal } from "@/modals/ConfirmActionModal"
 
 const ClassVoyageTab = () => {
     const hook = useClassVoyageTab()
@@ -46,8 +58,8 @@ const ClassVoyageTab = () => {
     // Fonction pour obtenir la couleur d'icône de classe
     const getClassColor = (nom: string) => {
         const colors = [
-            "bg-blue-500", "bg-green-500", "bg-purple-500", "bg-pink-500",
-            "bg-indigo-500", "bg-yellow-500", "bg-red-500", "bg-teal-500"
+            "bg-blue-400", "bg-green-400", "bg-purple-400", "bg-pink-400",
+            "bg-indigo-400", "bg-yellow-400", "bg-red-400", "bg-teal-400"
         ]
         const charCode = nom.charCodeAt(0) || 0
         return colors[charCode % colors.length]
@@ -80,7 +92,7 @@ const ClassVoyageTab = () => {
     }
 
     return (
-        <div className="p-8">
+        <div className="p-4">
             {/* Header avec recherche */}
             <div className="mb-8">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-6">
@@ -90,7 +102,7 @@ const ClassVoyageTab = () => {
                     </div>
                     <button
                         onClick={hook.openModalForCreate}
-                        className="flex items-center gap-3 bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg"
+                        className="cursor-pointer flex items-center gap-3 bg-primary text-white px-7 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
                     >
                         <Plus className="h-5 w-5" />
                         Nouvelle Classe
@@ -99,26 +111,35 @@ const ClassVoyageTab = () => {
 
                 {/* Barre de recherche */}
                 <div className="relative max-w-md">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Search className="group-hover:stroke-2 group-hover:stroke-primary absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                         type="text"
                         placeholder="Rechercher une classe..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 pr-4 py-3 w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                        className="pl-10 pr-4 py-3 w-full border-2 border-gray-200 rounded-2xl hover:border-2 hover:border-primary focus:outline-none outline-none focus:border-2 focus:border-primary ring-0 transition-colors"
                     />
                 </div>
 
                 {/* Indicateur de résultats */}
                 {searchTerm && (
                     <p className="mt-3 text-sm text-gray-600">
-                        {filteredClasses.length} résultat(s) pour "{searchTerm}"
+                        {filteredClasses.length} résultat(s) pour &quot;{searchTerm}&quot;
                     </p>
                 )}
             </div>
 
             <TransparentModal isOpen={hook.isModalOpen}>
                 <AddClassVoyageModal hook={hook} />
+            </TransparentModal>
+
+            <TransparentModal isOpen={hook.canOpenConfirmationModal}>
+                <ConfirmationModal
+                    onClose={() => hook.setCanOpenConfirmationModal(false)}
+                    onConfirm={hook.handleDelete}
+                    title={"Supprimer la Classe"}
+                    message={hook.confirmationMessage}
+                />
             </TransparentModal>
 
             {/* Contenu principal */}
@@ -149,22 +170,37 @@ const ClassVoyageTab = () => {
             ) : (
                 <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                     <table className="min-w-full">
-                        <thead className="bg-blue-50">
+                        <thead className="bg-blue-200">
                         <tr>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Classe
-                            </th>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Prix de Base
-                            </th>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Catégorie
-                            </th>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Taux d'Annulation
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                <div className="flex items-center justify-center gap-2">
+                                    <Tag className="h-5 w-5 text-primary" />
+                                    Classe
+                                </div>
                             </th>
                             <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
-                                Actions
+                                <div className="flex items-center justify-center gap-2">
+                                    <DollarSign className="h-5 w-5 text-primary" />
+                                    Prix de Base
+                                </div>
+                            </th>
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                <div className="flex items-center justify-center gap-2">
+                                    <Star className="h-5 w-5 text-primary" />
+                                    Catégorie
+                                </div>
+                            </th>
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                <div className="flex items-center justify-center gap-2">
+                                    <TrendingDown className="h-5 w-5 text-primary" />
+                                    Taux d&apos;Annulation
+                                </div>
+                            </th>
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                <div className="flex items-center justify-center gap-2">
+                                    <Settings className="h-5 w-5 text-primary" />
+                                    Actions
+                                </div>
                             </th>
                         </tr>
                         </thead>
@@ -175,17 +211,17 @@ const ClassVoyageTab = () => {
                             const classColor = getClassColor(cls.nom || '')
 
                             return (
-                                <tr key={cls.idClassVoyage} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-blue-50/50 transition-colors`}>
+                                <tr key={cls.idClassVoyage} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50/50 transition-colors`}>
                                     {/* Classe */}
                                     <td className="px-8 py-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className={`w-12 h-12 rounded-lg ${classColor} flex items-center justify-center text-white text-lg font-bold shadow-md`}>
+                                        <div className="flex items-center justify-center gap-4">
+                                            <div className={`w-12 h-12 rounded-full ${classColor} flex items-center justify-center text-white text-lg font-bold shadow-md`}>
                                                 {priceBadge.icon}
                                             </div>
-                                            <div>
+                                            <div className="text-center">
                                                 <div className="font-semibold text-gray-900 text-base">{cls.nom}</div>
-                                                <div className="text-gray-600 text-sm flex items-center gap-1">
-                                                    <Tag className="h-3 w-3" />
+                                                <div className="text-gray-600 text-sm flex items-center justify-center gap-1">
+                                                    <Tag className="h-4 w-4" />
                                                     Classe de voyage
                                                 </div>
                                             </div>
@@ -193,7 +229,7 @@ const ClassVoyageTab = () => {
                                     </td>
 
                                     {/* Prix */}
-                                    <td className="px-8 py-6">
+                                    <td className="px-8 py-6 text-center">
                                         <div className="text-2xl font-bold text-gray-900">
                                             {cls.prix?.toLocaleString()}
                                         </div>
@@ -201,7 +237,7 @@ const ClassVoyageTab = () => {
                                     </td>
 
                                     {/* Catégorie */}
-                                    <td className="px-8 py-6">
+                                    <td className="px-8 py-6 text-center">
                                             <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${priceBadge.color}`}>
                                                 <span className="mr-1">{priceBadge.icon}</span>
                                                 {priceBadge.label}
@@ -209,7 +245,7 @@ const ClassVoyageTab = () => {
                                     </td>
 
                                     {/* Taux d'annulation */}
-                                    <td className="px-8 py-6">
+                                    <td className="px-8 py-6 text-center">
                                             <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${cancellationBadge.color}`}>
                                                 {cls.tauxAnnulation}% - {cancellationBadge.label}
                                             </span>
@@ -220,17 +256,17 @@ const ClassVoyageTab = () => {
                                         <div className="flex items-center justify-center gap-3">
                                             <button
                                                 onClick={() => hook.openModalForEdit(cls)}
-                                                className="p-3 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                                                className="cursor-pointer p-3 text-green-600 hover:text-green-700 hover:bg-green-100 rounded-full transition-all duration-200"
                                                 title="Modifier"
                                             >
-                                                <Edit className="h-6 w-6" />
+                                                <Edit className="h-5 w-5" />
                                             </button>
                                             <button
-                                                onClick={() => hook.handleDelete(cls.idClassVoyage!)}
-                                                className="p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
+                                                onClick={() => hook.openConfirmModal(cls)}
+                                                className="cursor-pointer p-3 text-red-600 hover:text-red-700 hover:bg-red-100 rounded-full transition-all duration-200"
                                                 title="Supprimer"
                                             >
-                                                <Trash2 className="h-6 w-6" />
+                                                <Trash2 className="h-5 w-5" />
                                             </button>
                                         </div>
                                     </td>

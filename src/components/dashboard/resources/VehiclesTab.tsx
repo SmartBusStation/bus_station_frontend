@@ -1,11 +1,13 @@
 "use client"
 import { useTranslation } from "react-i18next"
-import { Plus, Edit, Trash2, Car, AlertCircle, Search } from "lucide-react"
+import { Plus, Edit, Trash2, Car, AlertCircle, Search, Settings, Users, Hash } from "lucide-react"
 import { useVehiclesTab } from "@/lib/hooks/dasboard/useVehiclesTab"
 import AddVehicleModal from "./AddVehicleModal"
 import Loader from "@/modals/Loader"
 import { useState, useMemo } from "react"
 import TransparentModal from "@/modals/TransparentModal";
+import {ConfirmationModal} from "@/modals/ConfirmActionModal";
+
 
 const VehiclesTab = () => {
     const { t } = useTranslation()
@@ -27,15 +29,15 @@ const VehiclesTab = () => {
 
     if (hook.isLoading) {
         return (
-            <div className="flex justify-center items-center py-20">
+            <div className="flex justify-center items-center mt-16 py-20">
                 <Loader />
             </div>
         )
     }
 
-    if (hook.apiError && !hook.isModalOpen) {
+    if (hook.apiError && !hook.isModalOpen && !hook.canOpenConfirmationModal) {
         return (
-            <div className="p-4 text-center">
+            <div className="p-4 text-center mt-32">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
                     <AlertCircle className="h-8 w-8 text-red-600" />
                 </div>
@@ -43,7 +45,7 @@ const VehiclesTab = () => {
                 <p className="text-gray-600 mb-4">{hook.apiError}</p>
                 <button
                     onClick={() => window.location.reload()}
-                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                    className="px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-700 transition-colors"
                 >
                     Réessayer
                 </button>
@@ -89,11 +91,6 @@ const VehiclesTab = () => {
                 )}
             </div>
 
-            <TransparentModal isOpen={hook.isModalOpen} >
-                <AddVehicleModal hook={hook} />
-            </TransparentModal>
-
-
 
 
             {/* Contenu principal */}
@@ -124,31 +121,41 @@ const VehiclesTab = () => {
             ) : (
                 <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                     <table className="min-w-full">
-                        <thead className="bg-blue-50">
+                        <thead className="bg-blue-200">
                         <tr>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Véhicule
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                <div className="flex items-center gap-2">
+                                    <Car className="h-6 w-6 text-primary"/>
+                                    Véhicule
+                                </div>
                             </th>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Plaque d&#39;immatriculation
-                            </th>
-                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700">
-                                Capacité
+                            <th className="text-center px-8 py-5  text-sm font-semibold text-gray-700">
+                                <div className="flex items-center gap-2">
+                                    <Hash className="h-7 w-7 text-primary"/>
+                                    Plaque d&#39;immatriculation
+                                </div>
                             </th>
                             <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
-                                Actions
+                                <div className="flex items-center gap-2">
+                                    <Users className="h-6 w-6 text-primary"/>
+                                    Capacité
+                                </div>
+                            </th>
+                            <th className="px-8 py-5 text-center text-sm font-semibold text-gray-700">
+                                <div className="flex items-center justify-center gap-2">
+                                    <Settings className="h-6 w-6 text-primary"/>
+                                    Actions
+                                </div>
                             </th>
                         </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                         {filteredVehicles.map((vehicle, index) => (
-                            <tr key={vehicle.idVehicule} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-blue-50/50 transition-colors`}>
+                            <tr key={vehicle.idVehicule}
+                                className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50/50 transition-colors`}>
                                 {/* Véhicule */}
-                                <td className="px-8 py-6">
+                                <td className="text-center px-8 py-6">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                                            <Car className="h-6 w-6 text-primary" />
-                                        </div>
                                         <div>
                                             <div className="font-semibold text-gray-900 text-base">{vehicle.nom}</div>
                                             <div className="text-gray-600 text-sm">{vehicle.modele}</div>
@@ -157,14 +164,15 @@ const VehiclesTab = () => {
                                 </td>
 
                                 {/* Plaque */}
-                                <td className="px-8 py-6">
-                                        <span className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-800">
-                                            {vehicle.plaqueMatricule}
-                                        </span>
+                                <td className=" px-8 py-6">
+                                    <span
+                                        className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-800">
+                                        {vehicle.plaqueMatricule}
+                                    </span>
                                 </td>
 
                                 {/* Capacité */}
-                                <td className="px-8 py-6">
+                                <td className="text-center px-8 py-6">
                                     <div className="flex items-center gap-2">
                                         <span className="text-2xl font-bold text-gray-900">{vehicle.nbrPlaces}</span>
                                         <span className="text-gray-600">places</span>
@@ -176,17 +184,17 @@ const VehiclesTab = () => {
                                     <div className="flex items-center justify-center gap-3">
                                         <button
                                             onClick={() => hook.openModalForEdit(vehicle)}
-                                            className="p-3 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                                            className="cursor-pointer p-3 text-green-600 hover:text-green-700 hover:bg-green-100 rounded-full transition-all duration-200"
                                             title="Modifier"
                                         >
-                                            <Edit className="h-6 w-6" />
+                                            <Edit className="h-5 w-5"/>
                                         </button>
                                         <button
-                                            onClick={async () => vehicle.idVehicule && (await hook.handleDelete(vehicle.idVehicule))}
-                                            className="p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
+                                            onClick={() =>hook.openConfirmModal(vehicle)}
+                                            className="cursor-pointer p-3 text-red-600 hover:text-red-700 hover:bg-red-100 rounded-full transition-all duration-200"
                                             title="Supprimer"
                                         >
-                                            <Trash2 className="h-6 w-6" />
+                                            <Trash2 className="h-5 w-5"/>
                                         </button>
                                     </div>
                                 </td>
@@ -196,6 +204,19 @@ const VehiclesTab = () => {
                     </table>
                 </div>
             )}
+
+            <TransparentModal isOpen={hook.isModalOpen} >
+                <AddVehicleModal hook={hook} />
+            </TransparentModal>
+
+            <TransparentModal isOpen={hook.canOpenConfirmationModal}>
+                <ConfirmationModal
+                    onClose={()=> hook.setCanOpenConfirmationModal(false)}
+                    onConfirm={hook.handleDelete}
+                    title={"Suppression de vehicule"}
+                    message={hook.confirmationMessage}
+                />
+            </TransparentModal>
         </div>
     )
 }
