@@ -1,11 +1,9 @@
-// src/lib/hooks/dashboard/useEnhancedTripCalendar.ts
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
 import { getTripsByAgency, updateTrip } from '@/lib/services/trip-service';
-import { Voyage } from '@/lib/types/generated-api';
-import { CalendarEvent, CalendarView, CalendarMonth, CalendarDay } from '@/lib/types/calendar';
+import { CalendarEvent, CalendarMonth, CalendarDay } from '@/lib/types/calendar';
 import {
     format,
     startOfMonth,
@@ -71,18 +69,54 @@ export function useEnhancedTripCalendar() {
 
     // Conversion améliorée des voyages en événements
     const calendarEvents: CalendarEvent[] = useMemo(() => {
-        return allTrips.map(trip => ({
-            id: trip.idVoyage!,
-            title: trip.titre!,
-            start: new Date(trip.dateDepartPrev!),
-            end: new Date(trip.heureArrive && (new Date(trip.heureArrive) > new Date(trip.dateDepartPrev!)) ? trip.heureArrive : trip.dateDepartPrev!),
-            status: trip.statusVoyage!,
-            description: `${trip.lieuDepart} → ${trip.lieuArrive}`,
-            location: `${trip.lieuDepart} → ${trip.lieuArrive}`,
-            price: trip.prix,
-            availableSeats: trip.nbrPlaceRestante,
-            totalSeats: trip.nbrPlaceReservable,
-        }));
+        const events = allTrips.map(trip => {
+            // Créer la date de départ avec l'heure
+            const departureDate = new Date(trip.dateDepartPrev!);
+
+            // Si heureDepartEffectif existe, l'utiliser, sinon fixer à 10h00
+            if (trip.heureDepartEffectif) {
+                const timeParts = trip.heureDepartEffectif.split(':');
+                if (timeParts.length >= 2) {
+                    departureDate.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]), 0, 0);
+                } else {
+                    departureDate.setHours(10, 0, 0, 0); // Par défaut 10h00
+                }
+            } else {
+                departureDate.setHours(10, 0, 0, 0); // Par défaut 10h00
+            }
+
+            // Date de fin basée sur heureArrive si disponible
+            let endDate = new Date(departureDate);
+            if (trip.heureArrive) {
+                const arrivalTimeParts = trip.heureArrive.split(':');
+                if (arrivalTimeParts.length >= 2) {
+                    endDate.setHours(parseInt(arrivalTimeParts[0]), parseInt(arrivalTimeParts[1]), 0, 0);
+                }
+            }
+
+            const event = {
+                id: trip.idVoyage!,
+                title: trip.titre!,
+                start: departureDate,
+                end: endDate,
+                status: trip.statusVoyage!,
+                description: `${trip.lieuDepart} → ${trip.lieuArrive}`,
+                location: `${trip.lieuDepart} → ${trip.lieuArrive}`,
+                price: trip.prix,
+                availableSeats: trip.nbrPlaceRestante,
+                totalSeats: trip.nbrPlaceReservable,
+            };
+
+            // Debug utile : vérifier la conversion des heures
+            if (!trip.heureDepartEffectif) {
+                console.log(`⏰ Voyage "${trip.titre}" sans heure définie → fixé à 10h00`);
+            }
+
+            return event;
+        });
+
+        console.log(`📊 ${events.length} événements générés pour le calendrier`);
+        return events;
     }, [allTrips]);
 
     // Génération du calendrier mensuel
@@ -125,7 +159,15 @@ export function useEnhancedTripCalendar() {
 
     // Événements pour une date spécifique
     const getEventsForDate = useCallback((date: Date) => {
-        return calendarEvents.filter(event => isSameDay(event.start, date));
+        const eventsForDate = calendarEvents.filter(event => isSameDay(event.start, date));
+        // Debug: utile pour vérifier que les événements sont trouvés
+        if (eventsForDate.length > 0) {
+            console.log(`📅 Événements trouvés pour ${date.toDateString()}:`, eventsForDate.map(e => ({
+                titre: e.title,
+                heure: e.start.getHours() + 'h' + e.start.getMinutes().toString().padStart(2, '0')
+            })));
+        }
+        return eventsForDate;
     }, [calendarEvents]);
 
     // Navigation

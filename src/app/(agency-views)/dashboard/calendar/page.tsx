@@ -5,12 +5,11 @@ import { useTranslation } from "react-i18next";
 import { AlertCircle, RefreshCw, TrendingUp, Users, Calendar as CalendarIcon, DollarSign } from 'lucide-react';
 import PageHeader from "@/components/dashboard/PageHeader";
 import DateNavigation from "@/components/dashboard/calendar/DateNavigation";
-import EnhancedCalendarView from "@/components/dashboard/calendar/EnhancedCalendarView";
+import CleanCalendarView from "@/components/dashboard/calendar/CleanCalendarView";
 import Loader from "@/modals/Loader";
-import { ElegantTripDetailModal } from "@/components/dashboard/calendar/ElegantTripDetailModal";
+import ProfessionalTimelineView from "@/components/dashboard/calendar/ProfesionnalTimelineView";
 import {useEnhancedTripCalendar} from "@/lib/hooks/dasboard/useEnhancedTripCalendar";
-import TimelineDayView from "@/components/dashboard/calendar/TimeLineDayView";
-import DayDetailView from "@/components/dashboard/calendar/DailyDetailView";
+import {EnhancedTripDetailModal} from "@/components/dashboard/calendar/EnchancedTripDetailModal";
 
 const StatCard: React.FC<{
     icon: React.ElementType;
@@ -40,7 +39,7 @@ const StatCard: React.FC<{
     </div>
 );
 
-const ImprovedCalendarPage = () => {
+const FinalCalendarPage = () => {
     const { t } = useTranslation();
     const {
         // États
@@ -49,7 +48,6 @@ const ImprovedCalendarPage = () => {
         currentDate,
         selectedDate,
         viewType,
-        showDayDetail,
         showTimelineView,
         calendarMonth,
         calendarEvents,
@@ -73,7 +71,6 @@ const ImprovedCalendarPage = () => {
         handleEventSelect,
         handleCreateEvent,
         closeModal,
-        closeDayDetail,
         closeTimelineView,
         handleEdit,
         handleCancel,
@@ -94,8 +91,7 @@ const ImprovedCalendarPage = () => {
             return (
                 <div className="flex justify-center items-center py-20">
                     <div className="text-center">
-                        <Loader />
-                        <p className="mt-4 text-gray-600">Chargement du calendrier...</p>
+                        <Loader  message={"Chargement du calendrier..."}/>
                     </div>
                 </div>
             );
@@ -118,29 +114,19 @@ const ImprovedCalendarPage = () => {
             );
         }
 
+        // Vue Timeline quand on clique sur une date
         if (showTimelineView && selectedDate) {
+            const dayEvents = getEventsForDate(selectedDate);
+
             return (
-                <TimelineDayView
+                <ProfessionalTimelineView
                     date={selectedDate}
-                    events={getEventsForDate(selectedDate)}
+                    events={dayEvents}
                     onEventSelect={handleEventSelect}
                     onCreateEvent={handleCreateEvent}
                     onBack={closeTimelineView}
                     getStatusColor={getStatusColor}
                     getStatusDotColor={getStatusDotColor}
-                />
-            );
-        }
-
-        if (showDayDetail && selectedDate) {
-            return (
-                <DayDetailView
-                    date={selectedDate}
-                    events={getEventsForDate(selectedDate)}
-                    onEventSelect={handleEventSelect}
-                    onCreateEvent={handleCreateEvent}
-                    onBack={closeDayDetail}
-                    getStatusColor={getStatusColor}
                 />
             );
         }
@@ -195,7 +181,7 @@ const ImprovedCalendarPage = () => {
 
                 {/* Vue principale du calendrier */}
                 {viewType === 'month' && (
-                    <EnhancedCalendarView
+                    <CleanCalendarView
                         calendarMonth={calendarMonth}
                         onDateSelect={handleDateSelect}
                         onEventSelect={handleEventSelect}
@@ -204,7 +190,7 @@ const ImprovedCalendarPage = () => {
                     />
                 )}
 
-                {/* Vue agenda */}
+                {/* Vue agenda simplifiée */}
                 {viewType === 'agenda' && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                         <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
@@ -289,7 +275,7 @@ const ImprovedCalendarPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-white">
             <div className="max-w-7xl mx-auto">
                 <PageHeader
                     title={t("dashboard.calendar.title")}
@@ -302,7 +288,7 @@ const ImprovedCalendarPage = () => {
             </div>
 
             {/* Modal de détail des voyages */}
-            <ElegantTripDetailModal
+            <EnhancedTripDetailModal
                 isOpen={isModalOpen}
                 trip={selectedTrip}
                 onClose={closeModal}
@@ -314,4 +300,4 @@ const ImprovedCalendarPage = () => {
     );
 };
 
-export default ImprovedCalendarPage;
+export default FinalCalendarPage;

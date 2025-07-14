@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
-import { getReservationsByAgency, cancelReservation } from '@/lib/services/reservation-service';
+import { getReservationsByAgency } from '@/lib/services/reservation-service';
 import { ReservationPreviewDTO } from '@/lib/types/generated-api';
 import { PaginatedResponse } from '@/lib/types/common';
 
@@ -141,7 +141,7 @@ export function useBookingsPage() {
 
         setIsActionLoading(true);
         try {
-            await cancelReservation(reservationId);
+          //  await cancelReservation(reservationId);
             await fetchBookings(agencyId, currentPage);
         } catch (error: unknown) {
             console.error(error);
