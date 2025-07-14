@@ -14,34 +14,6 @@ export type ResourceTab = "vehicles" | "drivers" | "employees"|"classes";
 
 
 
-export interface Employee {
-  id: string;
-  name: string;
-  role: "Manager" | "Support" | "Agent";
-  email: string;
-  status: "active" | "inactive";
-}
-
-export interface TripPlan {
-  id: string;
-  title: string;
-  departure: string;
-  destination: string;
-  departureDate: string;
-  status: "draft" | "published" | "completed" | "cancelled";
-  driverId: string | null;
-  vehicleId: string | null;
-}
-
-export interface Booking {
-  id: string;
-  customerName: string;
-  tripName: string;
-  bookingDate: string;
-  seats: number;
-  totalPrice: number;
-  status: "confirmed" | "pending" | "cancelled";
-}
 
 
 
@@ -95,7 +67,7 @@ export type ResourceStatus = 'available' | 'in_use' | 'maintenance';
 export type DriverStatus = 'available' | 'on_trip' | 'on_leave';
 export type TripStatus = 'published' | 'completed' | 'cancelled';
 
-
+/*
 
 export interface CalendarEvent {
   id: string; // idVoyage
@@ -106,3 +78,4 @@ export interface CalendarEvent {
   resource?: any; // Pour react-big-calendar
   status: 'EN_ATTENTE' | 'PUBLIE' | 'EN_COURS' | 'TERMINE' | 'ANNULE';
 }
+*/

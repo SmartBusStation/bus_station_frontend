@@ -34,7 +34,7 @@ export interface Trip {
   datePublication: string;
   dateLimiteReservation: string;
   dateLimiteConfirmation: string;
-  statusVoyage: string;
+  statusVoyage:   "PUBLIE" | "EN_COURS" | "EN_ATTENTE" | "TERMINE" | "ANNULE" ;
   smallImage: string;
   bigImage: string;
   nomClasseVoyage: string;
