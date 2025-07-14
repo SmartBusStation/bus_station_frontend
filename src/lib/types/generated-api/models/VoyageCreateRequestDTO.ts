@@ -24,8 +24,10 @@ export type VoyageCreateRequestDTO = {
     vehiculeId: string;
     classVoyageId: string;
     agenceVoyageId: string;
-    amenities?: Array<'WIFI' | 'AC' | 'USB' | 'SNACKS' | 'BEVERAGES' | 'POWER_OUTLETS' | 'ENTERTAINMENT' | 'COMFORTABLE_SEATS' | 'RESTROOMS' | 'LUGGAGE_STORAGE' | 'CHILD_SEATS' | 'PET_FRIENDLY' | 'AIRPORT_PICKUP' | 'AIRPORT_DROP_OFF' | 'MEAL_SERVICE' | 'ONBOARD_GUIDE' | 'SEAT_SELECTION' | 'GROUP_DISCOUNTS' | 'LATE_CHECK_IN' | 'LATE_CHECK_OUT'>;
+    amenities?: Array<Amenity>;
 };
+
+export type Amenity= 'WIFI' | 'AC' | 'USB' | 'SNACKS' | 'BEVERAGES' | 'POWER_OUTLETS' | 'ENTERTAINMENT' | 'COMFORTABLE_SEATS' | 'RESTROOMS' | 'LUGGAGE_STORAGE' | 'CHILD_SEATS' | 'PET_FRIENDLY' | 'AIRPORT_PICKUP' | 'AIRPORT_DROP_OFF' | 'MEAL_SERVICE' | 'ONBOARD_GUIDE' | 'SEAT_SELECTION' | 'GROUP_DISCOUNTS' | 'LATE_CHECK_IN' | 'LATE_CHECK_OUT'
 
 export namespace VoyageCreateRequestDTO {
     export enum statusVoyage {

@@ -9,8 +9,7 @@ const url: string = "voyage";
 
 export async function retrieveAllTrips(): Promise<TripAxiosResponseInterface | null> {
   try {
-    const apiResponse: AxiosResponse<TripAxiosResponseInterface> =
-      await axiosInstance.get(`/${url}/all`);
+    const apiResponse: AxiosResponse<TripAxiosResponseInterface> = await axiosInstance.get(`/${url}/all`);
     if (apiResponse.status === 200) {
       return apiResponse.data;
     } else {
@@ -26,9 +25,7 @@ export async function retrieveAllTrips(): Promise<TripAxiosResponseInterface | n
 export async function retrieveTripDetail(tripId: string): Promise<Trip | null> {
   if (!tripId || tripId === "") throw new Error("the trip id must not empty");
   try {
-    const apiResponse: AxiosResponse<Trip> = await axiosInstance.get(
-      `/${url}/byId/${tripId}`
-    );
+    const apiResponse: AxiosResponse<Trip> = await axiosInstance.get(`/${url}/byId/${tripId}`);
     if (apiResponse.status === 200) {
       console.log(apiResponse);
       return apiResponse.data;
@@ -101,7 +98,6 @@ export async function getTripDetailsForEdit(tripId: string): Promise<VoyageDetai
     throw error as AxiosError;
   }
 }
-
 
 
 

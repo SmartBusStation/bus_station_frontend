@@ -3,7 +3,7 @@
 import React, { JSX, use } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import TripDetailsLoader from "@/components/market-place-components/trip-details/TripDetailsLoader";
-import { useTripDetails } from "@/lib/hooks/useTripDetails";
+import { useTripDetails } from "@/lib/hooks/market-place/useTripDetails";
 import PrincipalSection from "@/components/market-place-components/trip-details/principal-section/PrincipalSection";
 import DetailedInformation from "@/components/market-place-components/trip-details/DetailedInformation";
 import TripDetailsLoadingError from "@/components/market-place-components/trip-details/TripDetailsLoadingError";

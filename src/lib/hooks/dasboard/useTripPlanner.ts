@@ -1,5 +1,4 @@
-// src/lib/hooks/dasboard/useTripPlanner.ts
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -12,6 +11,7 @@ import { getDriversByAgency } from "@/lib/services/chauffeur-service";
 import { getAllClasses } from "@/lib/services/class-voyage-service";
 import { Vehicule, VoyageCreateRequestDTO, ClassVoyage } from "@/lib/types/generated-api";
 import {Customer} from "@/lib/types/models/BusinessActor";
+import {Amenity} from "@/lib/types/generated-api/models/VoyageCreateRequestDTO";
 
 type ResourceState<T> = {
   data: T[];
@@ -40,6 +40,7 @@ export function useTripPlanner() {
   const [formApiError, setFormApiError] = useState<string | null>(null);
 
   const form = useForm<TripPlannerFormType>({ resolver: zodResolver(tripPlannerSchema) });
+
 
   const loadResource = useCallback(async <T>(fetcher: () => Promise<T[] | null>, setter: React.Dispatch<React.SetStateAction<ResourceState<T>>>, resourceName: string) => {
     setter(prev => ({ ...prev, isLoading: true, error: null }));
@@ -86,13 +87,12 @@ export function useTripPlanner() {
             heureArrive: tripDetails.heureArrive?.split('T')[1].substring(0, 5) || "",
             dateLimiteReservation: tripDetails.dateLimiteReservation?.split('T')[0] || "",
             dateLimiteConfirmation: tripDetails.dateLimiteConfirmation?.split('T')[0] || "",
-           // prix: tripDetails.prix,
             nbrPlaceReservable: tripDetails.nbrPlaceReservable,
             vehiculeId: tripDetails.vehicule?.idVehicule,
             chauffeurId: tripDetails.chauffeur?.userId,
-            classVoyageId: (tripDetails as any).classVoyageId, // L'API doit retourner ce champ
+            classVoyageId: (tripDetails as any).classVoyageId,
             agenceVoyageId: agency.agencyId,
-            amenities: tripDetails.amenities as ['WIFI' , 'AC' , 'USB' , 'SNACKS' , 'BEVERAGES' , 'POWER_OUTLETS' , 'ENTERTAINMENT' , 'COMFORTABLE_SEATS' , 'RESTROOMS' , 'LUGGAGE_STORAGE' , 'CHILD_SEATS' , 'PET_FRIENDLY' , 'AIRPORT_PICKUP' , 'AIRPORT_DROP_OFF' , 'MEAL_SERVICE' , 'ONBOARD_GUIDE' , 'SEAT_SELECTION' , 'GROUP_DISCOUNTS' , 'LATE_CHECK_IN' , 'LATE_CHECK_OUT'] | undefined,
+            amenities: tripDetails.amenities as Array<Amenity> | undefined,
           });
         }
       } catch (error) {

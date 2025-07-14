@@ -1,4 +1,3 @@
-// src/app/(customer-view)/agency/[agencyId]/page.tsx
 "use client";
 
 import { useRouter } from "next/navigation";

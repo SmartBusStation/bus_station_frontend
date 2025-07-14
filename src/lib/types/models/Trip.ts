@@ -1,6 +1,7 @@
 import { Vehicle } from "@/lib/types/models/vehicle";
 import { SortInterface } from "@/lib/types/common";
 import {Customer} from "@/lib/types/models/BusinessActor";
+import {Amenity} from "@/lib/types/generated-api/models/VoyageCreateRequestDTO";
 export type Amenities = "WiFi" | "AC" | "USB" | "Snacks" | "Meals";
 
 export interface Trip {
@@ -43,7 +44,7 @@ export interface Trip {
   pointArrivee: string;
   vehicule: Vehicle;
   placeReservees: number[];
-  amenities: Amenities[];
+  amenities: Amenity[];
 }
 
 export interface TripDetails extends Trip {

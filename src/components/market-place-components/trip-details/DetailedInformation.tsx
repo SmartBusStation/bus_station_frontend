@@ -3,7 +3,7 @@ import {FaInfoCircle, FaLandmark, FaStar, FaTools} from "react-icons/fa";
 import {CheckCircle, Clock, XCircle} from "lucide-react";
 import {MdAirlineSeatReclineNormal} from "react-icons/md";
 import {Trip} from "@/lib/types/models/Trip";
-import {equipmentOnBusType} from "@/lib/hooks/useTripDetails";
+import {equipmentOnBusType} from "@/lib/hooks/market-place/useTripDetails";
 import {formatDateToTime} from "@/lib/services/date-services";
 
 

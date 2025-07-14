@@ -65,7 +65,9 @@ function useBusStationProvider()
                 setIsLoading(false);
                 return null;
             }
-        } catch (error: any) {
+        }
+            // eslint-disable-next-line
+        catch (error: any) {
             if (error?.response?.status === 401 || error?.response?.status === 403) {
                 setAxiosErrors("Identifiants incorrects, veuillez réessayer !");
             } else if (error?.response?.status === 404) {
@@ -107,18 +109,18 @@ function useBusStationProvider()
     }, []);
 
     const authMethods = useMemo(() => ({
-        login,
         isLoading,
         userData,
         axiosErrors,
-        register,
-        handleSubmit,
         errors,
         isCustomerAuthenticated,
-        logout,
         isAgencyConnected,
         isOrganizationConnected,
+        logout,
+        login,
+        handleSubmit,
+        register,
     }), [isLoading, userData, axiosErrors, errors, isCustomerAuthenticated, isAgencyConnected, isOrganizationConnected]);
 
-    return { authMethods };
+    return {authMethods};
 }

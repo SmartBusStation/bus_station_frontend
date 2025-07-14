@@ -15,9 +15,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         const range = [];
         const rangeWithDots = [];
 
-        for (let i = Math.max(2, currentPage - delta);
-             i <= Math.min(totalPages - 1, currentPage + delta);
-             i++) {
+        for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
             range.push(i);
         }
 

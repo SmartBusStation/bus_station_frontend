@@ -5,7 +5,7 @@ import PageHeader from "@/components/dashboard/PageHeader"
 import TripPlannerForm from "@/components/dashboard/trip-planning/TripPlannerForm"
 import { useTripPlanner } from "@/lib/hooks/dasboard/useTripPlanner"
 import Loader from "@/modals/Loader"
-import { MapPin, Calendar, Clock } from "lucide-react"
+import { MapPin, Calendar, Users, Settings } from "lucide-react"
 
 function TripPlannerPageContent() {
     const tripPlanner = useTripPlanner()
@@ -28,18 +28,31 @@ function TripPlannerPageContent() {
                         : "Créez un nouveau voyage en remplissant tous les détails nécessaires"
                 }
             >
-                <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        <span>Itinéraire</span>
+                {/* Progress indicators */}
+                <div className="flex items-center gap-6 mt-4">
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                            <MapPin className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-gray-700 font-medium">Itinéraire</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        <span>Planning</span>
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                            <Calendar className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-gray-700 font-medium">Planning</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4" />
-                        <span>Horaires</span>
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                            <Users className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-gray-700 font-medium">Ressources</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                            <Settings className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-gray-700 font-medium">Services</span>
                     </div>
                 </div>
             </PageHeader>
@@ -54,7 +67,10 @@ export default function TripPlanningPage() {
         <Suspense
             fallback={
                 <div className="flex justify-center items-center py-20">
-                    <Loader />
+                    <div className="text-center space-y-4">
+                        <Loader />
+                        <p className="text-gray-600">Chargement du planificateur de voyage...</p>
+                    </div>
                 </div>
             }
         >

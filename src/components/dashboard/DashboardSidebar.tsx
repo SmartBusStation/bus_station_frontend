@@ -8,7 +8,6 @@ import {
   LayoutDashboard,
   Car,
   Calendar,
-  BookOpen,
   Store,
   MessageCircle,
   Gem,
@@ -199,12 +198,12 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       description: "Voyages en cours de création",
       badge: "3",
     },
-    {
+   /* {
       href: "/dashboard/bookings",
       icon: BookOpen,
       label: t("dashboard.sidebar.bookings"),
       description: "Réservations clients",
-    },
+    },*/
     {
       href: "/dashboard/marketplace",
       icon: Store,

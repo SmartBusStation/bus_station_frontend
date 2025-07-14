@@ -29,7 +29,7 @@ const ResourcesPage = () => {
       id: "vehicles",
       label: t("dashboard.resources.tabs.vehicles"),
       icon: Car,
-      count: "12", // You can make this dynamic
+      count: "12",
     },
     {
       id: "drivers",
