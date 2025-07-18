@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { User, Mail, Phone, KeyRound, Edit, X } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, FieldValues } from 'react-hook-form';
 import { Customer } from '@/lib/types/models/BusinessActor';
 
 // ===================================================================================
@@ -20,7 +20,7 @@ async function mockUpdateProfile(currentUserData: Customer, updatedFields: Parti
     return finalUserData;
 }
 
-async function mockChangePassword(data: any): Promise<{ message: string }> {
+async function mockChangePassword(data: FieldValues): Promise<{ message: string }> {
     await new Promise(resolve => setTimeout(resolve, 800));
     if (data.oldPassword !== "123456") {
         throw new Error("Ancien mot de passe incorrect (test: '123456')");
@@ -64,7 +64,7 @@ const Modal = ({ children, title, onClose }: { children: React.ReactNode, title:
 );
 const EditProfileModal = ({ user, onClose, onUpdate }: { user: Customer, onClose: () => void, onUpdate: (newData: Customer) => void }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<Partial<Customer>>({
-        defaultValues: { first_name: user.first_name, last_name: user.last_name, phone_number: user.phone_number }
+        defaultValues: { first_name: user.first_name, last_name: user.last_name, phone_number: user.phone_number, age: user.age }
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
@@ -76,7 +76,13 @@ const EditProfileModal = ({ user, onClose, onUpdate }: { user: Customer, onClose
             const updatedUser = await mockUpdateProfile(user, data);
             onUpdate(updatedUser);
             onClose();
-        } catch (error: any) { setApiError(error.message || "Une erreur est survenue."); }
+        } catch (error) { 
+            if (error instanceof Error) {
+                setApiError(error.message);
+            } else {
+                setApiError("Une erreur est survenue.");
+            }
+        }
         finally { setIsSubmitting(false); }
     };
 
@@ -97,6 +103,10 @@ const EditProfileModal = ({ user, onClose, onUpdate }: { user: Customer, onClose
                     <label className="text-sm font-medium text-gray-700">Téléphone</label>
                     <input {...register("phone_number")} className="mt-1 w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500" />
                 </div>
+                <div>
+                    <label className="text-sm font-medium text-gray-700">Âge</label>
+                    <input type="number" {...register("age")} className="mt-1 w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500" />
+                </div>
                 {apiError && <p className="text-red-500 text-sm text-center">{apiError}</p>}
                 <div className="flex justify-end gap-4 pt-4">
                     <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 rounded-lg font-semibold hover:bg-gray-300">Annuler</button>
@@ -114,7 +124,7 @@ const ChangePasswordModal = ({ onClose }: { onClose: () => void }) => {
     const [apiError, setApiError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: FieldValues) => {
         setIsSubmitting(true);
         setApiError(null);
         setSuccessMessage(null);
@@ -123,7 +133,13 @@ const ChangePasswordModal = ({ onClose }: { onClose: () => void }) => {
             setSuccessMessage(response.message);
             reset();
             setTimeout(onClose, 2000);
-        } catch (error: any) { setApiError(error.message || "Une erreur est survenue."); } 
+        } catch (error) { 
+            if (error instanceof Error) {
+                setApiError(error.message);
+            } else {
+                setApiError("Une erreur est survenue.");
+            }
+        } 
         finally { setIsSubmitting(false); }
     };
      return (
@@ -225,6 +241,7 @@ export default function ProfilPage() {
                                 <ProfileField icon={<User size={20} />} label="Prénom" value={displayUserData.first_name} />
                                 <ProfileField icon={<User size={20} />} label="Nom" value={displayUserData.last_name} />
                                 <ProfileField icon={<User size={20} />} label="Nom d'utilisateur" value={displayUserData.username} />
+                                <ProfileField icon={<User size={20} />} label="Âge" value={displayUserData.age ? displayUserData.age.toString() : 'Non renseigné'} />
                                 <ProfileField icon={<Mail size={20} />} label="Email" value={displayUserData.email} />
                                 <ProfileField icon={<Phone size={20} />} label="Téléphone" value={displayUserData.phone_number} />
                                  {/*  <ProfileField icon={<Mail size={20} />} label="Adresse" value={displayUserData.address} />   */}

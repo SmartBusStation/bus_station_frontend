@@ -1,7 +1,7 @@
 import React, {JSX} from "react";
 import Image from "next/image";
 import {ChevronLeft, ChevronRight, Star} from "lucide-react";
-import {useTripDetails} from "@/lib/hooks/useTripDetails";
+import {useTripDetails} from "@/lib/hooks/market-place/useTripDetails";
 import {Trip} from "@/lib/types/models/Trip";
 
 

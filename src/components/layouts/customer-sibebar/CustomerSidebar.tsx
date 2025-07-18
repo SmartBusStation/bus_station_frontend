@@ -3,14 +3,16 @@
 import React, { useEffect } from "react";
 import { RenderLink } from "@/components/layouts/customer-sibebar/RenderLink";
 import SidebarHeader from "@/components/layouts/customer-sibebar/Sidebar-Header";
-import { LinkItem, linkList } from "@/components/layouts/customer-sibebar/clientNavLink";
+import { LinkItem } from "@/components/layouts/customer-sibebar/clientNavLink";
 
 export interface TravelSidebarProps {
     isOpen: boolean;
     onToggle: (isOpen: boolean) => void;
+    linkList: LinkItem[]
+
 }
 
-export default function TravelSidebar({ isOpen, onToggle }: TravelSidebarProps) {
+export default function TravelSidebar({ isOpen, onToggle, linkList }: TravelSidebarProps) {
 
     useEffect(() => {
         const handleResize = () => {

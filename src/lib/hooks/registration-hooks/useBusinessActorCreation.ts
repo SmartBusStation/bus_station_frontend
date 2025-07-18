@@ -36,7 +36,8 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
         last_name: "",
         password: "",
         phone_number: "",
-        username: ""
+        username: "",
+        age: 0
     });
     const [axiosErrors, setAxiosErrors] = useState<FieldErrors|null>(null);
     const userGenderOption: Option[] = [

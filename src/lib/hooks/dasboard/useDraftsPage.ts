@@ -1,23 +1,34 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
 import { getTripsByAgency, publishTrip } from '@/lib/services/trip-service';
-import { Voyage } from '@/lib/types/generated-api';
+import { TripDetails } from "@/lib/types/models/Trip";
+import {useNavigation} from "@/lib/hooks/useNavigation";
 
 export function useDraftsPage() {
+
     const { userData } = useBusStation();
-    const router = useRouter();
-    const [drafts, setDrafts] = useState<Voyage[]>([]);
+    const [drafts, setDrafts] = useState<TripDetails[]>([]);
     const [agencyId, setAgencyId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [apiError, setApiError] = useState<string | null>(null);
+
+
+    const [canOpenConfirmationModal, setCanOpenConfirmationModal] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState("");
+    const [draftToDelete, setDraftToDelete] = useState<TripDetails | null>(null);
+
+
+    const [canOpenPublishModal, setCanOpenPublishModal] = useState(false);
+    const [publishMessage, setPublishMessage] = useState("");
+    const [draftToPublish, setDraftToPublish] = useState<TripDetails | null>(null);
+    const navigate = useNavigation();
 
     const fetchDrafts = useCallback(async (id: string) => {
         setIsLoading(true);
         setApiError(null);
         try {
-            const response = await getTripsByAgency(id, 0, 200);
+            const response = await getTripsByAgency(id);
             const draftTrips = response?.content?.filter(t => t.statusVoyage === 'EN_ATTENTE') || [];
             setDrafts(draftTrips);
         } catch (error) {
@@ -33,41 +44,105 @@ export function useDraftsPage() {
             getAgencyByChefId(userData.userId).then(agency => {
                 if (agency?.agencyId) {
                     setAgencyId(agency.agencyId);
-                    fetchDrafts(agency.agencyId);
+                    fetchDrafts(agency.agencyId).then(() => console.info("success"));
                 } else {
                     setApiError("Agence non trouvée.");
                     setIsLoading(false);
                 }
+            }).catch(() => {
+                setApiError("Erreur de récupération de l'agence.");
+                setIsLoading(false);
             });
         }
     }, [userData, fetchDrafts]);
 
-    const handleEdit = (tripId: string) => {
-        router.push(`/dashboard/trip-planning?edit=${tripId}`);
-    };
 
-    const handlePublish = async (tripId: string) => {
-        if (!agencyId) return;
-        if (!window.confirm("Voulez-vous publier ce voyage ?")) return;
+
+    function handleEdit(tripId: string): void
+    {
+        if (tripId)
+        {
+           navigate.onGoTroTripPlanningEditMode(tripId);
+        } else {
+            navigate.onGoToTripPlanning();
+        }
+    }
+
+
+    function openConfirmModal(draft: TripDetails): void {
+        if (draft && draft.idVoyage) {
+            setConfirmationMessage(`Êtes-vous sûr de vouloir supprimer le brouillon "${draft.titre}" ?`);
+            setDraftToDelete(draft);
+            setCanOpenConfirmationModal(true);
+        } else {
+            setConfirmationMessage("");
+            setApiError("Une erreur est survenue, veuillez réessayer plus tard");
+        }
+    }
+
+
+    function openPublishModal(draft: TripDetails): void {
+        if (draft && draft.idVoyage) {
+            setPublishMessage(`Voulez-vous publier le voyage "${draft.titre}" ? Il sera visible par tous les clients.`);
+            setDraftToPublish(draft);
+            setCanOpenPublishModal(true);
+        } else {
+            setPublishMessage("");
+            setApiError("Une erreur est survenue, veuillez réessayer plus tard");
+        }
+    }
+
+
+    async function handleDelete(): Promise<void> {
+        setIsLoading(true);
+        setApiError(null);
+        if (!draftToDelete || !draftToDelete.idVoyage) return;
+
         try {
-            await publishTrip(tripId);
+            // await deleteVoyage(draftToDelete.idVoyage); // À décommenter quand l'API sera prête
+            setDrafts(prev => prev.filter(d => d.idVoyage !== draftToDelete.idVoyage));
+            setCanOpenConfirmationModal(false);
+        } catch (error) {
+            console.error(error);
+            setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+
+    async function handlePublish(): Promise<void> {
+        if (!agencyId || !draftToPublish || !draftToPublish.idVoyage) return;
+
+        setIsLoading(true);
+        setApiError(null);
+
+        try {
+            await publishTrip(draftToPublish.idVoyage);
             await fetchDrafts(agencyId);
+            setCanOpenPublishModal(false);
         } catch (error) {
             console.error(error);
-            alert("Erreur lors de la publication.");
+            setApiError("Erreur lors de la publication, veuillez réessayer plus tard");
+        } finally {
+            setIsLoading(false);
         }
-    };
+    }
 
-    const handleDelete = async (tripId: string) => {
-        if (!window.confirm("Voulez-vous supprimer ce brouillon ?")) return;
-        try {
-            //await deleteVoyage(tripId);
-            setDrafts(prev => prev.filter(d => d.idVoyage !== tripId));
-        } catch (error) {
-            console.error(error);
-            alert("Erreur lors de la suppression.");
-        }
+    return {
+        isLoading,
+        apiError,
+        drafts,
+        handleEdit,
+        handlePublish,
+        handleDelete,
+        canOpenConfirmationModal,
+        setCanOpenConfirmationModal,
+        confirmationMessage,
+        openConfirmModal,
+        canOpenPublishModal,
+        setCanOpenPublishModal,
+        publishMessage,
+        openPublishModal
     };
-
-    return { isLoading, apiError, drafts, handleEdit, handlePublish, handleDelete };
 }

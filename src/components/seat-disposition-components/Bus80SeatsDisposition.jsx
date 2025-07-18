@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect} from "react";
-import {useSeatManager} from "@/lib/hooks/useSeatManager";
+import {useSeatManager} from "@/lib/hooks/market-place/useSeatManager";
 
 export default function Bus80SeatsDisposition({setSeats, _reservedSeats, tripId}) {
 

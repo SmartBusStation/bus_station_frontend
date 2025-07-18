@@ -16,9 +16,10 @@ export interface SelectFieldProps {
     register?: UseFormRegisterReturn
     error?: string
     icon?: React.ReactNode
+    disabled?:boolean
 }
 
-export default function SelectField({id, name, label, options, required = false, register, error, icon}: SelectFieldProps) {
+export default function SelectField({id, name, label, options, required = false, register, error, icon, disabled}: SelectFieldProps) {
     return (
         <div>
             <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
@@ -27,6 +28,7 @@ export default function SelectField({id, name, label, options, required = false,
             <div className="relative">
                 {icon && <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-600 z-10">{icon}</div>}
                 <select
+                    disabled={disabled}
                     id={id}
                     name={name}
                     className={`w-full cursor-pointer appearance-none ${icon ? "pl-10" : "pl-4"} pr-10 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 

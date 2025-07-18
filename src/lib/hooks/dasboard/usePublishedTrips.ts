@@ -4,22 +4,39 @@ import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
 import { getTripsByAgency, updateTrip, deleteVoyage } from '@/lib/services/trip-service';
 import { PaginatedResponse } from '@/lib/types/common';
-import {TripDetails} from "@/lib/types/models/Trip";
+import { TripDetails } from "@/lib/types/models/Trip";
 
-
+interface ConfirmModal {
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void;
+}
 
 export function usePublishedTrips() {
     const { userData, isLoading: isUserLoading } = useBusStation();
     const router = useRouter();
 
+    // États principaux
     const [allTrips, setAllTrips] = useState<TripDetails[]>([]);
     const [agencyId, setAgencyId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isActionLoading, setIsActionLoading] = useState(false); // Pour les actions (annuler, supprimer)
+    const [isActionLoading, setIsActionLoading] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
 
+    // États de filtrage et recherche
     const [filter, setFilter] = useState<'PUBLIE' | 'EN_COURS' | 'TERMINE' | 'ANNULE' | 'all'>('all');
+    const [searchTerm, setSearchTerm] = useState("");
 
+    // État de modal de confirmation
+    const [confirmModal, setConfirmModal] = useState<ConfirmModal>({
+        isOpen: false,
+        title: "",
+        message: "",
+        onConfirm: () => {}
+    });
+
+    // Récupération des voyages
     const fetchTrips = useCallback(async (id: string) => {
         setIsLoading(true);
         setApiError(null);
@@ -35,6 +52,7 @@ export function usePublishedTrips() {
         }
     }, []);
 
+    // Initialisation
     useEffect(() => {
         if (!isUserLoading && userData?.userId) {
             getAgencyByChefId(userData.userId).then(agency => {
@@ -49,56 +67,127 @@ export function usePublishedTrips() {
         }
     }, [userData, isUserLoading, fetchTrips]);
 
+    // Filtrage des voyages (par statut + recherche)
     const filteredTrips = useMemo(() => {
-        if (filter === 'all') return allTrips;
-        return allTrips.filter(trip => trip.statusVoyage === filter);
-    }, [allTrips, filter]);
+        let trips = filter === 'all' ? allTrips : allTrips.filter(trip => trip.statusVoyage === filter);
 
-    const handleCancelTrip = async (tripId: string) => {
-        if (!agencyId || !window.confirm("Êtes-vous sûr de vouloir annuler ce voyage ?")) return;
+        if (searchTerm) {
+            trips = trips.filter((trip) =>
+                trip.titre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                trip.lieuDepart?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                trip.lieuArrive?.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        return trips;
+    }, [allTrips, filter, searchTerm]);
+
+    // Statistiques calculées
+    const stats = useMemo(() => {
+        const total = allTrips.length;
+        const publies = allTrips.filter(t => t.statusVoyage === 'PUBLIE').length;
+        const enCours = allTrips.filter(t => t.statusVoyage === 'EN_COURS').length;
+        const termines = allTrips.filter(t => t.statusVoyage === 'TERMINE').length;
+
+        const totalRevenue = allTrips.reduce((sum, trip) => {
+            const placesReservees = trip.nbrPlaceReservable - trip.nbrPlaceRestante;
+            return sum + (placesReservees * trip.prix);
+        }, 0);
+
+        const totalReservations = allTrips.reduce((sum, trip) => {
+            return sum + (trip.placeReservees?.length || 0);
+        }, 0);
+
+        return { total, publies, enCours, termines, totalRevenue, totalReservations };
+    }, [allTrips]);
+
+
+    // Calculs pour un voyage spécifique
+    const calculateTripStats = useCallback((trip: TripDetails) => {
+        const placesReservees = trip.nbrPlaceReservable - trip.nbrPlaceRestante;
+        const occupancyRate = trip.nbrPlaceReservable ? (placesReservees / trip.nbrPlaceReservable) * 100 : 0;
+        const revenueCalcule = placesReservees * trip.prix;
+
+        return { placesReservees, occupancyRate, revenueCalcule };
+    }, []);
+
+    // Gestionnaires d'actions
+    const handleViewBookings = useCallback((tripId: string) => {
+        window.location.href = `/dashboard/marketplace/bookings/${tripId}`;
+    }, []);
+
+    const handleEditTrip = useCallback((tripId: string) => {
+        router.push(`/dashboard/trip-planning?edit=${tripId}`);
+    }, [router]);
+
+    const handleCancelTrip = useCallback(async (tripId: string) => {
+        if (!agencyId) return;
 
         setIsActionLoading(true);
         try {
             await updateTrip(tripId, { statusVoyage: 'ANNULE' });
-            // Recharger les données pour refléter le changement
             await fetchTrips(agencyId);
         } catch (error: unknown) {
             console.error(error);
-            alert("Erreur lors de l'annulation du voyage.");
+            setApiError("Erreur lors de l'annulation du voyage.");
         } finally {
             setIsActionLoading(false);
         }
-    };
+    }, [agencyId, fetchTrips]);
 
-    const handleDeleteTrip = async (tripId: string) => {
-        if (!agencyId || !window.confirm("ACTION IRRÉVERSIBLE !\nSupprimer définitivement ce voyage ?")) return;
+    // Gestionnaires de modal
+    const openCancelModal = useCallback((tripId: string) => {
+        setConfirmModal({
+            isOpen: true,
+            title: "Annuler le voyage",
+            message: "Êtes-vous sûr de vouloir annuler ce voyage ? Cette action ne peut pas être annulée.",
+            onConfirm: () => {
+                handleCancelTrip(tripId);
+                setConfirmModal(prev => ({ ...prev, isOpen: false }));
+            }
+        });
+    }, [handleCancelTrip]);
 
-        setIsActionLoading(true);
-        try {
-            await deleteVoyage(tripId);
-            // Mettre à jour l'UI immédiatement sans recharger
-            setAllTrips(prev => prev.filter(trip => trip.idVoyage !== tripId));
-        } catch (error: unknown) {
-            console.error(error);
-            alert("Erreur lors de la suppression du voyage.");
-        } finally {
-            setIsActionLoading(false);
-        }
-    };
+    const closeModal = useCallback(() => {
+        setConfirmModal(prev => ({ ...prev, isOpen: false }));
+    }, []);
 
-    const handleEditTrip = (tripId: string) => {
-        router.push(`/dashboard/trip-planning?edit=${tripId}`);
-    };
+    // Options de filtres
+    const filterOptions = useMemo(() => [
+        { label: "Tous", value: "all" },
+        { label: "Publiés", value: "PUBLIE" },
+        { label: "En cours", value: "EN_COURS" },
+        { label: "Terminés", value: "TERMINE" },
+        { label: "Annulés", value: "ANNULE" },
+    ], []);
 
     return {
+        // États
         isLoading,
         isActionLoading,
         apiError,
+
+        // Données
         filteredTrips,
+        stats,
+
+        // Filtrage et recherche
         filter,
         setFilter,
-        handleCancelTrip,
-        handleDeleteTrip,
+        searchTerm,
+        setSearchTerm,
+        filterOptions,
+
+        // Modal
+        confirmModal,
+        closeModal,
+
+        // Actions
+        handleViewBookings,
         handleEditTrip,
+        openCancelModal,
+
+        // Utilitaires
+        calculateTripStats,
     };
 }

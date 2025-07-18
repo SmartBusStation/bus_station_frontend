@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { UserResponseDTO } from './UserResponseDTO';
 import type { Vehicule } from './Vehicule';
+import {Amenity} from "@/lib/types/generated-api/models/VoyageCreateRequestDTO";
 export type VoyageDetailsDTO = {
     idVoyage?: string;
     titre?: string;
@@ -42,8 +43,10 @@ export type VoyageDetailsDTO = {
     vehicule?: Vehicule;
     chauffeur?: UserResponseDTO;
     placeReservees?: Array<number>;
-    amenities?: Array<'WIFI' | 'AC' | 'USB' | 'SNACKS' | 'BEVERAGES' | 'POWER_OUTLETS' | 'ENTERTAINMENT' | 'COMFORTABLE_SEATS' | 'RESTROOMS' | 'LUGGAGE_STORAGE' | 'CHILD_SEATS' | 'PET_FRIENDLY' | 'AIRPORT_PICKUP' | 'AIRPORT_DROP_OFF' | 'MEAL_SERVICE' | 'ONBOARD_GUIDE' | 'SEAT_SELECTION' | 'GROUP_DISCOUNTS' | 'LATE_CHECK_IN' | 'LATE_CHECK_OUT'>;
+    amenities?: Array<Amenity>;
 };
+
+
 export namespace VoyageDetailsDTO {
     export enum statusVoyage {
         EN_ATTENTE = 'EN_ATTENTE',

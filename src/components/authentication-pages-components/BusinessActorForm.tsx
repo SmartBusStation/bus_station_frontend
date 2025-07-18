@@ -53,6 +53,16 @@ export default function BusinessActorForm({changeStep,...continueProps}:Business
                         error={axiosErrors?.username || zodParams.errors?.username?.message}
                     />
 
+                    <InputField
+                        id="age"
+                        label="Age"
+                        placeholder="25"
+                        type="number"
+                        icon={<User className="h-5 w-5 text-gray-400"/>}
+                        register={zodParams.register && zodParams.register("age")}
+                        error={zodParams.errors?.age?.message}
+                    />
+
                     <SelectField
                         id="gender"
                         label="Select your gender"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { XIcon, CreditCard, ArrowLeft } from 'lucide-react';
-import {usePayment} from "@/lib/hooks/usePayment";
+import {usePayment} from "@/lib/hooks/market-place/usePayment";
 import {Reservation} from "@/lib/types/models/Reservation";
 import InputField from "@/ui/InputField";
 import {useBusStation} from "@/context/Provider";

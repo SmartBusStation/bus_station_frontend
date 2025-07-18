@@ -4,6 +4,7 @@ import Sidebar from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import Footer from "@/components/layouts/Footer";
 import { useCustomerSidebar } from "@/lib/hooks/sidebar-hooks/useCustomerSidebar";
 import React from "react";
+import {linkList} from "@/components/layouts/customer-sibebar/clientNavLink";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 
@@ -14,6 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex min-h-screen flex-col gap-4">
             <div className="flex h-screen overflow-hidden">
                 <Sidebar
+                    linkList={linkList}
                     isOpen={isSidebarOpen}
                     onToggle={setIsSidebarOpen}
                 />
