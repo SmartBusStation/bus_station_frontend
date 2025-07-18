@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import CustomerNavBar from "@/components/layouts/customer-navbar/CustomerNavBar";
+import { AgencyProvider } from '@/lib/contexts/AgencyContext';
 
 
 export default function DashboardLayout({children,}: { children: React.ReactNode})
@@ -10,7 +11,7 @@ export default function DashboardLayout({children,}: { children: React.ReactNode
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <>
+    <AgencyProvider>
       <DashboardSidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
@@ -28,6 +29,6 @@ export default function DashboardLayout({children,}: { children: React.ReactNode
           </div>
         </main>
       </div>
-    </>
+    </AgencyProvider>
   );
 }

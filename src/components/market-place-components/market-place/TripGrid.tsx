@@ -2,6 +2,7 @@ import Image from "next/image";
 import {ArrowRight, Calendar, Clock, MapPin, Users} from "lucide-react";
 import React from "react";
 import {formatDateOnly, formatDurationSimple} from "@/lib/services/date-services";
+import CountdownTimer from "./CountdownTimer";
 import {Trip} from "@/lib/types/models/Trip";
 
 
@@ -39,7 +40,7 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                     </div>
 
                     <div className="p-6">
-                        <div className="flex justify-between items-start mb-5">
+                        <div className="flex justify-between items-start mb-2">
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-900 mb-4 ">{trip.nomAgence}</h3>
                                 <div className="flex items-center gap-2 text-gray-600">
@@ -58,9 +59,15 @@ export default function TripGrid( {filteredTrips, getClassColor, getAmenityIcon,
                             </div>
                         </div>
 
+                        {trip.dateDepartPrev &&
+                            <CountdownTimer departureDateTime={trip.dateDepartPrev} />
+                        }
 
+                        <div className="mb-3 ml-2">
+                            <p className="text-sm font-semibold text-gray-800 bg-gray-100 inline-block px-2 py-1 rounded">{trip.nomAgence}</p>
+                        </div>
                         <div className="space-y-3 mb-6 ml-2">
-                            <div className="flex items-start gap-3">
+                            <div className="flex items-center gap-3">
                                 <div
                                     className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
                                     <Calendar className="h-4 w-4 text-blue-600"/>

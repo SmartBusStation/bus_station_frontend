@@ -1,7 +1,7 @@
 // src/components/dashboard/DashboardSidebar.tsx
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBusStation } from "@/context/Provider";
+import { useAgency } from "@/lib/contexts/AgencyContext";
+import { ChevronDown } from "lucide-react";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -59,6 +61,21 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const { t } = useTranslation();
   const { logout } = useBusStation();
+  const { agencies, setAgencies, selectedAgency, setSelectedAgency } = useAgency();
+  const [isAgencyDropdownOpen, setAgencyDropdownOpen] = useState(false);
+
+  // Simuler la récupération des agences
+  useEffect(() => {
+    const mockAgencies = [
+      { id: '1', name: 'Agence de Yaoundé' },
+      { id: '2', name: 'Agence de Douala' },
+      { id: '3', name: 'Agence de Bafoussam' },
+    ];
+    setAgencies(mockAgencies);
+    if (!selectedAgency) {
+      setSelectedAgency(mockAgencies[0]);
+    }
+  }, [setAgencies, setSelectedAgency, selectedAgency]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sidebar = useRef<any>(null);
@@ -151,6 +168,39 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         >
           <X className="h-6 w-6" />
         </button>
+      </div>
+
+      {/* Agency Selector */}
+      <div className="px-6 mt-4">
+        <h3 className="mb-2 ml-1 text-sm font-semibold text-gray-500">AGENCE SÉLECTIONNÉE</h3>
+        <div className="relative">
+          <button 
+            onClick={() => setAgencyDropdownOpen(!isAgencyDropdownOpen)}
+            className="w-full flex items-center justify-between rounded-lg bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <span>{selectedAgency ? selectedAgency.name : 'Choisir une agence'}</span>
+            <ChevronDown className={`h-5 w-5 transition-transform ${isAgencyDropdownOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {isAgencyDropdownOpen && (
+            <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="py-1">
+                {agencies.map((agency) => (
+                  <a
+                    key={agency.id}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedAgency(agency);
+                      setAgencyDropdownOpen(false);
+                    }}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    {agency.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Sidebar Menu */}

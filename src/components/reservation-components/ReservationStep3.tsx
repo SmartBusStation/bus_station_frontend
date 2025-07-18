@@ -22,6 +22,8 @@ interface ReservationStep3PropsInterface{
     onClose: ()=>void,
     setStep: (step: number)=>void,
     totalPrice: number,
+    subTotalPrice: number,
+    serviceFee: number,
     totalLuggage: number,
     totalPassengers: number,
     onBookTrip: () => Promise<void>,
@@ -29,7 +31,7 @@ interface ReservationStep3PropsInterface{
     errorMessage: string
 }
 
-export default function ReservationStep3({selectedSeats, tripDetails, passengersData, onClose, setStep, totalPrice, totalLuggage, totalPassengers, onBookTrip, isLoading, errorMessage}: ReservationStep3PropsInterface) {
+export default function ReservationStep3({selectedSeats, tripDetails, passengersData, onClose, setStep, totalPrice, subTotalPrice, serviceFee, totalLuggage, totalPassengers, onBookTrip, isLoading, errorMessage}: ReservationStep3PropsInterface) {
 
 
 
@@ -186,10 +188,18 @@ export default function ReservationStep3({selectedSeats, tripDetails, passengers
                             <span>Number of Travellers</span>
                             <span className="font-bold text-black">{totalPassengers}</span>
                         </p>
+                        <p className="flex justify-between">
+                            <span>Subtotal</span>
+                            <span className="font-bold text-black">{subTotalPrice.toLocaleString()} FCFA</span>
+                        </p>
+                        <p className="flex justify-between">
+                            <span>Service Fee (2%)</span>
+                            <span className="font-bold text-black">{serviceFee.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} FCFA</span>
+                        </p>
                         <div className="border-t border-gray-200 pt-2 mt-2">
                             <p className="flex justify-between text-lg font-semibold text-green-500">
                                 <span>Total Price</span>
-                                <span>{totalPrice} FCFA</span>
+                                <span>{totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} FCFA</span>
                             </p>
                         </div>
                     </div>

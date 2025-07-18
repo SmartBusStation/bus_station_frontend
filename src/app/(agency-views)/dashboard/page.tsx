@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { DollarSign, BookOpen, BarChart3, Users, AlertCircle, RefreshCw } from "lucide-react";
+import { DollarSign, BookOpen, BarChart3, Users, AlertCircle, RefreshCw, Store } from "lucide-react";
+import { useAgency } from "@/lib/contexts/AgencyContext";
 import PageHeader from "@/components/dashboard/PageHeader";
 import StatCard from "@/components/dashboard/StatCard";
 import OverviewCharts from "@/components/dashboard/overview/OverviewCharts";
@@ -11,10 +12,21 @@ import Loader from "@/modals/Loader";
 import { StatCardData } from "@/lib/types/dashboard";
 
 const DashboardOverviewPage = () => {
+  const { selectedAgency } = useAgency();
   const { isLoading, apiError, generalStats, evolutionData, recentBookings } = useDashboardOverview();
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen"><Loader /></div>;
+  }
+
+  if (!selectedAgency && !isLoading) {
+    return (
+        <div className="flex flex-col items-center justify-center h-[60vh] text-center p-4">
+          <Store className="h-16 w-16 text-gray-400 mb-4" />
+          <h2 className="text-2xl font-bold text-gray-800">Bienvenue sur votre tableau de bord</h2>
+          <p className="mt-2 text-gray-600">Pour commencer, veuillez sélectionner une agence dans le menu latéral.</p>
+        </div>
+    );
   }
 
   if (apiError) {
@@ -64,7 +76,7 @@ const DashboardOverviewPage = () => {
   return (
       <>
         <PageHeader
-            title="Aperçu du Tableau de Bord"
+            title={selectedAgency ? `Aperçu de ${selectedAgency.name}` : "Aperçu du Tableau de Bord"}
             subtitle="Voici un résumé de l'activité de votre agence."
         />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">

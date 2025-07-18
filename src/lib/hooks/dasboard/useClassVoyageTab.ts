@@ -6,6 +6,7 @@ import { getAgencyByChefId } from "@/lib/services/agency-service";
 import { ClassVoyage, ClassVoyageDTO } from "@/lib/types/generated-api";
 import { ClassVoyageFormType, classVoyageSchema } from "@/lib/types/schema/classVoyageSchema";
 import { getAllClasses, createClassVoyage, updateClassVoyage, deleteClassVoyage } from "@/lib/services/class-voyage-service";
+import { AxiosError } from "axios";
 
 export function useClassVoyageTab() {
     const { userData, isLoading: isUserLoading } = useBusStation();
@@ -26,7 +27,7 @@ export function useClassVoyageTab() {
             const response = await getAllClasses();
             const agencyClasses = response.content.filter(cls => cls.idAgenceVoyage === currentAgencyId);
             setClasses(agencyClasses);
-        } catch (e) {
+        } catch (_e) { // Utilisation de _e pour indiquer que la variable n'est pas utilisée
             setApiError("Impossible de charger les classes de voyage.");
         } finally {
             setIsLoading(false);
@@ -81,15 +82,18 @@ export function useClassVoyageTab() {
         const payload: ClassVoyageDTO = { ...data, idAgenceVoyage: agencyId };
 
         try {
+            let updatedClass: ClassVoyage;
             if (editingClass?.idClassVoyage) {
-                await updateClassVoyage(editingClass.idClassVoyage, payload);
+                updatedClass = await updateClassVoyage(editingClass.idClassVoyage, payload);
+                setClasses(prev => prev.map(c => c.idClassVoyage === updatedClass.idClassVoyage ? updatedClass : c));
             } else {
-                await createClassVoyage(payload);
+                updatedClass = await createClassVoyage(payload);
+                setClasses(prev => [...prev, updatedClass]);
             }
-            await fetchAndFilterClasses(agencyId);
             closeModal();
-        } catch (e: any) {
-            setApiError(e.response?.data?.message || "Une erreur est survenue.");
+        } catch (e) {
+            const error = e as AxiosError<{ message: string }>;
+            setApiError(error.response?.data?.message || "Une erreur est survenue.");
         } finally {
             setIsSubmitting(false);
         }
@@ -100,8 +104,9 @@ export function useClassVoyageTab() {
             try {
                 await deleteClassVoyage(id);
                 setClasses(prev => prev.filter(c => c.idClassVoyage !== id));
-            } catch (e: any) {
-                setApiError(e.response?.data?.message || "Erreur de suppression.");
+            } catch (e) {
+                const error = e as AxiosError<{ message: string }>;
+                setApiError(error.response?.data?.message || "Erreur de suppression.");
             }
         }
     };
