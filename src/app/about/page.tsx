@@ -1,4 +1,4 @@
-"use client";
+
 
 //import { useInView } from "react-intersection-observer";
 import Header from "@/components/layouts/Header";

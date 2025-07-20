@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 "use client";
 
 import React from "react";
-import { DollarSign, BookOpen, BarChart3, Users, AlertCircle, RefreshCw, Store } from "lucide-react";
+import { DollarSign, BookOpen, BarChart3, Users, AlertCircle, RefreshCw, Store, Plus } from "lucide-react";
 import { useAgency } from "@/lib/contexts/AgencyContext";
 import PageHeader from "@/components/dashboard/PageHeader";
 import StatCard from "@/components/dashboard/StatCard";
@@ -11,26 +10,12 @@ import RecentBookings from "@/components/dashboard/overview/RecentBookings";
 import { useDashboardOverview } from "@/lib/hooks/dasboard/useDashboardOverview";
 import Loader from "@/modals/Loader";
 import { StatCardData } from "@/lib/types/dashboard";
+import {useNavigation} from "@/lib/hooks/useNavigation";
 
 const DashboardOverviewPage = () => {
   const { selectedAgency } = useAgency();
   const { isLoading, apiError, generalStats, evolutionData, recentBookings } = useDashboardOverview();
-=======
-"use client"
-import { DollarSign, BookOpen, BarChart3, Users, AlertCircle, RefreshCw, Plus } from "lucide-react"
-import PageHeader from "@/components/dashboard/PageHeader"
-import StatCard from "@/components/dashboard/StatCard"
-import OverviewCharts from "@/components/dashboard/overview/OverviewCharts"
-import RecentBookings from "@/components/dashboard/overview/RecentBookings"
-import { useDashboardOverview } from "@/lib/hooks/dasboard/useDashboardOverview"
-import Loader from "@/modals/Loader"
-import type { StatCardData } from "@/lib/types/dashboard"
-import {useNavigation} from "@/lib/hooks/useNavigation";
-
-const DashboardOverviewPage = () => {
-    const { isLoading, apiError, generalStats, evolutionData, recentBookings } = useDashboardOverview();
-    const navigate= useNavigation();
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
+  const navigate= useNavigation();
 
     if (isLoading) {
         return (
@@ -92,7 +77,6 @@ const DashboardOverviewPage = () => {
         },
     ];
 
-<<<<<<< HEAD
   if (!selectedAgency && !isLoading) {
     return (
         <div className="flex flex-col items-center justify-center h-[60vh] text-center p-4">
@@ -103,14 +87,11 @@ const DashboardOverviewPage = () => {
     );
   }
 
-  if (apiError) {
-=======
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
     return (
         <div className="space-y-8">
             <PageHeader
-                title="Aperçu du Tableau de Bord"
-                subtitle="Voici un résumé de l'activité de votre agence"
+                title={selectedAgency ? `Aperçu de ${selectedAgency.name}` : "Aperçu du Tableau de Bord"}
+                subtitle="Voici un résumé de l'activité de votre agence."
             />
 
             {/* Hero CTA Card */}
@@ -137,26 +118,6 @@ const DashboardOverviewPage = () => {
                 </div>
             </div>
 
-<<<<<<< HEAD
-  return (
-      <>
-        <PageHeader
-            title={selectedAgency ? `Aperçu de ${selectedAgency.name}` : "Aperçu du Tableau de Bord"}
-            subtitle="Voici un résumé de l'activité de votre agence."
-        />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
-          {stats.map((stat, index) => (
-              <StatCard key={index} {...stat} />
-          ))}
-        </div>
-        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
-          <OverviewCharts data={evolutionData} />
-          <RecentBookings bookings={recentBookings} />
-        </div>
-      </>
-  );
-};
-=======
             {/* Stats Grid */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 {stats.map((stat, index) => (
@@ -166,7 +127,6 @@ const DashboardOverviewPage = () => {
                     />
                 ))}
             </div>
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
 
             {/* Charts and Recent Bookings */}
             <div className="grid grid-cols-12 gap-6">

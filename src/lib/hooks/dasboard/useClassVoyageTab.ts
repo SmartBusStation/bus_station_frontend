@@ -32,12 +32,8 @@ export function useClassVoyageTab() {
             const response = await getAllClasses();
             const agencyClasses = response.content.filter(cls => cls.idAgenceVoyage === currentAgencyId);
             setClasses(agencyClasses);
-<<<<<<< HEAD
-        } catch (_e) { // Utilisation de _e pour indiquer que la variable n'est pas utilisée
-=======
         } catch (e) {
             console.error(e);
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
             setApiError("Impossible de charger les classes de voyage.");
         } finally {
             setIsLoading(false);
@@ -104,31 +100,14 @@ export function useClassVoyageTab() {
                 setClasses(prev => [...prev, updatedClass]);
             }
             closeModal();
-<<<<<<< HEAD
-        } catch (e) {
-            const error = e as AxiosError<{ message: string }>;
-            setApiError(error.response?.data?.message || "Une erreur est survenue.");
-=======
         } catch (e: any) {
             console.error(e);
             setApiError(e.response?.data?.message || "Une erreur est survenue.");
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
         } finally {
             setIsSubmitting(false);
         }
     }
 
-<<<<<<< HEAD
-    const handleDelete = async (id: string) => {
-        if (window.confirm("Voulez-vous vraiment supprimer cette classe ?")) {
-            try {
-                await deleteClassVoyage(id);
-                setClasses(prev => prev.filter(c => c.idClassVoyage !== id));
-            } catch (e) {
-                const error = e as AxiosError<{ message: string }>;
-                setApiError(error.response?.data?.message || "Erreur de suppression.");
-            }
-=======
     // Fonction pour ouvrir la modal de confirmation (comme EmployeesTab)
     function openConfirmModal(classVoyage: ClassVoyage): void {
         if (classVoyage && classVoyage.idClassVoyage) {
@@ -138,7 +117,6 @@ export function useClassVoyageTab() {
         } else {
             setConfirmationMessage("");
             setApiError("Une erreur est survenue, veuillez réessayer plus tard");
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
         }
     }
 

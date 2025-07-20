@@ -1,15 +1,8 @@
 "use client"
 
-<<<<<<< HEAD
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-=======
-import type React from "react"
-import { useEffect, useRef } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
 import {
   LayoutDashboard,
   Car,
@@ -20,20 +13,14 @@ import {
   Cog,
   X,
   Bus,
-<<<<<<< HEAD
-  LogOut, FileEdit,
+  LogOut, 
+  FileEdit,
+  ChevronDown,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBusStation } from "@/context/Provider";
 import { useAgency } from "@/lib/contexts/AgencyContext";
-import { ChevronDown } from "lucide-react";
-=======
-  LogOut,
-  FileEdit,
-} from "lucide-react"
-import { useTranslation } from "react-i18next"
-import { useBusStation } from "@/context/Provider"
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
+
 
 interface SidebarProps {
   sidebarOpen: boolean
@@ -163,7 +150,6 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const { t } = useTranslation();
   const { logout } = useBusStation();
-<<<<<<< HEAD
   const { agencies, setAgencies, selectedAgency, setSelectedAgency } = useAgency();
   const [isAgencyDropdownOpen, setAgencyDropdownOpen] = useState(false);
 
@@ -180,8 +166,6 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [setAgencies, setSelectedAgency, selectedAgency]);
 
-=======
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sidebar = useRef<any>(null)
 
@@ -293,7 +277,6 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* Header */}
           <SidebarHeader onClose={() => setSidebarOpen(false)} />
 
-<<<<<<< HEAD
       {/* Agency Selector */}
       <div className="px-6 mt-4">
         <h3 className="mb-2 ml-1 text-sm font-semibold text-gray-500">AGENCE SÉLECTIONNÉE</h3>
@@ -366,35 +349,6 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         </nav>
       </div>
     </aside>
-  );
-};
-=======
-          {/* Navigation */}
-          <div className="flex flex-col overflow-y-auto h-full">
-            <nav className="p-4 space-y-2 flex-1">
-              <div className="mb-6">
-                <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                  {t("dashboard.sidebar.menu")}
-                </h2>
-                {menuItems.map((item) => (
-                    <SidebarLink key={item.href} {...item} pathname={pathname} />
-                ))}
-              </div>
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
-
-              <div className="mb-6">
-                <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                  {t("dashboard.sidebar.other")}
-                </h2>
-                {secondaryMenuItems.map((item) => (
-                    <SidebarLink key={item.href} {...item} pathname={pathname} />
-                ))}
-
-                <LogoutButton onClick={logout} label={t("dashboard.sidebar.logout")} />
-              </div>
-            </nav>
-          </div>
-        </aside>
       </>
   )
 }
