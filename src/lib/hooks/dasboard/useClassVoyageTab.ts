@@ -18,7 +18,7 @@ export function useClassVoyageTab() {
     const [apiError, setApiError] = useState<string | null>(null);
     const [editingClass, setEditingClass] = useState<ClassVoyage | null>(null);
 
-    // États pour la modal de confirmation (comme EmployeesTab)
+    // États pour la modal de confirmation
     const [canOpenConfirmationModal, setCanOpenConfirmationModal] = useState(false);
     const [confirmationMessage, setConfirmationMessage] = useState("");
     const [classToDelete, setClassToDelete] = useState<ClassVoyage | null>(null);
@@ -100,15 +100,20 @@ export function useClassVoyageTab() {
                 setClasses(prev => [...prev, updatedClass]);
             }
             closeModal();
-        } catch (e: any) {
+
+       
+        } catch (e) {
             console.error(e);
-            setApiError(e.response?.data?.message || "Une erreur est survenue.");
+            const error = e as AxiosError<{ message: string }>;
+            setApiError(error.response?.data?.message || "Une erreur est survenue.");
         } finally {
             setIsSubmitting(false);
         }
     }
 
-    // Fonction pour ouvrir la modal de confirmation (comme EmployeesTab)
+
+    // Fonction pour ouvrir la modal de confirmation
+
     function openConfirmModal(classVoyage: ClassVoyage): void {
         if (classVoyage && classVoyage.idClassVoyage) {
             setConfirmationMessage(`Êtes-vous sûr de vouloir supprimer la classe "${classVoyage.nom}" ?`);
@@ -120,21 +125,24 @@ export function useClassVoyageTab() {
         }
     }
 
-    // Fonction handleDelete modifiée (comme EmployeesTab)
+    // Fonction de suppression qui utilise l'état de la modale
     async function handleDelete(): Promise<void> {
-        setIsLoading(true);
-        setApiError(null);
         if (!classToDelete || !classToDelete.idClassVoyage) return;
+
+        setIsSubmitting(true);
+        setApiError(null);
 
         try {
             await deleteClassVoyage(classToDelete.idClassVoyage);
             setClasses(prev => prev.filter(c => c.idClassVoyage !== classToDelete.idClassVoyage));
             setCanOpenConfirmationModal(false);
-        } catch (e: any) {
+            setClassToDelete(null);
+        } catch (e) {
             console.error(e);
-            setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
+            const error = e as AxiosError<{ message: string }>;
+            setApiError(error.response?.data?.message || "Erreur lors de la suppression, veuillez réessayer plus tard");
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     }
 
