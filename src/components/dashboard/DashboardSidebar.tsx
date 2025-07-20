@@ -1,15 +1,8 @@
 "use client"
 
-<<<<<<< HEAD
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-=======
-import type React from "react"
-import { useEffect, useRef } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
 import {
   LayoutDashboard,
   Car,
@@ -20,20 +13,13 @@ import {
   Cog,
   X,
   Bus,
-<<<<<<< HEAD
-  LogOut, FileEdit,
+  LogOut,
+  FileEdit,
+  ChevronDown, // Ajouté depuis la version en conflit
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBusStation } from "@/context/Provider";
-import { useAgency } from "@/lib/contexts/AgencyContext";
-import { ChevronDown } from "lucide-react";
-=======
-  LogOut,
-  FileEdit,
-} from "lucide-react"
-import { useTranslation } from "react-i18next"
-import { useBusStation } from "@/context/Provider"
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
+import { useAgency } from "@/lib/contexts/AgencyContext"; // Ajouté depuis la version en conflit
 
 interface SidebarProps {
   sidebarOpen: boolean
@@ -143,52 +129,33 @@ const SidebarLink = ({
   )
 }
 
-const LogoutButton = ({ onClick, label }: { onClick: () => void; label: string }) => {
-  return (
-      <button onClick={onClick} className="w-full block cursor-pointer mb-1">
-        <div className="group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-300 text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:via-red-100 hover:to-red-50 hover:text-red-600 hover:shadow-md hover:transform hover:scale-[1.01]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300 bg-gradient-to-br from-red-50 to-red-50 text-red-600 group-hover:from-red-100 group-hover:to-red-100">
-            <LogOut className="h-5 w-5" />
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <span className="font-semibold text-sm truncate text-gray-900 group-hover:text-red-600">{label}</span>
-          </div>
-        </div>
-      </button>
-  )
-}
-
 const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const { t } = useTranslation();
   const { logout } = useBusStation();
-<<<<<<< HEAD
   const { agencies, setAgencies, selectedAgency, setSelectedAgency } = useAgency();
   const [isAgencyDropdownOpen, setAgencyDropdownOpen] = useState(false);
 
   // Simuler la récupération des agences
   useEffect(() => {
+    // Dans une vraie application, vous feriez un appel API ici
     const mockAgencies = [
       { id: '1', name: 'Agence de Yaoundé' },
       { id: '2', name: 'Agence de Douala' },
       { id: '3', name: 'Agence de Bafoussam' },
     ];
     setAgencies(mockAgencies);
-    if (!selectedAgency) {
+    if (!selectedAgency && mockAgencies.length > 0) {
       setSelectedAgency(mockAgencies[0]);
     }
   }, [setAgencies, setSelectedAgency, selectedAgency]);
 
-=======
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sidebar = useRef<any>(null)
+  const sidebar = useRef<HTMLDivElement>(null);
 
-  // Close on click outside
+  // Fermer en cliquant à l'extérieur
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
-      if (!sidebar.current || !sidebar.current.contains(target)) {
+      if (!sidebar.current || !sidebar.current.contains(target as Node)) {
         setSidebarOpen(false)
       }
     }
@@ -196,10 +163,12 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     return () => document.removeEventListener("click", clickHandler)
   })
 
-  // Handle resize
+  // Gérer le redimensionnement de la fenêtre
   useEffect(() => {
     const handleResize = () => {
-      setSidebarOpen(window.innerWidth >= 1024)
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true)
+      }
     }
     window.addEventListener("resize", handleResize)
     handleResize()
@@ -207,70 +176,18 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   }, [setSidebarOpen])
 
   const menuItems = [
-    {
-      href: "/dashboard",
-      icon: LayoutDashboard,
-      label: t("dashboard.sidebar.overview"),
-      description: "Vue d'ensemble",
-    },
-    {
-      href: "/dashboard/resources",
-      icon: Car,
-      label: t("dashboard.sidebar.resources"),
-      description: "Véhicules & équipements",
-    },
-    {
-      href: "/dashboard/trip-planning",
-      icon: Bus,
-      label: t("dashboard.sidebar.tripPlanning"),
-      description: "Planification des voyages",
-    },
-    {
-      href: "/dashboard/drafts",
-      icon: FileEdit,
-      label: "Brouillons",
-      description: "Voyages en cours de création",
-      badge: "3",
-    },
-   /* {
-      href: "/dashboard/bookings",
-      icon: BookOpen,
-      label: t("dashboard.sidebar.bookings"),
-      description: "Réservations clients",
-    },*/
-    {
-      href: "/dashboard/marketplace",
-      icon: Store,
-      label: t("dashboard.sidebar.agencyMarketplace"),
-      description: "Place de marché",
-    },
-    {
-      href: "/dashboard/calendar",
-      icon: Calendar,
-      label: t("dashboard.sidebar.calendar"),
-      description: "Planning des voyages",
-    },
-    {
-      href: "/dashboard/feedback",
-      icon: MessageCircle,
-      label: t("dashboard.sidebar.feedback"),
-      description: "Avis & commentaires",
-    },
+    { href: "/dashboard", icon: LayoutDashboard, label: t("dashboard.sidebar.overview"), description: "Vue d'ensemble" },
+    { href: "/dashboard/resources", icon: Car, label: t("dashboard.sidebar.resources"), description: "Véhicules & équipements" },
+    { href: "/dashboard/trip-planning", icon: Bus, label: t("dashboard.sidebar.tripPlanning"), description: "Planification des voyages" },
+    { href: "/dashboard/drafts", icon: FileEdit, label: "Brouillons", description: "Voyages en cours de création", badge: "3" },
+    { href: "/dashboard/marketplace", icon: Store, label: t("dashboard.sidebar.agencyMarketplace"), description: "Place de marché" },
+    { href: "/dashboard/calendar", icon: Calendar, label: t("dashboard.sidebar.calendar"), description: "Planning des voyages" },
+    { href: "/dashboard/feedback", icon: MessageCircle, label: t("dashboard.sidebar.feedback"), description: "Avis & commentaires" },
   ]
 
   const secondaryMenuItems = [
-    {
-      href: "/dashboard/subscription",
-      icon: Gem,
-      label: t("dashboard.sidebar.subscription"),
-      description: "Plan & facturation",
-    },
-    {
-      href: "/dashboard/settings",
-      icon: Cog,
-      label: t("dashboard.sidebar.settings"),
-      description: "Configuration",
-    },
+    { href: "/dashboard/subscription", icon: Gem, label: t("dashboard.sidebar.subscription"), description: "Plan & facturation" },
+    { href: "/dashboard/settings", icon: Cog, label: t("dashboard.sidebar.settings"), description: "Configuration" },
   ]
 
   return (
@@ -293,110 +210,81 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* Header */}
           <SidebarHeader onClose={() => setSidebarOpen(false)} />
 
-<<<<<<< HEAD
-      {/* Agency Selector */}
-      <div className="px-6 mt-4">
-        <h3 className="mb-2 ml-1 text-sm font-semibold text-gray-500">AGENCE SÉLECTIONNÉE</h3>
-        <div className="relative">
-          <button 
-            onClick={() => setAgencyDropdownOpen(!isAgencyDropdownOpen)}
-            className="w-full flex items-center justify-between rounded-lg bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <span>{selectedAgency ? selectedAgency.name : 'Choisir une agence'}</span>
-            <ChevronDown className={`h-5 w-5 transition-transform ${isAgencyDropdownOpen ? 'rotate-180' : ''}`} />
-          </button>
-          {isAgencyDropdownOpen && (
-            <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-              <div className="py-1">
-                {agencies.map((agency) => (
-                  <a
-                    key={agency.id}
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setSelectedAgency(agency);
-                      setAgencyDropdownOpen(false);
-                    }}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    {agency.name}
-                  </a>
-                ))}
-              </div>
+          {/* Sélecteur d'agence */}
+          <div className="px-6 mt-4">
+            <h3 className="mb-2 ml-1 text-sm font-semibold text-gray-500">AGENCE SÉLECTIONNÉE</h3>
+            <div className="relative">
+              <button
+                  onClick={() => setAgencyDropdownOpen(!isAgencyDropdownOpen)}
+                  className="w-full flex items-center justify-between rounded-lg bg-gray-100 px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <span>{selectedAgency ? selectedAgency.name : 'Choisir une agence'}</span>
+                <ChevronDown className={`h-5 w-5 transition-transform ${isAgencyDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {isAgencyDropdownOpen && (
+                  <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="py-1">
+                      {agencies.map((agency) => (
+                          <a
+                              key={agency.id}
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setSelectedAgency(agency);
+                                setAgencyDropdownOpen(false);
+                              }}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            {agency.name}
+                          </a>
+                      ))}
+                    </div>
+                  </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
 
-      {/* Sidebar Menu */}
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear">
-        <nav className="mt-5 py-4 px-4 lg:px-6">
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-gray-500">
-              {t("dashboard.sidebar.menu")}
-            </h3>
-            <ul className="mb-6 flex flex-col gap-1.5">
-              {menuItems.map((item) => (
-                <li key={item.href}>
-                  <SidebarLink {...item} pathname={pathname} />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-gray-500">
-              {t("dashboard.sidebar.other")}
-            </h3>
-            <ul className="mb-6 flex flex-col gap-1.5">
-              {secondaryMenuItems.map((item) => (
-                <li key={item.href}>
-                  <SidebarLink {...item} pathname={pathname} />
-                </li>
-              ))}
-              <li>
-                <button
-                  onClick={logout}
-                  className="group relative flex w-full items-center gap-2.5 rounded-lg py-2 px-4 font-medium text-gray-700 duration-300 ease-in-out hover:bg-red-50 hover:text-red-600"
-                >
-                  <LogOut className="h-5 w-5" />
-                  {t("dashboard.sidebar.logout")}
-                </button>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </aside>
-  );
-};
-=======
-          {/* Navigation */}
-          <div className="flex flex-col overflow-y-auto h-full">
-            <nav className="p-4 space-y-2 flex-1">
-              <div className="mb-6">
-                <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          {/* Menu de la Sidebar */}
+          <div className="flex flex-col overflow-y-auto duration-300 ease-linear">
+            <nav className="mt-5 py-4 px-4 lg:px-6">
+              <div>
+                <h3 className="mb-4 ml-4 text-sm font-semibold text-gray-500">
                   {t("dashboard.sidebar.menu")}
-                </h2>
-                {menuItems.map((item) => (
-                    <SidebarLink key={item.href} {...item} pathname={pathname} />
-                ))}
+                </h3>
+                <ul className="mb-6 flex flex-col gap-1.5">
+                  {menuItems.map((item) => (
+                      <li key={item.href}>
+                        <SidebarLink {...item} pathname={pathname} />
+                      </li>
+                  ))}
+                </ul>
               </div>
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
-
-              <div className="mb-6">
-                <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              <div>
+                <h3 className="mb-4 ml-4 text-sm font-semibold text-gray-500">
                   {t("dashboard.sidebar.other")}
-                </h2>
-                {secondaryMenuItems.map((item) => (
-                    <SidebarLink key={item.href} {...item} pathname={pathname} />
-                ))}
-
-                <LogoutButton onClick={logout} label={t("dashboard.sidebar.logout")} />
+                </h3>
+                <ul className="mb-6 flex flex-col gap-1.5">
+                  {secondaryMenuItems.map((item) => (
+                      <li key={item.href}>
+                        <SidebarLink {...item} pathname={pathname} />
+                      </li>
+                  ))}
+                  <li>
+                    <button
+                        onClick={logout}
+                        className="group relative flex w-full items-center gap-2.5 rounded-lg py-2 px-4 font-medium text-gray-700 duration-300 ease-in-out hover:bg-red-50 hover:text-red-600"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      {t("dashboard.sidebar.logout")}
+                    </button>
+                  </li>
+                </ul>
               </div>
             </nav>
           </div>
         </aside>
       </>
-  )
-}
+  );
+};
 
-export default DashboardSidebar
+export default DashboardSidebar;

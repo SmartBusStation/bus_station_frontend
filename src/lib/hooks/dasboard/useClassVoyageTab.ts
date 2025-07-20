@@ -18,7 +18,7 @@ export function useClassVoyageTab() {
     const [apiError, setApiError] = useState<string | null>(null);
     const [editingClass, setEditingClass] = useState<ClassVoyage | null>(null);
 
-    // États pour la modal de confirmation (comme EmployeesTab)
+    // États pour la modal de confirmation
     const [canOpenConfirmationModal, setCanOpenConfirmationModal] = useState(false);
     const [confirmationMessage, setConfirmationMessage] = useState("");
     const [classToDelete, setClassToDelete] = useState<ClassVoyage | null>(null);
@@ -32,12 +32,8 @@ export function useClassVoyageTab() {
             const response = await getAllClasses();
             const agencyClasses = response.content.filter(cls => cls.idAgenceVoyage === currentAgencyId);
             setClasses(agencyClasses);
-<<<<<<< HEAD
-        } catch (_e) { // Utilisation de _e pour indiquer que la variable n'est pas utilisée
-=======
         } catch (e) {
             console.error(e);
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
             setApiError("Impossible de charger les classes de voyage.");
         } finally {
             setIsLoading(false);
@@ -104,32 +100,16 @@ export function useClassVoyageTab() {
                 setClasses(prev => [...prev, updatedClass]);
             }
             closeModal();
-<<<<<<< HEAD
         } catch (e) {
+            console.error(e);
             const error = e as AxiosError<{ message: string }>;
             setApiError(error.response?.data?.message || "Une erreur est survenue.");
-=======
-        } catch (e: any) {
-            console.error(e);
-            setApiError(e.response?.data?.message || "Une erreur est survenue.");
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
         } finally {
             setIsSubmitting(false);
         }
     }
 
-<<<<<<< HEAD
-    const handleDelete = async (id: string) => {
-        if (window.confirm("Voulez-vous vraiment supprimer cette classe ?")) {
-            try {
-                await deleteClassVoyage(id);
-                setClasses(prev => prev.filter(c => c.idClassVoyage !== id));
-            } catch (e) {
-                const error = e as AxiosError<{ message: string }>;
-                setApiError(error.response?.data?.message || "Erreur de suppression.");
-            }
-=======
-    // Fonction pour ouvrir la modal de confirmation (comme EmployeesTab)
+    // Fonction pour ouvrir la modal de confirmation
     function openConfirmModal(classVoyage: ClassVoyage): void {
         if (classVoyage && classVoyage.idClassVoyage) {
             setConfirmationMessage(`Êtes-vous sûr de vouloir supprimer la classe "${classVoyage.nom}" ?`);
@@ -138,25 +118,27 @@ export function useClassVoyageTab() {
         } else {
             setConfirmationMessage("");
             setApiError("Une erreur est survenue, veuillez réessayer plus tard");
->>>>>>> 9e1f18f30b7aa9e0aab7eb17d8269cd9d41102a5
         }
     }
 
-    // Fonction handleDelete modifiée (comme EmployeesTab)
+    // Fonction de suppression qui utilise l'état de la modale
     async function handleDelete(): Promise<void> {
-        setIsLoading(true);
-        setApiError(null);
         if (!classToDelete || !classToDelete.idClassVoyage) return;
+
+        setIsSubmitting(true);
+        setApiError(null);
 
         try {
             await deleteClassVoyage(classToDelete.idClassVoyage);
             setClasses(prev => prev.filter(c => c.idClassVoyage !== classToDelete.idClassVoyage));
             setCanOpenConfirmationModal(false);
-        } catch (e: any) {
+            setClassToDelete(null);
+        } catch (e) {
             console.error(e);
-            setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
+            const error = e as AxiosError<{ message: string }>;
+            setApiError(error.response?.data?.message || "Erreur lors de la suppression, veuillez réessayer plus tard");
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     }
 
