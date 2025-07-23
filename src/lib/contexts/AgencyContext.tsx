@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Remplacez ceci par le vrai type de vos agences
 interface Agency {
@@ -22,7 +22,9 @@ export const AgencyProvider = ({ children }: { children: ReactNode }) => {
   const [agencies, setAgencies] = useState<Agency[]>([]); // Sera rempli via une API plus tard
 
   return (
-    <AgencyContext.Provider value={{ selectedAgency, setSelectedAgency, agencies, setAgencies }}>
+    <AgencyContext.Provider
+      value={{ selectedAgency, setSelectedAgency, agencies, setAgencies }}
+    >
       {children}
     </AgencyContext.Provider>
   );
@@ -31,7 +33,7 @@ export const AgencyProvider = ({ children }: { children: ReactNode }) => {
 export const useAgency = () => {
   const context = useContext(AgencyContext);
   if (context === undefined) {
-    throw new Error('useAgency must be used within an AgencyProvider');
+    throw new Error("useAgency must be used within an AgencyProvider");
   }
   return context;
 };

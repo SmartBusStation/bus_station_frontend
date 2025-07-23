@@ -177,7 +177,7 @@ const DashboardOverviewPage = () => {
           // Titre dynamique de la version HEAD
           title={
             selectedAgency
-              ? `Aperçu de ${selectedAgency.name}`
+              ? `Aperçu de L'agence de Voyage`
               : "Aperçu du Tableau de Bord"
           }
           subtitle="Voici un résumé de l'activité de votre agence."

@@ -5,11 +5,18 @@ import { travelAgencies, trips } from "@/lib/data/travelAgencies";
 import AgencyProfile from "@/components/agencies-page-components/AgencyProfile";
 import { ArrowLeft, Frown } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
-export default function AgencyDetailPage({ params }: { params: { agencyId: string } }) {
+export default function AgencyDetailPage({
+  params,
+}: {
+  params: Promise<{ agencyId: string }>;
+}) {
   const router = useRouter();
+  const resolvedParams = React.use(params);
+
   // Utilisation directe de params sans use() ni Promise
-  const { agencyId } = params;
+  const agencyId = resolvedParams.agencyId;
 
   const agency = travelAgencies.find((a) => a.id === agencyId);
   const agencyTrips = trips.filter((trip) => trip.agencyId === agencyId);
