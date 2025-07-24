@@ -12,7 +12,8 @@ import {
 import { useTranslation } from "react-i18next";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
-export default function ContactPage() {
+
+export default function ContactUsClientPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -383,10 +384,10 @@ export default function ContactPage() {
                         <Mail className="h-5 w-5 text-blue-600 mr-3 mt-1 flex-shrink-0" />
                         <p className="text-gray-600">
                           <a
-                            href="mailto:contact@busstation.com"
+                            href="mailto:contact@bustation.com"
                             className="hover:text-blue-600"
                           >
-                            contact@busstation.com
+                            contact@bustation.com
                           </a>
                           <br />
                           <a

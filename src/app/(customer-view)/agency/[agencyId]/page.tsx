@@ -5,14 +5,18 @@ import { travelAgencies, trips } from "@/lib/data/travelAgencies";
 import AgencyProfile from "@/components/agencies-page-components/AgencyProfile";
 import { ArrowLeft, Frown } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 export default function AgencyDetailPage({
   params,
 }: {
-  params: { agencyId: string };
+  params: Promise<{ agencyId: string }>;
 }) {
   const router = useRouter();
-  const { agencyId } = params;
+  const resolvedParams = React.use(params);
+
+  // Utilisation directe de params sans use() ni Promise
+  const agencyId = resolvedParams.agencyId;
 
   const agency = travelAgencies.find((a) => a.id === agencyId);
   const agencyTrips = trips.filter((trip) => trip.agencyId === agencyId);
@@ -23,7 +27,7 @@ export default function AgencyDetailPage({
         <Frown className="w-16 h-16 text-gray-400 mb-4" />
         <h2 className="text-2xl font-bold text-gray-800">Agence non trouvée</h2>
         <p className="text-gray-600 mt-2">
-          L'agence que vous cherchez n'existe pas ou a été déplacée.
+          L&apos;agence que vous cherchez n&apos;existe pas ou a été déplacée.
         </p>
         <Link href="/agency">
           <button className="mt-6 flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">

@@ -28,7 +28,7 @@ export default function UserAccountType({createAgency, setCreateAgencyAction}: U
                 selected={!createAgency}
                 onSelect={() => setCreateAgencyAction(false)}
                 icon={<User className="h-6 w-6 text-blue-600" />}
-                title="Standard User"
+                title="Customer"
                 description="Create a personal account to search and book trips."
                 features={regularUserAccountFeatures}
             />

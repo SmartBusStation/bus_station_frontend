@@ -28,6 +28,7 @@ export interface BusinessActor {
   last_name: string;
   username: string;
   phone_number: string;
+  age: number;
 }
 
 export interface Customer {
@@ -39,6 +40,7 @@ export interface Customer {
   phone_number: string;
   role: string[];
   avatar?: string; // Ajout optionnel pour la photo de profil
+  age: number;
 }
 
 // Renommé pour plus de clarté, car c'est la réponse du login

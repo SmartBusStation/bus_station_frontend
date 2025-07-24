@@ -36,13 +36,21 @@ export function useReservation(setCanOpenPaymentModal: (param:boolean) => void, 
     }, [passengersData]);
 
 
-    const totalPrice: number = useMemo(() => {
+    const subTotalPrice: number = useMemo(() => {
         if (selectedSeats.length > 0 && tripDetails?.prix) {
             return selectedSeats.length * tripDetails.prix;
         }
         return 0;
     }, [selectedSeats.length, tripDetails?.prix]);
 
+    const serviceFee: number = useMemo(() => {
+        // 2% service fee
+        return subTotalPrice * 0.02;
+    }, [subTotalPrice]);
+
+    const totalPrice: number = useMemo(() => {
+        return subTotalPrice + serviceFee;
+    }, [subTotalPrice, serviceFee]);
 
 
     const reservationDetails = [
@@ -116,6 +124,8 @@ export function useReservation(setCanOpenPaymentModal: (param:boolean) => void, 
         bookTrip,
         isLoading,
         totalPrice,
+        serviceFee,
+        subTotalPrice,
         setIsLoading,
         totalLuggage,
         errorMessage,

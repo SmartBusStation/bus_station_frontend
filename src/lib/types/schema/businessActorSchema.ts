@@ -14,6 +14,7 @@ export const businessActorSchema = z.object({
     username: z.string().min(3, "Your username is required"),
     email: z.string().min(1, "Your email is required").email("Enter a valid email"),
     phone_number: z.string().min(8, "Enter a valid phone number"),
+    age: z.coerce.number().int("Votre âge doit être un nombre entier.").positive("Votre âge doit être un nombre positif.").min(12, "Vous devez avoir au moins 12 ans."),
     password: z
         .string()
         .min(8, "Minimum 8 characters")

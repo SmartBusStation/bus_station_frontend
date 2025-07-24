@@ -51,6 +51,8 @@ export default function ReservationProcessModal({  onCloseAction, tripDetails, s
                         passengersData={reservationManager.passengersData}
                         setStep={reservationManager.setStep}
                         totalPrice={reservationManager.totalPrice}
+                        subTotalPrice={reservationManager.subTotalPrice}
+                        serviceFee={reservationManager.serviceFee}
                         totalLuggage={reservationManager.totalLuggage}
                         totalPassengers={reservationManager.totalPassengers}
                         onBookTrip={reservationManager.bookTrip}
