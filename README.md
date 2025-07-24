@@ -3,7 +3,7 @@
 This is an **academic project** developed as part of the course unit **Mobile and Intelligent Networks**.
 
 The project consists of building a web application called **Travel Agency**, which allows third parties (agencies and customers) to interact with travel-related services. This repository contains the **frontend** part of the application, built with **Next.js** and **Tailwind CSS v4**. The **backend**, built using **Spring Boot**, is hosted in a separate repository.
-
+ 
 ---
 
 ## 🎯 Project Objectives
