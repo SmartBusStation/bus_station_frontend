@@ -385,6 +385,13 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                       error={errors.dateDepartPrev?.message}
                   />
                   <InputField
+                      id="dateDepartPrev"
+                      type="time"
+                      label="Heure de départ"
+                      register={register("heureDepartEffectif")}
+                      error={errors.heureDepartEffectif?.message}
+                  />
+                  <InputField
                       id="heureArrive"
                       type="time"
                       label="Heure d'arrivée prévue"

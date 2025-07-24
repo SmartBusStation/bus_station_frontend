@@ -5,7 +5,7 @@ import { useBusStation } from "@/context/Provider";
 import { getAgencyByChefId } from "@/lib/services/agency-service";
 import { ClassVoyage, ClassVoyageDTO } from "@/lib/types/generated-api";
 import { ClassVoyageFormType, classVoyageSchema } from "@/lib/types/schema/classVoyageSchema";
-import { getAllClasses, createClassVoyage, updateClassVoyage, deleteClassVoyage } from "@/lib/services/class-voyage-service";
+import { getAllClassVoyagesByAgence, createClassVoyage, updateClassVoyage, deleteClassVoyage } from "@/lib/services/class-voyage-service";
 
 export function useClassVoyageTab() {
     const { userData, isLoading: isUserLoading } = useBusStation();
@@ -28,7 +28,8 @@ export function useClassVoyageTab() {
         setIsLoading(true);
         setApiError(null);
         try {
-            const response = await getAllClasses();
+            console.log("id agence ",currentAgencyId);
+            const response = await getAllClassVoyagesByAgence(currentAgencyId);
             const agencyClasses = response.content.filter(cls => cls.idAgenceVoyage === currentAgencyId);
             setClasses(agencyClasses);
         } catch (e) {

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type VoyageCreateRequestDTO = {
+    heureDepartEffectif: string,
     titre: string;
     description: string;
     dateDepartPrev: string;

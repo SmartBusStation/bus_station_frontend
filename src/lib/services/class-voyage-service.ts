@@ -6,15 +6,29 @@ import { PaginatedResponse } from "../types/common";
 const url = "/class-voyage";
 
 
-export async function getAllClasses(): Promise<PaginatedResponse<ClassVoyage>> {
+export async function getAllClassVoyagesByAgence(agenceId: string): Promise<ClassVoyage[]> {
     try {
-        const response: AxiosResponse<PaginatedResponse<ClassVoyage>> = await axiosInstance.get(url);
+        const response: AxiosResponse<ClassVoyage[]> = await axiosInstance.get(`${url}/agence/${agenceId}`);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error("[class-voyage-service] Erreur de récupération des classes:", error);
         throw error;
     }
 }
+
+
+export async function getAllClasses(): Promise<PaginatedResponse<ClassVoyage>> {
+    try {
+        const response: AxiosResponse<PaginatedResponse<ClassVoyage>> = await axiosInstance.get(url);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error("[class-voyage-service] Erreur de récupération des classes:", error);
+        throw error;
+    }
+}
+
 
 export async function createClassVoyage(data: ClassVoyageDTO): Promise<ClassVoyage> {
     try {

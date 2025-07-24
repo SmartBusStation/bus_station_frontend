@@ -8,7 +8,7 @@ import { getAgencyByChefId } from "@/lib/services/agency-service";
 import { createTrip, updateTrip, getTripDetailsForEdit } from "@/lib/services/trip-service";
 import { getVehiclesByAgency } from "@/lib/services/vehicule-service";
 import { getDriversByAgency } from "@/lib/services/chauffeur-service";
-import { getAllClasses } from "@/lib/services/class-voyage-service";
+import { getAllClassVoyagesByAgence } from "@/lib/services/class-voyage-service";
 import { Vehicule, VoyageCreateRequestDTO, ClassVoyage } from "@/lib/types/generated-api";
 import {Customer} from "@/lib/types/models/BusinessActor";
 import {Amenity} from "@/lib/types/generated-api/models/VoyageCreateRequestDTO";
@@ -71,7 +71,7 @@ export function useTripPlanner() {
         await Promise.all([
           loadResource(() => getVehiclesByAgency(agency.agencyId), setVehicles, "véhicules"),
           loadResource(() => getDriversByAgency(agency.agencyId), setDrivers, "chauffeurs"),
-          loadResource(async () => (await getAllClasses()).content.filter(c => c.idAgenceVoyage === agency.agencyId), setTravelClasses, "classes"),
+          loadResource(async () => (await getAllClassVoyagesByAgence(agency.agencyId)).filter(c => c.idAgenceVoyage === agency.agencyId), setTravelClasses, "classes"),
         ]);
 
         if (editingTripId) {
@@ -85,6 +85,7 @@ export function useTripPlanner() {
             pointArrivee: tripDetails.pointArrivee,
             dateDepartPrev: tripDetails.dateDepartPrev?.split('T')[0] || "",
             heureArrive: tripDetails.heureArrive?.split('T')[1].substring(0, 5) || "",
+            heureDepartEffectif: tripDetails.heureDepartEffectif?.split('T')[1].substring(0, 5) || "",
             dateLimiteReservation: tripDetails.dateLimiteReservation?.split('T')[0] || "",
             dateLimiteConfirmation: tripDetails.dateLimiteConfirmation?.split('T')[0] || "",
             nbrPlaceReservable: tripDetails.nbrPlaceReservable,
@@ -117,6 +118,7 @@ export function useTripPlanner() {
       nbrPlaceRestante: nbrPlaceReservable,
       statusVoyage: status,
       heureArrive: toISODateTime(data.dateDepartPrev, data.heureArrive),
+      heureDepartEffectif: toISODateTime(data.dateDepartPrev, data.heureDepartEffectif),
       nbrPlaceConfirm: 0,
       nbrPlaceReserve: 0,
     };
@@ -154,6 +156,6 @@ export function useTripPlanner() {
     setIsSuccess,
     reloadVehicles: () => agencyId && loadResource(() => getVehiclesByAgency(agencyId), setVehicles, "véhicules"),
     reloadDrivers: () => agencyId && loadResource(() => getDriversByAgency(agencyId), setDrivers, "chauffeurs"),
-    reloadClasses: () => agencyId && loadResource(async () => (await getAllClasses()).content.filter(c => c.idAgenceVoyage === agencyId), setTravelClasses, "classes"),
+    reloadClasses: () => agencyId && loadResource(async () => (await getAllClassVoyagesByAgence(agencyId)).filter(c => c.idAgenceVoyage === agencyId), setTravelClasses, "classes"),
   };
 }

@@ -14,6 +14,7 @@ export const tripPlannerSchema = z.object({
   dateDepartPrev: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Veuillez entrer une date de départ valide.",
   }),
+  heureDepartEffectif: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format d'heure invalide (HH:MM)."),
 
   // Le formulaire prend une heure, mais nous la convertirons en date-time ISO pour l'API
   heureArrive: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format d'heure invalide (HH:MM)."),

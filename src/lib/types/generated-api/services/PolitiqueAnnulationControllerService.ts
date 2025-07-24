@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PolitiqueAnnulation } from '../models/PolitiqueAnnulation';
+import type { PolitiqueAnnulation } from '@/lib/types/generated-api';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
