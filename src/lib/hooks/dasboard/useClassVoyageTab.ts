@@ -30,7 +30,7 @@ export function useClassVoyageTab() {
         try {
             console.log("id agence ",currentAgencyId);
             const response = await getAllClassVoyagesByAgence(currentAgencyId);
-            const agencyClasses = response.content.filter(cls => cls.idAgenceVoyage === currentAgencyId);
+            const agencyClasses = response.filter(cls => cls.idAgenceVoyage === currentAgencyId);
             setClasses(agencyClasses);
         } catch (e) {
             console.error(e);
@@ -98,9 +98,9 @@ export function useClassVoyageTab() {
             }
             await fetchAndFilterClasses(agencyId);
             closeModal();
-        } catch (e: any) {
+        } catch (e) {
             console.error(e);
-            setApiError(e.response?.data?.message || "Une erreur est survenue.");
+            setApiError("Une erreur est survenue.");
         } finally {
             setIsSubmitting(false);
         }
@@ -128,7 +128,7 @@ export function useClassVoyageTab() {
             await deleteClassVoyage(classToDelete.idClassVoyage);
             setClasses(prev => prev.filter(c => c.idClassVoyage !== classToDelete.idClassVoyage));
             setCanOpenConfirmationModal(false);
-        } catch (e: any) {
+        } catch (e ) {
             console.error(e);
             setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
         } finally {
