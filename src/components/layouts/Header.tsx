@@ -61,6 +61,10 @@ export default function Header() {
                             <Link href="/agency" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
                                 {t("footer.agency")}
                             </Link>
+                            {/* TODO: Remplacer par la clé de traduction t("footer.bus_stations") */}
+                            <Link href="/gares-routieres" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
+                                Gares Routières
+                            </Link>
                             <Link href="/about" className="hover:px-4 hover:py-2 text-white font-bold hover:bg-white hover:rounded-2xl hover:text-blue-600  transition-all duration-300">
                                 {t("footer.about-us")}
                             </Link>
@@ -144,28 +148,35 @@ export default function Header() {
                     <div className="container mx-auto px-4 py-4">
                         <nav className="flex flex-col space-y-4">
                             <Link
-                                href="#"
+                                href="/market-place"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Voyages
                             </Link>
                             <Link
-                                href="#"
+                                href="/agency"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 Agences
                             </Link>
                             <Link
-                                href="#"
+                                href="/gares-routieres"
+                                className="text-gray-700 hover:text-blue-600 transition-colors py-2"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Gares Routières
+                            </Link>
+                            <Link
+                                href="/about"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 À propos
                             </Link>
                             <Link
-                                href="#"
+                                href="/ressources"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2"
                                 onClick={() => setIsMenuOpen(false)}
                             >
