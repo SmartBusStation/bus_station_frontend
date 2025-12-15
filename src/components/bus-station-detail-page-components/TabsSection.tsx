@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { GareRoutiere, AgenceSommaire, VoyageDepart } from '@/lib/types/gares-routiere';
+import { GareRoutiere } from '@/lib/types/models/GareRoutiere'; // Updated import
+import { Trip } from '@/lib/types/models/Trip'; // New import
+import { TravelAgency as Agency } from '@/lib/types/models/Agency'; // New import
 import AgenciesTab from './AgenciesTab';
 import DeparturesTab from './DeparturesTab';
 import InfoTab from './InfoTab';
@@ -9,8 +11,8 @@ import { Users, Bus, Info } from 'lucide-react';
 
 type TabsSectionProps = {
   station: GareRoutiere;
-  agences: AgenceSommaire[];
-  departs: VoyageDepart[];
+  agences: Agency[]; // Updated type
+  departs: Trip[]; // Updated type
 };
 
 type Tab = 'agences' | 'departs' | 'infos';

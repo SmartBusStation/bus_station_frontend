@@ -1,10 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import { VoyageDepart } from '@/lib/types/gares-routiere';
+import Link from 'next/link'; // Added
+import { Trip } from '@/lib/types/models/Trip'; // Updated import
 import { Clock, MapPin, Bus, Tag, Ticket } from 'lucide-react';
 
 type DeparturesTabProps = {
-  departs: VoyageDepart[];
+  departs: Trip[]; // Updated prop type
 };
 
 const DeparturesTab = ({ departs }: DeparturesTabProps) => {
@@ -24,16 +25,17 @@ const DeparturesTab = ({ departs }: DeparturesTabProps) => {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {departs.map(depart => (
-              <tr key={depart.id}>
-                <td className="py-4 px-4 whitespace-nowrap font-bold text-gray-900">{depart.heureDepart}</td>
-                <td className="py-4 px-4 whitespace-nowrap">{depart.villeDestination}</td>
+              <tr key={depart.idVoyage}> {/* Updated key */}
+                <td className="py-4 px-4 whitespace-nowrap font-bold text-gray-900">{depart.heureDepartEffectif}</td> {/* Updated property */}
+                <td className="py-4 px-4 whitespace-nowrap">{depart.lieuArrive}</td> {/* Updated property */}
                 <td className="py-4 px-4 whitespace-nowrap flex items-center">
-                  <Image src={depart.logoAgenceUrl} alt={depart.nomAgence} width={24} height={24} className="mr-2 rounded-full" />
+                  {/* Changed from depart.logoAgenceUrl to depart.smallImage */}
+                  <Image src={depart.smallImage} alt={depart.nomAgence} width={24} height={24} className="mr-2 rounded-full" />
                   {depart.nomAgence}
                 </td>
                 <td className="py-4 px-4 whitespace-nowrap font-semibold">{depart.prix.toLocaleString('fr-FR')} FCFA</td>
                 <td className="py-4 px-4 whitespace-nowrap">
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium">Réserver</button>
+                  <Link href={`/marketplace/booking/${depart.idVoyage}`} className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium text-center">Réserver</Link>
                 </td>
               </tr>
             ))}
@@ -44,20 +46,21 @@ const DeparturesTab = ({ departs }: DeparturesTabProps) => {
       {/* Vue pour les petits écrans */}
       <div className="md:hidden space-y-4">
         {departs.map(depart => (
-          <div key={depart.id} className="bg-white rounded-lg shadow p-4">
+          <div key={depart.idVoyage} className="bg-white rounded-lg shadow p-4"> {/* Updated key */}
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-lg font-bold text-gray-800">{depart.villeDestination}</p>
+                <p className="text-lg font-bold text-gray-800">{depart.lieuArrive}</p> {/* Updated property */}
                 <div className="flex items-center text-sm text-gray-500 mt-1">
-                   <Image src={depart.logoAgenceUrl} alt={depart.nomAgence} width={20} height={20} className="mr-1.5 rounded-full" />
+                   {/* Changed from depart.logoAgenceUrl to depart.smallImage */}
+                   <Image src={depart.smallImage} alt={depart.nomAgence} width={20} height={20} className="mr-1.5 rounded-full" />
                    {depart.nomAgence}
                 </div>
               </div>
-              <div className="text-lg font-bold text-blue-600">{depart.heureDepart}</div>
+              <div className="text-lg font-bold text-blue-600">{depart.heureDepartEffectif}</div> {/* Updated property */}
             </div>
             <div className="mt-4 border-t pt-4 flex justify-between items-center">
                 <p className="text-base font-semibold text-gray-700">{depart.prix.toLocaleString('fr-FR')} FCFA</p>
-                <button className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium">Réserver</button>
+                <Link href={`/marketplace/booking/${depart.idVoyage}`} className="inline-block px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium text-center">Réserver</Link>
             </div>
           </div>
         ))}

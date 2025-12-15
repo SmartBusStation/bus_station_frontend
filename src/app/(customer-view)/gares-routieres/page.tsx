@@ -1,74 +1,99 @@
-'use client';
+"use client";
 
-import React, { useState, useMemo } from 'react';
-import { MOCK_GARES } from '@/lib/data/gares-routieres';
-import HeroSection from '@/components/bus-stations-page-components/HeroSection';
-import SearchBar from '@/components/bus-stations-page-components/SearchBar';
-import FilterBadges from '@/components/bus-stations-page-components/FilterBadges';
-import StationCard from '@/components/bus-stations-page-components/StationCard';
-
-// Extraire tous les services uniques disponibles à partir des données
-const ALL_SERVICES = Array.from(new Set(MOCK_GARES.flatMap(gare => gare.services)));
+import React from "react";
+import HeroSection from "@/components/bus-stations-page-components/HeroSection";
+import SearchBar from "@/components/bus-stations-page-components/SearchBar";
+import FilterBadges from "@/components/bus-stations-page-components/FilterBadges";
+import StationCard from "@/components/bus-stations-page-components/StationCard";
+import { useGaresRoutieres } from "@/lib/hooks/gare-hooks/useGaresRoutieres";
+import Loader from "@/modals/Loader";
+import { AlertCircle, RefreshCw } from "lucide-react";
 
 const GaresRoutieresPage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const {
+    gares,
+    isLoading,
+    error,
+    setSearchQuery,
+    selectedServices,
+    handleServiceToggle,
+    allServices,
+    refetch,
+  } = useGaresRoutieres();
 
-  const handleServiceToggle = (service: string) => {
-    setSelectedServices(prev =>
-      prev.includes(service)
-        ? prev.filter(s => s !== service)
-        : [...prev, service]
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <Loader message="Chargement des gares..." />
+      </div>
     );
-  };
+  }
 
-  const filteredGares = useMemo(() => {
-    return MOCK_GARES.filter(gare => {
-      const matchesQuery =
-        gare.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        gare.ville.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesServices = selectedServices.every(service =>
-        gare.services.includes(service)
-      );
-
-      return matchesQuery && matchesServices;
-    });
-  }, [searchQuery, selectedServices]);
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center h-[60vh] text-center px-4">
+        <div className="bg-red-100 p-4 rounded-full mb-4">
+          <AlertCircle size={48} className="text-red-600" />
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">
+          Erreur de chargement
+        </h3>
+        <p className="text-gray-600 mb-6">{error}</p>
+        <button
+          onClick={refetch}
+          className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+        >
+          <RefreshCw size={20} />
+          Réessayer
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 min-h-screen">
       <HeroSection />
 
       <div className="mt-8 space-y-6">
-        <div className="flex flex-col md:flex-row gap-4 items-center">
-            <SearchBar 
-                onSearchChange={setSearchQuery}
-                placeholder="Chercher par nom de gare ou par ville..."
-            />
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <SearchBar
+            onSearchChange={setSearchQuery}
+            placeholder="Chercher par nom de gare ou par ville..."
+          />
+          <div className="text-sm text-gray-500 font-medium">
+            {gares.length} gare(s) trouvée(s)
+          </div>
         </div>
-        
-        <div>
-            <h2 className="text-sm font-semibold text-gray-600 mb-2">Filtrer par services :</h2>
+
+        {allServices.length > 0 && (
+          <div>
+            <h2 className="text-sm font-semibold text-gray-600 mb-3 flex items-center gap-2">
+              Filtrer par services :
+            </h2>
             <FilterBadges
-                services={ALL_SERVICES}
-                selectedServices={selectedServices}
-                onServiceToggle={handleServiceToggle}
+              services={allServices}
+              selectedServices={selectedServices}
+              onServiceToggle={handleServiceToggle}
             />
-        </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-8">
-        {filteredGares.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredGares.map(station => (
+        {gares.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {gares.map((station) => (
               <StationCard key={station.id} station={station} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <h3 className="text-xl font-semibold text-gray-700">Aucune gare ne correspond à votre recherche</h3>
-            <p className="text-gray-500 mt-2">Essayez de modifier vos filtres ou votre recherche.</p>
+          <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              Aucun résultat
+            </h3>
+            <p className="text-gray-500">
+              Essayez de modifier vos filtres ou votre recherche.
+            </p>
           </div>
         )}
       </div>

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mock-api": "json-server --watch mock-server/db.json --port 3001"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -46,6 +47,7 @@
     "@types/stompjs": "^2.3.9",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "json-server": "^1.0.0-beta.3",
     "openapi-typescript-codegen": "^0.29.0",
     "tailwindcss": "^4",
     "typescript": "^5"

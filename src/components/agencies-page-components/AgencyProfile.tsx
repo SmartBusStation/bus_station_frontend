@@ -1,11 +1,11 @@
-// components/agencies-page-components/AgencyProfile.tsx
 "use client";
 
 import { ArrowLeft, Star, MapPin, Phone, Mail, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import TripCard from "@/components/agencies-page-components/TripCard";
-import {AgencyProfileProps} from "@/lib/types/ui";
+import { AgencyProfileProps } from "@/lib/types/ui";
+// Note: Assure-toi que AgencyProfileProps dans types/ui.ts utilise bien TravelAgency de models/Agency
 
 export default function AgencyProfile({
   agency,
@@ -18,7 +18,8 @@ export default function AgencyProfile({
     <div className="space-y-8">
       <button
         onClick={onBack}
-        className="flex items-center text-primary hover:text-start-color transition-colors mb-6">
+        className="flex items-center text-primary hover:text-start-color transition-colors mb-6"
+      >
         <ArrowLeft className="h-5 w-5 mr-2" />
         {t("agenciesPage.profile.backButton")}
       </button>
@@ -27,14 +28,16 @@ export default function AgencyProfile({
       <div className="bg-white rounded-xl shadow-md p-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
           <Image
-            src={agency.logo}
-            alt={agency.name}
+            src={agency.logoUrl} // Changé: logo -> logoUrl
+            alt={agency.longName} // Changé: name -> longName
             width={200}
             height={200}
             className="w-24 h-24 rounded-full object-cover border-4 border-primary"
           />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{agency.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              {agency.longName}
+            </h1>
             <div className="flex items-center mt-2">
               <MapPin className="h-5 w-5 text-gray-500 mr-1" />
               <span className="text-gray-600">{agency.location}</span>
@@ -45,13 +48,15 @@ export default function AgencyProfile({
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < Math.floor(agency.rating)
+                      i < Math.floor(agency.rating || 4)
                         ? "text-yellow-500 fill-yellow-500"
                         : "text-gray-300"
                     }`}
                   />
                 ))}
-                <span className="ml-1 text-gray-600">({agency.rating})</span>
+                <span className="ml-1 text-gray-600">
+                  ({agency.rating || 4.5})
+                </span>
               </div>
             </div>
           </div>
@@ -70,20 +75,23 @@ export default function AgencyProfile({
           </div>
 
           {/* Specialties */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              {t("agenciesPage.profile.specialtiesTitle")}
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {agency.specialties.map((specialty, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-medium">
-                  {specialty}
-                </span>
-              ))}
+          {agency.specialties && agency.specialties.length > 0 && (
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                {t("agenciesPage.profile.specialtiesTitle")}
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {agency.specialties.map((specialty, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-medium"
+                  >
+                    {specialty}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Contact Section */}
@@ -93,39 +101,46 @@ export default function AgencyProfile({
               {t("agenciesPage.profile.contactTitle")}
             </h2>
             <div className="space-y-4">
-              <div className="flex items-start">
-                <Phone className="h-5 w-5 text-primary mt-1 mr-3" />
-                <div>
-                  <h3 className="font-medium text-gray-900">
-                    {t("agenciesPage.profile.phoneLabel")}
-                  </h3>
-                  <p className="text-gray-600">{agency.contact.phone}</p>
+              {agency.contact?.phone && (
+                <div className="flex items-start">
+                  <Phone className="h-5 w-5 text-primary mt-1 mr-3" />
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      {t("agenciesPage.profile.phoneLabel")}
+                    </h3>
+                    <p className="text-gray-600">{agency.contact.phone}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <Mail className="h-5 w-5 text-primary mt-1 mr-3" />
-                <div>
-                  <h3 className="font-medium text-gray-900">
-                    {t("agenciesPage.profile.emailLabel")}
-                  </h3>
-                  <p className="text-gray-600">{agency.contact.email}</p>
+              )}
+              {agency.contact?.email && (
+                <div className="flex items-start">
+                  <Mail className="h-5 w-5 text-primary mt-1 mr-3" />
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      {t("agenciesPage.profile.emailLabel")}
+                    </h3>
+                    <p className="text-gray-600">{agency.contact.email}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <Globe className="h-5 w-5 text-primary mt-1 mr-3" />
-                <div>
-                  <h3 className="font-medium text-gray-900">
-                    {t("agenciesPage.profile.websiteLabel")}
-                  </h3>
-                  <a
-                    href={`https://${agency.contact.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline">
-                    {agency.contact.website}
-                  </a>
+              )}
+              {agency.contact?.website && (
+                <div className="flex items-start">
+                  <Globe className="h-5 w-5 text-primary mt-1 mr-3" />
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      {t("agenciesPage.profile.websiteLabel")}
+                    </h3>
+                    <a
+                      href={`https://${agency.contact.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      {agency.contact.website}
+                    </a>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -144,7 +159,9 @@ export default function AgencyProfile({
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {trips.map((trip, index) => (
-              <TripCard key={trip.id} trip={trip} index={index} />
+              // Important : TripCard doit aussi être mis à jour pour accepter le type Trip du modèle
+              // Si TripCard utilise encore l'ancien type, il faudra l'adapter aussi.
+              <TripCard key={trip.idVoyage} trip={trip} index={index} />
             ))}
           </div>
         )}

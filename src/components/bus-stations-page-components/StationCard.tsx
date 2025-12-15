@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Briefcase, MapPin } from 'lucide-react';
-import { GareRoutiere } from '@/lib/types/gares-routiere';
+import { GareRoutiere } from '@/lib/types/models/GareRoutiere';
 
 type StationCardProps = {
   station: GareRoutiere;

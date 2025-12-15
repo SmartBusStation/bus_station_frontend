@@ -1,4 +1,11 @@
-import { FaBus, FaHistory, FaHome, FaStore, FaTicketAlt } from "react-icons/fa";
+import {
+  FaBus,
+  FaHistory,
+  FaHome,
+  FaStore,
+  FaTicketAlt,
+  FaMapMarkedAlt,
+} from "react-icons/fa";
 import { BsFillCalendarCheckFill, BsFillCalendarXFill } from "react-icons/bs";
 import React from "react";
 
@@ -21,6 +28,11 @@ export const linkList = [
     name: "Agences",
     link: "/agency",
     icon: FaStore,
+  },
+  {
+    name: "Gares Routières",
+    link: "/gares-routieres",
+    icon: FaMapMarkedAlt,
   },
   {
     name: "My reservations",

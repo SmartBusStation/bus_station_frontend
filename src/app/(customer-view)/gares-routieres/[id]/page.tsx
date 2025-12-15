@@ -1,59 +1,90 @@
-import React from 'react';
-import { notFound } from 'next/navigation';
-import { MOCK_GARES, MOCK_AGENCES, MOCK_DEPARTS } from '@/lib/data/gares-routieres';
-import DetailHeader from '@/components/bus-station-detail-page-components/DetailHeader';
-import ServicesSection from '@/components/bus-station-detail-page-components/ServicesSection';
-import TabsSection from '@/components/bus-station-detail-page-components/TabsSection';
+"use client";
+
+import React, { use } from "react";
+import { useRouter } from "next/navigation";
+import { AlertCircle, ArrowLeft } from "lucide-react";
+import Loader from "@/modals/Loader";
+import DetailHeader from "@/components/bus-station-detail-page-components/DetailHeader";
+import ServicesSection from "@/components/bus-station-detail-page-components/ServicesSection";
+import TabsSection from "@/components/bus-station-detail-page-components/TabsSection";
+import { useGareDetails } from "@/lib/hooks/gare-hooks/useGareDetails";
 
 type GareDetailProps = {
-  params: {
+  params: Promise<{
     id: string;
-  }
-}
-
-// Cette fonction peut être utilisée par Next.js pour générer les pages statiquement
-export async function generateStaticParams() {
-  return MOCK_GARES.map(gare => ({
-    id: gare.id,
-  }));
-}
+  }>;
+};
 
 const GareDetailPage = ({ params }: GareDetailProps) => {
-  const station = MOCK_GARES.find(g => g.id === params.id);
+  const resolvedParams = use(params);
+  const router = useRouter();
 
-  if (!station) {
-    // Dans une vraie application, on utiliserait le `notFound()` de Next.js
-    // pour afficher la page 404 personnalisée.
-    // notFound(); 
-    return <div className="text-center py-20">Gare non trouvée</div>;
+  // Utilisation du hook qui récupère le json-server
+  const { gare, agences, departs, isLoading, error } = useGareDetails(
+    resolvedParams.id
+  );
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <Loader message="Chargement des informations..." />
+      </div>
+    );
   }
 
-  // Pour la démo, nous passons toutes les agences et tous les départs.
-  // Dans une vraie application, ceux-ci seraient filtrés par gare (via API).
-  const agences = MOCK_AGENCES;
-  const departs = MOCK_DEPARTS;
+  if (error || !gare) {
+    return (
+      <div className="flex flex-col justify-center items-center h-[60vh] text-center px-4">
+        <AlertCircle size={64} className="text-gray-300 mb-4" />
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          Impossible d'afficher la gare
+        </h2>
+        <p className="text-gray-500 mb-6">
+          {error || "La gare demandée n'existe pas."}
+        </p>
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+        >
+          <ArrowLeft size={20} />
+          Retour à la liste
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="space-y-8">
-        <DetailHeader station={station} />
-        <ServicesSection services={station.services} />
-        <TabsSection station={station} agences={agences} departs={departs} />
-         <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Emplacement sur la carte</h2>
-             <div className="aspect-w-16 aspect-h-9">
-                <iframe 
-                    src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${station.localisation.latitude},${station.localisation.longitude}`} 
-                    width="100%" 
-                    height="450" 
-                    style={{ border: 0 }} 
-                    allowFullScreen={true} 
-                    loading="lazy"
-                    className="rounded-md"
-                ></iframe>
-                <p className="text-xs text-gray-500 mt-2">Note: L'affichage de la carte requiert une clé API Google Maps.</p>
-             </div>
-         </div>
+    <div className="container mx-auto px-4 py-8 space-y-8 animate-fadeIn">
+      {/* Bouton retour mobile */}
+      <button
+        onClick={() => router.back()}
+        className="md:hidden flex items-center text-gray-600 mb-4"
+      >
+        <ArrowLeft size={20} className="mr-2" />
+        Retour
+      </button>
+
+      <DetailHeader station={gare} />
+
+      <ServicesSection services={gare.services} />
+
+      {/* Les données passées ici viennent maintenant du serveur JSON */}
+      <TabsSection station={gare} agences={agences} departs={departs} />
+
+      <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">Emplacement</h2>
+        <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden relative h-[400px]">
+          <iframe
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            scrolling="no"
+            marginHeight={0}
+            marginWidth={0}
+            src={`https://maps.google.com/maps?q=${gare.localisation.latitude},${gare.localisation.longitude}&z=15&output=embed`}
+            className="absolute inset-0"
+          ></iframe>
+        </div>
       </div>
     </div>
   );
