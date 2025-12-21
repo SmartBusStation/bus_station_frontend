@@ -5,12 +5,14 @@ import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import TripCard from "@/components/agencies-page-components/TripCard";
 import { AgencyProfileProps } from "@/lib/types/ui";
+import WeeklySchedule from "@/components/agency-profile/WeeklySchedule";
 // Note: Assure-toi que AgencyProfileProps dans types/ui.ts utilise bien TravelAgency de models/Agency
 
 export default function AgencyProfile({
   agency,
   trips,
   onBack,
+  agencyId,
 }: AgencyProfileProps) {
   const { t } = useTranslation();
 
@@ -144,6 +146,11 @@ export default function AgencyProfile({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Weekly Schedule Section */}
+      <div className="space-y-6">
+          <WeeklySchedule agencyId={agencyId} />
       </div>
 
       {/* Trips Section */}

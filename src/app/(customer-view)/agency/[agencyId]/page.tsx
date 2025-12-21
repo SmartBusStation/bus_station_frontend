@@ -55,6 +55,7 @@ export default function AgencyDetailPage({
       <AgencyProfile
         agency={agency}
         trips={trips}
+        agencyId={agencyId}
         onBack={() => router.back()}
       />
     </div>

@@ -174,6 +174,7 @@
       "gareIds": ["gare-003"]
     }
   ],
+
   "departs": [
     {
       "idVoyage": "v-101",
@@ -400,6 +401,274 @@
       "statusVoyage": "PUBLIE",
       "nbrPlaceReservable": 30,
       "nbrPlaceRestante": 10
+    }
+  ],
+  "trips": [
+    {
+      "id": 1,
+      "agencyId": "agency-01",
+      "title": "Yaoundé - Douala",
+      "dayOfWeek": 1,
+      "startTime": "08:00",
+      "endTime": "12:30",
+      "category": "Classic"
+    },
+    {
+      "id": 2,
+      "agencyId": "agency-01",
+      "title": "Yaoundé - Bafoussam",
+      "dayOfWeek": 1,
+      "startTime": "09:00",
+      "endTime": "15:00",
+      "category": "VIP"
+    },
+    {
+      "id": 29,
+      "agencyId": "agency-01",
+      "title": "Yaoundé - Kribi",
+      "dayOfWeek": 1,
+      "startTime": "09:30",
+      "endTime": "13:00",
+      "category": "Premium"
+    },
+    {
+      "id": 3,
+      "agencyId": "agency-01",
+      "title": "Douala - Yaoundé",
+      "dayOfWeek": 1,
+      "startTime": "14:00",
+      "endTime": "18:30",
+      "category": "Classic"
+    },
+    {
+      "id": 4,
+      "agencyId": "agency-01",
+      "title": "Yaoundé - Kribi",
+      "dayOfWeek": 2,
+      "startTime": "07:00",
+      "endTime": "11:00",
+      "category": "Premium"
+    },
+    {
+      "id": 5,
+      "agencyId": "agency-01",
+      "title": "Kribi - Yaoundé",
+      "dayOfWeek": 2,
+      "startTime": "13:00",
+      "endTime": "17:00",
+      "category": "Premium"
+    },
+    {
+      "id": 6,
+      "agencyId": "agency-01",
+      "title": "Douala - Bafoussam",
+      "dayOfWeek": 3,
+      "startTime": "10:00",
+      "endTime": "16:00",
+      "category": "Classic"
+    },
+    {
+      "id": 7,
+      "agencyId": "agency-01",
+      "title": "Bafoussam - Yaoundé",
+      "dayOfWeek": 3,
+      "startTime": "11:00",
+      "endTime": "17:00",
+      "category": "VIP"
+    },
+    {
+      "id": 8,
+      "agencyId": "agency-01",
+      "title": "Yaoundé - Douala",
+      "dayOfWeek": 4,
+      "startTime": "06:00",
+      "endTime": "10:30",
+      "category": "Classic"
+    },
+    {
+      "id": 9,
+      "agencyId": "agency-01",
+      "title": "Douala - Kribi",
+      "dayOfWeek": 5,
+      "startTime": "12:00",
+      "endTime": "15:00",
+      "category": "VIP"
+    },
+    {
+      "id": 10,
+      "agencyId": "agency-01",
+      "title": "Yaoundé - Bertoua",
+      "dayOfWeek": 6,
+      "startTime": "08:00",
+      "endTime": "14:00",
+      "category": "Classic"
+    },
+    {
+      "id": 11,
+      "agencyId": "agency-01",
+      "title": "Bertoua - Yaoundé",
+      "dayOfWeek": 7,
+      "startTime": "09:00",
+      "endTime": "15:00",
+      "category": "Classic"
+    },
+
+    {
+      "id": 12,
+      "agencyId": "agency-02",
+      "title": "Douala - Yaoundé",
+      "dayOfWeek": 1,
+      "startTime": "07:30",
+      "endTime": "12:00",
+      "category": "VIP"
+    },
+    {
+      "id": 13,
+      "agencyId": "agency-02",
+      "title": "Yaoundé - Kribi",
+      "dayOfWeek": 2,
+      "startTime": "10:00",
+      "endTime": "14:00",
+      "category": "Premium"
+    },
+    {
+      "id": 14,
+      "agencyId": "agency-02",
+      "title": "Douala - Bafoussam",
+      "dayOfWeek": 3,
+      "startTime": "09:30",
+      "endTime": "15:30",
+      "category": "Classic"
+    },
+    {
+      "id": 15,
+      "agencyId": "agency-02",
+      "title": "Kribi - Douala",
+      "dayOfWeek": 4,
+      "startTime": "11:00",
+      "endTime": "14:00",
+      "category": "Premium"
+    },
+    {
+      "id": 16,
+      "agencyId": "agency-02",
+      "title": "Douala - Limbé",
+      "dayOfWeek": 5,
+      "startTime": "15:00",
+      "endTime": "16:30",
+      "category": "Classic"
+    },
+
+    {
+      "id": 17,
+      "agencyId": "agency-03",
+      "title": "Bafoussam - Douala",
+      "dayOfWeek": 1,
+      "startTime": "05:00",
+      "endTime": "10:00",
+      "category": "Premium"
+    },
+    {
+      "id": 18,
+      "agencyId": "agency-03",
+      "title": "Douala - Bafoussam",
+      "dayOfWeek": 1,
+      "startTime": "12:00",
+      "endTime": "17:00",
+      "category": "Premium"
+    },
+    {
+      "id": 19,
+      "agencyId": "agency-03",
+      "title": "Bafoussam - Yaoundé",
+      "dayOfWeek": 2,
+      "startTime": "08:00",
+      "endTime": "14:00",
+      "category": "Classic"
+    },
+    {
+      "id": 20,
+      "agencyId": "agency-03",
+      "title": "Yaoundé - Bafoussam",
+      "dayOfWeek": 2,
+      "startTime": "09:00",
+      "endTime": "15:00",
+      "category": "VIP"
+    },
+
+    {
+      "id": 21,
+      "agencyId": "agency-04",
+      "title": "Yaoundé - Mbalmayo",
+      "dayOfWeek": 1,
+      "startTime": "07:00",
+      "endTime": "08:30",
+      "category": "Classic"
+    },
+    {
+      "id": 22,
+      "agencyId": "agency-04",
+      "title": "Mbalmayo - Yaoundé",
+      "dayOfWeek": 1,
+      "startTime": "09:00",
+      "endTime": "10:30",
+      "category": "Classic"
+    },
+    {
+      "id": 23,
+      "agencyId": "agency-04",
+      "title": "Yaoundé - Ebolowa",
+      "dayOfWeek": 3,
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "category": "VIP"
+    },
+    {
+      "id": 24,
+      "agencyId": "agency-04",
+      "title": "Yaoundé - Sangmélima",
+      "dayOfWeek": 3,
+      "startTime": "10:30",
+      "endTime": "12:00",
+      "category": "Classic"
+    },
+
+    {
+      "id": 25,
+      "agencyId": "agency-05",
+      "title": "Yaoundé - Ngaoundéré",
+      "dayOfWeek": 4,
+      "startTime": "18:00",
+      "endTime": "12:00",
+      "category": "Nocturne"
+    },
+    {
+      "id": 26,
+      "agencyId": "agency-05",
+      "title": "Ngaoundéré - Yaoundé",
+      "dayOfWeek": 5,
+      "startTime": "18:00",
+      "endTime": "12:00",
+      "category": "Nocturne"
+    },
+
+    {
+      "id": 27,
+      "agencyId": "agency-06",
+      "title": "Yaoundé - Bertoua",
+      "dayOfWeek": 6,
+      "startTime": "06:00",
+      "endTime": "12:00",
+      "category": "Classic"
+    },
+    {
+      "id": 28,
+      "agencyId": "agency-06",
+      "title": "Bertoua - Yaoundé",
+      "dayOfWeek": 7,
+      "startTime": "06:00",
+      "endTime": "12:00",
+      "category": "Classic"
     }
   ]
 }

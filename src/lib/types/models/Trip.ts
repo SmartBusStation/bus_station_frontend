@@ -75,3 +75,14 @@ export interface TripAxiosResponseInterface {
   totalElements: number;
   totalPages: number;
 }
+
+export interface PlannerTrip {
+  id: number;
+  agencyId: number;
+  title: string;
+  dayOfWeek: number; // 1 for Monday, 7 for Sunday
+  startTime: string; // "HH:mm"
+  endTime: string; // "HH:mm"
+  category: string;
+  description?: string;
+}

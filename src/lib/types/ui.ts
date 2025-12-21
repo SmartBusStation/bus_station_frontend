@@ -9,11 +9,14 @@ export interface AgencyProfileProps {
   agency: TravelAgency;
   trips: Trip[];
   onBack: () => void;
+  agencyId: string;
 }
+
 export interface LinkListProps {
   name: string;
   link: string;
 }
+
 
 export interface SocialLinkProps {
   href: string;
