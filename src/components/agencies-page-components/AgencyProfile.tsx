@@ -150,7 +150,7 @@ export default function AgencyProfile({
 
       {/* Weekly Schedule Section */}
       <div className="space-y-6">
-          <WeeklySchedule agencyId={agencyId} />
+          <WeeklySchedule agencyId={agencyId} isEditable={false} />
       </div>
 
       {/* Trips Section */}

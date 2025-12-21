@@ -1,12 +1,13 @@
 // src/components/agencies-page-components/weekly-schedule/WeeklyScheduleHeader.tsx
 "use client";
 
-import { Calendar } from 'lucide-react';
+import { Calendar, PlusCircle } from 'lucide-react';
 
 interface WeeklyScheduleHeaderProps {
   allCategories: string[];
   activeFilters: string[];
   onFilterToggle: (category: string) => void;
+  onAddRequest?: () => void; // Now optional as it depends on isEditable
 }
 
 const categoryColors: { [key: string]: string } = {
@@ -20,14 +21,14 @@ const getCategoryColor = (category: string): string => {
   return categoryColors[category] || 'bg-gray-400';
 };
 
-export default function WeeklyScheduleHeader({ allCategories, activeFilters, onFilterToggle }: WeeklyScheduleHeaderProps) {
+export default function WeeklyScheduleHeader({ allCategories, activeFilters, onFilterToggle, onAddRequest }: WeeklyScheduleHeaderProps) {
   return (
     <div className="bg-gray-800 text-white p-4 rounded-t-2xl flex flex-col md:flex-row justify-between items-center gap-4">
       <div className="flex items-center gap-3">
         <Calendar className="w-6 h-6" />
         <div>
           <h2 className="text-xl font-bold">Planning Hebdomadaire</h2>
-          <p className="text-sm text-gray-300">Aperçu des voyages de la semaine</p>
+          <p className="text-sm text-gray-300">Gérez les voyages de la semaine</p>
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-2">
@@ -44,6 +45,15 @@ export default function WeeklyScheduleHeader({ allCategories, activeFilters, onF
             </button>
           )
         })}
+        {onAddRequest && ( // Conditionally render "Add" button
+          <button
+            onClick={onAddRequest}
+            className="flex items-center gap-2 px-3 py-1 text-xs sm:text-sm font-bold rounded-full transition-all duration-200 bg-green-500 text-white hover:bg-green-600 border-2 border-transparent"
+          >
+            <PlusCircle className="w-4 h-4" />
+            Ajouter
+          </button>
+        )}
       </div>
     </div>
   );

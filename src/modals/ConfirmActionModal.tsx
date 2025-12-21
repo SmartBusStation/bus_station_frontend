@@ -1,41 +1,60 @@
-import { AlertCircle } from 'lucide-react';
+// src/modals/ConfirmActionModal.tsx
+"use client";
+
+import { useState } from 'react';
+import { AlertCircle, Loader2 } from 'lucide-react';
 
 interface ConfirmActionModalProps{
-    onClose: ()=> void,
-    onConfirm: () => void,
-    title: string,
-    message: string
+    isOpen: boolean;
+    onClose: ()=> void;
+    onConfirm: () => Promise<void>; // Make it async
+    title: string;
+    message: string;
 }
 
+export default function ConfirmActionModal ({ isOpen, onClose, onConfirm, title, message }: ConfirmActionModalProps) {
+    const [isConfirming, setIsConfirming] = useState(false);
 
-export function ConfirmationModal ({ onClose, onConfirm, title, message }: ConfirmActionModalProps) {
+    const handleConfirm = async () => {
+        setIsConfirming(true);
+        try {
+            await onConfirm();
+        } finally {
+            // The parent component is responsible for closing the modal on success
+            setIsConfirming(false);
+        }
+    };
 
+    if (!isOpen) {
+        return null;
+    }
 
     return (
-        <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center">
-                    <AlertCircle className="w-12 h-12 text-yellow-500 mr-2" />
-                    <h3 className="text-2xl font-bold mt-1 text-gray-900">{title}</h3>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+                <div className="flex items-start gap-4 mb-4">
+                    <AlertCircle className="w-12 h-12 text-yellow-500 flex-shrink-0" />
+                    <div>
+                        <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+                        <p className="text-gray-600 mt-1">{message}</p>
+                    </div>
                 </div>
-            </div>
-            <p className="text-gray-700  font-semibold">{message}</p>
-            <div className="mt-8 flex justify-end space-x-5">
-                <button
-                    onClick={() => {
-                        onConfirm();
-                        onClose();
-                    }}
-                    className="cursor-pointer px-4 py-2 bg-primary text-white rounded-lg text-md hover:text-xl font-bold transition-all duration-300"
-                >
-                    Confirm
-                </button>
-                <button
-                    onClick={onClose}
-                    className="cursor-pointer px-4 py-2 bg-red-400 text-white  rounded-lg font-bold hover:bg-red-500 transition-all duration-300"
-                >
-                    Cancel
-                </button>
+                <div className="mt-6 flex justify-end space-x-3">
+                    <button
+                        onClick={onClose}
+                        disabled={isConfirming}
+                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 disabled:opacity-50"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        onClick={handleConfirm}
+                        disabled={isConfirming}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 disabled:bg-red-400 transition-all"
+                    >
+                        {isConfirming ? <Loader2 className="animate-spin" /> : 'Confirmer'}
+                    </button>
+                </div>
             </div>
         </div>
     );

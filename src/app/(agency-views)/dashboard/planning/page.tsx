@@ -55,7 +55,7 @@ export default function AgencyPlanningPage() {
       </div>
 
       {/* The Weekly Schedule component is self-contained and fetches its own data */}
-      <WeeklySchedule agencyId={agencyId} />
+      <WeeklySchedule agencyId={agencyId} isEditable={true} />
 
     </div>
   );
