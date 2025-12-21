@@ -46,5 +46,6 @@ export function useAgencyPublicDetails(agencyId: string) {
     trips,
     isLoading,
     error,
+    refetch: () => fetchDetails(agencyId),
   };
 }

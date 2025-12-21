@@ -181,6 +181,7 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const menuItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: t("dashboard.sidebar.overview"), description: "Vue d'ensemble" },
+    { href: "/dashboard/planning", icon: FileEdit, label: "Profil & Planning", description: "Gérer votre profil et planning" },
     { href: "/dashboard/resources", icon: Car, label: t("dashboard.sidebar.resources"), description: "Véhicules & équipements" },
     { href: "/dashboard/trip-planning", icon: Bus, label: t("dashboard.sidebar.tripPlanning"), description: "Planification des voyages" },
     { href: "/dashboard/drafts", icon: FileEdit, label: "Brouillons", description: "Voyages en cours de création", badge: "3" },

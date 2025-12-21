@@ -6,7 +6,10 @@
       "ville": "Yaoundé",
       "quartier": "Mvan",
       "adresse": "Carrefour Mvan, Route de l'aéroport, Yaoundé",
-      "localisation": { "latitude": 3.848, "longitude": 11.5021 },
+      "localisation": {
+        "latitude": 3.848,
+        "longitude": 11.5021
+      },
       "description": "Principal hub de transport pour les voyages vers le sud et le littoral. Gare sécurisée et moderne, offrant une multitude de services pour un voyage confortable.",
       "imageUrl": "/images/1.jpg",
       "services": [
@@ -27,10 +30,18 @@
       "ville": "Douala",
       "quartier": "Buca",
       "adresse": "123 Rue de la Liberté, Douala",
-      "localisation": { "latitude": 4.0483, "longitude": 9.7043 },
+      "localisation": {
+        "latitude": 4.0483,
+        "longitude": 9.7043
+      },
       "description": "La gare la plus moderne de Douala, servant de point de départ principal pour l'ouest du pays. Elle est réputée pour sa propreté et son organisation.",
       "imageUrl": "/images/2.jpg",
-      "services": ["WIFI", "SALLE_ATTENTE", "TOILETTES", "SECURITE"],
+      "services": [
+        "WIFI",
+        "SALLE_ATTENTE",
+        "TOILETTES",
+        "SECURITE"
+      ],
       "nbAgencesAffiliees": 2,
       "estOuvert": true,
       "horaires": "05h00 - 23h00"
@@ -41,10 +52,16 @@
       "ville": "Yaoundé",
       "quartier": "Etoudi",
       "adresse": "Près du marché d'Etoudi, Yaoundé",
-      "localisation": { "latitude": 3.8999, "longitude": 11.5213 },
+      "localisation": {
+        "latitude": 3.8999,
+        "longitude": 11.5213
+      },
       "description": "Une gare plus petite mais très active, idéale pour les voyages vers les régions du nord. Ambiance locale et authentique.",
       "imageUrl": "/images/3.jpg",
-      "services": ["RESTAURATION", "TOILETTES"],
+      "services": [
+        "RESTAURATION",
+        "TOILETTES"
+      ],
       "nbAgencesAffiliees": 2,
       "estOuvert": false,
       "horaires": "06h00 - 20h00"
@@ -55,10 +72,17 @@
       "ville": "Kribi",
       "quartier": "Centre-ville",
       "adresse": "Avenue des plages, Kribi",
-      "localisation": { "latitude": 2.9474, "longitude": 9.9145 },
+      "localisation": {
+        "latitude": 2.9474,
+        "longitude": 9.9145
+      },
       "description": "La porte d'entrée de la cité balnéaire. Parfait pour commencer vos vacances en toute sérénité.",
       "imageUrl": "/images/2.jpg",
-      "services": ["PARKING", "RESTAURATION", "SALLE_ATTENTE"],
+      "services": [
+        "PARKING",
+        "RESTAURATION",
+        "SALLE_ATTENTE"
+      ],
       "nbAgencesAffiliees": 2,
       "estOuvert": true,
       "horaires": "07h00 - 19h00"
@@ -66,7 +90,7 @@
   ],
   "agences": [
     {
-      "agencyId": "agency-01",
+      "id": "agency-01",
       "organisationId": "org-01",
       "userId": "user-01",
       "longName": "General Express Voyage",
@@ -76,16 +100,22 @@
       "description": "Spécialistes des voyages d'aventure en Afrique centrale depuis 15 ans. Nous offrons des expériences authentiques et mémorables.",
       "greetingMessage": "Voyagez en toute sécurité avec General Express!",
       "rating": 4.8,
-      "specialties": ["Transport VIP", "Courrier", "Logistique"],
+      "specialties": [
+        "Transport VIP",
+        "Courrier"
+      ],
       "contact": {
         "email": "contact@general-express.com",
         "phone": "+237 6 99 88 77 66",
         "website": "www.general-express.com"
       },
-      "gareIds": ["gare-001", "gare-002"]
+      "gareIds": [
+        "gare-001",
+        "gare-002"
+      ]
     },
     {
-      "agencyId": "agency-02",
+      "id": "agency-02",
       "organisationId": "org-02",
       "userId": "user-02",
       "longName": "Touristique Express S.A.",
@@ -95,16 +125,24 @@
       "description": "Voyages haut de gamme avec un service personnalisé. Le confort du train sur la route.",
       "greetingMessage": "Confort et rapidité, c'est Touristique Express!",
       "rating": 4.5,
-      "specialties": ["Voyages de luxe", "Nord-Sud", "Confort"],
+      "specialties": [
+        "Voyages de luxe",
+        "Nord-Sud",
+        "Confort"
+      ],
       "contact": {
         "email": "info@touristique.com",
         "phone": "+237 6 55 44 33 22",
         "website": "www.touristique-express.com"
       },
-      "gareIds": ["gare-001", "gare-003", "gare-005"]
+      "gareIds": [
+        "gare-001",
+        "gare-003",
+        "gare-005"
+      ]
     },
     {
-      "agencyId": "agency-03",
+      "id": "agency-03",
       "organisationId": "org-03",
       "userId": "user-03",
       "longName": "Finex Voyage Sarl",
@@ -114,16 +152,23 @@
       "description": "La référence pour l'Ouest Cameroun. Ponctualité et sécurité sont nos devises.",
       "greetingMessage": "L'expertise au service de votre voyage.",
       "rating": 4.9,
-      "specialties": ["Ouest", "Fret", "Voyages de nuit"],
+      "specialties": [
+        "Ouest",
+        "Fret",
+        "Voyages de nuit"
+      ],
       "contact": {
         "email": "hello@finex.com",
         "phone": "+237 6 77 66 55 44",
         "website": "www.finex-voyages.com"
       },
-      "gareIds": ["gare-002", "gare-004"]
+      "gareIds": [
+        "gare-002",
+        "gare-004"
+      ]
     },
     {
-      "agencyId": "agency-04",
+      "id": "agency-04",
       "organisationId": "org-04",
       "userId": "user-04",
       "longName": "Buca Voyages",
@@ -133,16 +178,22 @@
       "description": "Le transporteur historique du grand sud. Une flotte moderne pour votre confort.",
       "greetingMessage": "Le plaisir de voyager.",
       "rating": 4.2,
-      "specialties": ["Sud", "Litoral", "Bus Climatisés"],
+      "specialties": [
+        "Sud",
+        "Litoral",
+        "Bus Climatisés"
+      ],
       "contact": {
         "email": "contact@buca.com",
         "phone": "+237 6 99 00 11 22",
         "website": "www.buca-voyages.com"
       },
-      "gareIds": ["gare-001"]
+      "gareIds": [
+        "gare-001"
+      ]
     },
     {
-      "agencyId": "agency-05",
+      "id": "agency-05",
       "organisationId": "org-05",
       "userId": "user-05",
       "longName": "Global Voyages Internationaux",
@@ -152,10 +203,13 @@
       "description": "Votre porte d'entrée vers l'international et au-delà.",
       "greetingMessage": "Le monde à portée de main.",
       "logoUrl": "/agency-logos/global.jpeg",
-      "gareIds": ["gare-001", "gare-004"]
+      "gareIds": [
+        "gare-001",
+        "gare-004"
+      ]
     },
     {
-      "agencyId": "agency-06",
+      "id": "agency-06",
       "organisationId": "org-06",
       "userId": "user-06",
       "longName": "Mondial Express",
@@ -164,246 +218,23 @@
       "location": "Yaoundé",
       "description": "Le spécialiste du Grand Nord.",
       "greetingMessage": "Direction le septentrion !",
-      "rating": 4.0,
-      "specialties": ["Grand Nord", "Aventure"],
+      "rating": 4,
+      "specialties": [
+        "Grand Nord",
+        "Aventure"
+      ],
       "contact": {
         "email": "info@mondial.com",
         "phone": "+237 6 00 00 00 00",
         "website": "www.mondial.com"
       },
-      "gareIds": ["gare-003"]
+      "gareIds": [
+        "gare-003"
+      ]
     }
   ],
-
-  "departs": [
-    {
-      "idVoyage": "v-101",
-      "titre": "Voyage Yaoundé - Douala",
-      "description": "Départ matinal vers Douala, la capitale économique.",
-      "dateDepartPrev": "2025-12-15T08:00:00Z",
-      "lieuDepart": "Yaoundé",
-      "dateDepartEffectif": "2025-12-15T08:00:00Z",
-      "dateArriveEffectif": "2025-12-15T12:00:00Z",
-      "lieuArrive": "Douala",
-      "heureDepartEffectif": "08:00",
-      "dureeVoyage": "4h00",
-      "heureArrive": "12:00",
-      "nbrPlaceReservable": 30,
-      "nbrPlaceRestante": 15,
-      "datePublication": "2025-12-01T08:00:00Z",
-      "dateLimiteReservation": "2025-12-14T23:59:59Z",
-      "dateLimiteConfirmation": "2025-12-14T23:59:59Z",
-      "statusVoyage": "PUBLIE",
-      "smallImage": "/agency-logos/general.jpg",
-      "bigImage": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000&auto=format&fit=crop",
-      "nomClasseVoyage": "Classique",
-      "prix": 7000,
-      "nomAgence": "General Express",
-      "agencyId": "agency-01",
-      "pointDeDepart": "Gare Routière de Mvan",
-      "pointArrivee": "Gare de Bonabéri",
-      "vehicule": {
-        "idVehicule": "veh-001",
-        "nom": "Toyota Coaster",
-        "modele": "Coaster 2022",
-        "description": "Minibus confortable, climatisé, idéal pour les longs trajets.",
-        "nbrPlaces": 30,
-        "lienPhoto": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000&auto=format&fit=crop",
-        "idAgenceVoyage": "agency-01",
-        "plaqueMatricule": "CM-123-AB"
-      },
-      "placeReservees": [],
-      "amenities": []
-    },
-    {
-      "idVoyage": "v-102",
-      "titre": "Voyage Yaoundé - Kribi (VIP)",
-      "description": "Voyage confort vers la ville balnéaire de Kribi.",
-      "dateDepartPrev": "2025-12-15T08:30:00Z",
-      "lieuDepart": "Yaoundé",
-      "dateDepartEffectif": "2025-12-15T08:30:00Z",
-      "dateArriveEffectif": "2025-12-15T12:30:00Z",
-      "lieuArrive": "Kribi",
-      "heureDepartEffectif": "08:30",
-      "dureeVoyage": "4h00",
-      "heureArrive": "12:30",
-      "nbrPlaceReservable": 20,
-      "nbrPlaceRestante": 4,
-      "datePublication": "2025-12-01T08:30:00Z",
-      "dateLimiteReservation": "2025-12-14T23:59:59Z",
-      "dateLimiteConfirmation": "2025-12-14T23:59:59Z",
-      "statusVoyage": "PUBLIE",
-      "smallImage": "/agency-logos/touristique.jpg",
-      "bigImage": "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=1000&auto=format&fit=crop",
-      "nomClasseVoyage": "VIP",
-      "prix": 8500,
-      "nomAgence": "Touristique Express",
-      "agencyId": "agency-02",
-      "pointDeDepart": "Gare Routière de Mvan",
-      "pointArrivee": "Centre-ville Kribi",
-      "vehicule": {
-        "idVehicule": "veh-001",
-        "nom": "Toyota Coaster",
-        "modele": "Coaster 2022",
-        "description": "Minibus confortable, climatisé, idéal pour les longs trajets.",
-        "nbrPlaces": 30,
-        "lienPhoto": "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?q=80&w=1887&auto=format&fit=crop",
-        "idAgenceVoyage": "agency-01",
-        "plaqueMatricule": "CM-123-AB"
-      },
-      "placeReservees": [],
-      "amenities": []
-    },
-    {
-      "idVoyage": "v-103",
-      "titre": "Voyage Yaoundé - Bafoussam",
-      "description": "Départ vers la région de l'Ouest.",
-      "dateDepartPrev": "2025-12-15T09:00:00Z",
-      "lieuDepart": "Yaoundé",
-      "dateDepartEffectif": "2025-12-15T09:00:00Z",
-      "dateArriveEffectif": "2025-12-15T14:00:00Z",
-      "lieuArrive": "Bafoussam",
-      "heureDepartEffectif": "09:00",
-      "dureeVoyage": "5h00",
-      "heureArrive": "14:00",
-      "nbrPlaceReservable": 35,
-      "nbrPlaceRestante": 25,
-      "datePublication": "2025-12-01T09:00:00Z",
-      "dateLimiteReservation": "2025-12-14T23:59:59Z",
-      "dateLimiteConfirmation": "2025-12-14T23:59:59Z",
-      "statusVoyage": "PUBLIE",
-      "smallImage": "/agency-logos/finexs.jpg",
-      "bigImage": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000&auto=format&fit=crop",
-      "nomClasseVoyage": "Classique",
-      "prix": 6000,
-      "nomAgence": "Finex Voyage",
-      "agencyId": "agency-03",
-      "pointDeDepart": "Gare Routière de Mvan",
-      "pointArrivee": "Gare Centrale Bafoussam",
-      "vehicule": {
-        "idVehicule": "veh-001",
-        "nom": "Toyota Coaster",
-        "modele": "Coaster 2022",
-        "description": "Minibus confortable, climatisé, idéal pour les longs trajets.",
-        "nbrPlaces": 30,
-        "lienPhoto": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000&auto=format&fit=crop",
-        "idAgenceVoyage": "agency-01",
-        "plaqueMatricule": "CM-123-AB"
-      },
-      "placeReservees": [],
-      "amenities": []
-    },
-    {
-      "idVoyage": "v-104",
-      "titre": "Voyage Yaoundé - Douala (VIP Climatisé)",
-      "description": "Voyage rapide et climatisé vers Douala.",
-      "dateDepartPrev": "2025-12-15T09:15:00Z",
-      "lieuDepart": "Yaoundé",
-      "dateDepartEffectif": "2025-12-15T09:15:00Z",
-      "dateArriveEffectif": "2025-12-15T13:15:00Z",
-      "lieuArrive": "Douala",
-      "heureDepartEffectif": "09:15",
-      "dureeVoyage": "4h00",
-      "heureArrive": "13:15",
-      "nbrPlaceReservable": 25,
-      "nbrPlaceRestante": 10,
-      "datePublication": "2025-12-01T09:15:00Z",
-      "dateLimiteReservation": "2025-12-14T23:59:59Z",
-      "dateLimiteConfirmation": "2025-12-14T23:59:59Z",
-      "statusVoyage": "PUBLIE",
-      "smallImage": "/agency-logos/bucavoyage.jpeg",
-      "bigImage": "https://images.unsplash.com/photo-1557223562-6c77ef16210f?q=80&w=1000&auto=format&fit=crop",
-      "nomClasseVoyage": "VIP Climatisé",
-      "prix": 7500,
-      "nomAgence": "Buca Voyages",
-      "agencyId": "agency-04",
-      "pointDeDepart": "Gare Routière de Mvan",
-      "pointArrivee": "Gare de Bonamoussadi",
-      "vehicule": {
-        "idVehicule": "veh-001",
-        "nom": "Toyota Coaster",
-        "modele": "Coaster 2022",
-        "description": "Minibus confortable, climatisé, idéal pour les longs trajets.",
-        "nbrPlaces": 30,
-        "lienPhoto": "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?q=80&w=1887&auto=format&fit=crop",
-        "idAgenceVoyage": "agency-01",
-        "plaqueMatricule": "CM-123-AB"
-      },
-      "placeReservees": [],
-      "amenities": []
-    },
-    {
-      "idVoyage": "v-105",
-      "titre": "Voyage Yaoundé - Ngaoundéré (Premium)",
-      "description": "Long voyage en classe premium vers le Grand Nord.",
-      "dateDepartPrev": "2025-12-15T10:00:00Z",
-      "lieuDepart": "Yaoundé",
-      "dateDepartEffectif": "2025-12-15T10:00:00Z",
-      "dateArriveEffectif": "2025-12-16T06:00:00Z",
-      "lieuArrive": "Ngaoundéré",
-      "heureDepartEffectif": "10:00",
-      "dureeVoyage": "20h00",
-      "heureArrive": "06:00 (J+1)",
-      "nbrPlaceReservable": 20,
-      "nbrPlaceRestante": 8,
-      "datePublication": "2025-12-01T10:00:00Z",
-      "dateLimiteReservation": "2025-12-14T23:59:59Z",
-      "dateLimiteConfirmation": "2025-12-14T23:59:59Z",
-      "statusVoyage": "PUBLIE",
-      "smallImage": "/agency-logos/global.jpeg",
-      "bigImage": "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=1000&auto=format&fit=crop",
-      "nomClasseVoyage": "Premium",
-      "prix": 15000,
-      "nomAgence": "Global Voyages",
-      "agencyId": "agency-05",
-      "pointDeDepart": "Gare Routière de Mvan",
-      "pointArrivee": "Gare Centrale Ngaoundéré",
-      "vehicule": {
-        "idVehicule": "veh-001",
-        "nom": "Toyota Coaster",
-        "modele": "Coaster 2022",
-        "description": "Minibus confortable, climatisé, idéal pour les longs trajets.",
-        "nbrPlaces": 30,
-        "lienPhoto": "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?q=80&w=1887&auto=format&fit=crop",
-        "idAgenceVoyage": "agency-01",
-        "plaqueMatricule": "CM-123-AB"
-      },
-      "placeReservees": [],
-      "amenities": []
-    },
-    {
-      "idVoyage": "trip-301",
-      "titre": "Voyage Yaoundé - Ngaoundéré",
-      "heureDepartEffectif": "06:00",
-      "lieuDepart": "Yaoundé",
-      "lieuArrive": "Ngaoundéré",
-      "nomAgence": "Global Express",
-      "agencyId": "agency-05",
-      "smallImage": "/agency-logos/global.jpeg",
-      "prix": 12000,
-      "dateDepartPrev": "2025-12-20T06:00:00Z",
-      "description": "Départ matinal pour le train.",
-      "statusVoyage": "PUBLIE",
-      "nbrPlaceReservable": 50,
-      "nbrPlaceRestante": 40
-    },
-    {
-      "idVoyage": "trip-302",
-      "titre": "Voyage Yaoundé - Bertoua",
-      "heureDepartEffectif": "08:00",
-      "lieuDepart": "Yaoundé",
-      "lieuArrive": "Bertoua",
-      "nomAgence": "Mondial Express",
-      "agencyId": "agency-06",
-      "smallImage": "/agency-logos/mondial.png",
-      "prix": 5000,
-      "dateDepartPrev": "2025-12-20T08:00:00Z",
-      "statusVoyage": "PUBLIE",
-      "nbrPlaceReservable": 30,
-      "nbrPlaceRestante": 10
-    }
-  ],
-  "trips": [
+  "departs": [],
+  "plannerTrips": [
     {
       "id": 1,
       "agencyId": "agency-01",
@@ -512,7 +343,6 @@
       "endTime": "15:00",
       "category": "Classic"
     },
-
     {
       "id": 12,
       "agencyId": "agency-02",
@@ -558,7 +388,6 @@
       "endTime": "16:30",
       "category": "Classic"
     },
-
     {
       "id": 17,
       "agencyId": "agency-03",
@@ -595,7 +424,6 @@
       "endTime": "15:00",
       "category": "VIP"
     },
-
     {
       "id": 21,
       "agencyId": "agency-04",
@@ -632,7 +460,6 @@
       "endTime": "12:00",
       "category": "Classic"
     },
-
     {
       "id": 25,
       "agencyId": "agency-05",
@@ -651,7 +478,6 @@
       "endTime": "12:00",
       "category": "Nocturne"
     },
-
     {
       "id": 27,
       "agencyId": "agency-06",
