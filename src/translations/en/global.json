@@ -532,5 +532,36 @@
         "welcomeMessage": "Welcome Message"
       }
     }
+  },
+    "bsm-dashboard": {
+    "sidebar": {
+        "overview": "Overview",
+        "affiliated-agencies": "Affiliated Agencies",
+        "infrastructure": "Infrastructure",
+        "policies-taxes": "Policies & Taxes",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    "overview": {
+        "title": "Bus Station Dashboard",
+        "subtitle": "Here is a summary of your station's activity.",
+        "totalPassengers": "Total Passengers (Today)",
+        "dailyPeakHours": "Peak Hours",
+        "affiliatedAgencies": "Affiliated Agencies",
+        "incidentReports": "Reported Incidents",
+        "charts": {
+            "passengersOverview": "Passenger Traffic",
+            "passengersLabel": "Passengers",
+            "dailyAffluence": "Daily passenger traffic tracking",
+            "totalPassengersWeekly": "Total passengers this week"
+        },
+        "recentActivities": {
+            "title": "Recent Activities",
+            "subtitle": "Latest events",
+            "viewAll": "View all activities",
+            "noActivity": "No activity",
+            "noActivityMessage": "New activities will appear here"
+        }
+    }
   }
 }

@@ -39,7 +39,7 @@ interface BusStationSidebarProps {
 const SidebarHeader = ({ onClose }: { onClose: () => void }) => {
   return (
       <div
-          onClick={() => (window.location.href = "/bus-station-manager-views/dashboard")}
+          onClick={() => (window.location.href = "/bsm-dashboard")}
           className="cursor-pointer flex-1 relative p-6 bg-primary overflow-hidden"
       >
         {/* Background Pattern */}
@@ -86,7 +86,7 @@ const SidebarLink = ({
                        badge,
                        description,
                      }: NavLink & { pathname: string }) => {
-  const isActive = pathname === href || (href !== "/bus-station-manager-views/dashboard" && pathname.startsWith(href))
+  const isActive = pathname === href || (href !== "/bsm-dashboard" && pathname.startsWith(href))
   const Icon = icon
 
   return (

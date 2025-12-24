@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import Footer from "@/components/layouts/Footer";
 import NavBar from "@/components/layouts/customer-navbar/CustomerNavBar";
 import BusStationDashboardSidebar from "@/components/bus-station-dashboard/BusStationDashboardSidebar";
-import { getBusStationNavLinks } from "./busStationNavLink";
+import { getBusStationNavLinks } from "./bsm-dashboard/busStationNavLink";
 
 export default function BusStationManagerLayout({
   children,

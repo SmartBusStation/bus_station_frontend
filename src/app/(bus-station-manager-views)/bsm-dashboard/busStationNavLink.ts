@@ -19,45 +19,41 @@ interface NavLink {
 export const getBusStationNavLinks = (t: TFunction): { menuItems: NavLink[]; secondaryMenuItems: NavLink[] } => {
   const menuItems: NavLink[] = [
     {
-      href: "/bus-station-manager-views/dashboard",
+      href: "/bsm-dashboard",
       icon: LayoutDashboard,
-      label: t("busStation.sidebar.overview"),
+      label: t("bsm-dashboard.sidebar.overview"),
       description: "Vision globale : Statut de la gare, KPIs d'affluence, Alertes critiques.",
     },
     {
-      href: "/bus-station-manager-views/infrastructure",
+      href: "/bsm-dashboard/infrastructure",
       icon: Building2,
-      label: t("busStation.sidebar.infrastructure"),
+      label: t("bsm-dashboard.sidebar.infrastructure"),
       description: "Gestion de l'entité numérique : Profil, GPS, Superficie, Capacité.",
     },
     {
-      href: "/bus-station-manager-views/affiliated-agencies",
+      href: "/bsm-dashboard/affiliated-agencies",
       icon: Store,
-      label: t("busStation.sidebar.affiliatedAgencies"),
+      label: t("bsm-dashboard.sidebar.affiliated-agencies"),
       description: "Liste des locataires, Statut des contrats, Historique des présences.",
     },
     {
-      href: "/bus-station-manager-views/policies-taxes",
+      href: "/bsm-dashboard/policies-taxes",
       icon: Scale,
-      label: t("busStation.sidebar.policiesTaxes"),
+      label: t("bsm-dashboard.sidebar.policies-taxes"),
       description: "Cœur du réacteur : Configuration des taxes, Règlements intérieurs, T&C.",
     },
-    {
-      href: "/bus-station-manager-views/incidents-security",
-      icon: ShieldAlert,
-      label: t("busStation.sidebar.incidentsSecurity"),
-      description: "Main courante numérique : Signalements, Pannes, Sécurité.",
-    },
+
   ];
 
   const secondaryMenuItems: NavLink[] = [
     {
-      href: "/bus-station-manager-views/settings",
+      href: "/bsm-dashboard/settings",
       icon: Settings,
-      label: t("busStation.sidebar.settings"),
+      label: t("bsm-dashboard.sidebar.settings"),
       description: "Gestion du compte administrateur.",
     },
   ];
 
   return { menuItems, secondaryMenuItems };
 };
+

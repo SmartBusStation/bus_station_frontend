@@ -523,5 +523,36 @@
         "welcomeMessage": "Message d'accueil"
       }
     }
+  },
+  "bsm-dashboard": {
+    "sidebar": {
+        "overview": "Aperçu",
+        "affiliated-agencies": "Agences Affiliées",
+        "infrastructure": "Infrastructure",
+        "policies-taxes": "Politiques & Taxes",
+        "settings": "Paramètres",
+        "logout": "Déconnexion"
+    },
+    "overview": {
+        "title": "Tableau de Bord de la Gare Routière",
+        "subtitle": "Voici un résumé de l'activité de votre gare.",
+        "totalPassengers": "Total Passagers (Aujourd'hui)",
+        "dailyPeakHours": "Heures de Pointe",
+        "affiliatedAgencies": "Agences Affiliées",
+        "incidentReports": "Incidents Signalés",
+        "charts": {
+            "passengersOverview": "Affluence des Passagers",
+            "passengersLabel": "Passagers",
+            "dailyAffluence": "Suivi journalier de l'affluence",
+            "totalPassengersWeekly": "Total passagers cette semaine"
+        },
+        "recentActivities": {
+            "title": "Activités Récentes",
+            "subtitle": "Derniers événements",
+            "viewAll": "Voir toutes les activités",
+            "noActivity": "Aucune activité",
+            "noActivityMessage": "Les nouvelles activités apparaîtront ici"
+        }
+    }
   }
 }
