@@ -25,15 +25,16 @@ export const linkList = [
     icon: FaHome,
   },
   {
-    name: "Agences",
-    link: "/agency",
-    icon: FaStore,
-  },
-  {
     name: "Gares Routières",
     link: "/gares-routieres",
     icon: FaMapMarkedAlt,
   },
+  {
+    name: "Agences",
+    link: "/agency",
+    icon: FaStore,
+  },
+
   {
     name: "My reservations",
     link: "/my-reservations",

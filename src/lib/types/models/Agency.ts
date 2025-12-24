@@ -21,4 +21,5 @@ export interface TravelAgency {
   specialties?: string[];
   contact?: ContactInfo;
   gareIds?: string[]; // Pour le filtrage par gare
+  id?: string; // Ajout de l'ID pour les liens
 }

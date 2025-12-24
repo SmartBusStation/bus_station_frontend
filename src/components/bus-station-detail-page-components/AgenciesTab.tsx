@@ -13,9 +13,10 @@ const AgenciesTab = ({ agences }: AgenciesTabProps) => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {agences.map((agence) => (
           <Link
-            href={`/agency/${agence.agencyId}`}
-            key={agence.agencyId}
+            href={`/agency/${agence.id}`}
+            key={agence.id}
             className="block p-4 bg-gray-50 rounded-lg text-center transition-shadow hover:shadow-md"
+            passHref
           >
             <div className="relative h-20 w-full mb-2">
               <Image

@@ -74,16 +74,24 @@ const GareDetailPage = ({ params }: GareDetailProps) => {
       <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Emplacement</h2>
         <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden relative h-[400px]">
-          <iframe
-            width="100%"
-            height="100%"
-            frameBorder="0"
-            scrolling="no"
-            marginHeight={0}
-            marginWidth={0}
-            src={`https://maps.google.com/maps?q=${gare.localisation.latitude},${gare.localisation.longitude}&z=15&output=embed`}
-            className="absolute inset-0"
-          ></iframe>
+          <div className="relative w-full h-full">
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              scrolling="no"
+              marginHeight={0}
+              marginWidth={0}
+              src={`https://maps.google.com/maps?q=${gare.localisation.latitude},${gare.localisation.longitude}&z=15&output=embed`}
+              className="absolute inset-0"
+            />
+
+            {/* Marqueur clignotant par-dessus */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+              <div className="w-12 h-12 bg-red-500 rounded-full animate-ping opacity-75"></div>
+              <div className="absolute top-0 left-0 w-12 h-12 bg-red-600 rounded-full border-4 border-white shadow-lg"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
