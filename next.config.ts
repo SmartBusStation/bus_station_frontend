@@ -16,7 +16,15 @@ const nextConfig: import('next').NextConfig = {
     },
     eslint:{
         ignoreDuringBuilds:true
-    }
+    },
+    async rewrites() {
+        return [
+            {
+                source: `${process.env.NEXT_PUBLIC_PROXY_URL_TRIP_AGENCY}/:path*`,
+                destination: `${process.env.NEXT_PUBLIC_TRIP_AGENCY_BACKEND_API_URL}/:path*`,
+            },
+        ];
+    },
 };
 
 module.exports = nextConfig;
