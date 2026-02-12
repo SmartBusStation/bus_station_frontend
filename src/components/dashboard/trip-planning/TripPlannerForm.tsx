@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { Fragment, useEffect, useMemo, useRef, useState } from "react"
 import {
   Save,
   Send,
@@ -14,6 +15,8 @@ import {
   Navigation,
   Info,
   CheckCircle,
+  Plus,
+  X,
   Wifi,
   Wind,
   Usb,
@@ -114,6 +117,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
     formState: { errors },
     watch,
     setValue,
+    getValues,
   } = form
 
 
@@ -211,6 +215,191 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
     },
   ]
 
+  useEffect(() => {
+    setValue("lieuDepart", "Yaoundé", { shouldValidate: true })
+    setValue("pointDeDepart", "Gare de Mvan", { shouldValidate: true })
+    setValue("lieuArrive", "Douala", { shouldValidate: true })
+    setValue("pointArrivee", "Gare de Bonamoussadi", { shouldValidate: true })
+  }, [setValue])
+
+  useEffect(() => {
+    setValue("titre", "Yaoundé-Douala", { shouldValidate: true })
+    setValue(
+      "description",
+      "Voyage Yaoundé - Douala avec un départ planifié, réservation simple et services à bord selon le type choisi.",
+      { shouldValidate: true },
+    )
+  }, [setValue])
+
+  useEffect(() => {
+    const currentDate = getValues("dateDepartPrev")
+    if (!currentDate) {
+      const today = new Date().toISOString().slice(0, 10)
+      setValue("dateDepartPrev", today, { shouldValidate: true })
+    }
+  }, [getValues, setValue])
+
+  type WeekdayKey = "LUNDI" | "MARDI" | "MERCREDI" | "JEUDI" | "VENDREDI" | "SAMEDI" | "DIMANCHE"
+  type ScheduleSlot = {
+    day: WeekdayKey
+    time: string
+    kind: "VIP" | "CLASSIQUE"
+    isCustom?: boolean
+  }
+
+  const weekdays: { key: WeekdayKey; label: string }[] = useMemo(
+    () => [
+      { key: "LUNDI", label: "Lundi" },
+      { key: "MARDI", label: "Mardi" },
+      { key: "MERCREDI", label: "Mercredi" },
+      { key: "JEUDI", label: "Jeudi" },
+      { key: "VENDREDI", label: "Vendredi" },
+      { key: "SAMEDI", label: "Samedi" },
+      { key: "DIMANCHE", label: "Dimanche" },
+    ],
+    [],
+  )
+
+  const fixedSlots: ScheduleSlot[] = useMemo(
+    () => [
+      { day: "LUNDI", time: "06:00", kind: "VIP" },
+      { day: "LUNDI", time: "15:30", kind: "VIP" },
+      { day: "LUNDI", time: "22:00", kind: "VIP" },
+
+      { day: "MARDI", time: "06:00", kind: "VIP" },
+      { day: "MARDI", time: "15:30", kind: "VIP" },
+      { day: "MARDI", time: "22:00", kind: "VIP" },
+
+      { day: "MERCREDI", time: "06:00", kind: "VIP" },
+      { day: "MERCREDI", time: "15:30", kind: "VIP" },
+      { day: "MERCREDI", time: "22:00", kind: "VIP" },
+
+      { day: "JEUDI", time: "06:00", kind: "VIP" },
+      { day: "JEUDI", time: "15:30", kind: "VIP" },
+      { day: "JEUDI", time: "22:00", kind: "VIP" },
+
+      { day: "VENDREDI", time: "06:00", kind: "VIP" },
+      { day: "VENDREDI", time: "15:00", kind: "VIP" },
+      { day: "VENDREDI", time: "22:00", kind: "VIP" },
+
+      { day: "SAMEDI", time: "05:30", kind: "VIP" },
+      { day: "SAMEDI", time: "15:30", kind: "VIP" },
+      { day: "SAMEDI", time: "22:00", kind: "VIP" },
+
+      { day: "DIMANCHE", time: "06:00", kind: "VIP" },
+      { day: "DIMANCHE", time: "15:30", kind: "VIP" },
+      { day: "DIMANCHE", time: "22:00", kind: "VIP" },
+
+      { day: "LUNDI", time: "05:00", kind: "CLASSIQUE" },
+      { day: "MARDI", time: "05:00", kind: "CLASSIQUE" },
+      { day: "MERCREDI", time: "05:00", kind: "CLASSIQUE" },
+      { day: "JEUDI", time: "05:00", kind: "CLASSIQUE" },
+      { day: "VENDREDI", time: "05:00", kind: "CLASSIQUE" },
+      { day: "SAMEDI", time: "04:30", kind: "CLASSIQUE" },
+      { day: "DIMANCHE", time: "05:00", kind: "CLASSIQUE" },
+    ],
+    [],
+  )
+
+  const [customSlots, setCustomSlots] = useState<ScheduleSlot[]>([])
+  const [newSlotDay, setNewSlotDay] = useState<WeekdayKey>("LUNDI")
+  const [newSlotTime, setNewSlotTime] = useState<string>("")
+  const [newSlotKind, setNewSlotKind] = useState<ScheduleSlot["kind"]>("CLASSIQUE")
+
+  const newSlotKindRef = useRef<ScheduleSlot["kind"]>(newSlotKind)
+  useEffect(() => {
+    newSlotKindRef.current = newSlotKind
+  }, [newSlotKind])
+
+  const [priceClassic, setPriceClassic] = useState<number>(5000)
+  const [priceVip, setPriceVip] = useState<number>(8000)
+
+  const heureDepartEffectif = watch("heureDepartEffectif")
+
+  const allSlotsByDay = useMemo(() => {
+    const merged = [...fixedSlots, ...customSlots]
+
+    const map: Record<WeekdayKey, ScheduleSlot[]> = {
+      LUNDI: [],
+      MARDI: [],
+      MERCREDI: [],
+      JEUDI: [],
+      VENDREDI: [],
+      SAMEDI: [],
+      DIMANCHE: [],
+    }
+
+    for (const slot of merged) {
+      map[slot.day].push(slot)
+    }
+
+    for (const day of Object.keys(map) as WeekdayKey[]) {
+      const sorted = map[day].sort((a, b) => a.time.localeCompare(b.time))
+
+      const byTime = new Map<string, ScheduleSlot>()
+      for (const slot of sorted) {
+        const existing = byTime.get(slot.time)
+        if (!existing) {
+          byTime.set(slot.time, slot)
+          continue
+        }
+
+        // Une seule entrée par heure. Si VIP et CLASSIQUE partagent la même heure, on garde VIP.
+        // On garde aussi l'info "custom" si l'un des deux est custom.
+        const shouldReplace = existing.kind !== "VIP" && slot.kind === "VIP"
+        const mergedCustom = Boolean(existing.isCustom || slot.isCustom)
+        const next = shouldReplace ? { ...slot, isCustom: mergedCustom } : { ...existing, isCustom: mergedCustom }
+        byTime.set(slot.time, next)
+      }
+
+      map[day] = Array.from(byTime.values()).sort((a, b) => a.time.localeCompare(b.time))
+    }
+
+    return map
+  }, [customSlots, fixedSlots])
+
+  const allTimes = useMemo(() => {
+    const set = new Set<string>()
+    for (const day of weekdays) {
+      for (const slot of allSlotsByDay[day.key]) set.add(slot.time)
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b))
+  }, [allSlotsByDay, weekdays])
+
+  const addCustomSlot = () => {
+    if (!newSlotTime) return
+    if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(newSlotTime)) return
+
+    const kind = newSlotKindRef.current
+
+    const exists = [...fixedSlots, ...customSlots].some(
+      (s) => s.day === newSlotDay && s.time === newSlotTime,
+    )
+    if (exists) {
+      setNewSlotTime("")
+      return
+    }
+
+    setCustomSlots((prev) => [
+      ...prev,
+      {
+        day: newSlotDay,
+        time: newSlotTime,
+        kind,
+        isCustom: true,
+      },
+    ])
+    setNewSlotTime("")
+  }
+
+  const removeCustomSlot = (day: WeekdayKey, time: string, kind: ScheduleSlot["kind"]) => {
+    setCustomSlots((prev) => prev.filter((s) => !(s.day === day && s.time === time && s.kind === kind)))
+  }
+
+  const selectDepartureTime = (time: string) => {
+    setValue("heureDepartEffectif", time, { shouldValidate: true, shouldDirty: true })
+  }
+
   return (
       <>
         <TransparentModal isOpen={isSuccess}>
@@ -285,6 +474,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                     register={register("titre")}
                     error={errors.titre?.message}
                     placeholder="Ex: Douala - Yaoundé Express"
+                    readOnly
                 />
                 <TextareaField
                     id="description"
@@ -292,6 +482,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                     register={register("description")}
                     error={errors.description?.message}
                     placeholder="Décrivez votre voyage, les services inclus, les arrêts prévus..."
+                    readOnly
                 />
               </div>
             </div>
@@ -305,7 +496,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                   </div>
                   <div>
                     <h2 className="text-lg font-bold text-gray-900">Itinéraire</h2>
-                    <p className="text-sm text-gray-600 mt-1">Points de départ et d'arrivée</p>
+                    <p className="text-sm text-gray-600 mt-1">Points de départ et d&apos;arrivée</p>
                   </div>
                 </div>
               </div>
@@ -324,14 +515,16 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                         label="Ville de Départ"
                         register={register("lieuDepart")}
                         error={errors.lieuDepart?.message}
-                        placeholder="Ex: Douala"
+                        placeholder="Ex: Yaoundé"
+                        readOnly
                     />
                     <InputField
                         id="pointDeDepart"
                         label="Point de Départ précis"
                         register={register("pointDeDepart")}
                         error={errors.pointDeDepart?.message}
-                        placeholder="Ex: Gare routière de Bonabéri"
+                        placeholder="Ex: Gare de Mvan"
+                        readOnly
                     />
                   </div>
 
@@ -348,14 +541,16 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                         label="Ville d'Arrivée"
                         register={register("lieuArrive")}
                         error={errors.lieuArrive?.message}
-                        placeholder="Ex: Yaoundé"
+                        placeholder="Ex: Douala"
+                        readOnly
                     />
                     <InputField
                         id="pointArrivee"
                         label="Point d'Arrivée précis"
                         register={register("pointArrivee")}
                         error={errors.pointArrivee?.message}
-                        placeholder="Ex: Gare routière de Mvan"
+                        placeholder="Ex: Gare de Bonamoussadi"
+                        readOnly
                     />
                   </div>
                 </div>
@@ -377,42 +572,154 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
               </div>
               <div className="p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputField
-                      id="dateDepartPrev"
-                      type="date"
-                      label="Date de départ"
-                      register={register("dateDepartPrev")}
-                      error={errors.dateDepartPrev?.message}
-                  />
-                  <InputField
-                      id="dateDepartPrev"
-                      type="time"
-                      label="Heure de départ"
-                      register={register("heureDepartEffectif")}
-                      error={errors.heureDepartEffectif?.message}
-                  />
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Heure de départ (planning)</label>
+                    <div className="rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 to-white p-5">
+                      <div className="overflow-x-auto">
+                        <div className="min-w-[980px]">
+                          <div className="grid grid-cols-[repeat(7,minmax(120px,1fr))] gap-3">
+                            {weekdays.map((day) => (
+                              <div key={day.key} className="text-sm font-bold text-gray-900 text-center px-2 py-2 truncate">
+                                {day.label}
+                              </div>
+                            ))}
+                            {allTimes.map((time) => (
+                              <Fragment key={time}>
+                                {weekdays.map((day) => {
+                                  const slot = allSlotsByDay[day.key].find((s) => s.time === time)
+                                  const isSelected = heureDepartEffectif === time
+                                  const badgeClasses = "bg-amber-100 text-amber-800 border-amber-200"
+                                  const customClasses = slot?.isCustom ? "border-dashed" : ""
+                                  if (!slot) {
+                                    return (
+                                      <div
+                                        key={`${day.key}-${time}-empty`}
+                                        className="px-2 py-3 rounded-xl border border-gray-100 bg-white/60"
+                                      />
+                                    )
+                                  }
+
+                                  return (
+                                    <div key={`${day.key}-${time}-${slot.kind}`} className="px-2 py-2">
+                                      <button
+                                        type="button"
+                                        onClick={() => selectDepartureTime(time)}
+                                        className={`w-full flex items-center justify-center gap-2 px-3 py-3 rounded-xl border transition-all duration-200 ${customClasses} ${isSelected ? "border-purple-400 bg-purple-100" : "border-gray-200 bg-white hover:border-purple-300"}`}
+                                        title={`Choisir ${time}`}
+                                      >
+                                        <span className="text-sm font-extrabold text-gray-900 tabular-nums">{time}</span>
+                                        {slot.kind === "VIP" && (
+                                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeClasses}`}>VIP</span>
+                                        )}
+                                      </button>
+
+                                      {slot.isCustom && (
+                                        <button
+                                          type="button"
+                                          onClick={() => removeCustomSlot(slot.day, slot.time, slot.kind)}
+                                          className="mt-2 w-full flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-gray-700"
+                                        >
+                                          <X className="h-3 w-3" />
+                                          Supprimer
+                                        </button>
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                              </Fragment>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 pt-6 border-t border-purple-100">
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                          <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Jour</label>
+                            <select
+                              value={newSlotDay}
+                              onChange={(e) => setNewSlotDay(e.target.value as WeekdayKey)}
+                              className="w-full cursor-pointer appearance-none pl-4 pr-10 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent bg-white text-gray-900 transition-all duration-200 hover:border-purple-300"
+                            >
+                              {weekdays.map((d) => (
+                                <option key={d.key} value={d.key}>
+                                  {d.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Heure (HH:MM)</label>
+                            <input
+                              type="time"
+                              value={newSlotTime}
+                              onChange={(e) => setNewSlotTime(e.target.value)}
+                              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent bg-white text-gray-900 transition-all duration-200 hover:border-purple-300"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1">Type</label>
+                            <select
+                              value={newSlotKind}
+                              onChange={(e) => setNewSlotKind(e.target.value as ScheduleSlot["kind"])}
+                              className="w-full cursor-pointer appearance-none pl-4 pr-10 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent bg-white text-gray-900 transition-all duration-200 hover:border-purple-300"
+                            >
+                              <option value="CLASSIQUE">Classique</option>
+                              <option value="VIP">VIP</option>
+                            </select>
+                          </div>
+
+                          <div className="flex items-end">
+                            <button
+                              type="button"
+                              onClick={addCustomSlot}
+                              className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-purple-300 rounded-xl text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-400 transition-all duration-200 font-medium"
+                            >
+                              <Plus className="h-4 w-4" />
+                              Ajouter un horaire
+                            </button>
+                          </div>
+                        </div>
+
+                        {errors.heureDepartEffectif?.message && (
+                          <p className="text-red-500 text-xs mt-2">{errors.heureDepartEffectif?.message}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                   <InputField
                       id="heureArrive"
                       type="time"
                       label="Heure d'arrivée prévue"
+                      placeholder="--:--"
                       register={register("heureArrive")}
                       error={errors.heureArrive?.message}
                   />
+
                   <InputField
                       id="dateLimiteReservation"
                       type="date"
                       label="Date Limite Réservation"
+                      placeholder="jj/mm/aaaa"
                       register={register("dateLimiteReservation")}
                       error={errors.dateLimiteReservation?.message}
                   />
+
                   <InputField
                       id="dateLimiteConfirmation"
                       type="date"
                       label="Date Limite Confirmation"
+                      placeholder="jj/mm/aaaa"
                       register={register("dateLimiteConfirmation")}
                       error={errors.dateLimiteConfirmation?.message}
                   />
                 </div>
+
+                <input type="hidden" {...register("heureDepartEffectif")} />
+                <input type="hidden" {...register("dateDepartPrev")} />
               </div>
             </div>
 
@@ -438,6 +745,41 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                       register={register("nbrPlaceReservable")}
                       error={errors.nbrPlaceReservable?.message}
                       placeholder="Ex: 50"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Prix */}
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 px-8 py-5 border-b border-gray-200">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                    <Users className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900">Prix</h2>
+                    <p className="text-sm text-gray-600 mt-1">Prix indicatifs (modifiable)</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <InputField
+                    id="prixClassique"
+                    type="number"
+                    label="Prix Classique (FCFA)"
+                    value={String(priceClassic)}
+                    onChange={(e) => setPriceClassic(Number(e.target.value))}
+                    placeholder="5000"
+                  />
+                  <InputField
+                    id="prixVip"
+                    type="number"
+                    label="Prix VIP (FCFA)"
+                    value={String(priceVip)}
+                    onChange={(e) => setPriceVip(Number(e.target.value))}
+                    placeholder="8000"
                   />
                 </div>
               </div>

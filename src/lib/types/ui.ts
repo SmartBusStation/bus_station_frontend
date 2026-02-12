@@ -41,6 +41,8 @@ export type InputFieldProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   icon?: React.ReactNode;
   required?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
   toggleVisibility?: boolean;
   register?: UseFormRegisterReturn;
   error?: string;
@@ -56,6 +58,8 @@ export interface TextareaFieldProps {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   icon?: React.ReactNode;
   required?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
   register?: UseFormRegisterReturn;
   error?: string;
 }
