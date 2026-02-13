@@ -3,7 +3,7 @@ import {TextareaFieldProps} from "@/lib/types/ui";
 
 
 
-export default function TextareaField({id, name, label, placeholder, rows = 3, required = false, icon, register, error,}: TextareaFieldProps): React.JSX.Element {
+export default function TextareaField({id, name, label, placeholder, rows = 3, required = false, disabled = false, readOnly = false, icon, register, error,}: TextareaFieldProps): React.JSX.Element {
     return (
         <div>
             <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
@@ -17,7 +17,9 @@ export default function TextareaField({id, name, label, placeholder, rows = 3, r
                     rows={rows}
                     placeholder={placeholder}
                     required={required}
-                    className={`w-full px-4 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-red-500" : "focus:ring-blue-500"} ${icon ? "pl-10" : ""}`}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    className={`w-full px-4 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-red-500" : "focus:ring-blue-500"} ${icon ? "pl-10" : ""} ${disabled ? "bg-gray-50 text-gray-600 cursor-not-allowed" : ""}`}
                     {...register}
                 />
             </div>

@@ -4,10 +4,12 @@ import {InputFieldProps} from "@/lib/types/ui";
 
 
 
-export default function InputField({id, name, label, placeholder, type = "text", icon, required = false, toggleVisibility = false, register, error,}: InputFieldProps) {
+export default function InputField({id, name, label, placeholder, type = "text", value, onChange, icon, required = false, disabled = false, readOnly = false, toggleVisibility = false, register, error,}: InputFieldProps) {
 
     const [showPassword, setShowPassword] = useState(false);
     const inputType = toggleVisibility ? (showPassword ? "text" : "password") : type;
+
+    const controlledProps = value !== undefined ? { value, onChange } : {};
 
     return (
         <div>
@@ -25,7 +27,10 @@ export default function InputField({id, name, label, placeholder, type = "text",
                     name={name}
                     type={inputType}
                     placeholder={placeholder}
-                    className={`${icon ? 'pl-10' : 'pl-3'}  ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
+                    {...controlledProps}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    className={`${icon ? 'pl-10' : 'pl-3'}  ${toggleVisibility ? "pr-10" : ""} w-full px-4 py-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 ${error ? "focus:ring-red-500" : "focus:ring-blue-500"} ${disabled ? "bg-gray-50 text-gray-600 cursor-not-allowed" : ""}`}
                     required={required}
                     {...register}
                 />

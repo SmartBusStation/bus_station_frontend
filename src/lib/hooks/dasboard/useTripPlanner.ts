@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import type { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -19,7 +20,27 @@ type ResourceState<T> = {
   error: string | null;
 };
 
-const toISODateTime = (date: string, time: string): string => new Date(`${date}T${time}:00`).toISOString();
+const normalizeTime = (time: string): string => {
+  if (!time) return time;
+  return time.length >= 5 ? time.slice(0, 5) : time;
+};
+
+const toISODateTime = (date: string, time: string): string => {
+  const t = normalizeTime(time);
+  return new Date(`${date}T${t}:00`).toISOString();
+};
+
+const getAxiosErrorMessage = (error: unknown): string | null => {
+  const err = error as AxiosError<{ message?: string }>
+  const status = err?.response?.status
+  const message = err?.response?.data?.message || err?.message
+  if (!status && !message) return null
+
+  if (status) {
+    return `Erreur API (${status})${message ? `: ${message}` : ""}`
+  }
+  return message || null
+}
 
 export function useTripPlanner() {
   const { userData, isLoading: isUserLoading } = useBusStation();
@@ -41,7 +62,6 @@ export function useTripPlanner() {
 
   const form = useForm<TripPlannerFormType>({ resolver: zodResolver(tripPlannerSchema) });
 
-
   const loadResource = useCallback(async <T>(fetcher: () => Promise<T[] | null>, setter: React.Dispatch<React.SetStateAction<ResourceState<T>>>, resourceName: string) => {
     setter(prev => ({ ...prev, isLoading: true, error: null }));
     try {
@@ -49,7 +69,8 @@ export function useTripPlanner() {
       setter({ data: data || [], isLoading: false, error: null });
     } catch (error) {
       console.error(`Erreur de chargement pour ${resourceName}:`, error);
-      setter({ data: [], isLoading: false, error: `Échec du chargement (${resourceName}).` });
+      const detailed = getAxiosErrorMessage(error)
+      setter({ data: [], isLoading: false, error: detailed || `Échec du chargement (${resourceName}).` });
     }
   }, []);
 
@@ -91,14 +112,15 @@ export function useTripPlanner() {
             nbrPlaceReservable: tripDetails.nbrPlaceReservable,
             vehiculeId: tripDetails.vehicule?.idVehicule,
             chauffeurId: tripDetails.chauffeur?.userId,
-            classVoyageId: (tripDetails as any).classVoyageId,
+            classVoyageId: (tripDetails as unknown as { classVoyageId?: string }).classVoyageId,
             agenceVoyageId: agency.agencyId,
             amenities: tripDetails.amenities as Array<Amenity> | undefined,
           });
         }
       } catch (error) {
         console.error(error);
-        setFormApiError("Erreur d'initialisation de la page.");
+        const detailed = getAxiosErrorMessage(error)
+        setFormApiError(detailed || "Erreur d'initialisation de la page.");
       } finally {
         setIsPageLoading(false);
       }
@@ -111,8 +133,17 @@ export function useTripPlanner() {
     setIsSubmitting(true);
     setFormApiError(null);
 
-    const { nbrPlaceReservable, ...restOfData } = data;
-    const payload: VoyageCreateRequestDTO = {
+    if (status === 'PUBLIE') {
+      if (!data.vehiculeId || !data.chauffeurId || !data.classVoyageId) {
+        setFormApiError("Veuillez sélectionner une classe, un véhicule et un chauffeur avant de publier.");
+        setIsSubmitting(false);
+        return;
+      }
+    }
+
+    const { nbrPlaceReservable, chauffeurId, vehiculeId, classVoyageId, ...restOfData } = data;
+
+    const payload: Partial<VoyageCreateRequestDTO> = {
       ...restOfData,
       nbrPlaceReservable,
       nbrPlaceRestante: nbrPlaceReservable,
@@ -123,12 +154,16 @@ export function useTripPlanner() {
       nbrPlaceReserve: 0,
     };
 
+    if (chauffeurId) payload.chauffeurId = chauffeurId;
+    if (vehiculeId) payload.vehiculeId = vehiculeId;
+    if (classVoyageId) payload.classVoyageId = classVoyageId;
+
     try {
       if (editingTripId) {
-        await updateTrip(editingTripId, payload);
+        await updateTrip(editingTripId, payload as VoyageCreateRequestDTO);
         setSuccessMessage("Voyage mis à jour avec succès !");
       } else {
-        await createTrip(payload);
+        await createTrip(payload as VoyageCreateRequestDTO);
         setSuccessMessage("Voyage créé avec succès !");
       }
       setIsSuccess(true);
