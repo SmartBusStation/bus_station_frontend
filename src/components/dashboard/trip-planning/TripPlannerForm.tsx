@@ -79,6 +79,25 @@ const ResourceSelect: React.FC<{
               </button>
             </div>
           </div>
+      ) : !resourceState.isLoading && options.length === 0 ? (
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">{label}</label>
+            <div className="flex items-center gap-3 text-amber-700 bg-amber-50 p-4 rounded-xl border border-amber-200">
+              <AlertCircle className="h-5 w-5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium">Aucune donnée disponible</p>
+                <p className="text-xs text-amber-700">Ajoute d&apos;abord une ressource (ou recharge la page) puis réessaie.</p>
+              </div>
+              <button
+                type="button"
+                onClick={onReload}
+                className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
+                title="Recharger"
+              >
+                <RefreshCw className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
       ) : (
           <SelectField
               id={id}
@@ -316,6 +335,21 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
   const heureDepartEffectif = watch("heureDepartEffectif")
 
+  const normalizeTime = (time: string): string => {
+    if (!time) return time
+    const trimmed = time.trim()
+    const hhmmss = trimmed.match(/^([01]?\d|2[0-3]):([0-5]\d):([0-5]\d)$/)
+    if (hhmmss) return `${hhmmss[1].padStart(2, "0")}:${hhmmss[2]}`
+
+    const hhmm = trimmed.match(/^([01]?\d|2[0-3]):([0-5]\d)$/)
+    if (hhmm) return `${hhmm[1].padStart(2, "0")}:${hhmm[2]}`
+
+    const hForm = trimmed.match(/^([01]?\d|2[0-3])h([0-5]\d)$/)
+    if (hForm) return `${hForm[1].padStart(2, "0")}:${hForm[2]}`
+
+    return trimmed
+  }
+
   const allSlotsByDay = useMemo(() => {
     const merged = [...fixedSlots, ...customSlots]
 
@@ -330,7 +364,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
     }
 
     for (const slot of merged) {
-      map[slot.day].push(slot)
+      map[slot.day].push({ ...slot, time: normalizeTime(slot.time) })
     }
 
     for (const day of Object.keys(map) as WeekdayKey[]) {
@@ -368,12 +402,13 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
   const addCustomSlot = () => {
     if (!newSlotTime) return
-    if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(newSlotTime)) return
+    const normalizedTime = normalizeTime(newSlotTime)
+    if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(normalizedTime)) return
 
     const kind = newSlotKindRef.current
 
     const exists = [...fixedSlots, ...customSlots].some(
-      (s) => s.day === newSlotDay && s.time === newSlotTime,
+      (s) => s.day === newSlotDay && normalizeTime(s.time) === normalizedTime,
     )
     if (exists) {
       setNewSlotTime("")
@@ -384,7 +419,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
       ...prev,
       {
         day: newSlotDay,
-        time: newSlotTime,
+        time: normalizedTime,
         kind,
         isCustom: true,
       },
@@ -397,7 +432,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
   }
 
   const selectDepartureTime = (time: string) => {
-    setValue("heureDepartEffectif", time, { shouldValidate: true, shouldDirty: true })
+    setValue("heureDepartEffectif", normalizeTime(time), { shouldValidate: true, shouldDirty: true })
   }
 
   return (

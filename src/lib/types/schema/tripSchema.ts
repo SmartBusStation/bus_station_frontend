@@ -14,10 +14,10 @@ export const tripPlannerSchema = z.object({
   dateDepartPrev: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Veuillez entrer une date de départ valide.",
   }),
-  heureDepartEffectif: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format d'heure invalide (HH:MM)."),
+  heureDepartEffectif: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?$/, "Format d'heure invalide (HH:MM)."),
 
   // Le formulaire prend une heure, mais nous la convertirons en date-time ISO pour l'API
-  heureArrive: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Format d'heure invalide (HH:MM)."),
+  heureArrive: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?$/, "Format d'heure invalide (HH:MM)."),
 
   dateLimiteReservation: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Veuillez entrer une date limite de réservation valide.",
@@ -29,9 +29,9 @@ export const tripPlannerSchema = z.object({
  // prix: z.coerce.number({invalid_type_error: "Le prix doit être un nombre."}).positive("Le prix doit être positif."),
   nbrPlaceReservable: z.coerce.number({invalid_type_error: "Entrez un nombre."}).int().positive("Le nombre de places doit être supérieur à 0."),
 
-  vehiculeId: z.string().min(16, "Veuillez sélectionner un véhicule."),
-  chauffeurId: z.string().min(16,"Veuillez sélectionner un chauffeur."),
-  classVoyageId: z.string().min(16,"Veuillez sélectionner une classe de voyage."),
+  vehiculeId: z.string().optional(),
+  chauffeurId: z.string().optional(),
+  classVoyageId: z.string().optional(),
 
   agenceVoyageId: z.string(), // Champ caché
 
