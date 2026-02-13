@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { GareRoutiere } from "@/lib/types/models/GareRoutiere";
+import { GareRoutiere, Service } from "@/lib/types/models/GareRoutiere"; // Import Service
 import { getAllGares } from "@/lib/services/gare-service";
+
+const ALL_POSSIBLE_SERVICES: Service[] = ["WIFI", "PARKING", "RESTAURATION", "SALLE_ATTENTE", "TOILETTES", "SECURITE"];
 
 export function useGaresRoutieres() {
   const [gares, setGares] = useState<GareRoutiere[]>([]);
@@ -9,17 +11,17 @@ export function useGaresRoutieres() {
 
   // États de filtrage
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedServices, setSelectedServices] = useState<Service[]>([]); // Use Service[]
 
   useEffect(() => {
-    fetchGares();
-  }, []);
+    fetchGares(selectedServices); // Pass selectedServices
+  }, [selectedServices]); // Depend on selectedServices
 
-  async function fetchGares() {
+  async function fetchGares(servicesToFilter: Service[] = []) { // Accept servicesToFilter
     setIsLoading(true);
     setError(null);
     try {
-      const data = await getAllGares();
+      const data = await getAllGares(servicesToFilter); // Pass servicesToFilter
       if (data) {
         setGares(data);
       } else {
@@ -34,7 +36,7 @@ export function useGaresRoutieres() {
     }
   }
 
-  const handleServiceToggle = (service: string) => {
+  const handleServiceToggle = (service: Service) => { // Use Service
     setSelectedServices((prev) =>
       prev.includes(service)
         ? prev.filter((s) => s !== service)
@@ -45,20 +47,18 @@ export function useGaresRoutieres() {
   const filteredGares = useMemo(() => {
     return gares.filter((gare) => {
       const matchesQuery =
-        gare.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        gare.ville.toLowerCase().includes(searchQuery.toLowerCase());
+        (gare.nomGareRoutiere || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (gare.ville || '').toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesServices =
-        selectedServices.length === 0 ||
-        selectedServices.every((service) => gare.services.includes(service));
+      // matchesServices logic is now handled by the API, so no need to filter here
+      // const matchesServices =
+      //   selectedServices.length === 0 ||
+      //   selectedServices.every((service) => gare.services.includes(service));
 
-      return matchesQuery && matchesServices;
+      return matchesQuery; // Only filter by search query on the frontend
     });
-  }, [gares, searchQuery, selectedServices]);
+  }, [gares, searchQuery]); // Remove selectedServices dependency
 
-  const allServices = useMemo(() => {
-    return Array.from(new Set(gares.flatMap((gare) => gare.services)));
-  }, [gares]);
 
   return {
     gares: filteredGares,
@@ -68,7 +68,7 @@ export function useGaresRoutieres() {
     setSearchQuery,
     selectedServices,
     handleServiceToggle,
-    allServices,
-    refetch: fetchGares,
+    allServices: ALL_POSSIBLE_SERVICES, // Provide all possible services
+    refetch: () => fetchGares(selectedServices), // Refetch with current selected services
   };
 }

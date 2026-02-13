@@ -1,35 +1,36 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "@/lib/services/axios-services/axiosInstance";
-import { GareRoutiere } from "@/lib/types/models/GareRoutiere";
+import {GareRoutiere, GareRoutiereDetail, Service} from "@/lib/types/models/GareRoutiere";
 import { TravelAgency } from "@/lib/types/models/Agency";
 import { Trip } from "@/lib/types/models/Trip";
+import { PaginatedResponse } from "@/lib/types/models/PaginatedResponse";
 
 // =========================================================================
-// ZONE DE CONFIGURATION DE L'URL (JSON SERVER)
+// URL CONFIGURATION
 // =========================================================================
 
-// ❌ LIGNE PROD (Commentée)
-// const BASE_URL_GARE = "/gares";
-// const BASE_URL_AGENCE = "/agences";
-// const BASE_URL_VOYAGE = "/voyages";
-
-// ✅ LIGNES DEV (Décommentées pour JSON Server)
-const BASE_URL_GARE = "http://localhost:3001/gares";
-const BASE_URL_AGENCE = "http://localhost:3001/agences";
-const BASE_URL_DEPARTS = "http://localhost:3001/departs";
+const BASE_URL_GARE = "/gares-routieres";
+const BASE_URL_AGENCE = "/agence";
+const BASE_URL_DEPARTS = "/voyage/all";
 
 // =========================================================================
 
 /**
  * Récupère la liste de toutes les gares routières.
  */
-export async function getAllGares(): Promise<GareRoutiere[] | null> {
+export async function getAllGares(selectedServices: Service[] = []): Promise<GareRoutiere[] | null> {
   try {
-    const response: AxiosResponse<GareRoutiere[]> = await axiosInstance.get(
-      `${BASE_URL_GARE}`
+    const params: { services?: string } = {};
+    if (selectedServices.length > 0) {
+      params.services = selectedServices.join(',');
+    }
+
+    const response: AxiosResponse<PaginatedResponse<GareRoutiere>> = await axiosInstance.get(
+      `${BASE_URL_GARE}`,
+      { params }
     );
     if (response.status === 200) {
-      return response.data;
+      return response.data.content;
     } else {
       console.warn(
         "[GareService] Code HTTP inattendu pour les gares:",
@@ -49,10 +50,10 @@ export async function getAllGares(): Promise<GareRoutiere[] | null> {
 /**
  * Récupère les détails d'une gare routière spécifique par son ID.
  */
-export async function getGareById(id: string): Promise<GareRoutiere | null> {
+export async function getGareById(id: string): Promise<GareRoutiereDetail | null> {
   if (!id) throw new Error("L'ID de la gare est requis");
   try {
-    const response: AxiosResponse<GareRoutiere> = await axiosInstance.get(
+    const response: AxiosResponse<GareRoutiereDetail> = await axiosInstance.get(
       `${BASE_URL_GARE}/${id}`
     );
     if (response.status === 200) {
@@ -111,26 +112,17 @@ export async function getDepartsMock(): Promise<Trip[] | null> {
 
 /**
  * Récupère les agences présentes dans une gare spécifique.
- * (Simulation: json-server ne gère pas les jointures complexes nativement,
- * on filtre via query params si la structure le permet, ou on récupère tout et on filtre ici)
  */
 export async function getAgencesByGareId(
   gareId: string
 ): Promise<TravelAgency[] | null> {
   try {
-    // Avec json-server, on peut filtrer si le champ existe.
-    // Ici on simule : on récupère tout et on filtre JS (car structure array simple dans le mock)
-    // Dans le vrai backend: await axiosInstance.get(`${URL_AGENCES}/gare/${gareId}`);
     const response: AxiosResponse<TravelAgency[]> = await axiosInstance.get(
-      `${BASE_URL_AGENCE}`
+      `${BASE_URL_AGENCE}/gare-routiere/${gareId}`
     );
 
     if (response.status === 200) {
-      // Filtrage manuel pour simuler le comportement backend
-      // @ts-ignore (Car gareIds n'est pas dans le type TravelAgency officiel mais est dans le db.json)
-      return response.data.filter(
-        (a: any) => a.gareIds && a.gareIds.includes(gareId)
-      );
+      return response.data;
     }
     return null;
   } catch (error) {
@@ -156,21 +148,14 @@ export async function getDepartsByGareId(
       return []; // Aucune agence, donc aucun départ
     }
 
-    // On extrait les IDs des agences trouvées
-    // @ts-ignore : agencyId existe dans le mock
-    const agencyIds = agencesInStation.map((agence: any) => agence.agencyId);
+    const agencyIds = agencesInStation.map((agence) => agence.agencyId);
 
-    // Étape 2 : Récupérer les voyages
-    // Dans un vrai backend, on ferait peut-être : /voyages?agencyId=1&agencyId=2...
-    // Ici on récupère tout et on filtre
     const response: AxiosResponse<Trip[]> = await axiosInstance.get(
       `${BASE_URL_DEPARTS}`
     );
 
     if (response.status === 200) {
-      // Étape 3 : Filtrer les voyages qui appartiennent à ces agences
-      // @ts-ignore : On utilise le champ mock agencyId
-      return response.data.filter((trip: any) =>
+      return response.data.filter((trip) =>
         agencyIds.includes(trip.agencyId)
       );
     }

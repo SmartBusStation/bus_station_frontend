@@ -7,6 +7,7 @@ const nextConfig: import('next').NextConfig = {
             'c.wallhere.com',
             'media.istockphoto.com',
             'images.unsplash.com',
+            's3.amazonaws.com',
 
         ].map(hostname => ({
             protocol: 'https' as const,

@@ -83,7 +83,7 @@ const GaresRoutieresPage = () => {
         {gares.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {gares.map((station) => (
-              <StationCard key={station.id} station={station} />
+              <StationCard key={station.idGareRoutiere} station={station} />
             ))}
           </div>
         ) : (

@@ -38,6 +38,8 @@ export default function LoginPage(): JSX.Element {
         if (userRoles) {
             if  (userRoles.includes("ORGANISATION") || userRoles.includes("AGENCE_VOYAGE")) {
                 navigation.onGoToDashboard();
+            } else if (userRoles.includes("BUS_STATION_MANAGER")) {
+                navigation.onGoToBsmDashboard();
             } else if (userRoles.includes("USAGER")) {
                 navigation.onGoToMarketPlace();
             } else {

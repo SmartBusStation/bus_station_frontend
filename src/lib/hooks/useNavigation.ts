@@ -28,6 +28,7 @@ export function useNavigation() {
         onGoToProfile: () => navigate("/profile"),
         onGoToTripPlanning: () => navigate("dashboard/trip-planning"),
         onGoTroTripPlanningEditMode: (idVoyage: string) => navigate(`dashboard/trip-planning?edit=${idVoyage}`),
+        onGoToBsmDashboard: () => navigate("/bsm-dashboard"),
         onGoToAboutUs: () => navigate("/about-us")
     };
 }
