@@ -17,7 +17,7 @@ export function useAgencies() {
     setError(null);
     try {
       const data = await getAllPublicAgencies();
-      setAgencies(data);
+      setAgencies(data as TravelAgency[]);
     } catch (err) {
       setError("Impossible de charger les agences.");
       console.error(err);

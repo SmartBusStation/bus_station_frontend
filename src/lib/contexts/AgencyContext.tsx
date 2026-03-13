@@ -17,7 +17,8 @@ const AgencyContext = createContext<AgencyContextType | undefined>(undefined);
 
 // Le Provider qui va "enrober" la partie agence de l'application
 export const AgencyProvider = ({ children }: { children: ReactNode }) => {
-  const { userData, isUserLoading } = useBusStation(); // On récupère les infos de l'utilisateur
+  
+const { userData, isLoading: isUserLoading } = useBusStation();
 
   // États pour notre contexte
   const [agency, setAgency] = useState<AgenceVoyage | null>(null);

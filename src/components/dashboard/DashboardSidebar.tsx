@@ -135,7 +135,9 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const { t } = useTranslation();
   const { logout } = useBusStation();
-  const { agencies, setAgencies, selectedAgency, setSelectedAgency } = useAgency();
+  const agencyContext = useAgency() as any;
+  const { selectedAgency, setSelectedAgency } = agencyContext;
+  const [agencies, setAgencies] = useState<{id: string, name: string}[]>([]);
   const [isAgencyDropdownOpen, setAgencyDropdownOpen] = useState(false);
 
   // Simuler la récupération des agences

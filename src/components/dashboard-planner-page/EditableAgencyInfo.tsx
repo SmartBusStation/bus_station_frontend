@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { TravelAgency } from "@/lib/types/models/Agency";
-import { updateAgencyDetails } from '@/lib/services/agency-public-service';
+import { updateAgencyDetails } from '@/lib/services/agency-service';
 import EditableTextField from '@/ui/EditableTextField';
 import EditableTextareaField from '@/ui/EditableTextareaField';
 import { Edit, Save, XCircle } from "lucide-react";

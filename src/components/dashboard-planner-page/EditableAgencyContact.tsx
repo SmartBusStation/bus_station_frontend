@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { TravelAgency } from "@/lib/types/models/Agency";
-import { updateAgencyDetails } from '@/lib/services/agency-public-service';
+import { updateAgencyDetails } from '@/lib/services/agency-service';
 import EditableTextField from '@/ui/EditableTextField';
 import { Edit, Save, XCircle, Mail, Phone, Globe } from "lucide-react";
 import toast from 'react-hot-toast';

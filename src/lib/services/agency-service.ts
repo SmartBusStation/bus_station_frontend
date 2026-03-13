@@ -77,3 +77,31 @@ export async function getAgencyByChefId(
     throw error; // Propage l'erreur pour que le contexte puisse la gérer
   }
 }
+
+/**
+ * Met à jour les détails d'une agence de voyage.
+ * @param agencyId - L'ID de l'agence à mettre à jour.
+ * @param data - Les données à mettre à jour (partielles).
+ * @returns Une promesse résolue avec l'agence mise à jour ou null.
+ */
+export async function updateAgencyDetails(
+  agencyId: string,
+  data: Partial<TravelAgency>
+): Promise<TravelAgency | null> {
+  try {
+    const response: AxiosResponse<TravelAgency> = await axiosInstance.put(
+      `/agence/${agencyId}`,
+      data
+    );
+    if (response.status === 200) {
+      return response.data;
+    }
+    return null;
+  } catch (error) {
+    console.error(
+      `[agency-service] Erreur lors de la mise à jour de l'agence ${agencyId}:`,
+      error
+    );
+    throw error;
+  }
+}

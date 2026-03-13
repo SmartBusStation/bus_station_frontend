@@ -8,6 +8,7 @@ export interface Location {
 export interface BusStation {
   id: string;
   nom: string;
+  nomGareRoutiere: string;
   ville: string;
   quartier: string;
   adresse: string;

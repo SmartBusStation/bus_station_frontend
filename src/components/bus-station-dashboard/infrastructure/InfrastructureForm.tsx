@@ -21,7 +21,7 @@ const InfrastructureForm: React.FC<InfrastructureFormProps> = ({
     ville: nullSafe(station.ville),
     quartier: nullSafe(station.quartier),
     description: nullSafe(station.description),
-    photoUrl: nullSafe(station.photoUrl),
+    photoUrl: nullSafe(station.imageUrl),
     services: nullSafe(station.services, []),
     horaires: nullSafe(station.horaires, "24h/7j"),
     localisation: {
@@ -39,7 +39,7 @@ const InfrastructureForm: React.FC<InfrastructureFormProps> = ({
       ville: nullSafe(station.ville),
       quartier: nullSafe(station.quartier),
       description: nullSafe(station.description),
-      photoUrl: nullSafe(station.photoUrl),
+      photoUrl: nullSafe(station.imageUrl),
       services: nullSafe(station.services, []),
       horaires: nullSafe(station.horaires, "24h/7j"),
       localisation: {
