@@ -13,7 +13,7 @@ import {
 import PageHeader from "@/components/dashboard/PageHeader"
 import Loader from "@/modals/Loader"
 import TransparentModal from "@/modals/TransparentModal"
-import { ConfirmationModal } from "@/modals/ConfirmActionModal"
+import { ConfirmationModal } from "@/modals/ConfirmationModal"
 import { usePublishedTrips } from "@/lib/hooks/dasboard/usePublishedTrips"
 import TripCard from "@/components/dashboard/marketplace/TripCard";
 

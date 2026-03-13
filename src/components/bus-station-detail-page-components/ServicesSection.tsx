@@ -1,13 +1,13 @@
 import React from 'react';
-import { Wifi, ParkingSquare, Utensils, Armchair, ShieldCheck } from 'lucide-react';
+import { Wifi, ParkingSquare, Utensils, Armchair, ShieldCheck, LucideProps } from 'lucide-react';
 
-const serviceIconMap: { [key: string]: { icon: React.ReactNode; label: string } } = {
-  WIFI: { icon: <Wifi />, label: 'Wi-Fi Gratuit' },
-  PARKING: { icon: <ParkingSquare />, label: 'Parking Sécurisé' },
-  RESTAURATION: { icon: <Utensils />, label: 'Restauration' },
-  SALLE_ATTENTE: { icon: <Armchair />, label: 'Salle d\'attente' },
-  SECURITE: { icon: <ShieldCheck />, label: 'Sécurité 24/7' },
-  TOILETTES: { icon: <span className="text-2xl">🚻</span>, label: 'Toilettes' },
+const serviceIconMap: { [key: string]: { icon: React.FC<LucideProps> | null; label: string } } = {
+  WIFI: { icon: Wifi, label: 'Wi-Fi Gratuit' },
+  PARKING: { icon: ParkingSquare, label: 'Parking Sécurisé' },
+  RESTAURATION: { icon: Utensils, label: 'Restauration' },
+  SALLE_ATTENTE: { icon: Armchair, label: "Salle d'attente" },
+  SECURITE: { icon: ShieldCheck, label: 'Sécurité 24/7' },
+  TOILETTES: { icon: null, label: 'Toilettes' },
 };
 
 type ServicesSectionProps = {
@@ -22,10 +22,11 @@ const ServicesSection = ({ services }: ServicesSectionProps) => {
         {services.map((serviceKey) => {
           const service = serviceIconMap[serviceKey];
           if (!service) return null;
+          const Icon = service.icon;
           return (
             <div key={serviceKey} className="flex flex-col items-center justify-center text-center p-3 bg-gray-50 rounded-lg">
               <div className="text-blue-600 mb-2">
-                {React.cloneElement(service.icon as React.ReactElement, { size: 28 })}
+                {Icon ? <Icon size={28} /> : <span className="text-2xl">🚻</span>}
               </div>
               <span className="text-sm font-medium text-gray-700">{service.label}</span>
             </div>

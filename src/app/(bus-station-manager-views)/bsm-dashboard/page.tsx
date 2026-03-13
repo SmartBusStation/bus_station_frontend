@@ -1,46 +1,190 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useBusStationDashboard } from "@/lib/hooks/useBusStationDashboard";
 import StationDetails from "@/components/bus-station-dashboard/StationDetails";
 import DetailedAffiliatedAgenciesList from "@/components/bus-station-dashboard/affiliated-agencies/DetailedAffiliatedAgenciesList";
 import TripsChart from "@/components/bus-station-dashboard/TripsChart";
 import Loader from "@/modals/Loader";
-import { AlertCircle, RefreshCw } from "lucide-react";
+import { AlertCircle, RefreshCw, Building2, Bus, Wallet, MapPin } from "lucide-react";
+import { useBusStation } from "@/context/Provider";
+import { getStationByManagerId } from "@/lib/services/bus-station-service";
+
+// --- Composant Interne pour les Cartes de Stat ---
+const StatCard = ({ title, value, icon: Icon, color }: any) => (
+  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between hover:shadow-md transition-shadow">
+    <div>
+      <p className="text-sm font-medium text-gray-500 mb-1">{title}</p>
+      <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
+    </div>
+    <div className={`p-3 rounded-full ${color.bg}`}>
+      <Icon className={`h-6 w-6 ${color.text}`} />
+    </div>
+  </div>
+);
+
+// --- Interface pour corriger le 'as any' ---
+interface StationData {
+  id?: string;
+  idGareRoutiere?: string; // Le champ spécifique retourné par ton backend
+  [key: string]: any;
+}
 
 const BusStationDashboardPage = () => {
-  const { station, agencies, tripsByDate, loading, error } =
-    useBusStationDashboard("gare-001");
+  const { userData, isLoading: isUserLoading } = useBusStation();
+  const [stationId, setStationId] = useState<string>("");
+  const [initError, setInitError] = useState<string | null>(null);
 
-  if (loading) {
+  // 1. Récupération de l'ID de la gare
+  useEffect(() => {
+    const fetchStationId = async () => {
+      if (userData?.userId) {
+        try {
+          const rawStation = await getStationByManagerId(userData.userId);
+          const station = rawStation as StationData; // Typage plus propre
+
+          // Priorité à idGareRoutiere, sinon id
+          const realStationId = station.idGareRoutiere || station.id;
+
+          if (realStationId) {
+            setStationId(realStationId);
+          } else {
+            setInitError("Aucune gare routière associée à ce compte.");
+          }
+        } catch (err) {
+          console.error(err);
+          setInitError("Impossible de récupérer les informations de votre gare.");
+        }
+      }
+    };
+
+    if (!isUserLoading && userData) {
+      fetchStationId();
+    }
+  }, [userData, isUserLoading]);
+
+  // 2. Hook Dashboard
+  const { station, agencies, tripsByDate, loading, error } = useBusStationDashboard(stationId);
+
+  // 3. Calcul des Statistiques (KPIs) en temps réel
+  const stats = useMemo(() => {
+    return {
+      totalAgencies: agencies?.length || 0,
+      activeAgencies: agencies?.filter((a: any) => a.taxStatus === "payé").length || 0,
+      totalTrips: tripsByDate?.reduce((acc, curr) => acc + curr.count, 0) || 0,
+      // Exemple de calcul factice pour les taxes (à adapter selon tes données réelles)
+      pendingTaxes: agencies?.filter((a: any) => a.taxStatus === "en retard").length || 0,
+    };
+  }, [agencies, tripsByDate]);
+
+  // --- RENDU : Chargements ---
+  if (isUserLoading || (stationId === "" && !initError)) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader />
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Loader message="Chargement de votre espace..." />
       </div>
     );
   }
 
-  if (error) {
+  if (loading && stationId !== "") {
     return (
-      <div className="p-10 text-center text-red-600 bg-red-50 rounded-xl border border-red-200">
-        <AlertCircle className="mx-auto h-12 w-12 text-red-400" />
-        <h3 className="mt-2 text-lg font-semibold">Erreur de chargement</h3>
-        <p className="mt-1 text-sm">{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 px-6 py-3 bg-red-600 text-white rounded-xl flex items-center gap-2 mx-auto hover:bg-red-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          <RefreshCw className="h-4 w-4" /> Réessayer
-        </button>
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Loader message="Analyse des données en cours..." />
       </div>
     );
   }
 
+  // --- RENDU : Erreurs ---
+  const displayError = initError || error;
+  if (displayError) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] p-4">
+        <div className="p-8 text-center text-red-600 bg-red-50 rounded-2xl border border-red-100 max-w-md w-full shadow-lg">
+          <AlertCircle className="mx-auto h-16 w-16 text-red-400 mb-4" />
+          <h3 className="text-xl font-bold mb-2">Oups !</h3>
+          <p className="text-gray-600 mb-6">{displayError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="w-full py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-xl"
+          >
+            <RefreshCw className="h-4 w-4" /> Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // --- RENDU : Dashboard Principal ---
   return (
-    <div className="space-y-8">
-      {station && <StationDetails station={station} />}
-      <DetailedAffiliatedAgenciesList agencies={agencies} />
-      <TripsChart data={tripsByDate} />
+    <div className="space-y-8 pb-10">
+
+      {/* SECTION 1 : Les KPIs (Nouveau !) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard
+          title="Agences Affiliées"
+          value={stats.totalAgencies}
+          icon={Building2}
+          color={{ bg: "bg-blue-100", text: "text-blue-600" }}
+        />
+        <StatCard
+          title="Voyages Programmés"
+          value={stats.totalTrips}
+          icon={Bus}
+          color={{ bg: "bg-purple-100", text: "text-purple-600" }}
+        />
+        <StatCard
+          title="Taxes en Retard"
+          value={stats.pendingTaxes}
+          icon={Wallet}
+          color={{ bg: "bg-red-100", text: "text-red-600" }}
+        />
+        <StatCard
+          title="Taux d'occupation"
+          value="-- %" // À connecter plus tard
+          icon={MapPin}
+          color={{ bg: "bg-green-100", text: "text-green-600" }}
+        />
+      </div>
+
+      {/* SECTION 2 : Détails de la gare */}
+      {station && (
+        <div className="transform transition-all duration-300 hover:scale-[1.01]">
+           <StationDetails station={station} />
+        </div>
+      )}
+
+      {/* SECTION 3 : Liste des Agences (Avec gestion vide) */}
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+        <div className="p-6 border-b border-gray-100">
+           <h2 className="text-lg font-bold text-gray-900">Agences Affiliées</h2>
+           <p className="text-sm text-gray-500">Liste des compagnies opérant dans votre gare</p>
+        </div>
+
+        {agencies && agencies.length > 0 ? (
+          <DetailedAffiliatedAgenciesList agencies={agencies} />
+        ) : (
+          <div className="p-10 text-center text-gray-400 bg-gray-50/50">
+            <Building2 className="h-12 w-12 mx-auto mb-3 opacity-20" />
+            <p>Aucune agence affiliée pour le moment.</p>
+          </div>
+        )}
+      </div>
+
+      {/* SECTION 4 : Graphique (Avec gestion vide) */}
+      <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="mb-6">
+           <h2 className="text-lg font-bold text-gray-900">Analyse des Voyages</h2>
+        </div>
+
+        {tripsByDate && tripsByDate.length > 0 ? (
+           <TripsChart data={tripsByDate} />
+        ) : (
+          <div className="h-64 flex flex-col items-center justify-center text-gray-400 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+            <Bus className="h-12 w-12 mb-3 opacity-20" />
+            <p>Pas assez de données pour afficher le graphique.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
-import { getReservationsByAgency } from '@/lib/services/reservation-service';
+// MODIFICATION 1 : Ajout de l'import cancelReservationByAgency
+import { getReservationsByAgency, cancelReservationByAgency } from '@/lib/services/reservation-service';
 import { ReservationPreviewDTO } from '@/lib/types/generated-api';
 import { PaginatedResponse } from '@/lib/types/common';
 
@@ -85,7 +86,7 @@ export function useBookingsPage() {
         }
     }, [currentPage, agencyId, fetchBookings]);
 
-    // Filtrage des réservations (par statut + recherche + voyage spécifique)
+    // Filtrage des réservations
     const filteredBookings = useMemo(() => {
         let filtered = bookings.filter(booking => {
             const reservation = booking.reservation;
@@ -102,7 +103,6 @@ export function useBookingsPage() {
             return matchesSearch && matchesStatus;
         });
 
-        // Filtrage supplémentaire par voyage spécifique si tripId fourni
         if (tripId) {
             filtered = filtered.filter(b => b.voyage?.idVoyage === tripId);
         }
@@ -112,7 +112,7 @@ export function useBookingsPage() {
 
     // Statistiques calculées
     const stats = useMemo(() => {
-        const data = tripId ? filteredBookings : bookings; // Stats globales ou par voyage
+        const data = tripId ? filteredBookings : bookings;
 
         const total = data.length;
         const confirmed = data.filter(b => b.reservation?.statutReservation === 'CONFIRMER').length;
@@ -124,7 +124,7 @@ export function useBookingsPage() {
         return { total, confirmed, pending, cancelled, validated, totalRevenue };
     }, [bookings, filteredBookings, tripId]);
 
-    // Obtenir les infos d'un statut (couleurs, texte)
+    // Obtenir les infos d'un statut
     const getStatusInfo = useCallback((status: string) => {
         const statusConfig = {
             CONFIRMER: { text: "Confirmée", color: "bg-green-100 text-green-700", dot: "bg-green-500" },
@@ -141,7 +141,10 @@ export function useBookingsPage() {
 
         setIsActionLoading(true);
         try {
-          //  await cancelReservation(reservationId);
+            // MODIFICATION 2 : Appel de la vraie fonction de service
+            await cancelReservationByAgency(reservationId);
+
+            // Rechargement des données pour voir le changement de statut
             await fetchBookings(agencyId, currentPage);
         } catch (error: unknown) {
             console.error(error);
@@ -151,7 +154,7 @@ export function useBookingsPage() {
         }
     }, [agencyId, fetchBookings, currentPage]);
 
-    // Gestionnaires d'actions
+    // Gestionnaires d'actions (inchangés)
     const handleViewDetails = useCallback((bookingId: string) => {
         const booking = filteredBookings.find(b => b.reservation?.idReservation === bookingId);
         if (booking) {
@@ -161,12 +164,10 @@ export function useBookingsPage() {
     }, [filteredBookings]);
 
     const handleContactClient = useCallback((booking: ReservationPreviewDTO) => {
-        // Logique pour contacter le client (email, etc.)
         console.log('Contact client pour réservation:', booking.reservation?.idReservation);
     }, []);
 
     const handleDownloadReservation = useCallback((booking: ReservationPreviewDTO) => {
-        // Logique pour télécharger la réservation
         console.log('Télécharger réservation:', booking.reservation?.idReservation);
     }, []);
 
@@ -201,46 +202,32 @@ export function useBookingsPage() {
         { label: "Validées", value: "VALIDER" },
     ], []);
 
-    // Nom du voyage si filtrage spécifique
     const tripName = tripId ? filteredBookings[0]?.voyage?.titre : null;
 
     return {
-        // États
         isLoading,
         isActionLoading,
         apiError,
-
-        // Données
         filteredBookings,
         stats,
-
-        // Pagination
         currentPage,
         totalPages,
         totalElements,
         setCurrentPage,
-
-        // Filtrage et recherche
         searchTerm,
         setSearchTerm,
         statusFilter,
         setStatusFilter,
         filterOptions,
-
-        // Modales
         confirmModal,
         closeModal,
         selectedBooking,
         isDetailModalOpen,
         closeDetailModal,
-
-        // Actions
         handleViewDetails,
         handleContactClient,
         handleDownloadReservation,
         openCancelModal,
-
-        // Utilitaires
         getStatusInfo,
         tripId,
         tripName,

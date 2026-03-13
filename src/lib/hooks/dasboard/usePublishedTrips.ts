@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
-import { getTripsByAgency, updateTrip, deleteVoyage } from '@/lib/services/trip-service';
+// MODIFICATION 1 : Suppression de l'import inutile 'deleteVoyage'
+import { getTripsByAgency, updateTrip } from '@/lib/services/trip-service';
 import { PaginatedResponse } from '@/lib/types/common';
 import { TripDetails } from "@/lib/types/models/Trip";
 
@@ -113,8 +114,9 @@ export function usePublishedTrips() {
 
     // Gestionnaires d'actions
     const handleViewBookings = useCallback((tripId: string) => {
-        window.location.href = `/dashboard/marketplace/bookings/${tripId}`;
-    }, []);
+        // MODIFICATION 2 : Utilisation de router.push pour la navigation SPA
+        router.push(`/dashboard/marketplace/bookings/${tripId}`);
+    }, [router]);
 
     const handleEditTrip = useCallback((tripId: string) => {
         router.push(`/dashboard/trip-planning?edit=${tripId}`);

@@ -141,14 +141,14 @@ export async function getDepartsByGareId(
   gareId: string
 ): Promise<Trip[] | null> {
   try {
-    // Étape 1 : Trouver les agences de cette gare
     const agencesInStation = await getAgencesByGareId(gareId);
 
     if (!agencesInStation || agencesInStation.length === 0) {
-      return []; // Aucune agence, donc aucun départ
+      return [];
     }
 
-    const agencyIds = agencesInStation.map((agence) => agence.agencyId);
+    // On utilise les noms d'agences car Trip n'a pas d'agencyId
+    const agencyNames = agencesInStation.map((agence) => agence.longName);
 
     const response: AxiosResponse<Trip[]> = await axiosInstance.get(
       `${BASE_URL_DEPARTS}`
@@ -156,7 +156,7 @@ export async function getDepartsByGareId(
 
     if (response.status === 200) {
       return response.data.filter((trip) =>
-        agencyIds.includes(trip.agencyId)
+        agencyNames.includes(trip.nomAgence)
       );
     }
 

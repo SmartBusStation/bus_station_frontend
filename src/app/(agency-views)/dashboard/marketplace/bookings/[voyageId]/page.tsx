@@ -16,7 +16,7 @@ import {
 import PageHeader from "@/components/dashboard/PageHeader"
 import Loader from "@/modals/Loader"
 import TransparentModal from "@/modals/TransparentModal"
-import { ConfirmationModal } from "@/modals/ConfirmActionModal"
+import { ConfirmationModal } from "@/modals/ConfirmationModal"
 import { useBookingsPage } from "@/lib/hooks/dasboard/useBookingsPage"
 import BookingTableRow from "@/components/dashboard/marketplace/booking/BookingTableRows";
 

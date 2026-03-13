@@ -38,7 +38,7 @@ export default function AddTripModal({ isOpen, onClose, onSave, agencyId }: AddT
   const onSubmit = async (data: Omit<PlannerTrip, 'id' | 'agencyId'>) => {
     const dataToSave = {
       ...data,
-      agencyId: agencyId,
+      agencyId: Number(agencyId),
     };
     await onSave(dataToSave as Omit<PlannerTrip, 'id'>);
     reset(); // Reset form after saving

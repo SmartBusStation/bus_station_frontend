@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { GareRoutiere } from "@/lib/types/models/GareRoutiere";
+import { GareRoutiere } from "@/lib/types/gares-routiere"; // type frontend
+import { GareRoutiereDetail } from "@/lib/types/models/GareRoutiere"; // type backend
 import { TravelAgency } from "@/lib/types/models/Agency";
 import { Trip } from "@/lib/types/models/Trip";
 // 1. On change les imports ici pour prendre les fonctions de filtrage
@@ -35,7 +36,24 @@ export function useGareDetails(gareId: string) {
       ]);
 
       if (gareData) {
-        setGare(gareData);
+        const mapped: GareRoutiere = {
+          id: gareData.idGareRoutiere,
+          nom: gareData.nomGareRoutiere,
+          ville: gareData.ville,
+          quartier: gareData.quartier,
+          adresse: gareData.adresse,
+          description: gareData.description,
+          imageUrl: gareData.photoUrl,
+          services: gareData.services,
+          nbAgencesAffiliees: gareData.nbreAgence,
+          estOuvert: false, // pas dans GareRoutiereDetail, valeur par défaut
+          horaires: gareData.horaires,
+          localisation: {
+            latitude: 0,  // à adapter si tu as les coords dans la réponse API
+            longitude: 0,
+          },
+        };
+        setGare(mapped);
         setAgences(agencesData || []);
         setDeparts(departsData || []);
       } else {

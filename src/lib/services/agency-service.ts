@@ -9,19 +9,20 @@ export async function createAgency(
   data: TravelAgencyFormType
 ): Promise<TravelAgency | null> {
   try {
-    const response: AxiosResponse<TravelAgency> = await axios.post(
-      `${url}/agence`,
+    // Utilise axiosInstance et une URL relative. L'URL complète sera construite automatiquement.
+    const response: AxiosResponse<TravelAgency> = await axiosInstance.post(
+      "/agence",
       data
     );
     if (response.status === 201 || response.status === 200) {
       console.log(response);
-      return response?.data;
+      return response.data;
     } else {
-      console.warn("Unattended HTTP code", response?.data);
+      console.warn("Unattended HTTP code", response.status, response.data);
       return null;
     }
   } catch (error) {
-    console.error("Error when creating the organization ", error);
+    console.error("Error when creating the agency ", error);
     throw error;
   }
 }

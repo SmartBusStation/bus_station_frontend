@@ -6,7 +6,7 @@ import AddVehicleModal from "./AddVehicleModal"
 import Loader from "@/modals/Loader"
 import { useState, useMemo } from "react"
 import TransparentModal from "@/modals/TransparentModal";
-import {ConfirmationModal} from "@/modals/ConfirmActionModal";
+import { ConfirmationModal } from "@/modals/ConfirmationModal";
 
 
 const VehiclesTab = () => {

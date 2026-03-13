@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Search } from 'lucide-react';
-import { InputField } from '@/ui/InputField';
+import InputField from '@/ui/InputField';
 
 type SearchBarProps = {
     onSearchChange: (query: string) => void;

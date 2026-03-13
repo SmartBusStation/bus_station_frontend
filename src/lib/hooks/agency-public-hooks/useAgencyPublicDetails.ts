@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { TravelAgency } from "@/lib/types/models/Agency";
 import { Trip } from "@/lib/types/models/Trip";
-import {
-  getPublicAgencyById,
-  getTripsByAgencyId,
-} from "@/lib/services/agency-public-service";
+import { getPublicAgencyById } from "@/lib/services/agency-public-service";
+// MODIFICATION 1 : On utilise le service de voyage officiel et validé
+import { getTripsByAgency } from "@/lib/services/trip-service";
 
 export function useAgencyPublicDetails(agencyId: string) {
   const [agency, setAgency] = useState<TravelAgency | null>(null);
@@ -22,14 +21,16 @@ export function useAgencyPublicDetails(agencyId: string) {
     setIsLoading(true);
     setError(null);
     try {
-      const [agencyData, tripsData] = await Promise.all([
+      // MODIFICATION 2 : Appel parallèle avec les services corrigés
+      const [agencyData, tripsResponse] = await Promise.all([
         getPublicAgencyById(id),
-        getTripsByAgencyId(id),
+        getTripsByAgency(id),
       ]);
 
       if (agencyData) {
         setAgency(agencyData);
-        setTrips(tripsData);
+        // getTripsByAgency retourne une PaginatedResponse, on prend le contenu
+        setTrips(tripsResponse?.content || []);
       } else {
         setError("Agence introuvable.");
       }

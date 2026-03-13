@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: 'https://agence-voyage.ddns.net/api',
+    BASE: process.env.NEXT_PUBLIC_TRIP_AGENCY_BACKEND_API_URL,
     VERSION: '1.0',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',

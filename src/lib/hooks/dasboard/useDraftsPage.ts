@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useBusStation } from '@/context/Provider';
 import { getAgencyByChefId } from '@/lib/services/agency-service';
-import { getTripsByAgency, publishTrip } from '@/lib/services/trip-service';
+import { getTripsByAgency, publishTrip, deleteVoyage } from '@/lib/services/trip-service';
 import { TripDetails } from "@/lib/types/models/Trip";
 import {useNavigation} from "@/lib/hooks/useNavigation";
 
@@ -94,19 +94,23 @@ export function useDraftsPage() {
 
 
     async function handleDelete(): Promise<void> {
-        setIsLoading(true);
-        setApiError(null);
         if (!draftToDelete || !draftToDelete.idVoyage) return;
 
+        // On rend le composant réactif immédiatement pour une meilleure UX
+        setDrafts(prev => prev.filter(d => d.idVoyage !== draftToDelete.idVoyage));
+        setCanOpenConfirmationModal(false);
+
         try {
-            // await deleteVoyage(draftToDelete.idVoyage); // À décommenter quand l'API sera prête
-            setDrafts(prev => prev.filter(d => d.idVoyage !== draftToDelete.idVoyage));
-            setCanOpenConfirmationModal(false);
+            await deleteVoyage(draftToDelete.idVoyage);
         } catch (error) {
             console.error(error);
-            setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
+            setApiError("Erreur lors de la suppression. Le brouillon pourrait réapparaître.");
+            // Si l'API échoue, on recharge la liste pour être synchro avec le backend
+            if (agencyId) {
+                await fetchDrafts(agencyId);
+            }
         } finally {
-            setIsLoading(false);
+            setDraftToDelete(null); // Nettoyage
         }
     }
 
@@ -119,7 +123,7 @@ export function useDraftsPage() {
 
         try {
             await publishTrip(draftToPublish.idVoyage);
-            await fetchDrafts(agencyId);
+            await fetchDrafts(agencyId); // Recharge la liste pour que le brouillon disparaisse
             setCanOpenPublishModal(false);
         } catch (error) {
             console.error(error);

@@ -11,7 +11,7 @@ export default function authInterceptor  (axiosInstance: AxiosInstance): void
         return req; // Ne pas ajouter de token pour ces requêtes
       }
 
-      const token: string|null = localStorage.getItem(tokenKeyName);
+      const token: string|null = typeof window !== 'undefined' ? localStorage.getItem(tokenKeyName) : null;
 
       if (token)
       {

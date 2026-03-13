@@ -16,7 +16,7 @@ import AddClassVoyageModal from "./AddClassVoyageModal"
 import Loader from "@/modals/Loader"
 import TransparentModal from "@/modals/TransparentModal"
 import { useState, useMemo } from "react"
-import { ConfirmationModal } from "@/modals/ConfirmActionModal"
+import { ConfirmationModal } from "@/modals/ConfirmationModal"
 
 const ClassVoyageTab = () => {
     const hook = useClassVoyageTab()

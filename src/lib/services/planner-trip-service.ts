@@ -1,8 +1,8 @@
 // src/lib/services/planner-trip-service.ts
-
 import { PlannerTrip } from "@/lib/types/models/Trip";
-import axiosInstance from "./axios-services/axiosInstance";
+import axios from 'axios';
 import { AxiosResponse } from "axios";
+import axiosInstance from "@/lib/services/axios-services/axiosInstance";
 
 const URL_PLANNER_TRIPS = "http://localhost:3001/plannerTrips";
 
@@ -64,7 +64,7 @@ export const deletePlannerTrip = async (tripId: number): Promise<void> => {
         const response = await axiosInstance.delete(url);
         console.log(`✅ [PlannerTripService] Trip ${tripId} deleted successfully. Response status: ${response.status}`);
     } catch (error) {
-        if (axiosInstance.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
             console.error(`❌ [PlannerTripService] Axios Error deleting trip ${tripId}:`, error.message);
             if (error.response) {
                 console.error(`❌ [PlannerTripService] Response data:`, error.response.data);

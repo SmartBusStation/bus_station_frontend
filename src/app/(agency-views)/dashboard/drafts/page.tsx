@@ -17,7 +17,7 @@ import PageHeader from "@/components/dashboard/PageHeader"
 import { useDraftsPage } from "@/lib/hooks/dasboard/useDraftsPage"
 import Loader from "@/modals/Loader"
 import TransparentModal from "@/modals/TransparentModal"
-import { ConfirmationModal } from "@/modals/ConfirmActionModal"
+import { ConfirmationModal } from "@/modals/ConfirmationModal"
 import { formatDateOnly } from "@/lib/services/date-services"
 
 const DraftsPage = () => {

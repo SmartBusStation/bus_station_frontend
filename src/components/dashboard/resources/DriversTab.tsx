@@ -19,7 +19,7 @@ import Loader from "@/modals/Loader"
 import TransparentModal from "@/modals/TransparentModal"
 import type { Customer } from "@/lib/types/models/BusinessActor"
 import { useState, useMemo } from "react"
-import {ConfirmationModal} from "@/modals/ConfirmActionModal";
+import { ConfirmationModal } from "@/modals/ConfirmationModal";
 
 const DriversTab = () => {
     const { t } = useTranslation()

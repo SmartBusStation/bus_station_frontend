@@ -78,26 +78,26 @@ export function useMarketPlace()
     }
 
 
+    function handleSearch() {
+        // Si aucun voyage n'est chargé, on ne fait rien
+        if (!availableTrips) return;
 
-    function handleSearch()
-    {
-        let filtered = availableTrips
+        // On part de la liste complète pour appliquer les filtres
+        let filtered = [...availableTrips];
 
-        if (searchFilters.departure) {
-            filtered = filtered && filtered.filter((trip) =>
-                {
-                    if(trip?.lieuDepart) trip.lieuDepart.toLowerCase().includes(searchFilters.departure.toLowerCase());
-                }
-            )
+        if (searchFilters.departure && searchFilters.departure.trim() !== "") {
+            filtered = filtered.filter((trip) =>
+               trip?.lieuDepart?.toLowerCase().includes(searchFilters.departure.toLowerCase())
+            );
         }
 
-        if (searchFilters.arrival) {
-            filtered = filtered && filtered.filter((trip) =>
-                {
-                    if (trip?.lieuArrive) trip.lieuArrive.toLowerCase().includes(searchFilters.arrival.toLowerCase());
-                }
-            )
+        if (searchFilters.arrival && searchFilters.arrival.trim() !== "") {
+            filtered = filtered.filter((trip) =>
+                trip?.lieuArrive?.toLowerCase().includes(searchFilters.arrival.toLowerCase())
+            );
         }
+
+        // Mise à jour de la liste affichée
         setFilteredTrips(filtered);
     }
 

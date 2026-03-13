@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Wifi, ParkingSquare, Utensils, Armchair, ShieldCheck } from 'lucide-react';
+import { Service } from '@/lib/types/models/GareRoutiere';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
   WIFI: <Wifi size={14} className="mr-1.5" />,
@@ -22,9 +23,9 @@ const serviceLabels: { [key: string]: string } = {
 }
 
 type FilterBadgesProps = {
-  services: string[];
-  selectedServices: string[];
-  onServiceToggle: (service: string) => void;
+  services: Service[];
+  selectedServices: Service[];
+  onServiceToggle: (service: Service) => void;
 };
 
 const FilterBadges = ({ services, selectedServices, onServiceToggle }: FilterBadgesProps) => {

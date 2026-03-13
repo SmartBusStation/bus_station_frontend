@@ -1,71 +1,87 @@
-// src/lib/services/bus-station-service.ts
+import { AxiosResponse } from "axios";
+import axiosInstance from "@/lib/services/axios-services/axiosInstance";
+// Note: Assurez-vous que ces types existent ou adaptez-les aux types générés (GareRoutiereDTO, etc.)
 import { BusStation, Agency, Trip, AffiliationTax, PolicyAndTax, BusStationManagerAccount } from "@/lib/types/bus-station";
-const API_BASE_URL = "http://localhost:3001";
+
+// Plus de localhost:3001 !
+// On utilise axiosInstance qui est déjà configuré.
 
 export const getBusStationDetails = async (
   stationId: string
 ): Promise<BusStation> => {
-  const response = await fetch(`${API_BASE_URL}/gares/${stationId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch bus station details");
+  try {
+    const response: AxiosResponse<BusStation> = await axiosInstance.get(`/gares-routieres/${stationId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch bus station details", error);
+    throw error;
   }
-  return response.json();
 };
 
 export const getAffiliatedAgencies = async (
   stationId: string
 ): Promise<Agency[]> => {
-  const response = await fetch(`${API_BASE_URL}/agences`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch agencies");
+  try {
+    // D'après le Swagger: GET /agence/gare-routiere/{gareRoutiereId}
+    const response: AxiosResponse<Agency[]> = await axiosInstance.get(`/agence/gare-routiere/${stationId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch affiliated agencies", error);
+    throw error;
   }
-  const agencies: Agency[] = await response.json();
-  return agencies.filter((agency) => agency.gareIds.includes(stationId));
 };
 
 export const getTripsByAgencies = async (
   agencyIds: string[]
 ): Promise<Trip[]> => {
-  const response = await fetch(`${API_BASE_URL}/departs`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch trips");
-  }
-  const trips: Trip[] = await response.json();
-  return trips.filter((trip) => agencyIds.includes(trip.agencyId));
+    // Cette fonctionnalité est complexe car elle demande de récupérer les voyages de plusieurs agences.
+    // Le backend ne semble pas avoir d'endpoint "get trips by list of agency IDs".
+    // Solution temporaire : retourner vide ou implémenter une boucle d'appels (déconseillé pour la perf).
+    console.warn("getTripsByAgencies n'est pas encore implémenté côté backend");
+    return [];
 };
 
 export const getAffiliationTaxes = async (
   stationId: string
 ): Promise<AffiliationTax[]> => {
-  const response = await fetch(`${API_BASE_URL}/affiliationTaxes`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch affiliation taxes");
-  }
-  const taxes: AffiliationTax[] = await response.json();
-  return taxes.filter((tax) => tax.stationId === stationId);
+   // Pas d'endpoint clair dans le Swagger pour "Affiliation Taxes" spécifique.
+   // Peut-être lié à /politique-et-taxes ?
+   console.warn("getAffiliationTaxes endpoint non trouvé dans le Swagger");
+   return [];
 };
 
 export const getPoliciesAndTaxes = async (
   stationId: string
 ): Promise<PolicyAndTax[]> => {
-  const response = await fetch(`${API_BASE_URL}/policiesAndTaxes`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch policies and taxes");
+  try {
+      // D'après le Swagger: GET /politique-et-taxes/gare-routiere/{gareRoutiereId}
+      const response: AxiosResponse<PolicyAndTax[]> = await axiosInstance.get(`/politique-et-taxes/gare-routiere/${stationId}`);
+      return response.data;
+  } catch (error) {
+      console.error("Failed to fetch policies and taxes", error);
+      throw error;
   }
-  const policies: PolicyAndTax[] = await response.json();
-  return policies.filter((p) => p.stationId === stationId);
 };
 
 export const getBusStationManagerAccount = async (
   busStationId: string
 ): Promise<BusStationManagerAccount> => {
-  const response = await fetch(`${API_BASE_URL}/busStationManagerAccount`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch bus station manager account");
+    // Pas d'endpoint clair.
+    console.warn("getBusStationManagerAccount endpoint non trouvé dans le Swagger");
+    throw new Error("Endpoint not implemented");
+};
+
+/**
+ * Récupère les détails d'une gare routière à partir de l'ID de son manager.
+ */
+export const getStationByManagerId = async (
+  managerId: string
+): Promise<BusStation> => {
+  try {
+    const response: AxiosResponse<BusStation> = await axiosInstance.get(`/gares-routieres/manager/${managerId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch bus station by manager ID", error);
+    throw error;
   }
-  const account: BusStationManagerAccount = await response.json();
-  if (account.busStationId !== busStationId) {
-    throw new Error("Account not found for this bus station");
-  }
-  return account;
 };

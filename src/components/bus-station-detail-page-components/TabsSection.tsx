@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { GareRoutiere } from '@/lib/types/models/GareRoutiere'; // Updated import
+import { GareRoutiere } from '@/lib/types/gares-routiere';
 import { Trip } from '@/lib/types/models/Trip'; // New import
 import { TravelAgency as Agency } from '@/lib/types/models/Agency'; // New import
 import AgenciesTab from './AgenciesTab';

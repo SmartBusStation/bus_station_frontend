@@ -6,8 +6,6 @@ import React, { useState } from "react";
 import Footer from "@/components/layouts/Footer"; // Gardé au cas où vous le vouliez
 import NavBar from "@/components/layouts/customer-navbar/CustomerNavBar";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-
-// ----> ÉTAPE CRUCIALE N°1 : L'IMPORT
 import { AgencyProvider } from "@/lib/contexts/AgencyContext";
 
 export default function AgenciesLayout({ children }: { children: React.ReactNode; }) {

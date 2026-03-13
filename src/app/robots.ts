@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "http://agence-voyage.ddns.net";
+const BASE_URL = "http://46.224.128.125:9006";
 
 export default function robots(): MetadataRoute.Robots {
   return {
