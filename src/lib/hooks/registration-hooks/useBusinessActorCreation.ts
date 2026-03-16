@@ -68,18 +68,13 @@ export default function useBusinessActorCreation(changeStep: (step:number)=> voi
 
 
 
-
-
-    /*** ENCRYPTION AND DECRYPTION FUNCTIONS ***/
-
     useEffect(() => {
-        async function storeData()
-        {
+        async function storeData() {
             await storeCurrentBusinessActor();
         }
-        const data: string|null = sessionStorage.getItem("currentBusinessActor");
-        if(data)  storeData();
-    }, []);
+        const data = sessionStorage.getItem("currentBusinessActor");
+        if (data) storeData();
+    }, []); 
 
 
 

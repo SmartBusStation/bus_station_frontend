@@ -1,28 +1,17 @@
-const secretKey = process.env.SECRET_KEY as string;
+const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY as string;
 
-
-
-export async function encryptDataWithAES<T>(data: T): Promise<string>
-{
-    if (secretKey ==="") throw new Error("La cle ne doit pas etre vide");
+export async function encryptDataWithAES<T>(data: T): Promise<string> {
+    if (!secretKey || secretKey === "") throw new Error("La clé ne doit pas être vide");
     const key = await deriveKey(secretKey);
     const encodedData = new TextEncoder().encode(JSON.stringify(data));
     const iv = crypto.getRandomValues(new Uint8Array(12));
     const cipherText = await crypto.subtle.encrypt(
-        {
-            name: 'AES-GCM',
-            iv: iv,
-        },
+        { name: 'AES-GCM', iv },
         key,
         encodedData
     );
-    const cipherTextBuffer = Buffer.from(cipherText);
-    return `${Buffer.from(iv).toString('base64')}:${cipherTextBuffer.toString('base64')}`;
+    return `${Buffer.from(iv).toString('base64')}:${Buffer.from(cipherText).toString('base64')}`;
 }
-
-
-
-
 
 export async function decryptDataWithAES<T>(encryptedData: string): Promise<T | null> {
     try {
@@ -31,28 +20,22 @@ export async function decryptDataWithAES<T>(encryptedData: string): Promise<T | 
         const cipherText = Buffer.from(cipherTextBase64, 'base64');
         const key = await deriveKey(secretKey);
         const decryptedData = await crypto.subtle.decrypt(
-            {
-                name: 'AES-GCM',
-                iv: iv,
-            },
+            { name: 'AES-GCM', iv },
             key,
             cipherText
         );
-        const decoder = new TextDecoder();
-        return JSON.parse(decoder.decode(decryptedData)) as T;
+        return JSON.parse(new TextDecoder().decode(decryptedData)) as T;
     } catch (err) {
         console.error(err);
         throw new Error("Decryption failed");
     }
 }
 
-
 async function deriveKey(password: string): Promise<CryptoKey> {
     const enc = new TextEncoder();
-    const passwordBuffer = enc.encode(password);
     const keyMaterial = await crypto.subtle.importKey(
         'raw',
-        passwordBuffer,
+        enc.encode(password),
         { name: 'PBKDF2' },
         false,
         ['deriveKey']

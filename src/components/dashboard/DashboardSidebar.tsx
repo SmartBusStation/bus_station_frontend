@@ -45,7 +45,7 @@ const SidebarHeader = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent"></div>
 
         <div className="relative flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -94,14 +94,14 @@ const SidebarLink = ({
             className={`group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-300 ${
                 isActive
                     ? "bg-primary text-white shadow-lg transform scale-[1.02]"
-                    : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:via-blue-100 hover:to-purple-50 hover:text-blue-600 hover:shadow-md hover:transform hover:scale-[1.01]"
+                    : "text-gray-700 hover:bg-linear-to-r hover:from-blue-50 hover:via-blue-100 hover:to-purple-50 hover:text-blue-600 hover:shadow-md hover:transform hover:scale-[1.01]"
             }`}
         >
           <div
               className={`flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300 ${
                   isActive
                       ? "bg-white/20 text-white"
-                      : "bg-gradient-to-br from-blue-50 to-purple-50 text-blue-600 group-hover:from-blue-100 group-hover:to-purple-100"
+                      : "bg-linear-to-br from-blue-50 to-purple-50 text-blue-600 group-hover:from-blue-100 group-hover:to-purple-100"
               }`}
           >
             <Icon className="h-5 w-5" />

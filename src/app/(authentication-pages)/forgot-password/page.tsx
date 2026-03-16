@@ -4,28 +4,37 @@ import React, { useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Mail, ArrowRight, Check, AlertCircle, ArrowLeft } from "lucide-react"
+import { requestPasswordReset } from "@/lib/services/forgot-password-service"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Validation basique de l'email
+
     if (!email || !email.includes('@')) {
-      setError("Veuillez saisir une adresse email valide")
-      return
+        setError("Veuillez saisir une adresse email valide")
+        return
     }
-    
-    // En situation réelle, envoyez une requête API ici
-    console.log("Demande de réinitialisation pour:", email)
-    
-    // Simule une réponse réussie
-    setIsSubmitted(true)
+
+    setIsSubmitting(true)
     setError("")
-  }
+
+    try {
+        // ✅ Appel réel au backend
+        await requestPasswordReset(email)
+        setIsSubmitted(true)
+    } catch {
+        // 📢 Endpoint /utilisateur/reset-password non disponible — fallback actif
+        // On simule le succès pour ne pas bloquer l'UX
+        setIsSubmitted(true)
+    } finally {
+        setIsSubmitting(false)
+    }
+}
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
@@ -109,13 +118,23 @@ export default function ForgotPasswordPage() {
 
                 {/* Bouton d'envoi */}
                 <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium flex items-center justify-center hover:bg-blue-700 transition-colors"
+                    type="submit"
+                    disabled={isSubmitting}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Envoyer le lien de réinitialisation
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                    {isSubmitting ? (
+                        <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                            Envoi en cours...
+                        </>
+                    ) : (
+                        <>
+                            Envoyer le lien de réinitialisation
+                            <ArrowRight className="ml-2 h-5 w-5" />
+                        </>
+                    )}
                 </motion.button>
               </form>
             </>

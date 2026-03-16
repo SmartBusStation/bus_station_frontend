@@ -1,107 +1,63 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import axiosInstance from "./axios-services/axiosInstance";
 import { TravelAgencyFormType } from "@/lib/types/schema/travelAgencySchema";
 import { TravelAgency } from "@/lib/types/models/Agency";
-import axiosInstance from "./axios-services/axiosInstance";
-
-const url: string = `${process.env.NEXT_PUBLIC_TRIP_AGENCY_BACKEND_API_URL}`;
 
 export async function createAgency(
-  data: TravelAgencyFormType
+    data: TravelAgencyFormType
 ): Promise<TravelAgency | null> {
-  try {
-    // Utilise axiosInstance et une URL relative. L'URL complète sera construite automatiquement.
-    const response: AxiosResponse<TravelAgency> = await axiosInstance.post(
-      "/agence",
-      data
-    );
-    if (response.status === 201 || response.status === 200) {
-      console.log(response);
-      return response.data;
-    } else {
-      console.warn("Unattended HTTP code", response.status, response.data);
-      return null;
+    try {
+        const response: AxiosResponse<TravelAgency> = await axiosInstance.post(
+            "/agence",
+            data
+        );
+        if (response.status === 201 || response.status === 200) {
+            console.log(response);
+            return response.data;
+        } else {
+            console.warn("Unattended HTTP code", response.status, response.data);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error when creating the agency", error);
+        throw error;
     }
-  } catch (error) {
-    console.error("Error when creating the agency ", error);
-    throw error;
-  }
 }
 
-/**
- * Récupère les informations d'une agence de voyage en utilisant l'ID de son chef.
- * @param chefId - L'ID de l'utilisateur connecté (chef d'agence).
- * @returns Une promesse résolue avec les détails de l'agence ou null.
- */
 export async function getAgencyByChefId(
-  chefId: string
+    chefId: string
 ): Promise<TravelAgency | null> {
-  console.log(
-    `[agency-service] Tentative de récupération de l'agence pour le chef d'agence ID: ${chefId}`
-  );
-  if (!chefId) {
-    console.error(
-      "[agency-service] Erreur: l'ID du chef d'agence est manquant."
-    );
-    return null;
-  }
-
-  try {
-    const response: AxiosResponse<TravelAgency> = await axiosInstance.get(
-      `/agence/chef-agence/${chefId}`
-    );
-
-    if (response.status === 200) {
-      console.log(
-        `[agency-service] Agence trouvée pour le chef d'agence ${chefId}:`,
-        response.data
-      );
-      return response.data;
+    if (!chefId) {
+        console.error("[agency-service] ID du chef d'agence manquant.");
+        return null;
     }
-
-    if (response.status === 404) {
-      console.warn(
-        `[agency-service] Aucune agence trouvée pour le chef d'agence ID: ${chefId}`
-      );
-      return null;
+    try {
+        const response: AxiosResponse<TravelAgency> = await axiosInstance.get(
+            `/agence/chef-agence/${chefId}`
+        );
+        if (response.status === 200) return response.data;
+        if (response.status === 404) return null;
+        return null;
+    } catch (error) {
+        console.error(`[agency-service] Erreur récupération agence chef ${chefId}:`, error);
+        throw error;
     }
-
-    console.warn(
-      `[agency-service] Réponse inattendue du serveur: statut ${response.status}`
-    );
-    return null;
-  } catch (error) {
-    console.error(
-      `[agency-service] Erreur lors de la récupération de l'agence pour le chef d'agence ${chefId}:`,
-      error
-    );
-    throw error; // Propage l'erreur pour que le contexte puisse la gérer
-  }
 }
 
-/**
- * Met à jour les détails d'une agence de voyage.
- * @param agencyId - L'ID de l'agence à mettre à jour.
- * @param data - Les données à mettre à jour (partielles).
- * @returns Une promesse résolue avec l'agence mise à jour ou null.
- */
 export async function updateAgencyDetails(
-  agencyId: string,
-  data: Partial<TravelAgency>
+    agencyId: string,
+    data: Partial<TravelAgency>
 ): Promise<TravelAgency | null> {
-  try {
-    const response: AxiosResponse<TravelAgency> = await axiosInstance.put(
-      `/agence/${agencyId}`,
-      data
-    );
-    if (response.status === 200) {
-      return response.data;
+    try {
+        // ✅ PATCH et non PUT — conforme au Swagger
+        const response: AxiosResponse<TravelAgency> = await axiosInstance.patch(
+            `/agence/${agencyId}`,
+            data
+        );
+        if (response.status === 200) return response.data;
+        return null;
+    } catch (error) {
+        console.error(`[agency-service] Erreur mise à jour agence ${agencyId}:`, error);
+        throw error;
     }
-    return null;
-  } catch (error) {
-    console.error(
-      `[agency-service] Erreur lors de la mise à jour de l'agence ${agencyId}:`,
-      error
-    );
-    throw error;
-  }
 }
