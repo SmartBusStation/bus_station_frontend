@@ -28,10 +28,9 @@ export function useClassVoyageTab() {
         setIsLoading(true);
         setApiError(null);
         try {
-            console.log("id agence ",currentAgencyId);
             const response = await getAllClassVoyagesByAgence(currentAgencyId);
-            const agencyClasses = response.filter(cls => cls.idAgenceVoyage === currentAgencyId);
-            setClasses(agencyClasses);
+            // L'endpoint retourne déjà les classes filtrées par agence
+            setClasses(response || []);
         } catch (e) {
             console.error(e);
             setApiError("Impossible de charger les classes de voyage.");
@@ -120,15 +119,17 @@ export function useClassVoyageTab() {
 
     // Fonction handleDelete modifiée (comme EmployeesTab)
     async function handleDelete(): Promise<void> {
+        if (!classToDelete || !classToDelete.idClassVoyage) return; // ← guard AVANT tout effet de bord
+
         setIsLoading(true);
         setApiError(null);
-        if (!classToDelete || !classToDelete.idClassVoyage) return;
 
         try {
             await deleteClassVoyage(classToDelete.idClassVoyage);
             setClasses(prev => prev.filter(c => c.idClassVoyage !== classToDelete.idClassVoyage));
-            setCanOpenConfirmationModal(false);
-        } catch (e ) {
+            setCanOpenConfirmationModal(false); // ← fermeture modal après succès
+            setClassToDelete(null);             // ← nettoyage état
+        } catch (e) {
             console.error(e);
             setApiError("Erreur lors de la suppression, veuillez réessayer plus tard");
         } finally {

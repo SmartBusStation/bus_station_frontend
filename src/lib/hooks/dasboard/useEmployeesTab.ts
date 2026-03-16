@@ -2,12 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmployeeFormType, employeeFormSchema } from "@/lib/types/schema/employeeSchema";
-import { getEmployeesByAgency, createEmployeeForAgency, updateEmployee } from "@/lib/services/employe-service";
 import { getAgencyByChefId } from "@/lib/services/agency-service";
 import { useBusStation } from "@/context/Provider";
 import {EmployeRequestDTO, EmployeResponseDTO} from "@/lib/types/generated-api";
-import {deleteVehicle} from "@/lib/services/vehicule-service";
-
+import { getEmployeesByAgency, createEmployeeForAgency, updateEmployee, deleteEmployee } from "@/lib/services/employe-service";
 
 export function useEmployeesTab() {
 
@@ -96,29 +94,30 @@ export function useEmployeesTab() {
         setEditingEmployee(null);
     }
 
-    async function onSubmit (data: EmployeeFormType): Promise<void>{
+    async function onSubmit(data: EmployeeFormType): Promise<void> {
         if (!agencyId) {
             setApiError("ID de l'agence introuvable.");
             return;
         }
+
+        if (editingEmployee) {
+            setApiError("La modification d'un employé n'est pas encore disponible. Veuillez contacter l'équipe backend.");
+            return;
+        }
+
         setIsSubmitting(true);
         setApiError(null);
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { confirmPassword, ...baseData } = data;
         const payload: EmployeRequestDTO = {
             ...baseData,
             role: ["EMPLOYE"],
             agenceVoyageId: agencyId,
-            userExist: !!editingEmployee
-        }
+            userExist: false 
+        };
 
         try {
-            if (editingEmployee && editingEmployee.employeId) {
-                await updateEmployee(editingEmployee.employeId, payload);
-            } else {
-                await createEmployeeForAgency(payload);
-            }
+            await createEmployeeForAgency(payload);
             await fetchEmployees(agencyId);
             closeModal();
         } catch (error) {
@@ -129,35 +128,34 @@ export function useEmployeesTab() {
         }
     }
 
-
-
-
-
-    function openConfirmModal(employee: EmployeResponseDTO)
-    {
-        if (employee && employee.userId) {
-            setConfirmationMessage(`Etes vous sur de vouloir supprimer le véhicule ${employee.firstName} - ${employee.lastName} ?`);
-            setEmployeeToDelete(employee)
+    function openConfirmModal(employee: EmployeResponseDTO) {
+        if (employee && employee.employeId) { // ← employeId (unifié avec handleDelete)
+            setConfirmationMessage(
+                `Êtes-vous sûr de vouloir supprimer l'employé ${employee.firstName} - ${employee.lastName} ?`
+                // ← "employé" et non "véhicule"
+            );
+            setEmployeeToDelete(employee);
             setCanOpenConfirmationModal(true);
-        }
-        else
-        {
+        } else {
             setConfirmationMessage("");
-            setApiError("Une erreur est survenue, veuillez reessayer plutard");
+            setApiError("Une erreur est survenue, veuillez réessayer plus tard.");
         }
-
     }
 
-    async function handleDelete (){
+    async function handleDelete(): Promise<void> {
+        if (!employeeToDelete || !employeeToDelete.employeId) return; // ← guard AVANT tout effet de bord
+
         setIsLoading(true);
         setApiError(null);
-        if (!employeeToDelete || !employeeToDelete.employeId) return;
-        await deleteVehicle(employeeToDelete.employeId)
-            .then(()=> {
-                setEmployees(prev => prev.filter(v => v.employeId !== employeeToDelete.employeId));})
-            .catch(()=>  setApiError("Erreur lors de la suppression, veuillez reessayer plutard"))
-            .finally(()=> setIsLoading(false));
 
+        await deleteEmployee(employeeToDelete.employeId) // ← deleteEmployee et non deleteVehicle
+            .then(() => {
+                setEmployees(prev => prev.filter(e => e.employeId !== employeeToDelete.employeId));
+                setCanOpenConfirmationModal(false); // ← fermeture modal après succès
+                setEmployeeToDelete(null);          // ← nettoyage état
+            })
+            .catch(() => setApiError("Erreur lors de la suppression, veuillez réessayer plus tard."))
+            .finally(() => setIsLoading(false));
     }
 
 

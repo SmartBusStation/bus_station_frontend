@@ -92,11 +92,7 @@ export function useTripPlanner() {
                 await Promise.all([
                     loadResource(() => getVehiclesByAgency(agency.agencyId), setVehicles, "véhicules"),
                     loadResource(() => getDriversByAgency(agency.agencyId), setDrivers, "chauffeurs"),
-                    // Correction ici pour récupérer correctement les classes
-                    loadResource(async () => {
-                       const classes = await getAllClassVoyagesByAgence(agency.agencyId);
-                       return classes ? classes.filter(c => c.idAgenceVoyage === agency.agencyId) : [];
-                    }, setTravelClasses, "classes"),
+                    loadResource(() => getAllClassVoyagesByAgence(agency.agencyId), setTravelClasses, "classes"),
                 ]);
 
                 if (editingTripId) {
@@ -109,16 +105,20 @@ export function useTripPlanner() {
                         pointDeDepart: tripDetails.pointDeDepart,
                         lieuArrive: tripDetails.lieuArrive,
                         pointArrivee: tripDetails.pointArrivee,
-                        dateDepartPrev: tripDetails.dateDepartPrev ? String(tripDetails.dateDepartPrev).split('T')[0] : "",
-                        heureArrive: tripDetails.heureArrive ? String(tripDetails.heureArrive).split('T')[1]?.substring(0, 5) : "",
-                        heureDepartEffectif: tripDetails.heureDepartEffectif ? String(tripDetails.heureDepartEffectif).split('T')[1]?.substring(0, 5) : "",
-                        dateLimiteReservation: tripDetails.dateLimiteReservation ? String(tripDetails.dateLimiteReservation).split('T')[0] : "",
-                        dateLimiteConfirmation: tripDetails.dateLimiteConfirmation ? String(tripDetails.dateLimiteConfirmation).split('T')[0] : "",
+                        dateDepartPrev: tripDetails.dateDepartPrev
+                            ? String(tripDetails.dateDepartPrev).split('T')[0] : "",
+                        heureArrive: tripDetails.heureArrive
+                            ? String(tripDetails.heureArrive).split('T')[1]?.substring(0, 5) : "",
+                        heureDepartEffectif: tripDetails.heureDepartEffectif
+                            ? String(tripDetails.heureDepartEffectif).split('T')[1]?.substring(0, 5) : "",
+                        dateLimiteReservation: tripDetails.dateLimiteReservation
+                            ? String(tripDetails.dateLimiteReservation).split('T')[0] : "",
+                        dateLimiteConfirmation: tripDetails.dateLimiteConfirmation
+                            ? String(tripDetails.dateLimiteConfirmation).split('T')[0] : "",
                         nbrPlaceReservable: tripDetails.nbrPlaceReservable,
-                        vehiculeId: tripDetails.vehicule?.idVehicule,
-                        chauffeurId: tripDetails.chauffeur?.userId,
-                        // @ts-ignore : Adaptation de type si nécessaire
-                        classVoyageId: tripDetails.classVoyageId,
+                        vehiculeId: tripDetails.vehicule?.idVehicule,       // ✅ correct
+                        chauffeurId: tripDetails.chauffeur?.userId,          // ✅ correct
+                        classVoyageId: undefined,                            // en attente backend
                         agenceVoyageId: agency.agencyId,
                         amenities: tripDetails.amenities as unknown as Array<Amenity> | undefined,
                     });
@@ -160,6 +160,9 @@ export function useTripPlanner() {
             heureDepartEffectif: toISODateTime(data.dateDepartPrev, data.heureDepartEffectif),
             nbrPlaceConfirm: 0,
             nbrPlaceReserve: 0,
+            // TODO: actif quand backend ajoute prixClassique/prixVip dans VoyageCreateRequestDTO
+            // prixClassique: data.prixClassique,
+            // prixVip: data.prixVip,
         };
 
         if (chauffeurId) payload.chauffeurId = chauffeurId;
@@ -202,11 +205,26 @@ export function useTripPlanner() {
         travelClasses,
         isEditMode: !!editingTripId,
         setIsSuccess,
-        reloadVehicles: () => agencyId && loadResource(() => getVehiclesByAgency(agencyId), setVehicles, "véhicules"),
-        reloadDrivers: () => agencyId && loadResource(() => getDriversByAgency(agencyId), setDrivers, "chauffeurs"),
-        reloadClasses: () => agencyId && loadResource(async () => {
-            const classes = await getAllClassVoyagesByAgence(agencyId);
-            return classes ? classes.filter(c => c.idAgenceVoyage === agencyId) : [];
-        }, setTravelClasses, "classes"),
+        reloadVehicles: () => {
+            if (agencyId) loadResource(
+                () => getVehiclesByAgency(agencyId),
+                setVehicles,
+                "véhicules"
+            );
+        },
+        reloadDrivers: () => {
+            if (agencyId) loadResource(
+                () => getDriversByAgency(agencyId),
+                setDrivers,
+                "chauffeurs"
+            );
+        },
+        reloadClasses: () => {
+            if (agencyId) loadResource(
+                () => getAllClassVoyagesByAgence(agencyId),
+                setTravelClasses,
+                "classes"
+            );
+        },
     };
 }

@@ -233,30 +233,33 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
       textActive: "text-black"
     },
   ]
+  
+  useEffect(() => {
+      if (isEditMode) return; // ← ne pas écraser les données du mode édition
+      setValue("lieuDepart", "Yaoundé", { shouldValidate: true })
+      setValue("pointDeDepart", "Gare de Mvan", { shouldValidate: true })
+      setValue("lieuArrive", "Douala", { shouldValidate: true })
+      setValue("pointArrivee", "Gare de Bonamoussadi", { shouldValidate: true })
+  }, [setValue, isEditMode])
 
   useEffect(() => {
-    setValue("lieuDepart", "Yaoundé", { shouldValidate: true })
-    setValue("pointDeDepart", "Gare de Mvan", { shouldValidate: true })
-    setValue("lieuArrive", "Douala", { shouldValidate: true })
-    setValue("pointArrivee", "Gare de Bonamoussadi", { shouldValidate: true })
-  }, [setValue])
+      if (isEditMode) return; // ← ne pas écraser les données du mode édition
+      setValue("titre", "Yaoundé-Douala", { shouldValidate: true })
+      setValue(
+          "description",
+          "Voyage Yaoundé - Douala avec un départ planifié, réservation simple et services à bord selon le type choisi.",
+          { shouldValidate: true },
+      )
+  }, [setValue, isEditMode])
 
   useEffect(() => {
-    setValue("titre", "Yaoundé-Douala", { shouldValidate: true })
-    setValue(
-      "description",
-      "Voyage Yaoundé - Douala avec un départ planifié, réservation simple et services à bord selon le type choisi.",
-      { shouldValidate: true },
-    )
-  }, [setValue])
-
-  useEffect(() => {
-    const currentDate = getValues("dateDepartPrev")
-    if (!currentDate) {
-      const today = new Date().toISOString().slice(0, 10)
-      setValue("dateDepartPrev", today, { shouldValidate: true })
-    }
-  }, [getValues, setValue])
+      if (isEditMode) return; // ← ne pas écraser les données du mode édition
+      const currentDate = getValues("dateDepartPrev")
+      if (!currentDate) {
+          const today = new Date().toISOString().slice(0, 10)
+          setValue("dateDepartPrev", today, { shouldValidate: true })
+      }
+  }, [getValues, setValue, isEditMode])
 
   type WeekdayKey = "LUNDI" | "MARDI" | "MERCREDI" | "JEUDI" | "VENDREDI" | "SAMEDI" | "DIMANCHE"
   type ScheduleSlot = {

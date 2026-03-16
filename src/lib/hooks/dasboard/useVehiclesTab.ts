@@ -138,16 +138,20 @@ export function useVehiclesTab() {
 
   }
 
-  async function handleDelete (){
+  async function handleDelete() {
+    if (!vehicleToDelete) return; // ← Guard AVANT tout effet de bord
+
     setIsLoading(true);
     setApiError(null);
-    if (!vehicleToDelete) return;
-    await deleteVehicle(vehicleToDelete)
-        .then(()=> {
-          setVehicles(prev => prev.filter(v => v.idVehicule !== vehicleToDelete));})
-        .catch(()=>  setApiError("Erreur lors de la suppression, veuillez reessayer plutard"))
-        .finally(()=> setIsLoading(false));
 
+    await deleteVehicle(vehicleToDelete)
+        .then(() => {
+            setVehicles(prev => prev.filter(v => v.idVehicule !== vehicleToDelete));
+            setCanOpenConfirmationModal(false); // ← Fermeture modal après succès
+            setVehicleToDelete(null);           // ← Nettoyage de l'état
+        })
+        .catch(() => setApiError("Erreur lors de la suppression, veuillez reessayer plutard"))
+        .finally(() => setIsLoading(false));
   }
 
   return {

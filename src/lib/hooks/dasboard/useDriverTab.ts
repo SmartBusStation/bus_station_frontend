@@ -97,24 +97,24 @@ export function useDriversTab() {
       setApiError("ID de l'agence introuvable.");
       return;
     }
+
+    if (editingDriver) {
+      setApiError("La modification d'un chauffeur n'est pas encore disponible. Veuillez contacter l'équipe backend.");
+      return;
+    }
+
     setIsSubmitting(true);
     setApiError(null);
-
 
     const payload: ChauffeurRequestDTO = {
       ...data,
       role: ["USAGER"],
       agenceVoyageId: agencyId,
-      userExist: !!editingDriver // true en mode édition, false en création
+      userExist: false // toujours false — création uniquement
     };
 
-
     try {
-      if (editingDriver && editingDriver.id) {
-        await updateDriver(editingDriver.id, payload);
-      } else {
-        await createDriverForAgency(payload);
-      }
+      await createDriverForAgency(payload);
       await fetchDrivers(agencyId);
       closeModal();
     } catch (error: any) {
@@ -141,15 +141,19 @@ export function useDriversTab() {
 
 
   const handleDelete = async () => {
-    if (!driverToDelete) return;
+    if (!driverToDelete) return; // ← Guard AVANT tout effet de bord
+
     setIsLoading(true);
     setApiError(null);
+
     await deleteDriver(driverToDelete.userId)
-        .then(()=> {
+        .then(() => {
           setDrivers(prev => prev.filter(d => d.userId !== driverToDelete?.userId));
+          setCanOpenConfirmModal(false); // ← Fermeture modal après succès
+          setDriverToDelete(null);      // ← Nettoyage état
         })
-        .catch(()=>  setApiError("Erreur lors de la suppression."))
-        .finally(()=> setIsLoading(false))
+        .catch(() => setApiError("Erreur lors de la suppression."))
+        .finally(() => setIsLoading(false));
   };
 
 

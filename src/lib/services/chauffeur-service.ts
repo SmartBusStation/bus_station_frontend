@@ -95,8 +95,7 @@ export async function updateDriver(driverId: string, data: ChauffeurRequestDTO):
 export async function deleteDriver(driverId: string): Promise<void> {
   console.log(`[chauffeur-service] Suppression du chauffeur ID ${driverId}`);
   try {
-    // Note: l'API utilise l'employeId pour la suppression, ce qui est correct car un chauffeur est un type d'employé.
-    await axiosInstance.delete(`${url}/employe/${driverId}`);
+    await axiosInstance.delete(`${url}/chauffeur/${driverId}`);
   } catch (error) {
     const axiosError = error as AxiosError;
     console.error(`[chauffeur-service] Erreur lors de la suppression du chauffeur ${driverId}:`, axiosError.response?.data || axiosError.message);
