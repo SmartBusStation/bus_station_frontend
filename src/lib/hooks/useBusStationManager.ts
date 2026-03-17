@@ -1,0 +1,56 @@
+// src/lib/hooks/useBusStationManager.ts
+import { useState, useEffect } from "react";
+import { useBusStation } from "@/context/Provider";
+import { getBusStationByManagerId } from "@/lib/services/bus-station-service";
+import {
+    useBusStationDashboard,
+    AgencyWithTaxStatus
+} from "@/lib/hooks/useBusStationDashboard";
+import { BusStation, Trip, TripsByDate } from "@/lib/types/bus-station";
+
+interface UseBusStationManagerReturn {
+    station: BusStation | null;
+    agencies: AgencyWithTaxStatus[];
+    trips: Trip[];
+    tripsByDate: TripsByDate[];
+    loading: boolean;
+    error: string | null;
+}
+
+export function useBusStationManager(): UseBusStationManagerReturn {
+    const { userData, isLoading: isUserLoading } = useBusStation();
+    const [stationId, setStationId] = useState<string>("");
+    const [initError, setInitError] = useState<string | null>(null);
+    const [initLoading, setInitLoading] = useState(true);
+
+    useEffect(() => {
+        const initialize = async () => {
+            if (isUserLoading || !userData?.userId) return;
+            setInitLoading(true);
+            try {
+                // GET /gares-routieres/manager/{managerId}
+                const station = await getBusStationByManagerId(userData.userId);
+                if (station?.id) {
+                    setStationId(station.id);
+                } else {
+                    setInitError("Aucune gare routière associée à votre compte.");
+                }
+            } catch (error) {
+                console.error(error);
+                setInitError("Erreur lors de la récupération de la gare routière.");
+            } finally {
+                setInitLoading(false);
+            }
+        };
+        initialize();
+    }, [userData, isUserLoading]);
+
+    
+    const dashboard = useBusStationDashboard(stationId);
+
+    return {
+        ...dashboard,
+        loading: initLoading || dashboard.loading,
+        error: initError || dashboard.error,
+    };
+}

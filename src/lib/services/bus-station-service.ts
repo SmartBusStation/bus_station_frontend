@@ -85,3 +85,17 @@ export const getStationByManagerId = async (
     throw error;
   }
 };
+
+export async function getBusStationByManagerId(
+    managerId: string
+): Promise<BusStation | null> {
+    try {
+        const response: AxiosResponse<BusStation> = await axiosInstance.get(
+            `/gares-routieres/manager/${managerId}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error(`[bus-station-service] Erreur récupération gare manager ${managerId}:`, error);
+        throw error;
+    }
+}

@@ -1,30 +1,38 @@
-// src/lib/hooks/useBusStationManagerAccount.ts
 import { useState, useEffect } from "react";
-import { getBusStationManagerAccount } from "@/lib/services/bus-station-service";
+import { getBusStationManagerAccount, getBusStationByManagerId } from "@/lib/services/bus-station-service";
 import { BusStationManagerAccount } from "@/lib/types/bus-station";
+import { useBusStation } from "@/context/Provider";
 
-export const useBusStationManagerAccount = (busStationId: string) => {
-  const [account, setAccount] = useState<BusStationManagerAccount | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export const useBusStationManagerAccount = () => { 
+    const { userData, isLoading: isUserLoading } = useBusStation();
+    const [account, setAccount] = useState<BusStationManagerAccount | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await getBusStationManagerAccount(busStationId);
-        setAccount(data);
-      } catch (err) {
-        setError("Failed to fetch manager account data");
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            if (isUserLoading || !userData?.userId) return;
+            try {
+                setLoading(true);
 
-    if (busStationId) {
-      fetchData();
-    }
-  }, [busStationId]);
+                // ✅ Récupération dynamique du stationId
+                const station = await getBusStationByManagerId(userData.userId);
+                if (!station?.id) {
+                    setError("Aucune gare routière associée à votre compte.");
+                    return;
+                }
 
-  return { account, loading, error };
+                const data = await getBusStationManagerAccount(station.id);
+                setAccount(data);
+            } catch (err) {
+                setError("Failed to fetch manager account data");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [userData, isUserLoading]);
+
+    return { account, loading, error };
 };

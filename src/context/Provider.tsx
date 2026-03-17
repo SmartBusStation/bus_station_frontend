@@ -1,7 +1,7 @@
 "use client";
 
 import constate from 'constate';
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { loginSchema, LoginSchemaType } from "@/lib/types/schema/loginSchema";
 import { Customer } from "@/lib/types/models/BusinessActor";
 import { getConnectedUser, loginBusinessActor } from "@/lib/services/businessActor-service";
@@ -34,13 +34,12 @@ function useBusStationProvider()
         localStorage.removeItem("bus_station_token_expirationDate");
     }
 
-    function logout() {
+    const logout = useCallback(() => {
         clearLocaleStorage();
         window.location.href = "/";
-    }
+    }, []);
 
-
-    async function login(data: LoginSchemaType): Promise<string[] | null> {
+    const login = useCallback(async (data: LoginSchemaType): Promise<string[] | null> => {
         setIsLoading(true);
         setAxiosErrors(null);
         try {
@@ -48,16 +47,12 @@ function useBusStationProvider()
             if (result) {
                 setUserData(result);
                 saveAuthParams(result.token);
-
                 if (result.role.includes("AGENCE_VOYAGE")) setIsAgencyConnected(true);
                 else if (result.role.includes("ORGANISATION")) {
                     setIsAgencyConnected(true);
                     setIsOrganizationConnected(true);
                 }
                 else setIsCustomerAuthenticated(true);
-
-
-                
                 setIsLoading(false);
                 return result.role;
             } else {
@@ -65,9 +60,7 @@ function useBusStationProvider()
                 setIsLoading(false);
                 return null;
             }
-        }
-            // eslint-disable-next-line
-        catch (error: any) {
+        } catch (error: any) {
             if (error?.response?.status === 401 || error?.response?.status === 403) {
                 setAxiosErrors("Identifiants incorrects, veuillez réessayer !");
             } else if (error?.response?.status === 404) {
@@ -78,7 +71,7 @@ function useBusStationProvider()
             setIsLoading(false);
             return null;
         }
-    }
+    }, []);
 
     async function getCurrentUser(): Promise<void> {
         const token = localStorage.getItem(tokenKeyName);
@@ -120,7 +113,17 @@ function useBusStationProvider()
         login,
         handleSubmit,
         register,
-    }), [isLoading, userData, axiosErrors, errors, isCustomerAuthenticated, isAgencyConnected, isOrganizationConnected]);
+    }), [
+        isLoading,
+        userData,
+        axiosErrors,
+        errors,
+        isCustomerAuthenticated,
+        isAgencyConnected,
+        isOrganizationConnected,
+        logout,  
+        login,   
+    ]);
 
     return {authMethods};
 }
