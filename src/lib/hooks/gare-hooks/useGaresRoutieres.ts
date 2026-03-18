@@ -46,18 +46,12 @@ export function useGaresRoutieres() {
 
   const filteredGares = useMemo(() => {
     return gares.filter((gare) => {
-      const matchesQuery =
-        (gare.nomGareRoutiere || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (gare.ville || '').toLowerCase().includes(searchQuery.toLowerCase());
-
-      // matchesServices logic is now handled by the API, so no need to filter here
-      // const matchesServices =
-      //   selectedServices.length === 0 ||
-      //   selectedServices.every((service) => gare.services.includes(service));
-
-      return matchesQuery; // Only filter by search query on the frontend
+        const matchesQuery =
+            (gare.nom ?? '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (gare.ville ?? '').toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesQuery;
     });
-  }, [gares, searchQuery]); // Remove selectedServices dependency
+  }, [gares, searchQuery]);
 
 
   return {

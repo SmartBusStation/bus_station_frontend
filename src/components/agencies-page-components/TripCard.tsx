@@ -24,7 +24,7 @@ export default function TripCard({ trip }: TripCardProps) {
           height={300}
           className="w-full h-full object-cover"
         />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+        <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-4">
           <h3 className="text-xl font-bold text-white">{trip.titre}</h3>{" "}
           {/* CORRIGÉ */}
           <div className="flex items-center text-white/90">

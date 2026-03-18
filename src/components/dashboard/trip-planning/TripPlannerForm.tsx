@@ -64,7 +64,7 @@ const ResourceSelect: React.FC<{
           <div className="space-y-3">
             <label className="block text-sm font-medium text-gray-700">{label}</label>
             <div className="flex items-center gap-3 text-red-600 bg-red-50 p-4 rounded-xl border border-red-200">
-              <AlertCircle className="h-5 w-5 flex-shrink-0" />
+              <AlertCircle className="h-5 w-5 shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium">Erreur de chargement</p>
                 <p className="text-xs text-red-500">{resourceState.error}</p>
@@ -83,7 +83,7 @@ const ResourceSelect: React.FC<{
           <div className="space-y-3">
             <label className="block text-sm font-medium text-gray-700">{label}</label>
             <div className="flex items-center gap-3 text-amber-700 bg-amber-50 p-4 rounded-xl border border-amber-200">
-              <AlertCircle className="h-5 w-5 flex-shrink-0" />
+              <AlertCircle className="h-5 w-5 shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium">Aucune donnée disponible</p>
                 <p className="text-xs text-amber-700">Ajoute d&apos;abord une ressource (ou recharge la page) puis réessaie.</p>
@@ -449,9 +449,9 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
         <div className="max-w-5xl mx-auto">
           {/* Information Banner */}
-          <div className="mb-8 bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200">
+          <div className="mb-8 bg-linear-to-r from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shrink-0">
                 <Info className="h-5 w-5 text-white" />
               </div>
               <div className="flex-1">
@@ -483,7 +483,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
             {formApiError && (
                 <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
                   <div className="flex items-center gap-3">
-                    <AlertCircle className="h-6 w-6 text-red-600 flex-shrink-0" />
+                    <AlertCircle className="h-6 w-6 text-red-600 shrink-0" />
                     <div>
                       <h4 className="text-lg font-semibold text-red-800 mb-1">Erreur de soumission</h4>
                       <p className="text-red-700">{formApiError}</p>
@@ -494,7 +494,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Informations Générales */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-blue-50 to-blue-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
                     <FileText className="h-5 w-5 text-white" />
@@ -527,7 +527,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Itinéraire */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-emerald-50 to-emerald-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-emerald-50 to-emerald-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center">
                     <MapPin className="h-5 w-5 text-white" />
@@ -597,7 +597,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Planning et Horaires */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-purple-50 to-purple-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-purple-50 to-purple-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-purple-500 rounded-xl flex items-center justify-center">
                     <Calendar className="h-5 w-5 text-white" />
@@ -612,9 +612,9 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-3">Heure de départ (planning)</label>
-                    <div className="rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 to-white p-5">
+                    <div className="rounded-2xl border border-purple-200 bg-linear-to-r from-purple-50 to-white p-5">
                       <div className="overflow-x-auto">
-                        <div className="min-w-[980px]">
+                        <div className="min-w-245">
                           <div className="grid grid-cols-[repeat(7,minmax(120px,1fr))] gap-3">
                             {weekdays.map((day) => (
                               <div key={day.key} className="text-sm font-bold text-gray-900 text-center px-2 py-2 truncate">
@@ -763,7 +763,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Capacité */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-indigo-50 to-indigo-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-indigo-50 to-indigo-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center">
                     <Users className="h-5 w-5 text-white" />
@@ -790,7 +790,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Prix */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-yellow-50 to-yellow-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
                     <Users className="h-5 w-5 text-white" />
@@ -825,7 +825,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Ressources */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-teal-50 to-teal-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-teal-50 to-teal-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center">
                     <Car className="h-5 w-5 text-white" />
@@ -871,7 +871,7 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Services et Équipements */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-rose-50 to-rose-100 px-8 py-5 border-b border-gray-200">
+              <div className="bg-linear-to-r from-rose-50 to-rose-100 px-8 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-rose-500 rounded-xl flex items-center justify-center">
                     <CheckCircle className="h-5 w-5 text-white" />

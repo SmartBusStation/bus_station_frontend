@@ -49,7 +49,7 @@ export default function LoginPage(): JSX.Element {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col justify-center items-center p-4 md:p-8">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-white flex flex-col justify-center items-center p-4 md:p-8">
             <AnimateCircle />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

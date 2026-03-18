@@ -4,15 +4,16 @@ import React, { useEffect } from "react";
 import { RenderLink } from "@/components/layouts/customer-sibebar/RenderLink";
 import SidebarHeader from "@/components/layouts/customer-sibebar/Sidebar-Header";
 import { LinkItem } from "@/components/layouts/customer-sibebar/clientNavLink";
+import { LogOut } from "lucide-react";
 
 export interface TravelSidebarProps {
     isOpen: boolean;
     onToggle: (isOpen: boolean) => void;
-    linkList: LinkItem[]
-
+    linkList: LinkItem[];
+    logout?: () => void; 
 }
 
-export default function TravelSidebar({ isOpen, onToggle, linkList }: TravelSidebarProps) {
+export default function TravelSidebar({ isOpen, onToggle, linkList, logout }: TravelSidebarProps) {
 
     useEffect(() => {
         const handleResize = () => {
@@ -41,8 +42,8 @@ export default function TravelSidebar({ isOpen, onToggle, linkList }: TravelSide
                 <SidebarHeader onClose={() => onToggle(false)} />
 
                 {/* Navigation */}
-                <nav className="p-4 space-y-2">
-                    <div className="mb-6">
+                <nav className="p-4 space-y-2 flex flex-col h-[calc(100%-80px)]">
+                    <div className="flex-1 mb-6">
                         <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
                             Navigation
                         </h2>
@@ -54,6 +55,19 @@ export default function TravelSidebar({ isOpen, onToggle, linkList }: TravelSide
                             />
                         ))}
                     </div>
+
+                    {/* ✅ Bouton logout en bas de la sidebar */}
+                    {logout && (
+                        <div className="border-t border-gray-100 pt-4">
+                            <button
+                                onClick={logout}
+                                className="group flex w-full items-center gap-3 rounded-xl py-3 px-4 text-gray-700 font-medium hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+                            >
+                                <LogOut className="h-5 w-5" />
+                                Se déconnecter
+                            </button>
+                        </div>
+                    )}
                 </nav>
             </aside>
         </>

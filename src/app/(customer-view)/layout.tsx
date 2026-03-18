@@ -4,12 +4,12 @@ import Sidebar from "@/components/layouts/customer-sibebar/CustomerSidebar";
 import Footer from "@/components/layouts/Footer";
 import { useCustomerSidebar } from "@/lib/hooks/sidebar-hooks/useCustomerSidebar";
 import React from "react";
-import {linkList} from "@/components/layouts/customer-sibebar/clientNavLink";
+import { linkList } from "@/components/layouts/customer-sibebar/clientNavLink";
+import { useBusStation } from "@/context/Provider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-
-
     const { isSidebarOpen, setIsSidebarOpen } = useCustomerSidebar();
+    const { logout } = useBusStation();
 
     return (
         <div className="flex min-h-screen flex-col gap-4">
@@ -18,6 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     linkList={linkList}
                     isOpen={isSidebarOpen}
                     onToggle={setIsSidebarOpen}
+                    logout={logout} 
                 />
                 <div className="flex-1 flex flex-col">
                     <NavBar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
@@ -26,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </main>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

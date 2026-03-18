@@ -274,7 +274,7 @@ export default function FAQPage() {
           initial="hidden"
           animate={heroInView ? "visible" : "hidden"}
           variants={fadeInUp}
-          className="relative py-24 md:py-32 bg-gradient-to-br from-blue-600 to-blue-800"
+          className="relative py-24 md:py-32 bg-linear-to-br from-blue-600 to-blue-800"
         >
           <div className="container mx-auto px-4">
             <motion.h1
@@ -423,7 +423,7 @@ export default function FAQPage() {
           className="py-16 bg-white"
         >
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl shadow-xl p-8 md:p-12">
+            <div className="max-w-4xl mx-auto bg-linear-to-r from-blue-600 to-blue-800 rounded-2xl shadow-xl p-8 md:p-12">
               <div className="flex flex-col md:flex-row items-center md:space-x-8">
                 <div className="md:w-1/2 mb-8 md:mb-0">
                   <motion.h2

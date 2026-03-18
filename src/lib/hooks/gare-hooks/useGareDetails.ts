@@ -46,10 +46,10 @@ export function useGareDetails(gareId: string) {
           imageUrl: gareData.photoUrl,
           services: gareData.services,
           nbAgencesAffiliees: gareData.nbreAgence,
-          estOuvert: false, // pas dans GareRoutiereDetail, valeur par défaut
           horaires: gareData.horaires,
+          estOuvert: null, 
           localisation: {
-            latitude: 0,  // à adapter si tu as les coords dans la réponse API
+            latitude: 0,
             longitude: 0,
           },
         };

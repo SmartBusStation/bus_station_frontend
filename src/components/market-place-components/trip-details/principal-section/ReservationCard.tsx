@@ -8,7 +8,7 @@ export default function ReservationCard({tripDetails, setCanOpenReservationModal
     return (
         <>
             <div
-                className="lg:mt-5 mt-0 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-200 rounded-2xl shadow-lg border border-gray-100 p-6">
+                className="lg:mt-5 mt-0 bg-linear-to-r from-gray-50 via-gray-100 to-gray-200 rounded-2xl shadow-lg border border-gray-100 p-6">
                 {/* Price */}
                 <div className="mb-6">
                     <div className="flex items-baseline gap-2 mb-2">

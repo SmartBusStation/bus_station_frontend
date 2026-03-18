@@ -22,7 +22,7 @@ export interface GareRoutiere {
   nbAgencesAffiliees: number;
 
   // État d'ouverture (Optionnel)
-  estOuvert: boolean;
+  estOuvert: boolean | null;
   horaires?: string; // Ex: "24h/24" ou "05h00 - 23h00"
 }
 

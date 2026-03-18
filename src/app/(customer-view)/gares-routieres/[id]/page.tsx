@@ -73,7 +73,7 @@ const GareDetailPage = ({ params }: GareDetailProps) => {
 
       <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Emplacement</h2>
-        <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden relative h-[400px]">
+        <div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden relative h-100">
           <div className="relative w-full h-full">
             <iframe
               width="100%"

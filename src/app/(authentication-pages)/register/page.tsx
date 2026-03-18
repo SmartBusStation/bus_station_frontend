@@ -18,7 +18,7 @@ export default function RegisterPage() {
 
 
     return (
-        <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8`}>
+        <div className={`min-h-screen bg-linear-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8`}>
             <AnimateCircle/>
             <div className="max-w-4xl mx-auto">
                 <ProgressStepBar step={step}/>
@@ -28,7 +28,7 @@ export default function RegisterPage() {
                     transition={{ duration: 1, ease: "easeOut" }}
                     className="bg-white rounded-2xl shadow-xl overflow-hidden"
                 >
-                    <div onClick={navigation.goToHome} className="cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white text-center">
+                    <div onClick={navigation.goToHome} className="cursor-pointer bg-linear-to-r from-blue-500 to-blue-600 p-6 text-white text-center">
                         <div className="flex justify-center mb-4">
                             <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center">
                                 <span className="font-bold text-2xl text-blue-600">M</span>

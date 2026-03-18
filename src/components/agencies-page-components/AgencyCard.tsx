@@ -22,7 +22,7 @@ export default function AgencyCard({ agency }: AgencyCardProps) {
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
       </div>
       <div className="p-5">
         <h3 className="text-lg font-bold text-gray-900 truncate">

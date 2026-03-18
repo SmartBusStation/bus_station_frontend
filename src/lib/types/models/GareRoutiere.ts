@@ -1,14 +1,21 @@
 export type Service = "WIFI" | "PARKING" | "RESTAURATION" | "SALLE_ATTENTE" | "TOILETTES" | "SECURITE";
 
 export interface GareRoutiere {
-    idGareRoutiere: string;
-    nomGareRoutiere: string;
+    id: string;
+    nom: string;
     ville: string;
     quartier: string;
-    photoUrl: string;
+    adresse: string;
+    description: string;
+    imageUrl: string;
     services: Service[];
-    nbreAgence: number;
-    isOpen: boolean;
+    nbAgencesAffiliees: number;
+    estOuvert: boolean | null;
+    horaires: string;
+    localisation: {
+        latitude: number;
+        longitude: number;
+    };
 }
 
 export interface GareRoutiereDetail {

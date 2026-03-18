@@ -99,8 +99,8 @@ const DashboardOverviewPage = () => {
       />
 
       {/* Hero CTA Card de l'autre version */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 p-8 text-white shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent"></div>
+      <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500 via-blue-600 to-blue-700 p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-linear-to-r from-black/10 to-transparent"></div>
         <div className="relative flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="flex-1">
             <h2 className="text-3xl font-bold mb-2">

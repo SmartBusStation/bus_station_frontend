@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { TravelAgency } from "@/lib/types/models/Agency";
 import { Trip } from "@/lib/types/models/Trip";
 import { getPublicAgencyById } from "@/lib/services/agency-public-service";
-// MODIFICATION 1 : On utilise le service de voyage officiel et validé
 import { getTripsByAgency } from "@/lib/services/trip-service";
 
 export function useAgencyPublicDetails(agencyId: string) {

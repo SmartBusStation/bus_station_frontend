@@ -16,12 +16,12 @@ const StatCard: React.FC<StatCardProps> = ({ label, value, currency, change, cha
       <div className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
         {/* Background Gradient */}
         <div
-            className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}
+            className={`absolute inset-0 bg-linear-to-br ${gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}
         ></div>
 
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
-            <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg`}>
+            <div className={`p-3 rounded-xl bg-linear-to-br ${gradient} shadow-lg`}>
               <Icon className="h-6 w-6 text-white" />
             </div>
             <div

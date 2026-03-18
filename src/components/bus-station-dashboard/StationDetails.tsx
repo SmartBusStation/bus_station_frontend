@@ -45,7 +45,7 @@ const StationDetails: React.FC<StationDetailsProps> = ({ station }) => {
           alt={station.nomGareRoutiere} 
           className="w-full h-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent"></div>
         
         {/* Infos principales superposées */}
         <div className="absolute bottom-4 left-6 text-white">

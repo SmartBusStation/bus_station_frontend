@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useBusStation } from "@/context/Provider";
 import { getCustomerReservations, getReservationDetail } from "@/lib/services/reservation-service";
 import { ReservationDetails } from "@/lib/types/models/Reservation";
@@ -6,6 +7,7 @@ import { ReservationDetails } from "@/lib/types/models/Reservation";
 
 
 export function useMyReservation(reservationId: string) {
+    const router = useRouter();
     const { userData } = useBusStation();
 
    /*** STATE FOR MY SCHEDULED TRIPS ***/
@@ -24,7 +26,7 @@ export function useMyReservation(reservationId: string) {
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
    /*** STATE FOR LOADING AND ERRROS ***/
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
     /*** STATE FOR MODALS ***/
@@ -114,7 +116,7 @@ export function useMyReservation(reservationId: string) {
 
 
     function navigateToDetails(reservationId: string) {
-        window.location.href = `/my-reservations/reservation-details/${reservationId}`;
+        router.push(`/my-reservations/reservation-details/${reservationId}`);
     }
 
     function filterByStatus(status: string) {

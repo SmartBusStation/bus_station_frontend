@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
 }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
       {/* Éléments décoratifs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <motion.div
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
         className="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden"
       >
         {/* En-tête */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white text-center">
+        <div className="bg-linear-to-r from-blue-500 to-blue-600 p-6 text-white text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center">
               <span className="font-bold text-2xl text-blue-600">B</span>

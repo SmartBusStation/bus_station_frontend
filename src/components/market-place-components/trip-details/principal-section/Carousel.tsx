@@ -10,13 +10,13 @@ export default function Carousel({tripDetails}: {tripDetails: Trip}): JSX.Elemen
     const tripDetailHook = useTripDetails(tripDetails.idVoyage);
     return (
         <>
-            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-lg group mt-5">
+            <div className="relative h-125 rounded-2xl overflow-hidden shadow-lg group mt-5">
                 <div
                     className="flex w-full h-full transition-transform duration-500 ease-in-out"
                     style={{transform: `translateX(-${tripDetailHook.currentImageIndex * 100}%)`}}
                 >
                     {tripDetailHook.images.map((image, index) => (
-                        <div key={index} className="min-w-full h-full flex-shrink-0 relative">
+                        <div key={index} className="min-w-full h-full shrink-0 relative">
                             <Image
                                 src={image || "/placeholder.svg"}
                                 alt={`Trip image ${index + 1}`}
@@ -24,7 +24,7 @@ export default function Carousel({tripDetails}: {tripDetails: Trip}): JSX.Elemen
                                 className="object-cover"
                             />
                             <div
-                                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"/>
+                                className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent"/>
                         </div>
                     ))}
                 </div>

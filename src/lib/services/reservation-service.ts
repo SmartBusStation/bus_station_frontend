@@ -7,7 +7,7 @@ import {PaginatedResponse} from "@/lib/types/common";
 import {ReservationPreviewDTO} from "@/lib/types/generated-api";
 
 
-const url :string= "reservation";
+const url: string = "/reservation";
 
 
 
@@ -68,7 +68,7 @@ export async function getCustomerReservations(idUser: string): Promise<Paginated
 {
     try
     {
-        const apiResponse: AxiosResponse<PaginatedResponse<ReservationDetails>> = await axiosInstance.get(`/${url}/utilisateur/${idUser}`);
+        const apiResponse: AxiosResponse<PaginatedResponse<ReservationDetails>> = await axiosInstance.get(`${url}/utilisateur/${idUser}`);
         if(apiResponse.status === 200)
         {
             console.log(apiResponse);
@@ -91,7 +91,7 @@ export async function getCustomerReservations(idUser: string): Promise<Paginated
 export async function getReservationDetail(idReservation: string): Promise<ReservationDetails|null>
 {
     try {
-        const apiResponse: AxiosResponse<ReservationDetails> = await axiosInstance.get(`/${url}/${idReservation}`);
+        const apiResponse: AxiosResponse<ReservationDetails> = await axiosInstance.get(`${url}/${idReservation}`);
         if (apiResponse.status === 200) {
             console.log(apiResponse);
             return apiResponse.data;
@@ -133,15 +133,13 @@ export async function getReservationsByAgency(agencyId: string): Promise<Paginat
  */
 export async function cancelReservationByAgency(idReservation: string): Promise<void> {
     try {
-        // On envoie un objet JSON car c'est une méthode POST qui attend probablement un DTO
-        // On fournit un motif par défaut pour satisfaire le backend
         await axiosInstance.post(`${url}/annuler-by-agence`, {
-            idReservation: idReservation,
+            idReservation,
             motif: "Annulation administrative effectuée depuis le tableau de bord agence."
         });
     } catch (error) {
         const axiosError = error as AxiosError;
-        console.error(`[reservation-service] Erreur lors de l'annulation de la réservation ${idReservation}:`, axiosError.response?.data || axiosError.message);
+        console.error(`[reservation-service] Erreur annulation ${idReservation}:`, axiosError.response?.data || axiosError.message);
         throw axiosError;
     }
 }
