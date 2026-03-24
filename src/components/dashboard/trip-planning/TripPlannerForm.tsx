@@ -333,9 +333,6 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
     newSlotKindRef.current = newSlotKind
   }, [newSlotKind])
 
-  const [priceClassic, setPriceClassic] = useState<number>(5000)
-  const [priceVip, setPriceVip] = useState<number>(8000)
-
   const heureDepartEffectif = watch("heureDepartEffectif")
 
   const normalizeTime = (time: string): string => {
@@ -790,37 +787,30 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ hook }) => {
 
             {/* Prix */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="bg-linear-to-r from-yellow-50 to-yellow-100 px-8 py-5 border-b border-gray-200">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
-                    <Users className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-900">Prix</h2>
-                    <p className="text-sm text-gray-600 mt-1">Prix indicatifs (modifiable)</p>
-                  </div>
+                <div className="bg-linear-to-r from-yellow-50 to-yellow-100 px-8 py-5 border-b border-gray-200">
+                    <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                            <Users className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                            <h2 className="text-lg font-bold text-gray-900">Prix</h2>
+                            <p className="text-sm text-gray-600 mt-1">Prix du voyage par passager</p>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div className="p-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputField
-                    id="prixClassique"
-                    type="number"
-                    label="Prix Classique (FCFA)"
-                    value={String(priceClassic)}
-                    onChange={(e) => setPriceClassic(Number(e.target.value))}
-                    placeholder="5000"
-                  />
-                  <InputField
-                    id="prixVip"
-                    type="number"
-                    label="Prix VIP (FCFA)"
-                    value={String(priceVip)}
-                    onChange={(e) => setPriceVip(Number(e.target.value))}
-                    placeholder="8000"
-                  />
+                <div className="p-8">
+                    <div className="max-w-md">
+                        {/* ✅ Un seul champ prix — correspond à VoyageCreateRequestDTO.prix */}
+                        <InputField
+                            id="prix"
+                            type="number"
+                            label="Prix par passager (FCFA)"
+                            register={register("prix")}
+                            error={errors.prix?.message}
+                            placeholder="Ex: 5000"
+                        />
+                    </div>
                 </div>
-              </div>
             </div>
 
             {/* Ressources */}

@@ -28,15 +28,17 @@ export function useBusStationManager(): UseBusStationManagerReturn {
             if (isUserLoading || !userData?.userId) return;
             setInitLoading(true);
             try {
-                // GET /gares-routieres/manager/{managerId}
-                const station = await getBusStationByManagerId(userData.userId);
-                if (station?.id) {
-                    setStationId(station.id);
+                const stationData = await getBusStationByManagerId(userData.userId);
+                // CORRECTION : Détection de l'ID selon le format backend idGareRoutiere ou id
+                const realId = (stationData as any)?.idGareRoutiere || (stationData as any)?.id;
+                
+                if (realId) {
+                    setStationId(realId);
                 } else {
                     setInitError("Aucune gare routière associée à votre compte.");
                 }
             } catch (error) {
-                console.error(error);
+                console.error("Init Error:", error);
                 setInitError("Erreur lors de la récupération de la gare routière.");
             } finally {
                 setInitLoading(false);
@@ -45,7 +47,6 @@ export function useBusStationManager(): UseBusStationManagerReturn {
         initialize();
     }, [userData, isUserLoading]);
 
-    
     const dashboard = useBusStationDashboard(stationId);
 
     return {

@@ -100,11 +100,6 @@ export function useEmployeesTab() {
             return;
         }
 
-        if (editingEmployee) {
-            setApiError("La modification d'un employé n'est pas encore disponible. Veuillez contacter l'équipe backend.");
-            return;
-        }
-
         setIsSubmitting(true);
         setApiError(null);
 
@@ -113,11 +108,15 @@ export function useEmployeesTab() {
             ...baseData,
             role: ["EMPLOYE"],
             agenceVoyageId: agencyId,
-            userExist: false 
+            userExist: false
         };
 
         try {
-            await createEmployeeForAgency(payload);
+            if (editingEmployee) {
+                await updateEmployee(editingEmployee.employeId!, payload);
+            } else {
+                await createEmployeeForAgency(payload);
+            }
             await fetchEmployees(agencyId);
             closeModal();
         } catch (error) {

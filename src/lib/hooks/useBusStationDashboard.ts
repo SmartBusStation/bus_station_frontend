@@ -24,13 +24,16 @@ export const useBusStationDashboard = (stationId: string) => {
     const [agencies, setAgencies] = useState<AgencyWithTaxStatus[]>([]);
     const [trips, setTrips] = useState<Trip[]>([]);
     const [tripsByDate, setTripsByDate] = useState<TripsByDate[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false); // Mis à false par défaut
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!stationId) return; // Sécurité si l'ID est vide
+
             try {
                 setLoading(true);
+                setError(null);
 
                 const stationDetails = await getBusStationDetails(stationId);
                 setStation(stationDetails);
@@ -39,7 +42,8 @@ export const useBusStationDashboard = (stationId: string) => {
                 const taxes = await getAffiliationTaxes(stationId);
 
                 const agenciesWithTax = affiliatedAgencies.map((agency) => {
-                    const taxInfo = taxes.find((tax) => tax.agencyId === agency.id);
+                    const agencyId = (agency as any).id || (agency as any).agencyId;
+                    const taxInfo = taxes.find((tax) => tax.agencyId === agencyId);
                     return {
                         ...agency,
                         taxStatus: taxInfo?.status,
@@ -49,7 +53,7 @@ export const useBusStationDashboard = (stationId: string) => {
                 });
                 setAgencies(agenciesWithTax);
 
-                const agencyIds = affiliatedAgencies.map((agency) => agency.id);
+                const agencyIds = affiliatedAgencies.map((agency) => (agency as any).id || (agency as any).agencyId);
                 const tripsPerAgency = await Promise.all(
                   agencyIds.map((id) =>
                     getTripsByAgency(id)
@@ -60,11 +64,14 @@ export const useBusStationDashboard = (stationId: string) => {
                 const allTrips: Trip[] = tripsPerAgency.flat();
                 setTrips(allTrips);
 
-                // Groupement par date
+                // CORRECTION : Groupement par date avec garde-fou (split safety)
                 const tripsCountByDate = allTrips.reduce(
                     (acc: { [key: string]: number }, trip) => {
-                        const date = trip.dateDepartPrev.split("T")[0];
-                        acc[date] = (acc[date] || 0) + 1;
+                        // On vérifie que la date existe avant de splitter
+                        if (trip && trip.dateDepartPrev) {
+                            const date = trip.dateDepartPrev.split("T")[0];
+                            acc[date] = (acc[date] || 0) + 1;
+                        }
                         return acc;
                     },
                     {}
@@ -79,13 +86,14 @@ export const useBusStationDashboard = (stationId: string) => {
                 setTripsByDate(formattedTripsByDate);
 
             } catch (err) {
-                setError("Failed to fetch data");
+                console.error("Dashboard Fetch Error:", err);
+                setError("Impossible de charger les données du tableau de bord.");
             } finally {
                 setLoading(false);
             }
         };
 
-        if (stationId) fetchData();
+        fetchData();
     }, [stationId]);
 
     return { station, agencies, trips, tripsByDate, loading, error };

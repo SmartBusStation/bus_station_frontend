@@ -9,49 +9,37 @@ import {changeLanguage} from "@/lib/services/i18n-services/languageService";
 import {LinkListProps, SocialLinkProps} from "@/lib/types/ui";
 import {SupportedLanguage} from "@/lib/types/common";
 
-
-
-
 const FooterLink = ( linkList : LinkListProps) => (
     <li>
-        <Link href={linkList.link} className="text-gray-400 hover:text-blue-400 transition-colors flex items-center">
-            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>
+        <Link href={linkList.link} className="text-gray-400 hover:text-blue-400 transition-colors flex items-center text-sm">
+            <span className="w-1 h-1 bg-blue-500 rounded-full mr-2"></span>
             {linkList.name}
         </Link>
     </li>
 )
-
-
 
 const SocialLink = ({ href, icon: Icon, color }: SocialLinkProps) => (
     <Link
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`bg-gray-800 ${color} w-10 h-10 rounded-full flex items-center justify-center transition-colors`}
+        className={`bg-gray-800 ${color} w-8 h-8 rounded-full flex items-center justify-center transition-colors`}
     >
-        <Icon size={18} />
+        <Icon size={16} />
     </Link>
 )
 
-
-
-
 export default function Footer(): JSX.Element {
-
-    const [t, i18n] = useTranslation();
+    const { t, i18n } = useTranslation();
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState<boolean>(false);
     const languages: SupportedLanguage[] = ["fr", "en"]
 
-
-    function updateLanguage(lang:SupportedLanguage):void
-    {
+    function updateLanguage(lang:SupportedLanguage):void {
         changeLanguage(lang);
         setIsLanguageMenuOpen(false);
     }
 
-    function translate(key:string):string
-    {
+    function translate(key:string):string {
         return t("footer." + key);
     }
 
@@ -82,36 +70,31 @@ export default function Footer(): JSX.Element {
         { icon: Clock, text: translate("schedule") }
     ];
 
-
-
-
-
-
     const LanguageOption = ({ lang }: { lang: SupportedLanguage }) => (
-        <button onClick={()=> updateLanguage(lang)} className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">
-            {lang}
+        <button onClick={()=> updateLanguage(lang)} className="block w-full text-left px-4 py-2 text-xs text-gray-300 hover:bg-gray-700 hover:text-white">
+            {lang.toUpperCase()}
         </button>
     )
 
     return (
-        <footer className="bg-gray-900 text-base-color py-20">
-            <div className="container">
-                {/* Haut du footer */}
-                <div className="flex flex-col md:flex-row justify-between mb-12">
-                    <div className="mb-8 md:mb-0 md:max-w-sm">
-                        <div className="flex items-center mb-4">
-                            <div className="bg-primary w-10 h-10 rounded-lg flex items-center justify-center mr-3">
-                                <span className="font-bold text-xl">B</span>
+        <footer className="bg-gray-900 text-white py-12">
+            <div className="container mx-auto px-4">
+                {/* Haut du footer compacté */}
+                <div className="flex flex-col md:flex-row justify-between mb-8">
+                    <div className="mb-6 md:mb-0 md:max-w-xs">
+                        <div className="flex items-center mb-3">
+                            <div className="bg-primary w-8 h-8 rounded-lg flex items-center justify-center mr-2">
+                                <span className="font-bold text-lg">B</span>
                             </div>
-                            <h2 className="text-2xl font-bold">Bus Station</h2>
+                            <h2 className="text-xl font-bold text-white">Bus Station</h2>
                         </div>
-                        <p className="text-gray-400 mb-6">
+                        <p className="text-gray-400 text-sm mb-4 leading-snug">
                             {translate("slogan")}
                         </p>
 
                         <div>
-                            <h4 className="font-semibold mb-3 text-sm uppercase tracking-wider">{translate("followUs")}</h4>
-                            <div className="flex space-x-4">
+                            <h4 className="font-semibold mb-2 text-xs uppercase tracking-wider text-gray-500">{translate("followUs")}</h4>
+                            <div className="flex space-x-3">
                                 {socialMedia.map((s, i) => (
                                     <SocialLink key={i} {...s} />
                                 ))}
@@ -119,30 +102,30 @@ export default function Footer(): JSX.Element {
                         </div>
                     </div>
 
-                    {/* Colonnes de liens */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:ml-10">
+                    {/* Grille de liens compactée */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:ml-4">
                         <div>
-                            <h3 className="text-lg font-bold mb-4 border-b border-gray-800 pb-2">{translate("quickLink")}</h3>
-                            <ul className="space-y-2">
-                                {quickLinks.map((item, index) => <FooterLink key={index}   link={item.link} name={item.name}/>)}
+                            <h3 className="text-sm font-bold mb-3 border-b border-gray-800 pb-1 text-white">{translate("quickLink")}</h3>
+                            <ul className="space-y-1.5">
+                                {quickLinks.map((item, index) => <FooterLink key={index} link={item.link} name={item.name}/>)}
                             </ul>
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold mb-4 border-b border-gray-800 pb-2">{translate("legal")}</h3>
-                            <ul className="space-y-2">
-                                {legalLinks.map((item, index) => <FooterLink key={index}   link={item.link} name={item.name} />)}
+                            <h3 className="text-sm font-bold mb-3 border-b border-gray-800 pb-1 text-white">{translate("legal")}</h3>
+                            <ul className="space-y-1.5">
+                                {legalLinks.map((item, index) => <FooterLink key={index} link={item.link} name={item.name} />)}
                             </ul>
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold mb-4 border-b border-gray-800 pb-2">{translate("contact")}</h3>
-                            <ul className="space-y-3">
+                            <h3 className="text-sm font-bold mb-3 border-b border-gray-800 pb-1 text-white">{translate("contact")}</h3>
+                            <ul className="space-y-1.5">
                                 {contactInfo.map(({ icon: Icon, text, link }, i) => (
-                                    <li key={i} className="flex items-start text-gray-400">
-                                        <Icon className="h-5 w-5 mr-2 text-blue-500 flex-shrink-0 mt-0.5" />
+                                    <li key={i} className="flex items-start text-gray-400 text-sm">
+                                        <Icon className="h-4 w-4 mr-2 text-blue-500 shrink-0 mt-0.5" />
                                         {link ? (
                                             <a href={link} className="hover:text-blue-400 transition-colors">{text}</a>
                                         ) : (
-                                            <span>{text}</span>
+                                            <span className="leading-tight">{text}</span>
                                         )}
                                     </li>
                                 ))}
@@ -151,9 +134,9 @@ export default function Footer(): JSX.Element {
                     </div>
                 </div>
 
-                {/* Bas du footer */}
-                <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-gray-400 mb-4 md:mb-0">
+                {/* Bas du footer compacté */}
+                <div className="mt-8 pt-6 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                    <p className="text-gray-500 text-xs mb-4 md:mb-0">
                         &copy; {new Date().getFullYear()} {translate("allRight")}
                     </p>
 
@@ -161,18 +144,18 @@ export default function Footer(): JSX.Element {
                     <div className="relative">
                         <button
                             onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                            className="flex items-center text-gray-400 hover:text-white transition-colors px-3 py-2 rounded-md border border-gray-700 hover:border-gray-600"
+                            className="flex items-center text-gray-400 hover:text-white transition-colors px-2 py-1.5 rounded-md border border-gray-700 hover:border-gray-600 text-xs"
                         >
-                            <Globe className="h-4 w-4 mr-2" />
-                            <span className="mr-1">{i18n.language}</span>
-                            <ChevronDown className="h-3 w-3" />
+                            <Globe className="h-3 w-3 mr-1.5" />
+                            <span className="mr-1">{(i18n.language || 'fr').toUpperCase()}</span>
+                            <ChevronDown className="h-2 w-2" />
                         </button>
 
                         {isLanguageMenuOpen && (
-                            <div className="absolute right-0 bottom-full mb-2 w-40 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-50">
+                            <div className="absolute right-0 bottom-full mb-2 w-32 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-50 text-xs">
                                 <div className="py-1">
                                     {languages.map((lang, i) => (
-                                        <LanguageOption  key={i} lang={lang} />
+                                        <LanguageOption key={i} lang={lang} />
                                     ))}
                                 </div>
                             </div>

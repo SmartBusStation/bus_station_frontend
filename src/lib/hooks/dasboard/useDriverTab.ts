@@ -94,33 +94,32 @@ export function useDriversTab() {
 
   const onSubmit = async (data: DriverFormType) => {
     if (!agencyId) {
-      setApiError("ID de l'agence introuvable.");
-      return;
-    }
-
-    if (editingDriver) {
-      setApiError("La modification d'un chauffeur n'est pas encore disponible. Veuillez contacter l'équipe backend.");
-      return;
+        setApiError("ID de l'agence introuvable.");
+        return;
     }
 
     setIsSubmitting(true);
     setApiError(null);
 
     const payload: ChauffeurRequestDTO = {
-      ...data,
-      role: ["USAGER"],
-      agenceVoyageId: agencyId,
-      userExist: false // toujours false — création uniquement
+        ...data,
+        role: ["USAGER"],
+        agenceVoyageId: agencyId,
+        userExist: false
     };
 
     try {
-      await createDriverForAgency(payload);
-      await fetchDrivers(agencyId);
-      closeModal();
+        if (editingDriver) {
+            await updateDriver(editingDriver.id!, payload);
+        } else {
+            await createDriverForAgency(payload);
+        }
+        await fetchDrivers(agencyId);
+        closeModal();
     } catch (error: any) {
-      setApiError(error.response?.data?.message || "Une erreur est survenue.");
+        setApiError(error.response?.data?.message || "Une erreur est survenue.");
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
   };
 

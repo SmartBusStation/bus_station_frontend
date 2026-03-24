@@ -57,13 +57,19 @@ const EmployeesTab = () => {
     const getEmployeeStatus = (status: string) => {
         switch (status) {
             case 'ACTIF':
-                return { color: "bg-green-100 text-green-800", label: "Actif", dot: "bg-green-400" }
+                return { color: "bg-green-100 text-green-800", label: "Actif", dot: "bg-green-400" };
             case 'INACTIF':
-                return { color: "bg-red-100 text-red-800", label: "Inactif", dot: "bg-red-400" }
-            case 'CONGE':
-                return { color: "bg-orange-100 text-orange-800", label: "En congé", dot: "bg-orange-400" }
+                return { color: "bg-red-100 text-red-800", label: "Inactif", dot: "bg-red-400" };
+            case 'EN_CONGE':
+                return { color: "bg-orange-100 text-orange-800", label: "En congé", dot: "bg-orange-400" };
+            case 'SUSPENDU':
+                return { color: "bg-yellow-100 text-yellow-800", label: "Suspendu", dot: "bg-yellow-400" };
+            case 'DEMISSIONNE':
+                return { color: "bg-gray-100 text-gray-800", label: "Démissionné", dot: "bg-gray-400" };
+            case 'LICENCIE':
+                return { color: "bg-red-100 text-red-800", label: "Licencié", dot: "bg-red-400" };
             default:
-                return { color: "bg-green-100 text-green-800", label: "Actif", dot: "bg-green-400" }
+                return { color: "bg-green-100 text-green-800", label: "Actif", dot: "bg-green-400" };
         }
     }
 

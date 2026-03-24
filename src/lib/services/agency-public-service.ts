@@ -6,9 +6,8 @@ const URL_AGENCE_VOYAGE = "/agence";
 
 export async function getAllPublicAgencies(): Promise<TravelAgency[]> {
     try {
-        const response: AxiosResponse<TravelAgency[]> = await axiosInstance.get(
-            URL_AGENCE_VOYAGE
-        );
+        const response: AxiosResponse<TravelAgency[]> =
+            await axiosInstance.get(URL_AGENCE_VOYAGE);
         return response.data || [];
     } catch (error) {
         console.error("[agency-public-service] Erreur récupération agences:", error);
@@ -16,11 +15,11 @@ export async function getAllPublicAgencies(): Promise<TravelAgency[]> {
     }
 }
 
-
 export async function getPublicAgencyById(id: string): Promise<TravelAgency | null> {
     try {
-        const agencies = await getAllPublicAgencies();
-        return agencies.find((a) => a.agencyId === id) ?? null;
+        const response: AxiosResponse<TravelAgency> =
+            await axiosInstance.get(`${URL_AGENCE_VOYAGE}/${id}`);
+        return response.data ?? null;
     } catch (error) {
         console.error(`[agency-public-service] Erreur récupération agence ${id}:`, error);
         return null;

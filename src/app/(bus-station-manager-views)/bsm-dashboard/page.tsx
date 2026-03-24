@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo } from "react";
-// Correction 1 : useBusStationManager au lieu de logique dupliquée
 import { useBusStationManager } from "@/lib/hooks/useBusStationManager";
 import StationDetails from "@/components/bus-station-dashboard/StationDetails";
 import DetailedAffiliatedAgenciesList from "@/components/bus-station-dashboard/affiliated-agencies/DetailedAffiliatedAgenciesList";
@@ -9,7 +8,6 @@ import TripsChart from "@/components/bus-station-dashboard/TripsChart";
 import Loader from "@/modals/Loader";
 import { AlertCircle, RefreshCw, Building2, Bus, Wallet, MapPin } from "lucide-react";
 
-//Correction 3 : StatCard typé proprement
 interface StatCardProps {
     title: string;
     value: string | number;
@@ -30,15 +28,17 @@ const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
 );
 
 const BusStationDashboardPage = () => {
-    // Correction 1 : toute la logique centralisée dans useBusStationManager
     const { station, agencies, tripsByDate, loading, error } = useBusStationManager();
 
     const stats = useMemo(() => {
+        // CORRECTION ICI : On sécurise le tableau pour éviter les crashs React (undefined.length)
+        const safeAgencies = agencies ||[];
+        
         return {
-            totalAgencies: agencies?.length || 0,
-            activeAgencies: agencies?.filter((a) => a.taxStatus === "payé").length || 0,
+            totalAgencies: safeAgencies.length,
+            activeAgencies: safeAgencies.filter((a) => a.taxStatus === "payé").length,
             totalTrips: tripsByDate?.reduce((acc, curr) => acc + curr.count, 0) || 0,
-            pendingTaxes: agencies?.filter((a) => a.taxStatus === "en retard").length || 0,
+            pendingTaxes: safeAgencies.filter((a) => a.taxStatus === "en retard").length,
         };
     }, [agencies, tripsByDate]);
 
@@ -92,7 +92,7 @@ const BusStationDashboardPage = () => {
                 />
                 <StatCard
                     title="Taux d'occupation"
-                    value="-- %" // TODO: connecter quand endpoint disponible
+                    value="-- %" 
                     icon={MapPin}
                     color={{ bg: "bg-green-100", text: "text-green-600" }}
                 />
