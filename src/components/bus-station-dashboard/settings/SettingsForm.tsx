@@ -1,15 +1,61 @@
 // src/components/bus-station-dashboard/settings/SettingsForm.tsx
 import React, { useState, useEffect } from "react";
 import { BusStationManagerAccount } from "@/lib/types/bus-station";
-import { User, Mail, Phone, Briefcase } from "lucide-react";
+import { User, Mail, Phone, Briefcase, Clock, Save, ShieldCheck } from "lucide-react";
 
 interface SettingsFormProps {
   account: BusStationManagerAccount;
   onSave?: (updatedAccount: BusStationManagerAccount) => void;
 }
 
+// ─── Field ───────────────────────────────────────────────────────────────────
+
+interface FieldProps {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+  value: string;
+  type?: string;
+  name?: string;
+  readOnly?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Field: React.FC<FieldProps> = ({
+  id, label, icon: Icon, value, type = "text", name, readOnly = false, onChange,
+}) => (
+  <div className="space-y-1.5">
+    <label htmlFor={id} className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-slate-400">
+      <Icon className="h-3 w-3" />
+      {label}
+      {readOnly && (
+        <span className="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-400 border border-slate-200 normal-case tracking-normal">
+          <ShieldCheck className="h-2.5 w-2.5" /> Lecture seule
+        </span>
+      )}
+    </label>
+    <input
+      id={id}
+      name={name ?? id}
+      type={type}
+      value={value}
+      onChange={onChange}
+      readOnly={readOnly}
+      className={[
+        "w-full h-9 px-3 rounded-lg border text-sm font-normal transition-colors duration-150 outline-none",
+        readOnly
+          ? "bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed"
+          : "bg-white border-slate-200 text-slate-800 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 hover:border-slate-300",
+      ].join(" ")}
+    />
+  </div>
+);
+
+// ─── Main Component ──────────────────────────────────────────────────────────
+
 const SettingsForm: React.FC<SettingsFormProps> = ({ account, onSave }) => {
   const [formData, setFormData] = useState<BusStationManagerAccount>(account);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     setFormData(account);
@@ -17,150 +63,105 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ account, onSave }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setSaved(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (onSave) {
-      onSave(formData);
-    }
-    console.log("Données du compte manager mises à jour (simulation):", formData);
-    alert("Données du compte sauvegardées ! (Simulation)");
+    onSave?.(formData);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Paramètres du Compte Manager
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Nom */}
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Nom Complet
-          </label>
-          <div className="mt-1 relative rounded-md shadow-sm">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <User className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </div>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
+    <div className="space-y-6">
+      {/* Page header */}
+      <div>
+        <h2 className="text-sm font-semibold text-slate-800">Paramètres du compte</h2>
+        <p className="text-xs font-normal text-slate-400 mt-0.5">
+          Gérez les informations de votre compte administrateur.
+        </p>
+      </div>
+
+      {/* Form card */}
+      <form onSubmit={handleSubmit} className="bg-white border border-slate-200/80 rounded-xl overflow-hidden">
+
+        {/* Section: Informations personnelles */}
+        <div className="px-6 pt-5 pb-1">
+          <p className="text-xs font-medium uppercase tracking-wider text-slate-400 pb-4 border-b border-slate-100">
+            Informations personnelles
+          </p>
         </div>
 
-        {/* Email */}
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <div className="mt-1 relative rounded-md shadow-sm">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Mail className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </div>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
+        <div className="px-6 py-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field
+            id="name"
+            label="Nom complet"
+            icon={User}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <Field
+            id="email"
+            label="Email"
+            icon={Mail}
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <Field
+            id="phone"
+            label="Téléphone"
+            icon={Phone}
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+          />
         </div>
 
-        {/* Téléphone */}
-        <div>
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Téléphone
-          </label>
-          <div className="mt-1 relative rounded-md shadow-sm">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Phone className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </div>
-            <input
-              type="text"
-              name="phone"
-              id="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
+        {/* Section: Compte */}
+        <div className="px-6 pt-2 pb-1 border-t border-slate-100">
+          <p className="text-xs font-medium uppercase tracking-wider text-slate-400 pb-4 border-b border-slate-100">
+            Informations du compte
+          </p>
         </div>
 
-        {/* Rôle */}
-        <div>
-          <label
-            htmlFor="role"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Rôle
-          </label>
-          <div className="mt-1 relative rounded-md shadow-sm">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Briefcase
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </div>
-            <input
-              type="text"
-              name="role"
-              id="role"
-              value={formData.role}
-              onChange={handleChange}
-              readOnly // Le rôle est probablement non modifiable par l'utilisateur
-              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md bg-gray-50 cursor-not-allowed"
-            />
-          </div>
+        <div className="px-6 py-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field
+            id="role"
+            label="Rôle"
+            icon={Briefcase}
+            value={formData.role}
+            readOnly
+          />
+          <Field
+            id="lastLogin"
+            label="Dernière connexion"
+            icon={Clock}
+            value={new Date(formData.lastLogin).toLocaleString("fr-FR")}
+            readOnly
+          />
         </div>
 
-        {/* Dernière Connexion */}
-        <div>
-          <label
-            htmlFor="lastLogin"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Dernière Connexion
-          </label>
-          <div className="mt-1 relative rounded-md shadow-sm">
-            <input
-              type="text"
-              name="lastLogin"
-              id="lastLogin"
-              value={new Date(formData.lastLogin).toLocaleString()}
-              readOnly
-              className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-10 sm:text-sm border-gray-300 rounded-md bg-gray-50 cursor-not-allowed"
-            />
-          </div>
-        </div>
+        {/* Footer: submit */}
+        <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+          {saved && (
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Modifications sauvegardées
+            </span>
+          )}
+          {!saved && <span />}
 
-        {/* Bouton de sauvegarde */}
-        <div className="pt-5">
           <button
             type="submit"
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors duration-200"
           >
-            Sauvegarder les modifications
+            <Save className="h-3.5 w-3.5" />
+            Sauvegarder
           </button>
         </div>
       </form>

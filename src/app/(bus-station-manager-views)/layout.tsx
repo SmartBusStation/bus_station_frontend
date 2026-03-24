@@ -19,7 +19,7 @@ export default function BusStationManagerLayout({
     const { logout } = useBusStation();
 
     return (
-        <div className="flex h-screen overflow-hidden bg-gray-50">
+        <div className="flex h-screen bg-slate-50">
             <BusStationDashboardSidebar
                 sidebarOpen={sidebarOpen}
                 setSidebarOpen={setSidebarOpen}
@@ -27,10 +27,10 @@ export default function BusStationManagerLayout({
                 secondaryMenuItems={secondaryMenuItems}
                 logout={logout}
             />
-            <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+            <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                 <NavBar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
                 <main className="flex-1">
-                    <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+                    <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">
                         {children}
                     </div>
                 </main>

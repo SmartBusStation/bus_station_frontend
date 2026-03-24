@@ -6,24 +6,48 @@ import StationDetails from "@/components/bus-station-dashboard/StationDetails";
 import DetailedAffiliatedAgenciesList from "@/components/bus-station-dashboard/affiliated-agencies/DetailedAffiliatedAgenciesList";
 import TripsChart from "@/components/bus-station-dashboard/TripsChart";
 import Loader from "@/modals/Loader";
-import { AlertCircle, RefreshCw, Building2, Bus, Wallet, MapPin } from "lucide-react";
+import { AlertCircle, RefreshCw, Building2, Bus, Wallet, MapPin, TrendingUp, ArrowUpRight } from "lucide-react";
 
 interface StatCardProps {
     title: string;
     value: string | number;
     icon: React.ElementType;
-    color: { bg: string; text: string };
+    gradient: string;
+    iconBg: string;
+    trend?: string;
 }
 
-const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between hover:shadow-md transition-shadow">
+const StatCard = ({ title, value, icon: Icon, gradient, iconBg, trend }: StatCardProps) => (
+    <div className={`relative overflow-hidden rounded-2xl p-6 ${gradient} shadow-lg group cursor-default`}>
+        <div className="absolute -top-6 -right-6 h-28 w-28 rounded-full bg-white/10 group-hover:scale-110 transition-transform duration-500" />
+        <div className="absolute -bottom-4 -right-2 h-16 w-16 rounded-full bg-white/5" />
+
+        <div className="relative z-10 flex items-start justify-between">
+            <div>
+                <p className="text-xs font-medium uppercase tracking-wider text-white/60 mb-2">{title}</p>
+                <h3 className="text-2xl font-bold text-white leading-none">{value}</h3>
+                {trend && (
+                    <div className="flex items-center gap-1 mt-2">
+                        <TrendingUp className="h-3 w-3 text-white/60" />
+                        <span className="text-xs font-normal text-white/60">{trend}</span>
+                    </div>
+                )}
+            </div>
+            <div className={`p-3 rounded-xl ${iconBg} backdrop-blur-sm`}>
+                <Icon className="h-5 w-5 text-white" />
+            </div>
+        </div>
+    </div>
+);
+
+const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
+    <div className="flex items-center justify-between mb-1">
         <div>
-            <p className="text-sm font-medium text-gray-500 mb-1">{title}</p>
-            <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
+            <h2 className="text-sm font-semibold text-slate-800">{title}</h2>
+            {subtitle && <p className="text-xs font-normal text-slate-400 mt-0.5">{subtitle}</p>}
         </div>
-        <div className={`p-3 rounded-full ${color.bg}`}>
-            <Icon className={`h-6 w-6 ${color.text}`} />
-        </div>
+        <div className="h-px flex-1 bg-linear-to-r from-slate-100 to-transparent mx-4" />
+        <ArrowUpRight className="h-4 w-4 text-slate-300" />
     </div>
 );
 
@@ -31,9 +55,7 @@ const BusStationDashboardPage = () => {
     const { station, agencies, tripsByDate, loading, error } = useBusStationManager();
 
     const stats = useMemo(() => {
-        // CORRECTION ICI : On sécurise le tableau pour éviter les crashs React (undefined.length)
-        const safeAgencies = agencies ||[];
-        
+        const safeAgencies = agencies || [];
         return {
             totalAgencies: safeAgencies.length,
             activeAgencies: safeAgencies.filter((a) => a.taxStatus === "payé").length,
@@ -53,13 +75,15 @@ const BusStationDashboardPage = () => {
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center h-[60vh] p-4">
-                <div className="p-8 text-center text-red-600 bg-red-50 rounded-2xl border border-red-100 max-w-md w-full shadow-lg">
-                    <AlertCircle className="mx-auto h-16 w-16 text-red-400 mb-4" />
-                    <h3 className="text-xl font-bold mb-2">Oups !</h3>
-                    <p className="text-gray-600 mb-6">{error}</p>
+                <div className="p-10 text-center bg-white rounded-3xl border border-red-100 max-w-md w-full shadow-xl shadow-red-50">
+                    <div className="mx-auto mb-5 h-20 w-20 rounded-full bg-red-50 flex items-center justify-center">
+                        <AlertCircle className="h-10 w-10 text-red-400" />
+                    </div>
+                    <h3 className="text-sm font-semibold text-slate-800 mb-2">Une erreur est survenue</h3>
+                    <p className="text-xs font-normal text-slate-400 mb-7 leading-relaxed">{error}</p>
                     <button
                         onClick={() => window.location.reload()}
-                        className="w-full py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-xl"
+                        className="w-full py-3.5 bg-slate-900 text-white rounded-xl text-sm font-semibold hover:bg-slate-700 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/20"
                     >
                         <RefreshCw className="h-4 w-4" /> Réessayer
                     </button>
@@ -69,74 +93,100 @@ const BusStationDashboardPage = () => {
     }
 
     return (
-        <div className="space-y-8 pb-10">
-            {/* SECTION 1 : KPIs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="space-y-8 pb-12">
+
+            {/* ── KPI CARDS ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 <StatCard
                     title="Agences Affiliées"
                     value={stats.totalAgencies}
                     icon={Building2}
-                    color={{ bg: "bg-blue-100", text: "text-blue-600" }}
+                    gradient="bg-gradient-to-br from-slate-800 to-slate-600"
+                    iconBg="bg-white/15"
+                    trend="Actives ce mois"
                 />
                 <StatCard
                     title="Voyages Programmés"
                     value={stats.totalTrips}
                     icon={Bus}
-                    color={{ bg: "bg-purple-100", text: "text-purple-600" }}
+                    gradient="bg-gradient-to-br from-indigo-600 to-indigo-400"
+                    iconBg="bg-white/15"
+                    trend="Sur la période"
                 />
                 <StatCard
                     title="Taxes en Retard"
                     value={stats.pendingTaxes}
                     icon={Wallet}
-                    color={{ bg: "bg-red-100", text: "text-red-600" }}
+                    gradient="bg-gradient-to-br from-rose-600 to-rose-400"
+                    iconBg="bg-white/15"
                 />
                 <StatCard
-                    title="Taux d'occupation"
-                    value="-- %" 
+                    title="Taux d'Occupation"
+                    value="-- %"
                     icon={MapPin}
-                    color={{ bg: "bg-green-100", text: "text-green-600" }}
+                    gradient="bg-gradient-to-br from-emerald-600 to-teal-400"
+                    iconBg="bg-white/15"
                 />
             </div>
 
-            {/* SECTION 2 : Détails de la gare */}
+            {/* ── STATION DETAILS ── */}
             {station && (
-                <div className="transform transition-all duration-300 hover:scale-[1.01]">
-                    <StationDetails station={station} />
-                </div>
+                <section className="bg-white rounded-2xl border border-slate-100 shadow-sm shadow-slate-100 overflow-hidden">
+                    <div className="px-6 py-4 border-b border-slate-50 bg-slate-50/50">
+                        <SectionHeader title="Informations de la Gare" subtitle="Données de votre établissement" />
+                    </div>
+                    <div className="p-6">
+                        <StationDetails station={station} />
+                    </div>
+                </section>
             )}
 
-            {/* SECTION 3 : Liste des Agences */}
-            <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
-                <div className="p-6 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-gray-900">Agences Affiliées</h2>
-                    <p className="text-sm text-gray-500">
-                        Liste des compagnies opérant dans votre gare
-                    </p>
+            {/* ── AGENCIES LIST ── */}
+            <section className="bg-white rounded-2xl border border-slate-100 shadow-sm shadow-slate-100 overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-50 bg-slate-50/50">
+                    <SectionHeader
+                        title="Agences Affiliées"
+                        subtitle="Compagnies opérant dans votre gare"
+                    />
                 </div>
+
                 {agencies && agencies.length > 0 ? (
                     <DetailedAffiliatedAgenciesList agencies={agencies} />
                 ) : (
-                    <div className="p-10 text-center text-gray-400 bg-gray-50/50">
-                        <Building2 className="h-12 w-12 mx-auto mb-3 opacity-20" />
-                        <p>Aucune agence affiliée pour le moment.</p>
+                    <div className="py-10 flex items-center gap-4 px-6 border border-dashed border-slate-200 rounded-xl mx-6 mb-6 bg-slate-50/50">
+                        <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0">
+                            <Building2 className="h-5 w-5 text-slate-300" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-slate-400">Aucune agence affiliée pour le moment.</p>
+                            <p className="text-xs font-normal text-slate-300 mt-0.5">Les agences ajoutées apparaîtront ici.</p>
+                        </div>
                     </div>
                 )}
-            </div>
+            </section>
 
-            {/* SECTION 4 : Graphique */}
-            <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-                <div className="mb-6">
-                    <h2 className="text-lg font-bold text-gray-900">Analyse des Voyages</h2>
+            {/* ── TRIPS CHART ── */}
+            <section className="bg-white rounded-2xl border border-slate-100 shadow-sm shadow-slate-100 overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-50 bg-slate-50/50">
+                    <SectionHeader title="Analyse des Voyages" subtitle="Évolution sur la période sélectionnée" />
                 </div>
-                {tripsByDate && tripsByDate.length > 0 ? (
-                    <TripsChart data={tripsByDate} />
-                ) : (
-                    <div className="h-64 flex flex-col items-center justify-center text-gray-400 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
-                        <Bus className="h-12 w-12 mb-3 opacity-20" />
-                        <p>Pas assez de données pour afficher le graphique.</p>
-                    </div>
-                )}
-            </div>
+
+                <div className="p-6">
+                    {tripsByDate && tripsByDate.length > 0 ? (
+                        <TripsChart data={tripsByDate} />
+                    ) : (
+                        <div className="flex items-center gap-4 p-5 border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
+                            <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0">
+                                <Bus className="h-5 w-5 text-slate-300" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-slate-400">Pas assez de données disponibles.</p>
+                                <p className="text-xs font-normal text-slate-300 mt-0.5">Le graphique s'affichera dès que des voyages seront enregistrés.</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </section>
         </div>
     );
 };

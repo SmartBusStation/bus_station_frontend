@@ -12,23 +12,23 @@ export default function AgenciesLayout({ children }: { children: React.ReactNode
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    // ----> ÉTAPE CRUCIALE N°2 : LE WRAPPER
     <AgencyProvider>
-      <div className="flex h-screen overflow-hidden bg-gray-50">
+      <div className="flex h-screen bg-slate-50">
         <DashboardSidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
-        <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <NavBar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
-          <main>
-            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {children}
-            </div>
-          </main>
+              <main className="flex-1">
+                <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">
+                  {children}
+                </div>
+              </main>
+            <Footer />
         </div>
+        
       </div>
-      {/* <Footer /> */}
     </AgencyProvider>
   );
 }

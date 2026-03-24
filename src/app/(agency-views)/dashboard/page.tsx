@@ -118,7 +118,7 @@ const DashboardOverviewPage = () => {
               Planifier un Voyage
             </button>
           </div>
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <div className="w-32 h-32 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
               <BarChart3 className="h-16 w-16 text-white" />
             </div>
